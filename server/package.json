@@ -1,0 +1,36 @@
+{
+  "name": "hostelfix-server",
+  "version": "1.0.0",
+  "description": "HostelFix Backend API - Smart Hostel Complaint & Maintenance Management System",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "seed:admin": "node scripts/seedAdmin.js",
+    "seed:dev": "node scripts/seedDev.js",
+    "reset:db": "node scripts/resetDb.js"
+  },
+  "keywords": [
+    "hostelfix",
+    "hostel",
+    "complaint-management",
+    "express",
+    "mongodb"
+  ],
+  "author": "HostelFix Team",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^2.5.1",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "google-auth-library": "^9.15.1",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.9.5",
+    "multer": "^1.4.5-lts.1"
+  }
+}

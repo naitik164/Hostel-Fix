@@ -1,0 +1,457 @@
+const { Complaint } = require('../models/Complaint');
+const ComplaintHistory = require('../models/ComplaintHistory');
+const Notification = require('../models/Notification');
+const Feedback = require('../models/Feedback');
+const User = require('../models/User');
+const HostelBlock = require('../models/HostelBlock');
+const { generateComplaintReference } = require('../utils/referenceGenerator');
+const { suggestPriority } = require('../utils/priorityRules');
+const { processUploadedFiles } = require('../middleware/upload');
+
+/**
+ * Get Student Dashboard Overview
+ * GET /api/student/dashboard
+ */
+const getStudentDashboard = async (req, res, next) => {
+  try {
+    const studentId = req.user.id;
+
+    // Counts calculated directly from real records
+    const [total, pending, inProgress, resolved] = await Promise.all([
+      Complaint.countDocuments({ studentId }),
+      Complaint.countDocuments({ studentId, status: { $in: ['Submitted', 'Assigned'] } }),
+      Complaint.countDocuments({ studentId, status: 'In Progress' }),
+      Complaint.countDocuments({ studentId, status: 'Resolved' }),
+    ]);
+
+    // Recent 5 complaints
+    const recentComplaints = await Complaint.find({ studentId })
+      .sort({ createdAt: -1 })
+      .limit(5)
+      .populate('assignedStaffId', 'name specialization phone');
+
+    // Available hostel blocks for forms
+    const blocks = await HostelBlock.find({ isActive: true }).sort({ code: 1 });
+
+    return res.status(200).json({
+      success: true,
+      metrics: {
+        total,
+        pending,
+        inProgress,
+        resolved,
+      },
+      recentComplaints,
+      blocks,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Get All Complaints for Authenticated Student with Filters & Search
+ * GET /api/student/complaints
+ */
+const getStudentComplaints = async (req, res, next) => {
+  try {
+    const studentId = req.user.id;
+    const { status, category, search, page = 1, limit = 10 } = req.query;
+
+    const query = { studentId };
+
+    if (status && status !== 'all') {
+      query.status = status;
+    }
+
+    if (category && category !== 'all') {
+      query.category = category;
+    }
+
+    if (search && search.trim()) {
+      const searchRegex = new RegExp(search.trim(), 'i');
+      query.$or = [{ title: searchRegex }, { referenceId: searchRegex }];
+    }
+
+    const pageNum = parseInt(page, 10) || 1;
+    const limitNum = parseInt(limit, 10) || 10;
+    const skip = (pageNum - 1) * limitNum;
+
+    const [total, complaints] = await Promise.all([
+      Complaint.countDocuments(query),
+      Complaint.find(query)
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limitNum)
+        .populate('assignedStaffId', 'name specialization phone'),
+    ]);
+
+    return res.status(200).json({
+      success: true,
+      complaints,
+      pagination: {
+        total,
+        page: pageNum,
+        limit: limitNum,
+        totalPages: Math.ceil(total / limitNum) || 1,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Submit New Complaint
+ * POST /api/student/complaints
+ */
+const submitComplaint = async (req, res, next) => {
+  try {
+    const studentId = req.user.id;
+    const {
+      title,
+      category,
+      subcategory,
+      description,
+      hostelBlockName,
+      roomNumber,
+      location,
+      preferredContact,
+    } = req.body;
+
+    if (!title || !category || !description || !hostelBlockName) {
+      return res.status(400).json({
+        success: false,
+        message: 'Title, category, description, and hostel block are required fields.',
+      });
+    }
+
+    // Process image uploads (disk or Cloudinary)
+    const images = req.files ? await processUploadedFiles(req.files) : [];
+
+    // Find block reference if exists
+    const blockDoc = await HostelBlock.findOne({
+      $or: [{ name: hostelBlockName }, { code: hostelBlockName }],
+    });
+
+    // Concurrency-safe atomic reference ID
+    const referenceId = await generateComplaintReference();
+
+    // Server-side priority suggestion
+    const prioritySuggestion = suggestPriority(category, title, description);
+
+    const complaint = await Complaint.create({
+      referenceId,
+      studentId,
+      title: title.trim(),
+      category,
+      subcategory: subcategory ? subcategory.trim() : '',
+      description: description.trim(),
+      images,
+      hostelBlockId: blockDoc ? blockDoc._id : null,
+      hostelBlockName: blockDoc ? blockDoc.name : hostelBlockName.trim(),
+      roomNumber: roomNumber ? roomNumber.trim() : '',
+      location: location ? location.trim() : '',
+      preferredContact: preferredContact || 'Email',
+      priority: prioritySuggestion.priority,
+      suggestedPriority: prioritySuggestion.priority,
+      priorityReason: prioritySuggestion.reason,
+      status: 'Submitted',
+    });
+
+    // Log in ComplaintHistory
+    await ComplaintHistory.create({
+      complaintId: complaint._id,
+      actionType: 'Created',
+      newValue: 'Submitted',
+      publicNote: 'Complaint registered and queued for warden review.',
+      performedBy: studentId,
+      performedByModel: 'User',
+      performedByName: req.user.name,
+      performedByRole: 'student',
+    });
+
+    // Notification for Student
+    await Notification.create({
+      recipientId: studentId,
+      recipientRole: 'student',
+      complaintId: complaint._id,
+      title: 'Complaint Registered',
+      message: `Your complaint "${complaint.title}" has been logged with Reference ID ${complaint.referenceId}.`,
+      type: 'success',
+      link: `/student/complaints/${complaint._id}`,
+    });
+
+    // Notification for Warden(s)
+    const isCritical = complaint.priority === 'Critical';
+    await Notification.create({
+      recipientId: studentId, // Placeholder; recipientRole: 'admin' targets admin views
+      recipientRole: 'admin',
+      complaintId: complaint._id,
+      title: isCritical ? `CRITICAL ALERT: ${complaint.referenceId}` : `New Complaint: ${complaint.referenceId}`,
+      message: `New ${complaint.priority} priority complaint in ${complaint.hostelBlockName}: "${complaint.title}"`,
+      type: isCritical ? 'critical' : 'info',
+      link: `/admin/complaints/${complaint._id}`,
+    });
+
+    return res.status(201).json({
+      success: true,
+      message: 'Complaint submitted successfully.',
+      complaint,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Get Single Complaint Details (Student View)
+ * GET /api/student/complaints/:id
+ */
+const getStudentComplaintById = async (req, res, next) => {
+  try {
+    const studentId = req.user.id;
+    const { id } = req.params;
+
+    const complaint = await Complaint.findById(id)
+      .populate('assignedStaffId', 'name specialization phone')
+      .populate('studentId', 'name email profilePhoto hostelBlock roomNumber');
+
+    if (!complaint) {
+      return res.status(404).json({
+        success: false,
+        message: 'Complaint not found.',
+      });
+    }
+
+    // Enforce student ownership
+    if (complaint.studentId._id.toString() !== studentId) {
+      return res.status(403).json({
+        success: false,
+        message: 'Access denied. You can only view complaints submitted by your own account.',
+      });
+    }
+
+    // Load timeline history, omitting internal notes!
+    const rawHistory = await ComplaintHistory.find({ complaintId: complaint._id }).sort({
+      createdAt: 1,
+    });
+
+    const history = rawHistory.map((item) => ({
+      _id: item._id,
+      actionType: item.actionType,
+      oldValue: item.oldValue,
+      newValue: item.newValue,
+      publicNote: item.publicNote,
+      performedByName: item.performedByName,
+      performedByRole: item.performedByRole,
+      createdAt: item.createdAt,
+    }));
+
+    // Check if feedback submitted
+    const feedback = await Feedback.findOne({ complaintId: complaint._id });
+
+    return res.status(200).json({
+      success: true,
+      complaint,
+      history,
+      feedback,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Submit Feedback on Resolved Complaint
+ * POST /api/student/complaints/:id/feedback
+ */
+const submitComplaintFeedback = async (req, res, next) => {
+  try {
+    const studentId = req.user.id;
+    const { id } = req.params;
+    const { rating, comment } = req.body;
+
+    if (!rating || rating < 1 || rating > 5) {
+      return res.status(400).json({
+        success: false,
+        message: 'Rating must be an integer between 1 and 5.',
+      });
+    }
+
+    const complaint = await Complaint.findById(id);
+
+    if (!complaint) {
+      return res.status(404).json({
+        success: false,
+        message: 'Complaint not found.',
+      });
+    }
+
+    if (complaint.studentId.toString() !== studentId) {
+      return res.status(403).json({
+        success: false,
+        message: 'Access denied.',
+      });
+    }
+
+    if (complaint.status !== 'Resolved') {
+      return res.status(400).json({
+        success: false,
+        message: 'Feedback can only be submitted once the complaint is resolved.',
+      });
+    }
+
+    // Check if feedback already exists
+    let feedback = await Feedback.findOne({ complaintId: complaint._id });
+    if (feedback) {
+      feedback.rating = rating;
+      feedback.comment = comment ? comment.trim() : '';
+      await feedback.save();
+    } else {
+      feedback = await Feedback.create({
+        complaintId: complaint._id,
+        studentId,
+        rating,
+        comment: comment ? comment.trim() : '',
+      });
+    }
+
+    // Log history
+    await ComplaintHistory.create({
+      complaintId: complaint._id,
+      actionType: 'FeedbackSubmitted',
+      publicNote: `Student rated resolution: ${rating} / 5 stars.${comment ? ` Feedback: "${comment}"` : ''}`,
+      performedBy: studentId,
+      performedByModel: 'User',
+      performedByName: req.user.name,
+      performedByRole: 'student',
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: 'Thank you! Your feedback has been recorded.',
+      feedback,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Get Student Notifications
+ * GET /api/student/notifications
+ */
+const getStudentNotifications = async (req, res, next) => {
+  try {
+    const studentId = req.user.id;
+
+    const [unreadCount, notifications] = await Promise.all([
+      Notification.countDocuments({ recipientId: studentId, isRead: false }),
+      Notification.find({ recipientId: studentId }).sort({ createdAt: -1 }).limit(30),
+    ]);
+
+    return res.status(200).json({
+      success: true,
+      unreadCount,
+      notifications,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Mark Single Notification as Read
+ * PATCH /api/student/notifications/:id/read
+ */
+const markNotificationRead = async (req, res, next) => {
+  try {
+    const studentId = req.user.id;
+    const { id } = req.params;
+
+    const notification = await Notification.findOneAndUpdate(
+      { _id: id, recipientId: studentId },
+      { isRead: true },
+      { new: true }
+    );
+
+    return res.status(200).json({
+      success: true,
+      notification,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Mark All Student Notifications as Read
+ * PATCH /api/student/notifications/read-all
+ */
+const markAllNotificationsRead = async (req, res, next) => {
+  try {
+    const studentId = req.user.id;
+
+    await Notification.updateMany({ recipientId: studentId, isRead: false }, { isRead: true });
+
+    return res.status(200).json({
+      success: true,
+      message: 'All notifications marked as read.',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Update Student Profile (Hostel Block, Room Number, Phone)
+ * PATCH /api/student/profile
+ */
+const updateStudentProfile = async (req, res, next) => {
+  try {
+    const studentId = req.user.id;
+    const { hostelBlock, roomNumber, phone, name } = req.body;
+
+    const updateFields = {};
+    if (hostelBlock !== undefined) updateFields.hostelBlock = hostelBlock.trim();
+    if (roomNumber !== undefined) updateFields.roomNumber = roomNumber.trim();
+    if (phone !== undefined) updateFields.phone = phone.trim();
+    if (name !== undefined && name.trim()) updateFields.name = name.trim();
+
+    const updatedUser = await User.findByIdAndUpdate(studentId, updateFields, {
+      new: true,
+      runValidators: true,
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: 'Profile updated successfully.',
+      user: {
+        id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        role: updatedUser.role,
+        hostelBlock: updatedUser.hostelBlock,
+        roomNumber: updatedUser.roomNumber,
+        phone: updatedUser.phone,
+        profilePhoto: updatedUser.profilePhoto,
+        isProfileComplete: Boolean(updatedUser.hostelBlock && updatedUser.roomNumber),
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = {
+  getStudentDashboard,
+  getStudentComplaints,
+  submitComplaint,
+  getStudentComplaintById,
+  submitComplaintFeedback,
+  getStudentNotifications,
+  markNotificationRead,
+  markAllNotificationsRead,
+  updateStudentProfile,
+};

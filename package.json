@@ -1,0 +1,20 @@
+{
+  "name": "hostelfix",
+  "version": "1.0.0",
+  "description": "HostelFix — Smart Hostel Complaint & Maintenance Management System",
+  "scripts": {
+    "server": "npm --prefix server run dev",
+    "client": "npm --prefix client run dev",
+    "dev": "node -e \"const { spawn } = require('child_process'); const s = spawn('npm', ['--prefix', 'server', 'run', 'dev'], { stdio: 'inherit', shell: true }); const c = spawn('npm', ['--prefix', 'client', 'run', 'dev'], { stdio: 'inherit', shell: true }); process.on('SIGINT', () => { s.kill(); c.kill(); process.exit(); });\"",
+    "seed:admin": "npm --prefix server run seed:admin",
+    "seed:dev": "npm --prefix server run seed:dev",
+    "reset:db": "npm --prefix server run reset:db",
+    "build": "npm --prefix client run build"
+  },
+  "keywords": [
+    "hostelfix",
+    "hostel-complaint-management"
+  ],
+  "author": "HostelFix Team",
+  "license": "ISC"
+}
