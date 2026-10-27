@@ -20,78 +20,108 @@ const googleLogin = async (req, res, next) => {
       });
     }
 
-    let payload = null;
-
-    // Verify token using official Google OAuth library
-    if (process.env.GOOGLE_CLIENT_ID) {
-      try {
-        const ticket = await googleClient.verifyIdToken({
-          idToken: credential,
-          audience: process.env.GOOGLE_CLIENT_ID,
-        });
-        payload = ticket.getPayload();
-      } catch (err) {
-        console.warn('[Google Auth] Direct verification failed with configured CLIENT_ID:', err.message);
-      }
+    const clientId = process.env.GOOGLE_CLIENT_ID;
+    if (!clientId) {
+      return res.status(500).json({
+        success: false,
+        message: 'Google Client ID is not configured on the server. Please check GOOGLE_CLIENT_ID in server/.env.',
+      });
     }
 
-    // Fallback verification for decoded payload if running in local sandbox/eval mode
-    if (!payload) {
-      try {
-        // Attempt to decode unverified JWT structure for testing environments
-        const base64Payload = credential.split('.')[1];
-        if (base64Payload) {
-          const decodedJson = Buffer.from(base64Payload, 'base64').toString('utf8');
-          payload = JSON.parse(decodedJson);
-        }
-      } catch (e) {
-        // ignore
-      }
+    // Initialize Google OAuth2 client with configured client ID
+    const googleClient = new OAuth2Client(clientId);
+    let ticket;
+
+    try {
+      ticket = await googleClient.verifyIdToken({
+        idToken: credential,
+        audience: clientId,
+      });
+    } catch (err) {
+      console.warn('[Google Auth] Token verification rejected:', err.message);
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid, expired, or incorrectly targeted Google ID token. Verification failed.',
+      });
     }
+
+    const payload = ticket.getPayload();
 
     if (!payload || !payload.sub || !payload.email) {
       return res.status(401).json({
         success: false,
-        message: 'Invalid Google token. Token audience or signature could not be verified.',
+        message: 'Google ID token is missing required user identity claims (sub, email).',
       });
     }
 
-    // Enforce email verified claim
-    if (payload.email_verified === false) {
+    // Require verified email claim
+    if (!payload.email_verified) {
       return res.status(401).json({
         success: false,
-        message: 'Google email address is not verified.',
+        message: 'Google email address is not verified. Please verify your email with Google first.',
       });
     }
 
-    const { sub: googleSub, email, name, picture } = payload;
+    const googleSub = payload.sub; // Stable external subject identifier
+    const email = payload.email.toLowerCase().trim();
+    const name = payload.name || 'Student';
+    const picture = payload.picture || '';
 
-    // Find or create student account in MongoDB
-    let student = await User.findOne({
-      $or: [{ googleSub }, { email: email.toLowerCase() }],
-    });
+    // 1. Primary lookup by stable Google subject ID
+    let student = await User.findOne({ googleSub });
 
     if (!student) {
-      student = await User.create({
-        googleSub,
-        email: email.toLowerCase(),
-        name: name || 'Student',
-        profilePhoto: picture || '',
-        role: 'student',
-        isActive: true,
-      });
-      console.log(`[Auth] New student registered via Google OAuth: ${student.email}`);
+      // 2. Safe account linking: check if a student was pre-registered with this verified email
+      const existingByEmail = await User.findOne({ email });
+
+      if (existingByEmail) {
+        // Prevent account hijacking: If already linked to a different googleSub, reject with conflict
+        if (existingByEmail.googleSub && existingByEmail.googleSub !== googleSub) {
+          return res.status(409).json({
+            success: false,
+            message: 'An account with this email is already linked to a different Google identity.',
+          });
+        }
+
+        // Safe linking: attach verified googleSub to the existing student record
+        existingByEmail.googleSub = googleSub;
+        if (picture && !existingByEmail.profilePhoto) {
+          existingByEmail.profilePhoto = picture;
+        }
+        if (name && (!existingByEmail.name || existingByEmail.name === 'Student')) {
+          existingByEmail.name = name;
+        }
+        student = await existingByEmail.save();
+        console.log(`[Google Auth] Linked existing account (${email}) with Google Sub ID: ${googleSub}`);
+      } else {
+        // 3. Create new student record with verified profile information
+        student = await User.create({
+          googleSub,
+          email,
+          name,
+          profilePhoto: picture,
+          role: 'student', // Enforce student role on server
+          isActive: true,
+        });
+        console.log(`[Google Auth] Created new student account: ${student.email} (${student.googleSub})`);
+      }
     } else {
-      // Update googleSub if not already set
-      if (!student.googleSub) {
-        student.googleSub = googleSub;
-      }
-      if (picture && !student.profilePhoto) {
+      // Student already linked by googleSub: sync profile image/name if changed on Google
+      let changed = false;
+      if (picture && student.profilePhoto !== picture) {
         student.profilePhoto = picture;
+        changed = true;
       }
-      await student.save();
+      if (name && student.name !== name && student.name === 'Student') {
+        student.name = name;
+        changed = true;
+      }
+      if (changed) {
+        await student.save();
+      }
     }
 
+    // 4. Check if account is active
     if (!student.isActive) {
       return res.status(403).json({
         success: false,
@@ -99,6 +129,7 @@ const googleLogin = async (req, res, next) => {
       });
     }
 
+    // 5. Establish secure application session
     const token = generateToken({
       id: student._id.toString(),
       role: 'student',
@@ -116,9 +147,9 @@ const googleLogin = async (req, res, next) => {
         name: student.name,
         email: student.email,
         role: 'student',
-        hostelBlock: student.hostelBlock,
-        roomNumber: student.roomNumber,
-        profilePhoto: student.profilePhoto,
+        hostelBlock: student.hostelBlock || '',
+        roomNumber: student.roomNumber || '',
+        profilePhoto: student.profilePhoto || '',
         isProfileComplete: Boolean(student.hostelBlock && student.roomNumber),
       },
     });

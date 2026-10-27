@@ -64,6 +64,7 @@ const authenticate = async (req, res, next) => {
       hostelBlock: account.hostelBlock || '',
       roomNumber: account.roomNumber || '',
       profilePhoto: account.profilePhoto || '',
+      isProfileComplete: Boolean(account.hostelBlock && account.roomNumber),
     };
 
     next();

@@ -187,8 +187,22 @@ CLOUDINARY_API_SECRET=
 **Client (`client/.env`):**
 ```env
 VITE_API_URL=http://localhost:5000/api
-VITE_GOOGLE_CLIENT_ID=
+VITE_GOOGLE_CLIENT_ID=your_google_client_id_here.apps.googleusercontent.com
 ```
+
+### Setting Up Google Cloud OAuth 2.0 Credentials
+To use Google Identity Services for student login:
+1. Navigate to the [Google Cloud Console Credentials Page](https://console.cloud.google.com/apis/credentials).
+2. Create a project or select an existing one.
+3. Configure the **OAuth Consent Screen** (User Type: External, App Name: *HostelFix*, add support email, and save).
+4. Go to **Credentials** → **Create Credentials** → **OAuth client ID**.
+5. Select Application Type: **Web application**.
+6. Under **Authorized JavaScript origins**, add:
+   - `http://localhost:5173`
+   - `http://127.0.0.1:5173`
+   *(When deploying to production, add your production domain, e.g., `https://hostelfix.vercel.app`)*
+7. Copy the generated **Client ID**.
+8. Set `GOOGLE_CLIENT_ID` in `server/.env` and `VITE_GOOGLE_CLIENT_ID` in `client/.env`.
 
 ### Step 3: Seed the Database
 Run the automated development seed script to populate realistic hostel blocks, staff members, historical complaints with timelines, and demo accounts:

@@ -4,29 +4,21 @@ import api from '../services/api';
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(() => {
-    try {
-      const stored = localStorage.getItem('user');
-      return stored ? JSON.parse(stored) : null;
-    } catch {
-      return null;
-    }
-  });
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Check auth on initial mount
+  // Check and restore auth session on initial mount through backend GET /api/auth/me
   useEffect(() => {
     const checkAuth = async () => {
       try {
         const res = await api.get('/auth/me');
-        if (res.data && res.data.success) {
+        if (res.data && res.data.success && res.data.user) {
           setUser(res.data.user);
-          localStorage.setItem('user', JSON.stringify(res.data.user));
+        } else {
+          setUser(null);
         }
       } catch (err) {
         setUser(null);
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
       } finally {
         setLoading(false);
       }
@@ -38,48 +30,40 @@ export const AuthProvider = ({ children }) => {
   // Google Student Login
   const loginWithGoogle = async (credential) => {
     const res = await api.post('/auth/google', { credential });
-    if (res.data.success) {
-      if (res.data.token) localStorage.setItem('token', res.data.token);
-      localStorage.setItem('user', JSON.stringify(res.data.user));
+    if (res.data && res.data.success) {
       setUser(res.data.user);
       return res.data;
     }
-    throw new Error(res.data.message || 'Google authentication failed');
+    throw new Error(res.data?.message || 'Google authentication failed');
   };
 
-  // Demo Student Login (for 1-click preview without live OAuth)
+  // Demo Student Login (for quick development preview)
   const loginAsDemoStudent = async (email = 'aarav.sharma@hostelfix.edu') => {
     const res = await api.post('/auth/demo-student-login', { email });
-    if (res.data.success) {
-      if (res.data.token) localStorage.setItem('token', res.data.token);
-      localStorage.setItem('user', JSON.stringify(res.data.user));
+    if (res.data && res.data.success) {
       setUser(res.data.user);
       return res.data;
     }
-    throw new Error(res.data.message || 'Demo login failed');
+    throw new Error(res.data?.message || 'Demo login failed');
   };
 
   // Warden Admin Login
   const loginAsAdmin = async (loginId, password) => {
     const res = await api.post('/auth/admin/login', { loginId, password });
-    if (res.data.success) {
-      if (res.data.token) localStorage.setItem('token', res.data.token);
-      localStorage.setItem('user', JSON.stringify(res.data.user));
+    if (res.data && res.data.success) {
       setUser(res.data.user);
       return res.data;
     }
-    throw new Error(res.data.message || 'Admin login failed');
+    throw new Error(res.data?.message || 'Admin login failed');
   };
 
-  // Logout
+  // Logout - clears server session cookie and local state
   const logout = async () => {
     try {
       await api.post('/auth/logout');
     } catch (e) {
       // ignore
     } finally {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
       setUser(null);
     }
   };
