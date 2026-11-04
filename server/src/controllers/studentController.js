@@ -6,7 +6,11 @@ const User = require('../models/User');
 const HostelBlock = require('../models/HostelBlock');
 const { generateComplaintReference } = require('../utils/referenceGenerator');
 const { suggestPriority } = require('../utils/priorityRules');
-const { processUploadedFiles } = require('../middleware/upload');
+const {
+  processUploadedFiles,
+  processUploadedImages,
+  cleanupUploadedImages,
+} = require('../middleware/upload');
 
 /**
  * Get Student Dashboard Overview
@@ -49,6 +53,8 @@ const getStudentDashboard = async (req, res, next) => {
   }
 };
 
+const escapeRegex = (text) => text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+
 /**
  * Get All Complaints for Authenticated Student with Filters & Search
  * GET /api/student/complaints
@@ -60,16 +66,17 @@ const getStudentComplaints = async (req, res, next) => {
 
     const query = { studentId };
 
-    if (status && status !== 'all') {
-      query.status = status;
+    if (typeof status === 'string' && status && status !== 'all') {
+      query.status = status.trim();
     }
 
-    if (category && category !== 'all') {
-      query.category = category;
+    if (typeof category === 'string' && category && category !== 'all') {
+      query.category = category.trim();
     }
 
-    if (search && search.trim()) {
-      const searchRegex = new RegExp(search.trim(), 'i');
+    if (typeof search === 'string' && search.trim()) {
+      const sanitizedSearch = escapeRegex(search.trim());
+      const searchRegex = new RegExp(sanitizedSearch, 'i');
       query.$or = [{ title: searchRegex }, { referenceId: searchRegex }];
     }
 
@@ -126,8 +133,31 @@ const submitComplaint = async (req, res, next) => {
       });
     }
 
-    // Process image uploads (disk or Cloudinary)
-    const images = req.files ? await processUploadedFiles(req.files) : [];
+    // Process image uploads (disk or Cloudinary) with structured metadata
+    let uploadedImages = [];
+    if (req.files && req.files.length > 0) {
+      try {
+        uploadedImages = await processUploadedImages(req.files, {
+          category: 'student_complaint',
+          folder: 'hostelfix/complaints',
+          prefix: 'student',
+        });
+      } catch (uploadErr) {
+        return res.status(400).json({
+          success: false,
+          message: uploadErr.message || 'Failed to process uploaded photos.',
+        });
+      }
+    }
+
+    const images = uploadedImages.map((img) => img.imageUrl);
+    const complaintPhotos = uploadedImages.map((img) => ({
+      imageUrl: img.imageUrl,
+      publicId: img.publicId,
+      storage: img.storage,
+      category: 'student_complaint',
+      uploadedAt: img.uploadedAt || new Date(),
+    }));
 
     // Find block reference if exists
     const blockDoc = await HostelBlock.findOne({
@@ -140,24 +170,32 @@ const submitComplaint = async (req, res, next) => {
     // Server-side priority suggestion
     const prioritySuggestion = suggestPriority(category, title, description);
 
-    const complaint = await Complaint.create({
-      referenceId,
-      studentId,
-      title: title.trim(),
-      category,
-      subcategory: subcategory ? subcategory.trim() : '',
-      description: description.trim(),
-      images,
-      hostelBlockId: blockDoc ? blockDoc._id : null,
-      hostelBlockName: blockDoc ? blockDoc.name : hostelBlockName.trim(),
-      roomNumber: roomNumber ? roomNumber.trim() : '',
-      location: location ? location.trim() : '',
-      preferredContact: preferredContact || 'Email',
-      priority: prioritySuggestion.priority,
-      suggestedPriority: prioritySuggestion.priority,
-      priorityReason: prioritySuggestion.reason,
-      status: 'Submitted',
-    });
+    let complaint;
+    try {
+      complaint = await Complaint.create({
+        referenceId,
+        studentId,
+        title: title.trim(),
+        category,
+        subcategory: subcategory ? subcategory.trim() : '',
+        description: description.trim(),
+        images,
+        complaintPhotos,
+        hostelBlockId: blockDoc ? blockDoc._id : null,
+        hostelBlockName: blockDoc ? blockDoc.name : hostelBlockName.trim(),
+        roomNumber: roomNumber ? roomNumber.trim() : '',
+        location: location ? location.trim() : '',
+        preferredContact: preferredContact || 'Email',
+        priority: prioritySuggestion.priority,
+        suggestedPriority: prioritySuggestion.priority,
+        priorityReason: prioritySuggestion.reason,
+        status: 'Submitted',
+      });
+    } catch (createErr) {
+      // Clean up uploaded files to avoid orphaned storage
+      await cleanupUploadedImages(uploadedImages);
+      throw createErr;
+    }
 
     // Log in ComplaintHistory
     await ComplaintHistory.create({
@@ -347,8 +385,8 @@ const getStudentNotifications = async (req, res, next) => {
     const studentId = req.user.id;
 
     const [unreadCount, notifications] = await Promise.all([
-      Notification.countDocuments({ recipientId: studentId, isRead: false }),
-      Notification.find({ recipientId: studentId }).sort({ createdAt: -1 }).limit(30),
+      Notification.countDocuments({ recipientId: studentId, recipientRole: 'student', isRead: false }),
+      Notification.find({ recipientId: studentId, recipientRole: 'student' }).sort({ createdAt: -1 }).limit(30),
     ]);
 
     return res.status(200).json({
@@ -371,10 +409,17 @@ const markNotificationRead = async (req, res, next) => {
     const { id } = req.params;
 
     const notification = await Notification.findOneAndUpdate(
-      { _id: id, recipientId: studentId },
+      { _id: id, recipientId: studentId, recipientRole: 'student' },
       { isRead: true },
       { new: true }
     );
+
+    if (!notification) {
+      return res.status(404).json({
+        success: false,
+        message: 'Notification not found or access denied.',
+      });
+    }
 
     return res.status(200).json({
       success: true,
@@ -393,7 +438,7 @@ const markAllNotificationsRead = async (req, res, next) => {
   try {
     const studentId = req.user.id;
 
-    await Notification.updateMany({ recipientId: studentId, isRead: false }, { isRead: true });
+    await Notification.updateMany({ recipientId: studentId, recipientRole: 'student', isRead: false }, { isRead: true });
 
     return res.status(200).json({
       success: true,
@@ -405,24 +450,31 @@ const markAllNotificationsRead = async (req, res, next) => {
 };
 
 /**
- * Update Student Profile (Hostel Block, Room Number, Phone)
+ * Update Student Profile (Hostel Block, Room Number, Phone, Name)
  * PATCH /api/student/profile
+ * Security: Strict allowlist and type validation; prevents privilege escalation or mass-assignment
  */
 const updateStudentProfile = async (req, res, next) => {
   try {
     const studentId = req.user.id;
     const { hostelBlock, roomNumber, phone, name } = req.body;
 
+    // Strict allowlist: only student-editable profile fields are accepted
     const updateFields = {};
-    if (hostelBlock !== undefined) updateFields.hostelBlock = hostelBlock.trim();
-    if (roomNumber !== undefined) updateFields.roomNumber = roomNumber.trim();
-    if (phone !== undefined) updateFields.phone = phone.trim();
-    if (name !== undefined && name.trim()) updateFields.name = name.trim();
+    if (typeof hostelBlock === 'string') updateFields.hostelBlock = hostelBlock.trim();
+    if (typeof roomNumber === 'string') updateFields.roomNumber = roomNumber.trim();
+    if (typeof phone === 'string') updateFields.phone = phone.trim();
+    if (typeof name === 'string' && name.trim()) updateFields.name = name.trim();
 
-    const updatedUser = await User.findByIdAndUpdate(studentId, updateFields, {
-      new: true,
-      runValidators: true,
-    });
+    // Perform atomic update with validators
+    const updatedUser = await User.findByIdAndUpdate(
+      studentId,
+      { $set: updateFields },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
 
     return res.status(200).json({
       success: true,

@@ -26,6 +26,7 @@ import {
   Tag,
   Loader2,
   FileSpreadsheet,
+  RefreshCw,
 } from 'lucide-react';
 
 ChartJS.register(
@@ -82,6 +83,7 @@ const CATEGORIES = [
 
 const AdminAnalytics = () => {
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [data, setData] = useState(null);
   const [blocks, setBlocks] = useState([]);
 
@@ -103,6 +105,7 @@ const AdminAnalytics = () => {
   const fetchAnalytics = async () => {
     try {
       setLoading(true);
+      setError(null);
       const params = {
         days: days !== 'all' ? days : undefined,
         hostelBlock: hostelBlock !== 'all' ? hostelBlock : undefined,
@@ -116,6 +119,7 @@ const AdminAnalytics = () => {
       }
     } catch (err) {
       console.error('Failed to load analytics:', err);
+      setError(err.response?.data?.message || 'Failed to aggregate analytics from MongoDB. Please retry.');
     } finally {
       setLoading(false);
     }
@@ -137,6 +141,22 @@ const AdminAnalytics = () => {
     }).toString();
     window.open(`${api.defaults.baseURL}/admin/reports/export?${query}`, '_blank');
   };
+
+  if (error && !data) {
+    return (
+      <div className="py-24 text-center flex flex-col items-center gap-3">
+        <AlertTriangle className="w-10 h-10 text-rose-500" />
+        <p className="text-sm font-semibold text-rose-800">{error}</p>
+        <button
+          onClick={fetchAnalytics}
+          className="btn-action inline-flex items-center gap-2 px-4 py-2 rounded-control text-xs font-bold"
+        >
+          <RefreshCw className="w-3.5 h-3.5" />
+          <span>Retry Analytics</span>
+        </button>
+      </div>
+    );
+  }
 
   if (loading && !data) {
     return (

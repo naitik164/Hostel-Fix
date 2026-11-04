@@ -12,6 +12,8 @@ import {
   ChevronLeft,
   ChevronRight,
   ClipboardList,
+  AlertCircle,
+  RefreshCw,
 } from 'lucide-react';
 
 const CATEGORIES = [
@@ -33,6 +35,7 @@ const CATEGORIES = [
 const StudentComplaints = () => {
   const [complaints, setComplaints] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState('all');
   const [category, setCategory] = useState('All Categories');
@@ -42,6 +45,7 @@ const StudentComplaints = () => {
   const fetchComplaints = async () => {
     try {
       setLoading(true);
+      setError(null);
       const params = {
         page,
         limit: 10,
@@ -56,6 +60,7 @@ const StudentComplaints = () => {
       }
     } catch (err) {
       console.error('Failed to load student complaints:', err);
+      setError(err.response?.data?.message || 'Failed to retrieve complaint records. Please retry.');
     } finally {
       setLoading(false);
     }
@@ -146,6 +151,23 @@ const StudentComplaints = () => {
           </button>
         </form>
       </div>
+
+      {/* API Error Notification & Retry */}
+      {error && (
+        <div className="p-4 rounded-card bg-rose-50 border border-rose-200 flex items-center justify-between gap-4 text-rose-800">
+          <div className="flex items-center gap-3">
+            <AlertCircle className="w-5 h-5 text-rose-600 shrink-0" />
+            <span className="text-xs font-semibold">{error}</span>
+          </div>
+          <button
+            onClick={fetchComplaints}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition-colors"
+          >
+            <RefreshCw className="w-3.5 h-3.5" />
+            <span>Retry</span>
+          </button>
+        </div>
+      )}
 
       {/* Complaints Table */}
       <div className="glass-card overflow-hidden">

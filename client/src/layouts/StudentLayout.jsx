@@ -3,7 +3,6 @@ import { Outlet, NavLink, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
 import {
-  Wrench,
   LayoutDashboard,
   ClipboardList,
   PlusCircle,
@@ -14,6 +13,7 @@ import {
   X,
   ChevronDown,
 } from 'lucide-react';
+import UserAvatar from '../components/UserAvatar';
 
 const StudentLayout = () => {
   const { user, logout } = useAuth();
@@ -63,9 +63,11 @@ const StudentLayout = () => {
           <div className="flex items-center justify-between h-18">
             {/* Brand Logo & Tagline */}
             <Link to="/student/dashboard" className="flex items-center gap-3 group">
-              <div className="w-10 h-10 rounded-xl bg-gradient-action flex items-center justify-center text-white shadow-md shadow-electric/25 group-hover:scale-105 transition-transform">
-                <Wrench className="w-5 h-5" />
-              </div>
+              <img
+                src="/logo-icon.png"
+                alt="HostelFix Logo"
+                className="w-10 h-10 object-contain drop-shadow-md rounded-xl group-hover:scale-105 transition-transform"
+              />
               <div>
                 <div className="flex items-center gap-2">
                   <span className="font-heading font-extrabold text-xl text-navy tracking-tight">
@@ -127,13 +129,10 @@ const StudentLayout = () => {
                 onClick={() => setUserDropdown(!userDropdown)}
                 className="flex items-center gap-2.5 p-1.5 pr-3 rounded-full hover:bg-white/80 transition-all border border-transparent hover:border-ice"
               >
-                <img
-                  src={
-                    user?.profilePhoto ||
-                    'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100'
-                  }
-                  alt={user?.name}
-                  className="w-8 h-8 rounded-full object-cover border-2 border-sky"
+                <UserAvatar
+                  src={user?.profilePhoto}
+                  name={user?.name}
+                  size="sm"
                 />
                 <div className="text-left text-xs">
                   <div className="font-semibold text-navy leading-tight">{user?.name}</div>

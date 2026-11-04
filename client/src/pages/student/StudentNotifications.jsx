@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../services/api';
-import { Bell, CheckCheck, ExternalLink, Loader2, Info, AlertTriangle, CheckCircle, ShieldAlert } from 'lucide-react';
+import { Bell, CheckCheck, ExternalLink, Loader2, Info, AlertTriangle, CheckCircle, ShieldAlert, AlertCircle, RefreshCw } from 'lucide-react';
 
 const StudentNotifications = () => {
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const fetchNotifications = async () => {
     try {
       setLoading(true);
+      setError(null);
       const res = await api.get('/student/notifications');
       if (res.data && res.data.success) {
         setNotifications(res.data.notifications || []);
@@ -18,6 +20,7 @@ const StudentNotifications = () => {
       }
     } catch (err) {
       console.error('Failed to fetch notifications:', err);
+      setError(err.response?.data?.message || 'Failed to fetch notifications. Please retry.');
     } finally {
       setLoading(false);
     }
@@ -90,6 +93,23 @@ const StudentNotifications = () => {
           </button>
         )}
       </div>
+
+      {/* API Error Notification & Retry */}
+      {error && (
+        <div className="p-4 rounded-card bg-rose-50 border border-rose-200 flex items-center justify-between gap-4 text-rose-800">
+          <div className="flex items-center gap-3">
+            <AlertCircle className="w-5 h-5 text-rose-600 shrink-0" />
+            <span className="text-xs font-semibold">{error}</span>
+          </div>
+          <button
+            onClick={fetchNotifications}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition-colors"
+          >
+            <RefreshCw className="w-3.5 h-3.5" />
+            <span>Retry</span>
+          </button>
+        </div>
+      )}
 
       {/* Notifications List */}
       <div className="glass-card overflow-hidden divide-y divide-ice/60">

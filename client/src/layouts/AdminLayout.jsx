@@ -3,7 +3,6 @@ import { Outlet, NavLink, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
 import {
-  Shield,
   LayoutDashboard,
   ClipboardList,
   Users,
@@ -16,6 +15,7 @@ import {
   Menu,
   X,
   ChevronRight,
+  CheckCircle2,
 } from 'lucide-react';
 
 const AdminLayout = () => {
@@ -23,20 +23,27 @@ const AdminLayout = () => {
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [pendingVerificationsCount, setPendingVerificationsCount] = useState(0);
 
   useEffect(() => {
-    const fetchUnread = async () => {
+    const fetchCounts = async () => {
       try {
-        const res = await api.get('/admin/notifications');
-        if (res.data && res.data.success) {
-          setUnreadCount(res.data.unreadCount || 0);
+        const [notifRes, verifRes] = await Promise.all([
+          api.get('/admin/notifications'),
+          api.get('/admin/verifications'),
+        ]);
+        if (notifRes.data && notifRes.data.success) {
+          setUnreadCount(notifRes.data.unreadCount || 0);
+        }
+        if (verifRes.data && verifRes.data.success) {
+          setPendingVerificationsCount(verifRes.data.count || 0);
         }
       } catch (e) {
         // ignore
       }
     };
-    fetchUnread();
-    const interval = setInterval(fetchUnread, 30000);
+    fetchCounts();
+    const interval = setInterval(fetchCounts, 30000);
     return () => clearInterval(interval);
   }, []);
 
@@ -48,6 +55,12 @@ const AdminLayout = () => {
   const navItems = [
     { to: '/admin/dashboard', label: 'Overview', icon: LayoutDashboard },
     { to: '/admin/complaints', label: 'All Complaints', icon: ClipboardList },
+    {
+      to: '/admin/verifications',
+      label: 'Pending Verification',
+      icon: CheckCircle2,
+      badge: pendingVerificationsCount,
+    },
     { to: '/admin/staff', label: 'Staff & Assignments', icon: Users },
     { to: '/admin/blocks', label: 'Hostel Blocks', icon: Building2 },
     { to: '/admin/students', label: 'Student Directory', icon: GraduationCap },
@@ -62,9 +75,11 @@ const AdminLayout = () => {
       <aside className="hidden md:flex flex-col w-72 shrink-0 min-h-screen glass-dark-panel text-white p-5 sticky top-0 h-screen overflow-y-auto z-30">
         {/* Brand Header */}
         <div className="flex items-center gap-3.5 pb-6 border-b border-sky/20">
-          <div className="w-11 h-11 rounded-2xl bg-gradient-action flex items-center justify-center text-white shadow-lg shadow-royal/50 border border-sky/40">
-            <Shield className="w-6 h-6 text-ice" />
-          </div>
+          <img
+            src="/logo-icon.png"
+            alt="HostelFix Logo"
+            className="w-11 h-11 object-contain drop-shadow-md rounded-2xl"
+          />
           <div>
             <div className="flex items-center gap-2">
               <span className="font-heading font-extrabold text-xl tracking-tight text-white">
@@ -137,9 +152,11 @@ const AdminLayout = () => {
       {/* Mobile Top Navbar for Warden */}
       <div className="md:hidden flex items-center justify-between p-4 bg-navy text-white sticky top-0 z-40 shadow-md">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-xl bg-gradient-action flex items-center justify-center text-white">
-            <Shield className="w-4 h-4" />
-          </div>
+          <img
+            src="/logo-icon.png"
+            alt="HostelFix Logo"
+            className="w-8 h-8 object-contain drop-shadow-md rounded-xl"
+          />
           <div>
             <span className="font-heading font-extrabold text-base tracking-tight text-white">
               Hostel<span className="text-sky">Fix</span>

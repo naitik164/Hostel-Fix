@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import api from '../../services/api';
+import CategorySelector from '../../components/CategorySelector';
 import {
   PlusCircle,
   ArrowLeft,
@@ -112,6 +113,7 @@ const NewComplaint = () => {
   const [files, setFiles] = useState([]);
   const [previews, setPreviews] = useState([]);
   const [submitting, setSubmitting] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -198,6 +200,12 @@ const NewComplaint = () => {
 
       const res = await api.post('/student/complaints', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
+        onUploadProgress: (progressEvent) => {
+          if (progressEvent.total) {
+            const percent = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+            setUploadProgress(percent);
+          }
+        },
       });
 
       if (res.data && res.data.success) {
@@ -208,6 +216,7 @@ const NewComplaint = () => {
         err.response?.data?.message || err.message || 'Failed to submit complaint. Please try again.'
       );
       setSubmitting(false);
+      setUploadProgress(0);
     }
   };
 
@@ -267,40 +276,62 @@ const NewComplaint = () => {
             />
           </div>
 
-          {/* Category & Subcategory Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-semibold text-navy mb-1.5">
-                Category <span className="text-rose-500">*</span>
+          {/* Category Selection Section */}
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <label className="block text-xs font-semibold text-navy">
+                Select Complaint Category <span className="text-rose-500">*</span>
               </label>
-              <select
-                value={category}
-                onChange={handleCategoryChange}
-                className="glass-input w-full px-3.5 py-2.5 text-xs font-medium"
-              >
-                {Object.keys(CATEGORIES_MAP).map((cat) => (
-                  <option key={cat} value={cat}>
-                    {cat}
-                  </option>
-                ))}
-              </select>
+              <span className="text-[11px] text-slate-500">
+                Click a card below to select primary category
+              </span>
             </div>
 
-            <div>
-              <label className="block text-xs font-semibold text-navy mb-1.5">
-                Subcategory
-              </label>
-              <select
-                value={subcategory}
-                onChange={(e) => setSubcategory(e.target.value)}
-                className="glass-input w-full px-3.5 py-2.5 text-xs font-medium"
-              >
-                {(CATEGORIES_MAP[category] || []).map((sub) => (
-                  <option key={sub} value={sub}>
-                    {sub}
-                  </option>
-                ))}
-              </select>
+            <CategorySelector
+              selectedCategory={category}
+              onSelectCategory={(name, backendVal) => {
+                const target = CATEGORIES_MAP[name] ? name : (CATEGORIES_MAP[backendVal] ? backendVal : name);
+                setCategory(target);
+                const subList = CATEGORIES_MAP[target] || [];
+                setSubcategory(subList[0] || '');
+              }}
+            />
+
+            {/* Subcategory & Category Override Selection */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+              <div>
+                <label className="block text-xs font-semibold text-navy mb-1.5">
+                  Category Area (All 12 Categories)
+                </label>
+                <select
+                  value={category}
+                  onChange={handleCategoryChange}
+                  className="glass-input w-full px-3.5 py-2.5 text-xs font-medium"
+                >
+                  {Object.keys(CATEGORIES_MAP).map((cat) => (
+                    <option key={cat} value={cat}>
+                      {cat}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-navy mb-1.5">
+                  Subcategory <span className="text-rose-500">*</span>
+                </label>
+                <select
+                  value={subcategory}
+                  onChange={(e) => setSubcategory(e.target.value)}
+                  className="glass-input w-full px-3.5 py-2.5 text-xs font-medium"
+                >
+                  {(CATEGORIES_MAP[category] || []).map((sub) => (
+                    <option key={sub} value={sub}>
+                      {sub}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
           </div>
 
@@ -440,6 +471,22 @@ const NewComplaint = () => {
               ))}
             </div>
           </div>
+
+          {/* Upload Progress Bar */}
+          {submitting && files.length > 0 && (
+            <div className="space-y-1.5 p-3 rounded-xl bg-sky/10 border border-sky/30">
+              <div className="flex items-center justify-between text-[11px] font-bold text-royal">
+                <span>Uploading {files.length} Photo{files.length > 1 ? 's' : ''} to Secure Storage...</span>
+                <span>{uploadProgress}%</span>
+              </div>
+              <div className="w-full h-2 rounded-full bg-slate-200 overflow-hidden">
+                <div
+                  className="h-full bg-gradient-to-r from-royal via-electric to-sky rounded-full transition-all duration-300"
+                  style={{ width: `${uploadProgress}%` }}
+                />
+              </div>
+            </div>
+          )}
 
           {/* Submission Bar */}
           <div className="pt-6 border-t border-ice/80 flex flex-col sm:flex-row items-center justify-between gap-4">

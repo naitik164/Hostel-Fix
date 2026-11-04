@@ -29,6 +29,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ['student'],
       default: 'student',
+      immutable: true,
     },
     hostelBlock: {
       type: String,

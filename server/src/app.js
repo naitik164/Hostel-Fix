@@ -8,6 +8,7 @@ require('dotenv').config();
 const authRoutes = require('./routes/authRoutes');
 const studentRoutes = require('./routes/studentRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const staffRoutes = require('./routes/staffRoutes');
 const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
@@ -19,7 +20,7 @@ app.use(
   })
 );
 
-// CORS configuration supporting credentials (cookies)
+const isProduction = process.env.NODE_ENV === 'production';
 const allowedOrigins = [
   process.env.CLIENT_ORIGIN || 'http://localhost:5173',
   'http://localhost:5173',
@@ -29,11 +30,13 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (like mobile apps, curl, Postman)
+      // Allow requests with no origin (like mobile apps, curl, server-to-server)
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
+      } else if (!isProduction) {
+        callback(null, true); // Permissive in development
       } else {
-        callback(null, true); // Allow all in dev for seamless interaction
+        callback(new Error('Origin not allowed by HostelFix CORS policy.'));
       }
     },
     credentials: true,
@@ -62,6 +65,7 @@ app.get('/api/health', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/student', studentRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/staff', staffRoutes);
 
 // 404 Handler for undefined API routes
 app.use('/api/*', (req, res) => {

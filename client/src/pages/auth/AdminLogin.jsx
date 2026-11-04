@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { Shield, ArrowLeft, Eye, EyeOff, Lock, Mail, AlertCircle, Loader2 } from 'lucide-react';
 
 const AdminLogin = () => {
-  const { loginAsAdmin } = useAuth();
+  const { user, loading: authLoading, loginAsAdmin } = useAuth();
   const navigate = useNavigate();
 
   const [loginId, setLoginId] = useState('');
@@ -12,6 +12,16 @@ const AdminLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!authLoading && user) {
+      if (user.role === 'admin') {
+        navigate('/admin/dashboard', { replace: true });
+      } else {
+        navigate('/student/dashboard', { replace: true });
+      }
+    }
+  }, [user, authLoading, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,20 +42,11 @@ const AdminLogin = () => {
     }
   };
 
-  const handleFillDemoAdmin = () => {
-    setLoginId('admin@hostelfix.edu');
-    setPassword('Warden@Secure2026');
-    setError('');
-  };
-
   return (
     <div className="min-h-screen relative flex items-center justify-center p-4 overflow-hidden bg-navy-900 font-sans">
       {/* Dark Navy Atmospheric Background & Glows */}
       <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-royal/40 rounded-full filter blur-[100px] pointer-events-none" />
       <div className="absolute -bottom-40 -left-40 w-[500px] h-[500px] bg-electric/25 rounded-full filter blur-[100px] pointer-events-none" />
-
-      {/* Decorative dark-glass accents */}
-      <div className="hidden lg:block absolute top-24 right-32 w-64 h-24 rounded-3xl bg-white/[0.04] backdrop-blur-md border border-white/10 rotate-6 pointer-events-none" />
 
       <div className="relative z-10 w-full max-w-md">
         {/* Back Link */}
@@ -61,9 +62,11 @@ const AdminLogin = () => {
         <div className="glass-dark-panel p-8 sm:p-10 rounded-card shadow-glass-dark border border-sky/30">
           {/* Header */}
           <div className="text-center">
-            <div className="w-14 h-14 rounded-2xl bg-gradient-action mx-auto flex items-center justify-center text-white shadow-lg shadow-electric/40 mb-4 border border-sky/50">
-              <Shield className="w-7 h-7 text-ice" />
-            </div>
+            <img
+              src="/logo-icon.png"
+              alt="HostelFix Logo"
+              className="w-16 h-16 mx-auto mb-4 object-contain filter drop-shadow-md"
+            />
             <h1 className="text-2xl font-extrabold text-white font-heading tracking-tight">
               Warden Administration
             </h1>
@@ -143,15 +146,12 @@ const AdminLogin = () => {
             </button>
           </form>
 
-          {/* Demo Autofill Helper */}
+          {/* Security Notice */}
           <div className="mt-6 pt-5 border-t border-sky/20 text-center">
-            <button
-              type="button"
-              onClick={handleFillDemoAdmin}
-              className="w-full py-2 rounded-control text-xs font-semibold text-sky-light bg-royal/40 hover:bg-royal/60 border border-sky/30 transition-colors"
-            >
-              ⚡ Auto-Fill Seeded Warden Credentials
-            </button>
+            <p className="text-[11px] text-sky-light/70 flex items-center justify-center gap-1.5">
+              <Shield className="w-3.5 h-3.5 text-sky" />
+              <span>Administrative access is strictly restricted to authorized hostel wardens.</span>
+            </p>
           </div>
 
           <div className="mt-4 text-center text-xs text-slate-400">

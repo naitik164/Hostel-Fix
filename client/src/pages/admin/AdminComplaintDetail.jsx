@@ -21,6 +21,7 @@ import {
   ShieldAlert,
   Send,
   UserCheck,
+  Camera,
 } from 'lucide-react';
 
 const AdminComplaintDetail = () => {
@@ -280,25 +281,73 @@ const AdminComplaintDetail = () => {
           </div>
         </div>
 
-        {/* Photos */}
+        {/* Resident Complaint Photos */}
         {complaint.images && complaint.images.length > 0 && (
           <div>
-            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
-              Evidence Photos ({complaint.images.length})
+            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+              <Camera className="w-3.5 h-3.5 text-royal" />
+              <span>Resident Initial Complaint Photos ({complaint.images.length})</span>
             </h3>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {complaint.images.map((imgUrl, idx) => (
                 <div
                   key={idx}
                   onClick={() => setActivePhoto(imgUrl)}
-                  className="relative group rounded-xl overflow-hidden border border-sky/40 cursor-pointer aspect-video bg-slate-100"
+                  className="relative group rounded-xl overflow-hidden border border-sky/40 cursor-pointer aspect-video bg-slate-100 shadow-sm"
                 >
-                  <img src={imgUrl} alt={`Evidence ${idx + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                  <img src={imgUrl} alt={`Resident Photo ${idx + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
                   <div className="absolute inset-0 bg-navy/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
                     <Maximize2 className="w-5 h-5" />
                   </div>
+                  <span className="absolute bottom-1 left-1 px-1.5 py-0.5 rounded bg-black/60 text-[9px] text-white font-mono uppercase">
+                    Resident
+                  </span>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {/* Staff Repair & Verification Evidence */}
+        {complaint.evidence && complaint.evidence.length > 0 && (
+          <div>
+            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+              <Wrench className="w-3.5 h-3.5 text-electric" />
+              <span>Staff Maintenance & Verification Evidence ({complaint.evidence.length})</span>
+            </h3>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              {complaint.evidence.map((ev, idx) => {
+                const isBefore = ['before', 'staff_before'].includes(ev.evidenceType);
+                const isAfter = ['after', 'staff_after'].includes(ev.evidenceType);
+                const badgeText = isBefore ? 'Before' : isAfter ? 'After (Proof)' : 'Additional';
+                const badgeColor = isBefore
+                  ? 'bg-amber-600'
+                  : isAfter
+                  ? 'bg-emerald-600'
+                  : 'bg-royal';
+
+                return (
+                  <div
+                    key={idx}
+                    onClick={() => setActivePhoto(ev.imageUrl)}
+                    className="relative group rounded-xl overflow-hidden border border-sky/40 cursor-pointer aspect-video bg-slate-100 shadow-sm"
+                  >
+                    <img src={ev.imageUrl} alt={`Evidence ${idx + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                    <div className="absolute inset-0 bg-navy/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center text-white p-2 text-center">
+                      <Maximize2 className="w-5 h-5 mb-1" />
+                      {ev.caption && <span className="text-[10px] line-clamp-1 italic font-medium">"{ev.caption}"</span>}
+                    </div>
+                    <span className={`absolute top-1 left-1 px-1.5 py-0.5 rounded ${badgeColor} text-[9px] text-white font-bold uppercase shadow-sm`}>
+                      {badgeText}
+                    </span>
+                    {ev.submissionRound > 1 && (
+                      <span className="absolute top-1 right-1 px-1 py-0.5 rounded bg-purple-700 text-[9px] text-white font-bold">
+                        R{ev.submissionRound}
+                      </span>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}

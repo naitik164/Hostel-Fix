@@ -17,6 +17,7 @@ import {
   Loader2,
   Calendar,
   AlertCircle,
+  RefreshCw,
 } from 'lucide-react';
 
 const AdminDashboard = () => {
@@ -33,21 +34,25 @@ const AdminDashboard = () => {
     recentComplaints: [],
   });
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const fetchDashboard = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const res = await api.get('/admin/dashboard');
+      if (res.data && res.data.success) {
+        setData(res.data);
+      }
+    } catch (err) {
+      console.error('Failed to load admin dashboard:', err);
+      setError(err.response?.data?.message || 'Failed to load warden dashboard metrics. Please retry.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchDashboard = async () => {
-      try {
-        setLoading(true);
-        const res = await api.get('/admin/dashboard');
-        if (res.data && res.data.success) {
-          setData(res.data);
-        }
-      } catch (err) {
-        console.error('Failed to load admin dashboard:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchDashboard();
   }, []);
 
@@ -83,6 +88,23 @@ const AdminDashboard = () => {
           </Link>
         </div>
       </div>
+
+      {/* API Error Notification & Retry */}
+      {error && (
+        <div className="p-4 rounded-card bg-rose-50 border border-rose-200 flex items-center justify-between gap-4 text-rose-800">
+          <div className="flex items-center gap-3">
+            <AlertCircle className="w-5 h-5 text-rose-600 shrink-0" />
+            <span className="text-xs font-semibold">{error}</span>
+          </div>
+          <button
+            onClick={fetchDashboard}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition-colors"
+          >
+            <RefreshCw className="w-3.5 h-3.5" />
+            <span>Retry</span>
+          </button>
+        </div>
+      )}
 
       {/* Critical Overdue Alert Banner if overdue > 0 */}
       {metrics.overdue > 0 && (

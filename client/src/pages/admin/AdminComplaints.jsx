@@ -19,6 +19,7 @@ import {
   X,
   AlertCircle,
   FileSpreadsheet,
+  RefreshCw,
 } from 'lucide-react';
 
 const CATEGORIES = [
@@ -45,6 +46,7 @@ const AdminComplaints = () => {
   const [staffList, setStaffList] = useState([]);
   const [blocks, setBlocks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   // Filters state
   const [search, setSearch] = useState('');
@@ -88,6 +90,7 @@ const AdminComplaints = () => {
   const fetchComplaints = async () => {
     try {
       setLoading(true);
+      setError(null);
       const params = {
         page,
         limit: 12,
@@ -109,6 +112,7 @@ const AdminComplaints = () => {
       }
     } catch (err) {
       console.error('Failed to load admin complaints:', err);
+      setError(err.response?.data?.message || 'Failed to load complaints from database. Please retry.');
     } finally {
       setLoading(false);
     }
@@ -369,6 +373,23 @@ const AdminComplaints = () => {
           />
         </form>
       </div>
+
+      {/* API Error Notification & Retry */}
+      {error && (
+        <div className="p-4 rounded-card bg-rose-50 border border-rose-200 flex items-center justify-between gap-4 text-rose-800">
+          <div className="flex items-center gap-3">
+            <AlertCircle className="w-5 h-5 text-rose-600 shrink-0" />
+            <span className="text-xs font-semibold">{error}</span>
+          </div>
+          <button
+            onClick={fetchComplaints}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition-colors"
+          >
+            <RefreshCw className="w-3.5 h-3.5" />
+            <span>Retry</span>
+          </button>
+        </div>
+      )}
 
       {/* Complaints Table */}
       <div className="glass-card overflow-hidden">

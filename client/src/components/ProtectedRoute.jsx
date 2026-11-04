@@ -22,8 +22,12 @@ const ProtectedRoute = ({ children, requiredRole }) => {
   }
 
   if (!isAuthenticated) {
-    // If attempting to access admin route, redirect to admin login, otherwise student login
-    const targetLogin = location.pathname.startsWith('/admin') ? '/admin/login' : '/student/login';
+    let targetLogin = '/student/login';
+    if (location.pathname.startsWith('/admin')) {
+      targetLogin = '/admin/login';
+    } else if (location.pathname.startsWith('/staff')) {
+      targetLogin = '/staff/login';
+    }
     return <Navigate to={targetLogin} state={{ from: location }} replace />;
   }
 
@@ -31,6 +35,8 @@ const ProtectedRoute = ({ children, requiredRole }) => {
     // Redirect to respective dashboard if authorized under a different role
     if (user.role === 'admin') {
       return <Navigate to="/admin/dashboard" replace />;
+    } else if (user.role === 'staff') {
+      return <Navigate to="/staff/dashboard" replace />;
     } else {
       return <Navigate to="/student/dashboard" replace />;
     }

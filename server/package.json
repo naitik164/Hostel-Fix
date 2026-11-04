@@ -6,9 +6,18 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
+    "test": "node scripts/testSecuritySuite.js",
+    "test:security": "node scripts/testSecuritySuite.js",
+    "test:staff": "node scripts/testStaffWorkflow.js",
+    "test:cloudinary": "node scripts/testCloudinaryWorkflow.js",
+    "test:e2e": "node scripts/testE2EPersistence.js",
+    "test:persistence": "node scripts/testPersistence.js",
     "seed:admin": "node scripts/seedAdmin.js",
+    "seed:config": "node scripts/seedConfig.js",
     "seed:dev": "node scripts/seedDev.js",
-    "reset:db": "node scripts/resetDb.js"
+    "reset:db": "node scripts/resetDb.js",
+    "db:dry-run": "node scripts/cleanupDryRun.js",
+    "db:cleanup": "node scripts/cleanupDryRun.js --execute"
   },
   "keywords": [
     "hostelfix",
@@ -21,7 +30,7 @@
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "cloudinary": "^2.5.1",
+    "cloudinary": "^2.11.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
@@ -31,6 +40,6 @@
     "helmet": "^8.0.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.9.5",
-    "multer": "^1.4.5-lts.1"
+    "multer": "^1.4.5-lts.2"
   }
 }

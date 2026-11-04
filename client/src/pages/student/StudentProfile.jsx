@@ -13,12 +13,13 @@ import {
   Loader2,
   Save,
 } from 'lucide-react';
+import UserAvatar from '../../components/UserAvatar';
 
 const StudentProfile = () => {
   const { user, updateUserProfile } = useAuth();
   const [blocks, setBlocks] = useState([]);
   const [name, setName] = useState(user?.name || '');
-  const [hostelBlock, setHostelBlock] = useState(user?.hostelBlock || 'Block A');
+  const [hostelBlock, setHostelBlock] = useState(user?.hostelBlock || '');
   const [roomNumber, setRoomNumber] = useState(user?.roomNumber || '');
   const [phone, setPhone] = useState(user?.phone || '');
   const [saving, setSaving] = useState(false);
@@ -70,13 +71,11 @@ const StudentProfile = () => {
 
       {/* Profile Overview Card */}
       <div className="glass-card p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-6">
-        <img
-          src={
-            user?.profilePhoto ||
-            'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150'
-          }
-          alt={user?.name}
-          className="w-20 h-20 rounded-2xl object-cover border-2 border-sky shadow-md"
+        <UserAvatar
+          src={user?.profilePhoto}
+          name={user?.name}
+          size="xl"
+          className="rounded-2xl"
         />
         <div className="text-center sm:text-left flex-1">
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">

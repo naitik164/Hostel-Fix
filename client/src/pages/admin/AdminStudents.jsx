@@ -12,6 +12,7 @@ import {
   Loader2,
   FileText,
 } from 'lucide-react';
+import UserAvatar from '../../components/UserAvatar';
 
 const AdminStudents = () => {
   const [students, setStudents] = useState([]);
@@ -146,13 +147,10 @@ const AdminStudents = () => {
                   <tr key={student._id} className="transition-colors">
                     <td>
                       <div className="flex items-center gap-3">
-                        <img
-                          src={
-                            student.profilePhoto ||
-                            'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100'
-                          }
-                          alt={student.name}
-                          className="w-8 h-8 rounded-full object-cover border border-sky"
+                        <UserAvatar
+                          src={student.profilePhoto}
+                          name={student.name}
+                          size="sm"
                         />
                         <div>
                           <div className="font-semibold text-navy text-xs">{student.name}</div>

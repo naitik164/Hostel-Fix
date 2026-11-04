@@ -18,8 +18,12 @@ const complaintCategories = [
 const complaintStatuses = [
   'Submitted',
   'Assigned',
+  'Accepted',
   'In Progress',
+  'Pending Verification',
+  'Rework Required',
   'Resolved',
+  'Unable to Complete',
   'Rejected',
 ];
 
@@ -68,6 +72,37 @@ const complaintSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
+    complaintPhotos: [
+      {
+        imageUrl: {
+          type: String,
+          required: true,
+        },
+        publicId: {
+          type: String,
+          default: '',
+        },
+        storage: {
+          type: String,
+          enum: ['cloudinary', 'local'],
+          default: 'local',
+        },
+        category: {
+          type: String,
+          enum: [
+            'student_complaint',
+            'staff_before',
+            'staff_after',
+            'staff_additional_evidence',
+          ],
+          default: 'student_complaint',
+        },
+        uploadedAt: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
     hostelBlockId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'HostelBlock',
@@ -120,6 +155,113 @@ const complaintSchema = new mongoose.Schema(
       index: true,
     },
     assignedAt: {
+      type: Date,
+    },
+    assignedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Admin',
+    },
+    assignedByName: {
+      type: String,
+      default: '',
+    },
+    assignmentInstructions: {
+      type: String,
+      default: '',
+    },
+    acceptedAt: {
+      type: Date,
+    },
+    startedAt: {
+      type: Date,
+    },
+    pendingVerificationAt: {
+      type: Date,
+    },
+    completionNotes: {
+      type: String,
+      default: '',
+    },
+    reasonForNoBeforePhoto: {
+      type: String,
+      default: '',
+    },
+    evidence: [
+      {
+        evidenceType: {
+          type: String,
+          enum: [
+            'before',
+            'after',
+            'additional',
+            'student_complaint',
+            'staff_before',
+            'staff_after',
+            'staff_additional_evidence',
+          ],
+          required: true,
+          default: 'after',
+        },
+        imageUrl: {
+          type: String,
+          required: true,
+        },
+        publicId: {
+          type: String,
+          default: '',
+        },
+        storage: {
+          type: String,
+          enum: ['cloudinary', 'local'],
+          default: 'local',
+        },
+        caption: {
+          type: String,
+          trim: true,
+          default: '',
+        },
+        uploadedBy: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Staff',
+        },
+        uploadedByName: {
+          type: String,
+          default: '',
+        },
+        uploadedAt: {
+          type: Date,
+          default: Date.now,
+        },
+        submissionRound: {
+          type: Number,
+          default: 1,
+        },
+      },
+    ],
+    reworkReason: {
+      type: String,
+      default: '',
+    },
+    reworkCount: {
+      type: Number,
+      default: 0,
+    },
+    reworkRequestedAt: {
+      type: Date,
+    },
+    verifiedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Admin',
+    },
+    verifiedByName: {
+      type: String,
+      default: '',
+    },
+    unableToCompleteReason: {
+      type: String,
+      default: '',
+    },
+    unableToCompleteAt: {
       type: Date,
     },
     resolutionNotes: {

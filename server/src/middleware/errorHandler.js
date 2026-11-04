@@ -26,10 +26,17 @@ const errorHandler = (err, req, res, next) => {
       message: 'File size exceeds maximum allowed limit of 5MB.',
     });
   }
-  if (err.code === 'LIMIT_FILE_COUNT') {
+  if (err.code === 'LIMIT_FILE_COUNT' || err.code === 'LIMIT_UNEXPECTED_FILE') {
     return res.status(400).json({
       success: false,
-      message: 'Maximum 4 images allowed per complaint.',
+      message: 'Maximum allowed file count exceeded.',
+    });
+  }
+
+  if (err.message && err.message.includes('Invalid file format')) {
+    return res.status(400).json({
+      success: false,
+      message: err.message,
     });
   }
 

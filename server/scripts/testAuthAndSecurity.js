@@ -1,7 +1,7 @@
 const assert = require('assert');
 require('dotenv').config();
 
-const BASE_URL = 'http://127.0.0.1:5000/api';
+const BASE_URL = 'http://localhost:5000/api';
 
 async function runTests() {
   console.log('====================================================');
@@ -89,7 +89,7 @@ async function runTests() {
     console.log('PASSED (HttpOnly cookie set, role=student)');
     passed++;
   } catch (e) {
-    console.log('FAILED:', e.message);
+    console.log('FAILED:', e.message, e.cause || '');
     failed++;
   }
 

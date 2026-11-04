@@ -4,12 +4,11 @@ const notificationSchema = new mongoose.Schema(
   {
     recipientId: {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
       index: true,
     },
     recipientRole: {
       type: String,
-      enum: ['student', 'admin'],
+      enum: ['student', 'admin', 'staff'],
       required: true,
       index: true,
     },

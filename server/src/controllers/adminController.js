@@ -258,7 +258,17 @@ const updateComplaintStatus = async (req, res, next) => {
     const { id } = req.params;
     const { status: newStatus, publicNote, internalNote, resolutionNotes, rejectedReason } = req.body;
 
-    const validStatuses = ['Submitted', 'Assigned', 'In Progress', 'Resolved', 'Rejected'];
+    const validStatuses = [
+      'Submitted',
+      'Assigned',
+      'Accepted',
+      'In Progress',
+      'Pending Verification',
+      'Rework Required',
+      'Resolved',
+      'Rejected',
+      'Unable to Complete',
+    ];
     if (!validStatuses.includes(newStatus)) {
       return res.status(400).json({
         success: false,
@@ -404,13 +414,22 @@ const updateComplaintPriority = async (req, res, next) => {
 const updateComplaintAssignment = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { staffId, note } = req.body;
+    const staffId = req.body.staffId || req.body.assignedStaffId;
+    const instructions = req.body.instructions || req.body.assignmentInstructions || req.body.note;
+    const priority = req.body.priority;
 
     const complaint = await Complaint.findById(id);
     if (!complaint) {
       return res.status(404).json({
         success: false,
         message: 'Complaint not found.',
+      });
+    }
+
+    if (!staffId) {
+      return res.status(400).json({
+        success: false,
+        message: 'Staff ID is required for task assignment.',
       });
     }
 
@@ -425,6 +444,17 @@ const updateComplaintAssignment = async (req, res, next) => {
     const isReassignment = Boolean(complaint.assignedStaffId);
     complaint.assignedStaffId = staff._id;
     complaint.assignedAt = new Date();
+    complaint.assignedBy = req.user._id;
+    complaint.assignedByName = req.user.name;
+
+    const assignmentText = (instructions || note || '').trim();
+    if (assignmentText) {
+      complaint.assignmentInstructions = assignmentText;
+    }
+
+    if (priority && ['Urgent', 'High', 'Medium', 'Low'].includes(priority)) {
+      complaint.priority = priority;
+    }
 
     // Auto update status if currently Submitted
     if (complaint.status === 'Submitted') {
@@ -438,7 +468,7 @@ const updateComplaintAssignment = async (req, res, next) => {
       actionType: isReassignment ? 'StaffReassigned' : 'StaffAssigned',
       newValue: staff.name,
       publicNote: `Assigned to ${staff.name} (${staff.specialization}).`,
-      internalNote: note || '',
+      internalNote: assignmentText,
       performedBy: req.user._id,
       performedByModel: 'Admin',
       performedByName: req.user.name,
@@ -454,6 +484,17 @@ const updateComplaintAssignment = async (req, res, next) => {
       message: `Maintenance technician ${staff.name} (${staff.specialization}) has been assigned to inspect reference ${complaint.referenceId}.`,
       type: 'info',
       link: `/student/complaints/${complaint._id}`,
+    });
+
+    // Notify assigned staff member
+    await Notification.create({
+      recipientId: staff._id,
+      recipientRole: 'staff',
+      complaintId: complaint._id,
+      title: 'New Maintenance Task Assigned',
+      message: `You have been assigned task ${complaint.referenceId}: "${complaint.title}" at ${complaint.hostelBlockName} - ${complaint.roomNumber || complaint.location}.`,
+      type: 'info',
+      link: `/staff/tasks/${complaint._id}`,
     });
 
     return res.status(200).json({
@@ -925,27 +966,70 @@ const toggleStudentStatus = async (req, res, next) => {
  */
 const getStaffList = async (req, res, next) => {
   try {
-    const staff = await Staff.find().sort({ name: 1 });
+    const { department, status, block, search } = req.query;
+    const query = {};
 
-    // Calculate active assigned complaints for each staff
-    const activeComplaints = await Complaint.aggregate([
-      { $match: { status: { $in: ['Assigned', 'In Progress'] } } },
-      { $group: { _id: '$assignedStaffId', activeWorkload: { $sum: 1 } } },
+    if (status === 'active') query.isActive = true;
+    if (status === 'inactive') query.isActive = false;
+    if (department && department !== 'all') query.specialization = department;
+    if (block && block !== 'all') query.assignedBlocks = block;
+    if (search && search.trim()) {
+      const searchRegex = new RegExp(search.trim(), 'i');
+      query.$or = [
+        { name: searchRegex },
+        { employeeId: searchRegex },
+        { email: searchRegex },
+        { phone: searchRegex },
+      ];
+    }
+
+    const staff = await Staff.find(query).sort({ name: 1 });
+
+    // Aggregate active workload and completed counts
+    const [activeComplaints, completedComplaints, reworkComplaints] = await Promise.all([
+      Complaint.aggregate([
+        {
+          $match: {
+            status: { $in: ['Assigned', 'Accepted', 'In Progress', 'Pending Verification', 'Rework Required'] },
+          },
+        },
+        { $group: { _id: '$assignedStaffId', count: { $sum: 1 } } },
+      ]),
+      Complaint.aggregate([
+        { $match: { status: 'Resolved' } },
+        { $group: { _id: '$assignedStaffId', count: { $sum: 1 } } },
+      ]),
+      Complaint.aggregate([
+        { $match: { reworkCount: { $gt: 0 } } },
+        { $group: { _id: '$assignedStaffId', count: { $sum: 1 } } },
+      ]),
     ]);
 
-    const workloadMap = {};
+    const activeMap = {};
     activeComplaints.forEach((item) => {
-      if (item._id) workloadMap[item._id.toString()] = item.activeWorkload;
+      if (item._id) activeMap[item._id.toString()] = item.count;
     });
 
-    const staffWithWorkload = staff.map((member) => ({
+    const completedMap = {};
+    completedComplaints.forEach((item) => {
+      if (item._id) completedMap[item._id.toString()] = item.count;
+    });
+
+    const reworkMap = {};
+    reworkComplaints.forEach((item) => {
+      if (item._id) reworkMap[item._id.toString()] = item.count;
+    });
+
+    const staffWithMetrics = staff.map((member) => ({
       ...member.toObject(),
-      activeWorkload: workloadMap[member._id.toString()] || 0,
+      activeWorkload: activeMap[member._id.toString()] || 0,
+      completedCount: completedMap[member._id.toString()] || 0,
+      reworkTasksCount: reworkMap[member._id.toString()] || 0,
     }));
 
     return res.status(200).json({
       success: true,
-      staff: staffWithWorkload,
+      staff: staffWithMetrics,
     });
   } catch (error) {
     next(error);
@@ -954,33 +1038,49 @@ const getStaffList = async (req, res, next) => {
 
 const createStaff = async (req, res, next) => {
   try {
-    const { name, employeeId, phone, specialization } = req.body;
-    if (!name || !employeeId || !specialization) {
+    const { name, employeeId, email, phone, specialization, department, assignedBlocks } = req.body;
+    if (!name || !employeeId || !email || !specialization) {
       return res.status(400).json({
         success: false,
-        message: 'Name, employee ID, and specialization are required.',
+        message: 'Name, employee ID, Google email address, and specialization/trade are required.',
       });
     }
 
-    const existing = await Staff.findOne({ employeeId: employeeId.toUpperCase().trim() });
-    if (existing) {
+    const normalizedEmail = email.toLowerCase().trim();
+    const normalizedEmpId = employeeId.toUpperCase().trim();
+
+    // Check duplicate employee ID
+    const existingEmp = await Staff.findOne({ employeeId: normalizedEmpId });
+    if (existingEmp) {
       return res.status(400).json({
         success: false,
-        message: `Staff with employee ID "${employeeId}" already exists.`,
+        message: `A staff member with employee ID "${normalizedEmpId}" already exists.`,
+      });
+    }
+
+    // Check duplicate Google email
+    const existingEmail = await Staff.findOne({ email: normalizedEmail });
+    if (existingEmail) {
+      return res.status(400).json({
+        success: false,
+        message: `A staff member with Google email "${normalizedEmail}" is already registered.`,
       });
     }
 
     const staff = await Staff.create({
       name: name.trim(),
-      employeeId: employeeId.toUpperCase().trim(),
+      employeeId: normalizedEmpId,
+      email: normalizedEmail,
       phone: phone ? phone.trim() : '',
       specialization,
+      department: department ? department.trim() : specialization,
+      assignedBlocks: Array.isArray(assignedBlocks) ? assignedBlocks : [],
       isActive: true,
     });
 
     return res.status(201).json({
       success: true,
-      message: 'Staff member added successfully.',
+      message: 'Staff member registered successfully. They can now log in via Google with this email.',
       staff,
     });
   } catch (error) {
@@ -991,7 +1091,7 @@ const createStaff = async (req, res, next) => {
 const updateStaff = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { name, phone, specialization, isActive } = req.body;
+    const { name, email, phone, specialization, department, assignedBlocks, isActive, resetGoogleLink } = req.body;
 
     const staff = await Staff.findById(id);
     if (!staff) {
@@ -999,17 +1099,208 @@ const updateStaff = async (req, res, next) => {
     }
 
     if (name) staff.name = name.trim();
+
+    if (email && email.toLowerCase().trim() !== staff.email) {
+      const normalizedEmail = email.toLowerCase().trim();
+      const existing = await Staff.findOne({ email: normalizedEmail, _id: { $ne: staff._id } });
+      if (existing) {
+        return res.status(400).json({
+          success: false,
+          message: `Email "${normalizedEmail}" is already used by another staff member.`,
+        });
+      }
+      staff.email = normalizedEmail;
+      // Reset Google sub if email corrected
+      staff.googleSub = null;
+    }
+
     if (phone !== undefined) staff.phone = phone.trim();
     if (specialization) staff.specialization = specialization;
+    if (department !== undefined) staff.department = department.trim();
+    if (Array.isArray(assignedBlocks)) staff.assignedBlocks = assignedBlocks;
     if (isActive !== undefined) staff.isActive = isActive;
+    if (resetGoogleLink) staff.googleSub = null;
 
     await staff.save();
 
     return res.status(200).json({
       success: true,
-      message: 'Staff updated successfully.',
+      message: 'Staff profile updated successfully.',
       staff,
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Get Complaints Pending Warden Verification
+ * GET /api/admin/verifications
+ */
+const getPendingVerifications = async (req, res, next) => {
+  try {
+    const { category, hostelBlock, search } = req.query;
+    const query = { status: 'Pending Verification' };
+
+    if (category && category !== 'all') query.category = category;
+    if (hostelBlock && hostelBlock !== 'all') query.hostelBlockName = hostelBlock;
+    if (search && search.trim()) {
+      const searchRegex = new RegExp(search.trim(), 'i');
+      query.$or = [{ referenceId: searchRegex }, { title: searchRegex }, { roomNumber: searchRegex }];
+    }
+
+    const complaints = await Complaint.find(query)
+      .sort({ pendingVerificationAt: -1, updatedAt: -1 })
+      .populate('studentId', 'name email phone hostelBlock roomNumber profilePhoto')
+      .populate('assignedStaffId', 'name employeeId specialization phone email')
+      .populate('assignedBy', 'name email');
+
+    return res.status(200).json({
+      success: true,
+      complaints,
+      count: complaints.length,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Warden Verify Complaint (Approve or Request Rework)
+ * PATCH /api/admin/complaints/:id/verification
+ */
+const verifyComplaint = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { action, resolutionNotes, reworkReason, notes } = req.body;
+
+    if (!['approve', 'request_rework'].includes(action)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Action must be either "approve" or "request_rework".',
+      });
+    }
+
+    const complaint = await Complaint.findById(id).populate('assignedStaffId', 'name email');
+    if (!complaint) {
+      return res.status(404).json({ success: false, message: 'Complaint not found.' });
+    }
+
+    if (complaint.status !== 'Pending Verification') {
+      return res.status(400).json({
+        success: false,
+        message: `Only complaints in "Pending Verification" status can be verified. Current status is "${complaint.status}".`,
+      });
+    }
+
+    if (action === 'approve') {
+      complaint.status = 'Resolved';
+      complaint.resolvedAt = new Date();
+      complaint.verifiedBy = req.user._id;
+      complaint.verifiedByName = req.user.name;
+      complaint.resolutionNotes = (resolutionNotes || notes || 'Verified and approved by warden.').trim();
+      await complaint.save();
+
+      await ComplaintHistory.create({
+        complaintId: complaint._id,
+        actionType: 'WorkApproved',
+        oldValue: 'Pending Verification',
+        newValue: 'Resolved',
+        publicNote: `Warden ${req.user.name} approved the completion proof and marked the complaint Resolved.`,
+        internalNote: complaint.resolutionNotes,
+        performedBy: req.user._id,
+        performedByModel: 'Admin',
+        performedByName: req.user.name,
+        performedByRole: 'admin',
+      });
+
+      // Notify student
+      await Notification.create({
+        recipientId: complaint.studentId,
+        recipientRole: 'student',
+        complaintId: complaint._id,
+        title: 'Complaint Resolved & Verified',
+        message: `Your complaint ${complaint.referenceId} has been verified by the warden and marked Resolved. You can now leave your feedback.`,
+        type: 'success',
+        link: `/student/complaints/${complaint._id}`,
+      });
+
+      // Notify staff
+      if (complaint.assignedStaffId) {
+        await Notification.create({
+          recipientId: complaint.assignedStaffId._id || complaint.assignedStaffId,
+          recipientRole: 'staff',
+          complaintId: complaint._id,
+          title: 'Work Approved by Warden',
+          message: `Your completion proof for ${complaint.referenceId} has been approved by Warden ${req.user.name}.`,
+          type: 'success',
+          link: `/staff/tasks/${complaint._id}`,
+        });
+      }
+
+      return res.status(200).json({
+        success: true,
+        message: 'Complaint successfully verified and marked as Resolved.',
+        complaint,
+      });
+    } else {
+      // action === 'request_rework'
+      if (!reworkReason || !reworkReason.trim()) {
+        return res.status(400).json({
+          success: false,
+          message: 'A mandatory rework reason explaining why the work is rejected is required.',
+        });
+      }
+
+      complaint.status = 'Rework Required';
+      complaint.reworkReason = reworkReason.trim();
+      complaint.reworkCount = (complaint.reworkCount || 0) + 1;
+      complaint.reworkRequestedAt = new Date();
+      await complaint.save();
+
+      await ComplaintHistory.create({
+        complaintId: complaint._id,
+        actionType: 'ReworkRequested',
+        oldValue: 'Pending Verification',
+        newValue: 'Rework Required',
+        publicNote: `Warden requested rework: "${reworkReason.trim()}"`,
+        internalNote: reworkReason.trim(),
+        performedBy: req.user._id,
+        performedByModel: 'Admin',
+        performedByName: req.user.name,
+        performedByRole: 'admin',
+      });
+
+      // Notify staff
+      if (complaint.assignedStaffId) {
+        await Notification.create({
+          recipientId: complaint.assignedStaffId._id || complaint.assignedStaffId,
+          recipientRole: 'staff',
+          complaintId: complaint._id,
+          title: 'Rework Requested on Task',
+          message: `Warden ${req.user.name} requested rework on ${complaint.referenceId}: "${reworkReason.trim()}". Please inspect feedback, perform rework, and resubmit proof.`,
+          type: 'warning',
+          link: `/staff/tasks/${complaint._id}`,
+        });
+      }
+
+      // Notify student
+      await Notification.create({
+        recipientId: complaint.studentId,
+        recipientRole: 'student',
+        complaintId: complaint._id,
+        title: 'Maintenance Update: Additional Work Required',
+        message: `Warden reviewed the work for ${complaint.referenceId} and instructed staff to perform rework to ensure standards.`,
+        type: 'info',
+        link: `/student/complaints/${complaint._id}`,
+      });
+
+      return res.status(200).json({
+        success: true,
+        message: 'Rework requested. Staff has been notified with feedback.',
+        complaint,
+      });
+    }
   } catch (error) {
     next(error);
   }
@@ -1232,6 +1523,8 @@ module.exports = {
   getStaffList,
   createStaff,
   updateStaff,
+  getPendingVerifications,
+  verifyComplaint,
   getBlocks,
   createBlock,
   updateBlock,

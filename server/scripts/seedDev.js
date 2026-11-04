@@ -15,6 +15,11 @@ const Setting = require('../src/models/Setting');
 const connectDB = require('../src/config/db');
 
 const seedDev = async () => {
+  if (process.env.ALLOW_DEV_SEED !== 'true') {
+    console.error('[SAFETY BLOCK]: seedDev aborted. Seeding mock development data requires explicit opt-in via ALLOW_DEV_SEED="true" to prevent overwriting production/Atlas collections.');
+    process.exit(1);
+  }
+
   try {
     await connectDB();
     console.log('[Seed Dev] Starting complete database seeding with realistic demo records...');

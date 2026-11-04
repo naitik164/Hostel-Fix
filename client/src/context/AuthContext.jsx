@@ -37,14 +37,14 @@ export const AuthProvider = ({ children }) => {
     throw new Error(res.data?.message || 'Google authentication failed');
   };
 
-  // Demo Student Login (for quick development preview)
-  const loginAsDemoStudent = async (email = 'aarav.sharma@hostelfix.edu') => {
-    const res = await api.post('/auth/demo-student-login', { email });
+  // Google Staff Login
+  const loginStaffWithGoogle = async (credential) => {
+    const res = await api.post('/auth/staff/google', { credential });
     if (res.data && res.data.success) {
       setUser(res.data.user);
       return res.data;
     }
-    throw new Error(res.data?.message || 'Demo login failed');
+    throw new Error(res.data?.message || 'Staff authentication failed');
   };
 
   // Warden Admin Login
@@ -73,7 +73,6 @@ export const AuthProvider = ({ children }) => {
     const res = await api.patch('/student/profile', profileData);
     if (res.data.success) {
       setUser(res.data.user);
-      localStorage.setItem('user', JSON.stringify(res.data.user));
       return res.data.user;
     }
     throw new Error(res.data.message || 'Failed to update profile');
@@ -86,9 +85,10 @@ export const AuthProvider = ({ children }) => {
         loading,
         isAuthenticated: Boolean(user),
         isStudent: user?.role === 'student',
+        isStaff: user?.role === 'staff',
         isAdmin: user?.role === 'admin',
         loginWithGoogle,
-        loginAsDemoStudent,
+        loginStaffWithGoogle,
         loginAsAdmin,
         logout,
         updateUserProfile,

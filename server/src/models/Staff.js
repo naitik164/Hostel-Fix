@@ -15,6 +15,25 @@ const staffSchema = new mongoose.Schema(
       trim: true,
       index: true,
     },
+    email: {
+      type: String,
+      required: [true, 'Staff Google email address is required'],
+      unique: true,
+      lowercase: true,
+      trim: true,
+      index: true,
+    },
+    googleSub: {
+      type: String,
+      sparse: true,
+      index: true,
+      default: null,
+    },
+    role: {
+      type: String,
+      default: 'staff',
+      enum: ['staff'],
+    },
     phone: {
       type: String,
       trim: true,
@@ -34,6 +53,22 @@ const staffSchema = new mongoose.Schema(
         'General Maintenance',
       ],
       index: true,
+    },
+    department: {
+      type: String,
+      trim: true,
+      default: '',
+    },
+    assignedBlocks: {
+      type: [String],
+      default: [],
+    },
+    profilePhoto: {
+      type: String,
+      default: '',
+    },
+    lastLoginAt: {
+      type: Date,
     },
     isActive: {
       type: Boolean,

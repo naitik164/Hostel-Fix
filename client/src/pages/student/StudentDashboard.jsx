@@ -17,11 +17,15 @@ import {
   Loader2,
   Calendar,
   Building,
+  RefreshCw,
 } from 'lucide-react';
+
+import UserAvatar from '../../components/UserAvatar';
 
 const StudentDashboard = () => {
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [data, setData] = useState({
     metrics: { total: 0, pending: 0, inProgress: 0, resolved: 0 },
     recentComplaints: [],
@@ -30,21 +34,23 @@ const StudentDashboard = () => {
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
 
-  useEffect(() => {
-    const fetchDashboard = async () => {
-      try {
-        setLoading(true);
-        const res = await api.get('/student/dashboard');
-        if (res.data && res.data.success) {
-          setData(res.data);
-        }
-      } catch (err) {
-        console.error('Failed to load student dashboard:', err);
-      } finally {
-        setLoading(false);
+  const fetchDashboard = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const res = await api.get('/student/dashboard');
+      if (res.data && res.data.success) {
+        setData(res.data);
       }
-    };
+    } catch (err) {
+      console.error('Failed to load student dashboard:', err);
+      setError(err.response?.data?.message || 'Failed to load dashboard data from server. Please retry.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchDashboard();
   }, []);
 
@@ -61,13 +67,11 @@ const StudentDashboard = () => {
       {/* Welcome & Profile Section */}
       <div className="glass-card p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div className="flex items-center gap-4">
-          <img
-            src={
-              user?.profilePhoto ||
-              'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150'
-            }
-            alt={user?.name}
-            className="w-16 h-16 rounded-2xl object-cover border-2 border-sky shadow-md"
+          <UserAvatar
+            src={user?.profilePhoto}
+            name={user?.name}
+            size="lg"
+            className="rounded-2xl"
           />
           <div>
             <div className="flex items-center gap-2">
@@ -96,6 +100,23 @@ const StudentDashboard = () => {
           </Link>
         </div>
       </div>
+
+      {/* API Error Notification & Retry */}
+      {error && (
+        <div className="p-4 rounded-card bg-rose-50 border border-rose-200 flex items-center justify-between gap-4 text-rose-800">
+          <div className="flex items-center gap-3">
+            <AlertCircle className="w-5 h-5 text-rose-600 shrink-0" />
+            <span className="text-xs font-semibold">{error}</span>
+          </div>
+          <button
+            onClick={fetchDashboard}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition-colors"
+          >
+            <RefreshCw className="w-3.5 h-3.5" />
+            <span>Retry</span>
+          </button>
+        </div>
+      )}
 
       {/* Summary KPI Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">

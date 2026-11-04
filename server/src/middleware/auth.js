@@ -1,6 +1,8 @@
 const { verifyToken } = require('../utils/jwt');
 const User = require('../models/User');
 const Admin = require('../models/Admin');
+const Staff = require('../models/Staff');
+const Session = require('../models/Session');
 
 const authenticate = async (req, res, next) => {
   try {
@@ -33,12 +35,31 @@ const authenticate = async (req, res, next) => {
       });
     }
 
+    // Verify server-side session status if sessionId is present
+    if (decoded.sessionId) {
+      const activeSession = await Session.findById(decoded.sessionId);
+      if (!activeSession || !activeSession.isActive || (activeSession.expiresAt && activeSession.expiresAt < new Date())) {
+        return res.status(401).json({
+          success: false,
+          message: 'Session has been invalidated or expired. Please log in again.',
+        });
+      }
+    } else {
+      // Reject tokens lacking valid server-managed session identifier
+      return res.status(401).json({
+        success: false,
+        message: 'Session identifier missing or invalid. Please log in again.',
+      });
+    }
+
     // Check account in database and ensure active status
     let account = null;
     if (decoded.role === 'admin') {
       account = await Admin.findById(decoded.id).select('-passwordHash');
     } else if (decoded.role === 'student') {
       account = await User.findById(decoded.id);
+    } else if (decoded.role === 'staff') {
+      account = await Staff.findById(decoded.id);
     }
 
     if (!account) {
@@ -59,11 +80,15 @@ const authenticate = async (req, res, next) => {
       id: account._id.toString(),
       _id: account._id,
       name: account.name,
-      email: account.email || account.loginId,
-      role: account.role,
+      email: account.email || account.loginId || '',
+      role: account.role || decoded.role,
       hostelBlock: account.hostelBlock || '',
       roomNumber: account.roomNumber || '',
       profilePhoto: account.profilePhoto || '',
+      employeeId: account.employeeId || '',
+      specialization: account.specialization || '',
+      assignedBlocks: account.assignedBlocks || [],
+      phone: account.phone || '',
       isProfileComplete: Boolean(account.hostelBlock && account.roomNumber),
     };
 

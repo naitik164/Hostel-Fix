@@ -7,10 +7,12 @@ import ProtectedRoute from './components/ProtectedRoute';
 // Layouts
 import StudentLayout from './layouts/StudentLayout';
 import AdminLayout from './layouts/AdminLayout';
+import StaffLayout from './layouts/StaffLayout';
 
 // Public Auth Pages
 import LandingPage from './pages/auth/LandingPage';
 import StudentLogin from './pages/auth/StudentLogin';
+import StaffLogin from './pages/auth/StaffLogin';
 import AdminLogin from './pages/auth/AdminLogin';
 
 // Student Pages
@@ -21,10 +23,19 @@ import StudentComplaintDetail from './pages/student/StudentComplaintDetail';
 import StudentNotifications from './pages/student/StudentNotifications';
 import StudentProfile from './pages/student/StudentProfile';
 
+// Staff Pages
+import StaffDashboard from './pages/staff/StaffDashboard';
+import StaffTasks from './pages/staff/StaffTasks';
+import StaffTaskDetail from './pages/staff/StaffTaskDetail';
+import StaffHistory from './pages/staff/StaffHistory';
+import StaffNotifications from './pages/staff/StaffNotifications';
+import StaffProfile from './pages/staff/StaffProfile';
+
 // Admin / Warden Pages
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminComplaints from './pages/admin/AdminComplaints';
 import AdminComplaintDetail from './pages/admin/AdminComplaintDetail';
+import AdminVerifications from './pages/admin/AdminVerifications';
 import AdminStaff from './pages/admin/AdminStaff';
 import AdminBlocks from './pages/admin/AdminBlocks';
 import AdminStudents from './pages/admin/AdminStudents';
@@ -33,9 +44,7 @@ import AdminNotifications from './pages/admin/AdminNotifications';
 import AdminSettings from './pages/admin/AdminSettings';
 
 function App() {
-  const googleClientId =
-    import.meta.env.VITE_GOOGLE_CLIENT_ID ||
-    '100000000000-dummygoogleclientidhostelfix.apps.googleusercontent.com';
+  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
 
   return (
     <GoogleOAuthProvider clientId={googleClientId}>
@@ -45,6 +54,7 @@ function App() {
             {/* Public Routes */}
             <Route path="/" element={<LandingPage />} />
             <Route path="/student/login" element={<StudentLogin />} />
+            <Route path="/staff/login" element={<StaffLogin />} />
             <Route path="/admin/login" element={<AdminLogin />} />
 
             {/* Protected Student Routes */}
@@ -65,6 +75,24 @@ function App() {
               <Route path="profile" element={<StudentProfile />} />
             </Route>
 
+            {/* Protected Staff Routes */}
+            <Route
+              path="/staff"
+              element={
+                <ProtectedRoute requiredRole="staff">
+                  <StaffLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route index element={<Navigate to="/staff/dashboard" replace />} />
+              <Route path="dashboard" element={<StaffDashboard />} />
+              <Route path="tasks" element={<StaffTasks />} />
+              <Route path="tasks/:id" element={<StaffTaskDetail />} />
+              <Route path="history" element={<StaffHistory />} />
+              <Route path="notifications" element={<StaffNotifications />} />
+              <Route path="profile" element={<StaffProfile />} />
+            </Route>
+
             {/* Protected Warden / Admin Routes */}
             <Route
               path="/admin"
@@ -78,6 +106,7 @@ function App() {
               <Route path="dashboard" element={<AdminDashboard />} />
               <Route path="complaints" element={<AdminComplaints />} />
               <Route path="complaints/:id" element={<AdminComplaintDetail />} />
+              <Route path="verifications" element={<AdminVerifications />} />
               <Route path="staff" element={<AdminStaff />} />
               <Route path="blocks" element={<AdminBlocks />} />
               <Route path="students" element={<AdminStudents />} />

@@ -16,6 +16,8 @@ const {
   getStaffList,
   createStaff,
   updateStaff,
+  getPendingVerifications,
+  verifyComplaint,
   getBlocks,
   createBlock,
   updateBlock,
@@ -34,10 +36,12 @@ router.use(authenticate, requireAdmin);
 
 router.get('/dashboard', getAdminDashboard);
 router.get('/complaints', getAdminComplaints);
+router.get('/verifications', getPendingVerifications);
 router.get('/complaints/:id', getAdminComplaintById);
 router.patch('/complaints/:id/status', updateComplaintStatus);
 router.patch('/complaints/:id/priority', updateComplaintPriority);
 router.patch('/complaints/:id/assignment', updateComplaintAssignment);
+router.patch('/complaints/:id/verification', verifyComplaint);
 router.post('/complaints/:id/notes', addComplaintNote);
 
 // Analytics & Reports

@@ -17,6 +17,13 @@ const complaintHistorySchema = new mongoose.Schema(
         'PriorityChange',
         'StaffAssigned',
         'StaffReassigned',
+        'TaskAccepted',
+        'WorkStarted',
+        'EvidenceUploaded',
+        'VerificationSubmitted',
+        'ReworkRequested',
+        'UnableToComplete',
+        'WorkApproved',
         'NoteAdded',
         'Reopened',
         'Rejected',
@@ -46,7 +53,7 @@ const complaintHistorySchema = new mongoose.Schema(
     },
     performedByModel: {
       type: String,
-      enum: ['Admin', 'User'],
+      enum: ['Admin', 'User', 'Staff'],
       default: 'Admin',
     },
     performedByName: {
@@ -55,7 +62,7 @@ const complaintHistorySchema = new mongoose.Schema(
     },
     performedByRole: {
       type: String,
-      enum: ['admin', 'student', 'system'],
+      enum: ['admin', 'student', 'staff', 'system'],
       default: 'admin',
     },
   },
