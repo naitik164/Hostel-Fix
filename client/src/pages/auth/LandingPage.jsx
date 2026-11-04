@@ -44,8 +44,8 @@ const LandingPage = () => {
                   user?.role === 'admin'
                     ? '/admin/dashboard'
                     : user?.role === 'staff'
-                    ? '/staff/dashboard'
-                    : '/student/dashboard'
+                      ? '/staff/dashboard'
+                      : '/student/dashboard'
                 }
                 className="btn-action flex items-center gap-2 px-4 py-2 rounded-control text-xs font-bold"
               >
