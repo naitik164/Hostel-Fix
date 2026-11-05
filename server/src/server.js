@@ -8,8 +8,8 @@ const PORT = process.env.PORT || 5000;
 const startServer = async () => {
   try {
     await connectDB();
-    app.listen(PORT, () => {
-      console.log(`[HostelFix Server] Running on http://localhost:${PORT}`);
+    app.listen(PORT, '0.0.0.0', () => {
+      console.log(`[HostelFix Server] Running on http://127.0.0.1:${PORT} and http://localhost:${PORT}`);
       console.log(`[HostelFix Server] Environment: ${process.env.NODE_ENV || 'development'}`);
     });
   } catch (error) {
