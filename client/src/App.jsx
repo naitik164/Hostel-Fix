@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import { AuthProvider } from './context/AuthContext';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
+import PremiumPageLoader from './components/common/PremiumPageLoader';
+import TopNavigationLoader from './components/common/TopNavigationLoader';
 
 // Layouts
 import StudentLayout from './layouts/StudentLayout';
@@ -43,6 +45,97 @@ import AdminAnalytics from './pages/admin/AdminAnalytics';
 import AdminNotifications from './pages/admin/AdminNotifications';
 import AdminSettings from './pages/admin/AdminSettings';
 
+function AppContent() {
+  const { loading } = useAuth();
+  const [initialLoadingComplete, setInitialLoadingComplete] = useState(false);
+
+  return (
+    <>
+      {/* Premium Cinematic Initial Page Loader */}
+      {!initialLoadingComplete && (
+        <PremiumPageLoader
+          isReady={!loading}
+          onComplete={() => setInitialLoadingComplete(true)}
+        />
+      )}
+
+      {/* Top Progress Bar on Route Navigation */}
+      <TopNavigationLoader />
+
+      <div className={initialLoadingComplete ? 'animate-page-reveal' : ''}>
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/student/login" element={<StudentLogin />} />
+          <Route path="/staff/login" element={<StaffLogin />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
+
+          {/* Protected Student Routes */}
+          <Route
+            path="/student"
+            element={
+              <ProtectedRoute requiredRole="student">
+                <StudentLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<Navigate to="/student/dashboard" replace />} />
+            <Route path="dashboard" element={<StudentDashboard />} />
+            <Route path="complaints" element={<StudentComplaints />} />
+            <Route path="complaints/new" element={<NewComplaint />} />
+            <Route path="complaints/:id" element={<StudentComplaintDetail />} />
+            <Route path="notifications" element={<StudentNotifications />} />
+            <Route path="profile" element={<StudentProfile />} />
+          </Route>
+
+          {/* Protected Staff Routes */}
+          <Route
+            path="/staff"
+            element={
+              <ProtectedRoute requiredRole="staff">
+                <StaffLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<Navigate to="/staff/dashboard" replace />} />
+            <Route path="dashboard" element={<StaffDashboard />} />
+            <Route path="tasks" element={<StaffTasks />} />
+            <Route path="tasks/:id" element={<StaffTaskDetail />} />
+            <Route path="history" element={<StaffHistory />} />
+            <Route path="notifications" element={<StaffNotifications />} />
+            <Route path="profile" element={<StaffProfile />} />
+          </Route>
+
+          {/* Protected Warden / Admin Routes */}
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <AdminLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<Navigate to="/admin/dashboard" replace />} />
+            <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="complaints" element={<AdminComplaints />} />
+            <Route path="complaints/:id" element={<AdminComplaintDetail />} />
+            <Route path="verifications" element={<AdminVerifications />} />
+            <Route path="staff" element={<AdminStaff />} />
+            <Route path="blocks" element={<AdminBlocks />} />
+            <Route path="students" element={<AdminStudents />} />
+            <Route path="analytics" element={<AdminAnalytics />} />
+            <Route path="notifications" element={<AdminNotifications />} />
+            <Route path="settings" element={<AdminSettings />} />
+          </Route>
+
+          {/* Catch-all redirect to Home */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </div>
+    </>
+  );
+}
+
 function App() {
   const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
 
@@ -50,74 +143,7 @@ function App() {
     <GoogleOAuthProvider clientId={googleClientId}>
       <AuthProvider>
         <BrowserRouter>
-          <Routes>
-            {/* Public Routes */}
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/student/login" element={<StudentLogin />} />
-            <Route path="/staff/login" element={<StaffLogin />} />
-            <Route path="/admin/login" element={<AdminLogin />} />
-
-            {/* Protected Student Routes */}
-            <Route
-              path="/student"
-              element={
-                <ProtectedRoute requiredRole="student">
-                  <StudentLayout />
-                </ProtectedRoute>
-              }
-            >
-              <Route index element={<Navigate to="/student/dashboard" replace />} />
-              <Route path="dashboard" element={<StudentDashboard />} />
-              <Route path="complaints" element={<StudentComplaints />} />
-              <Route path="complaints/new" element={<NewComplaint />} />
-              <Route path="complaints/:id" element={<StudentComplaintDetail />} />
-              <Route path="notifications" element={<StudentNotifications />} />
-              <Route path="profile" element={<StudentProfile />} />
-            </Route>
-
-            {/* Protected Staff Routes */}
-            <Route
-              path="/staff"
-              element={
-                <ProtectedRoute requiredRole="staff">
-                  <StaffLayout />
-                </ProtectedRoute>
-              }
-            >
-              <Route index element={<Navigate to="/staff/dashboard" replace />} />
-              <Route path="dashboard" element={<StaffDashboard />} />
-              <Route path="tasks" element={<StaffTasks />} />
-              <Route path="tasks/:id" element={<StaffTaskDetail />} />
-              <Route path="history" element={<StaffHistory />} />
-              <Route path="notifications" element={<StaffNotifications />} />
-              <Route path="profile" element={<StaffProfile />} />
-            </Route>
-
-            {/* Protected Warden / Admin Routes */}
-            <Route
-              path="/admin"
-              element={
-                <ProtectedRoute requiredRole="admin">
-                  <AdminLayout />
-                </ProtectedRoute>
-              }
-            >
-              <Route index element={<Navigate to="/admin/dashboard" replace />} />
-              <Route path="dashboard" element={<AdminDashboard />} />
-              <Route path="complaints" element={<AdminComplaints />} />
-              <Route path="complaints/:id" element={<AdminComplaintDetail />} />
-              <Route path="verifications" element={<AdminVerifications />} />
-              <Route path="staff" element={<AdminStaff />} />
-              <Route path="blocks" element={<AdminBlocks />} />
-              <Route path="students" element={<AdminStudents />} />
-              <Route path="analytics" element={<AdminAnalytics />} />
-              <Route path="notifications" element={<AdminNotifications />} />
-              <Route path="settings" element={<AdminSettings />} />
-            </Route>
-
-            {/* Catch-all redirect to Home */}
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
+          <AppContent />
         </BrowserRouter>
       </AuthProvider>
     </GoogleOAuthProvider>

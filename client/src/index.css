@@ -241,6 +241,204 @@ h1, h2, h3, h4, h5, h6, .font-heading {
   background: var(--color-electric);
 }
 
+/* ==========================================================================
+   Premium Cinematic Page Loader & Transition Animations
+   ========================================================================== */
+
+/* High-tech dot matrix grid background */
+.bg-grid-pattern {
+  background-image: radial-gradient(rgba(119, 193, 252, 0.14) 1px, transparent 1px);
+  background-size: 26px 26px;
+}
+
+/* Shimmer highlight sweep across logo */
+@keyframes shimmer-sweep {
+  0% {
+    transform: translateX(-150%) skewX(-20deg);
+  }
+  100% {
+    transform: translateX(250%) skewX(-20deg);
+  }
+}
+
+.animate-shimmer-sweep {
+  animation: shimmer-sweep 2.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Ambient floating lighting orbs (slow continuous 6-8s movement) */
+@keyframes orb-float-1 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(36px, -26px, 0) scale(1.08);
+  }
+}
+
+@keyframes orb-float-2 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-30px, 28px, 0) scale(1.07);
+  }
+}
+
+.animate-orb-1 {
+  animation: orb-float-1 7.2s ease-in-out infinite;
+}
+
+.animate-orb-2 {
+  animation: orb-float-2 8.4s ease-in-out infinite;
+}
+
+/* Backdrop entrance fade-in (1000-1400ms) */
+@keyframes backdrop-entrance {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate-backdrop-entrance {
+  animation: backdrop-entrance 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Logo reveal: 900-1200ms with scale from 0.88 to 1.0 */
+@keyframes logo-cinematic-reveal {
+  0% {
+    opacity: 0;
+    transform: scale3d(0.88, 0.88, 1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+.animate-logo-reveal {
+  animation: logo-cinematic-reveal 1.05s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: opacity, transform;
+}
+
+/* Calm, elegant breathing motion for logo */
+@keyframes logo-calm-breathe {
+  0%, 100% {
+    transform: scale3d(1, 1, 1);
+    box-shadow: 0 0 35px rgba(25, 81, 252, 0.3), inset 0 1px 0 rgba(203, 233, 253, 0.35);
+  }
+  50% {
+    transform: scale3d(1.025, 1.025, 1);
+    box-shadow: 0 0 55px rgba(55, 129, 252, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  }
+}
+
+.animate-logo-breathe {
+  animation: logo-calm-breathe 4.5s ease-in-out infinite;
+}
+
+/* Staggered entrance: Title (750ms with 350ms delay) */
+@keyframes title-entrance {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate-title-entrance {
+  animation: title-entrance 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
+  will-change: opacity, transform;
+}
+
+/* Staggered entrance: Tagline (600-800ms with 550ms delay) */
+@keyframes tagline-entrance {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate-tagline-entrance {
+  animation: tagline-entrance 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.55s both;
+  will-change: opacity, transform;
+}
+
+/* Staggered entrance: Progress container (700ms with 750ms delay) */
+@keyframes progress-container-entrance {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate-progress-entrance {
+  animation: progress-container-entrance 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.75s both;
+  will-change: opacity, transform;
+}
+
+/* Phase 4: Page entrance fade & upward motion (800-1000ms) */
+@keyframes page-reveal {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate-page-reveal {
+  animation: page-reveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: opacity, transform;
+}
+
+/* Liquid-glass skeleton shimmer */
+@keyframes skeleton-wave {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(203, 233, 253, 0.28) 25%,
+    rgba(255, 255, 255, 0.65) 37%,
+    rgba(203, 233, 253, 0.28) 63%
+  );
+  background-size: 400% 100%;
+  animation: skeleton-wave 1.8s ease-in-out infinite;
+}
+
+.skeleton-shimmer-dark {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05) 25%,
+    rgba(119, 193, 252, 0.16) 37%,
+    rgba(255, 255, 255, 0.05) 63%
+  );
+  background-size: 400% 100%;
+  animation: skeleton-wave 1.8s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;

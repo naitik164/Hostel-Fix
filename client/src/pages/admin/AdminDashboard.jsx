@@ -223,9 +223,16 @@ const AdminDashboard = () => {
         </div>
 
         {loading ? (
-          <div className="py-16 text-center text-slate-400 flex flex-col items-center gap-2">
-            <Loader2 className="w-8 h-8 animate-spin text-electric" />
-            <p className="text-xs">Connecting to MongoDB database...</p>
+          <div className="p-6 space-y-3">
+            {[1, 2, 3, 4, 5].map((n) => (
+              <div key={n} className="flex items-center justify-between gap-4 py-3 border-b border-sky/15">
+                <div className="w-24 h-4 rounded skeleton-shimmer" />
+                <div className="w-36 h-4 rounded skeleton-shimmer" />
+                <div className="w-28 h-4 rounded skeleton-shimmer hidden md:block" />
+                <div className="w-40 h-4 rounded skeleton-shimmer" />
+                <div className="w-20 h-5 rounded-full skeleton-shimmer" />
+              </div>
+            ))}
           </div>
         ) : recentComplaints.length === 0 ? (
           <div className="py-16 text-center text-slate-500">No complaints logged in the system.</div>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
+import { PageTransition } from '../components/common/LoadingSpinner';
 import {
   LayoutDashboard,
   ClipboardCheck,
@@ -220,7 +221,9 @@ const StaffLayout = () => {
       {/* Main Staff Content Area */}
       <div className="flex-1 flex flex-col min-w-0">
         <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
-          <Outlet />
+          <PageTransition>
+            <Outlet />
+          </PageTransition>
         </main>
         <footer className="py-4 border-t border-sky/20 bg-white/40 text-center text-xs text-slate-500">
           <p>© 2026 HostelFix — Maintenance Field Operations & Verification Portal</p>

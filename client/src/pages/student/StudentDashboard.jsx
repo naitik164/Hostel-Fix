@@ -224,9 +224,19 @@ const StudentDashboard = () => {
 
         {/* Complaints List / Table */}
         {loading ? (
-          <div className="py-16 text-center text-slate-400 flex flex-col items-center gap-2">
-            <Loader2 className="w-8 h-8 animate-spin text-electric" />
-            <p className="text-xs">Loading complaint records from database...</p>
+          <div className="py-6 space-y-3">
+            {[1, 2, 3, 4].map((n) => (
+              <div key={n} className="p-4 rounded-xl glass-card flex items-center justify-between gap-4">
+                <div className="flex items-center gap-3 flex-1">
+                  <div className="w-9 h-9 rounded-xl skeleton-shimmer shrink-0" />
+                  <div className="space-y-1.5 flex-1 max-w-sm">
+                    <div className="w-3/4 h-3.5 rounded skeleton-shimmer" />
+                    <div className="w-1/2 h-2.5 rounded skeleton-shimmer" />
+                  </div>
+                </div>
+                <div className="w-20 h-5 rounded-full skeleton-shimmer" />
+              </div>
+            ))}
           </div>
         ) : filteredComplaints.length === 0 ? (
           <div className="py-16 text-center bg-white/40 rounded-2xl border border-dashed border-sky/40 p-8">

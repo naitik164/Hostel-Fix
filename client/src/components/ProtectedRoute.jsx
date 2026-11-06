@@ -9,12 +9,18 @@ const ProtectedRoute = ({ children, requiredRole }) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-ice-pale">
-        <div className="glass-card p-8 flex flex-col items-center gap-4 text-center">
-          <Loader2 className="w-10 h-10 text-electric animate-spin" />
-          <div>
-            <p className="font-semibold text-navy">Securing session...</p>
-            <p className="text-xs text-secondary">Verifying credentials with HostelFix</p>
+      <div className="min-h-screen flex items-center justify-center bg-[#F5F9FF] relative overflow-hidden font-sans">
+        <div className="ambient-glow" />
+        <div className="ambient-glow-bottom" />
+        <div className="glass-card p-8 sm:p-10 max-w-sm w-full mx-4 flex flex-col items-center text-center shadow-glass-hover border-sky/30 relative z-10 animate-in fade-in zoom-in-95 duration-300">
+          <div className="w-16 h-16 rounded-2xl bg-gradient-action p-2.5 flex items-center justify-center text-white shadow-lg shadow-electric/25 mb-4 relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer-sweep pointer-events-none" />
+            <img src="/logo-icon.png" alt="HostelFix" className="w-11 h-11 object-contain drop-shadow" />
+          </div>
+          <h3 className="text-lg font-bold text-navy font-heading">Securing Session</h3>
+          <p className="text-xs text-slate-500 mt-1">Verifying encrypted credentials with HostelFix...</p>
+          <div className="w-full h-1.5 bg-sky/20 rounded-full overflow-hidden mt-6">
+            <div className="h-full bg-gradient-to-r from-electric via-blue-bright to-sky rounded-full animate-shimmer-sweep w-2/3" />
           </div>
         </div>
       </div>
