@@ -28,10 +28,12 @@ const LandingPage = () => {
         : '/student/dashboard';
 
   return (
-    <div className="min-h-screen bg-[#F5F9FF] text-navy relative overflow-hidden font-sans">
+    <div className="flex-1 flex flex-col min-h-screen bg-[#F5F9FF] text-navy relative overflow-hidden font-sans w-full">
       {/* Dynamic ambient lights */}
-      <div className="ambient-glow" />
-      <div className="ambient-glow-bottom" />
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="ambient-glow" />
+        <div className="ambient-glow-bottom" />
+      </div>
 
       {/* Top Navbar */}
       <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-white/80 shadow-sm">
@@ -335,7 +337,7 @@ const LandingPage = () => {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-sky/30 bg-white/70 py-8 text-center text-xs text-slate-500 relative z-10">
+      <footer className="mt-auto shrink-0 border-t border-sky/30 bg-white/70 py-8 text-center text-xs text-slate-500 relative z-10">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <img

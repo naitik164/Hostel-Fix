@@ -52,9 +52,9 @@ const StaffLayout = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#F5F9FF] text-[#03195B] flex flex-col md:flex-row relative font-sans">
+    <div className="flex-1 flex flex-col md:flex-row min-h-screen bg-[#F5F9FF] text-[#03195B] relative font-sans w-full">
       {/* Dark Navy Liquid-Glass Sidebar for Desktop */}
-      <aside className="hidden md:flex flex-col w-72 shrink-0 min-h-screen glass-dark-panel text-white p-5 sticky top-0 h-screen overflow-y-auto z-30">
+      <aside className="hidden md:flex flex-col w-72 shrink-0 glass-dark-panel text-white p-5 sticky top-0 h-screen overflow-y-auto z-30">
         {/* Brand Header */}
         <div className="flex items-center gap-3.5 pb-6 border-b border-sky/20">
           <img
@@ -229,12 +229,12 @@ const StaffLayout = () => {
 
       {/* Main Staff Content Area */}
       <div className="flex-1 flex flex-col min-w-0 overflow-x-hidden">
-        <main className="flex-1 p-3.5 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto min-w-0">
+        <main className="flex-1 flex flex-col p-3.5 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto min-w-0">
           <PageTransition>
             <Outlet />
           </PageTransition>
         </main>
-        <footer className="py-4 px-4 border-t border-sky/20 bg-white/40 text-center text-xs text-slate-500">
+        <footer className="mt-auto shrink-0 py-4 px-4 border-t border-sky/20 bg-white/40 text-center text-xs text-slate-500">
           <p>© 2026 HostelFix — Maintenance Field Operations & Verification Portal</p>
         </footer>
       </div>

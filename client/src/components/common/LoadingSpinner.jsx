@@ -97,7 +97,7 @@ export const TableSkeleton = ({ rows = 5 }) => {
  */
 export const PageTransition = ({ children, className = '' }) => {
   return (
-    <div className={`animate-page-reveal ${className}`}>
+    <div className={`flex-1 flex flex-col w-full animate-page-reveal ${className}`}>
       {children}
     </div>
   );

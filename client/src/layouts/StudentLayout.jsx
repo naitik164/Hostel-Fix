@@ -53,13 +53,15 @@ const StudentLayout = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#F5F9FF] text-[#03195B] relative flex flex-col font-sans">
-      {/* Ambient background glows */}
-      <div className="ambient-glow" />
-      <div className="ambient-glow-bottom" />
+    <div className="flex-1 flex flex-col min-h-screen bg-[#F5F9FF] text-[#03195B] relative font-sans w-full">
+      {/* Ambient background glows - contained to prevent layout expansion */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="ambient-glow" />
+        <div className="ambient-glow-bottom" />
+      </div>
 
       {/* Top Frosted Glass Navbar */}
-      <header className="sticky top-0 z-40 bg-white/75 backdrop-blur-xl border-b border-white/80 shadow-sm">
+      <header className="sticky top-0 z-40 bg-white/75 backdrop-blur-xl border-b border-white/80 shadow-sm shrink-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-18">
             {/* Brand Logo & Tagline */}
@@ -258,14 +260,14 @@ const StudentLayout = () => {
       </header>
 
       {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-3.5 sm:px-6 lg:px-8 py-5 sm:py-8 relative z-10 min-w-0">
+      <main className="flex-1 flex flex-col max-w-7xl w-full mx-auto px-3.5 sm:px-6 lg:px-8 py-5 sm:py-8 relative z-10 min-w-0">
         <PageTransition>
           <Outlet />
         </PageTransition>
       </main>
 
       {/* Footer */}
-      <footer className="mt-auto py-6 border-t border-ice/60 bg-white/40 text-center text-xs text-slate-500 relative z-10">
+      <footer className="mt-auto shrink-0 py-6 border-t border-ice/60 bg-white/40 text-center text-xs text-slate-500 relative z-10">
         <p>© 2026 HostelFix. Smart Hostel Complaint & Maintenance Management System.</p>
         <p className="mt-1 text-[11px] text-slate-400">Tagline: "Your Hostel. Your Voice. Better Living."</p>
       </footer>

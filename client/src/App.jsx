@@ -62,7 +62,7 @@ function AppContent() {
       {/* Top Progress Bar on Route Navigation */}
       <TopNavigationLoader />
 
-      <div className={initialLoadingComplete ? 'animate-page-reveal' : ''}>
+      <div className={`flex-1 flex flex-col min-h-0 w-full ${initialLoadingComplete ? 'animate-page-reveal' : ''}`}>
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<LandingPage />} />
