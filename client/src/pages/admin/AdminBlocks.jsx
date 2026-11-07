@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import api from '../../services/api';
 import {
   Building2,
@@ -44,6 +45,33 @@ const AdminBlocks = () => {
   useEffect(() => {
     fetchBlocks();
   }, []);
+
+  // Lock background page scroll when modal is open and restore on close
+  useEffect(() => {
+    if (!modalOpen) return;
+
+    const originalOverflow = document.body.style.overflow;
+    const originalPaddingRight = document.body.style.paddingRight;
+
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    if (scrollbarWidth > 0) {
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+    }
+    document.body.style.overflow = 'hidden';
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setModalOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      document.body.style.paddingRight = originalPaddingRight;
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [modalOpen]);
 
   const openAddModal = () => {
     setEditingBlock(null);
@@ -233,100 +261,117 @@ const AdminBlocks = () => {
         </div>
       )}
 
-      {/* --- Add / Edit Modal --- */}
-      {modalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
-          <div className="glass-modal max-w-md w-full p-5 sm:p-8 space-y-4 max-h-[90dvh] overflow-y-auto animate-in fade-in">
-            <div className="flex items-center justify-between border-b border-ice/80 pb-3">
-              <h3 className="font-heading font-bold text-base text-navy">
-                {editingBlock ? 'Edit Hostel Block' : 'Register New Hostel Block'}
-              </h3>
-              <button 
-                onClick={() => setModalOpen(false)} 
-                className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-navy hover:bg-slate-100 transition-colors touch-target"
-                aria-label="Close dialog"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            {error && (
-              <div className="p-3 rounded-control bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2">
-                <AlertCircle className="w-4 h-4 text-rose-600" />
-                <span>{error}</span>
-              </div>
-            )}
-
-            <form onSubmit={handleModalSubmit} className="space-y-4">
-              <div>
-                <label className="block text-xs font-semibold text-navy mb-1.5">Block Name</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. Aryabhata Block"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="glass-input w-full p-2.5 text-xs font-medium"
-                />
-              </div>
-
-              {!editingBlock && (
-                <div>
-                  <label className="block text-xs font-semibold text-navy mb-1.5">Block Code</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. Block A"
-                    value={code}
-                    onChange={(e) => setCode(e.target.value)}
-                    className="glass-input w-full p-2.5 text-xs font-medium uppercase"
-                  />
-                </div>
-              )}
-
-              <div>
-                <label className="block text-xs font-semibold text-navy mb-1.5">Total Rooms</label>
-                <input
-                  type="number"
-                  min="1"
-                  max="1000"
-                  value={totalRooms}
-                  onChange={(e) => setTotalRooms(e.target.value)}
-                  className="glass-input w-full p-2.5 text-xs font-medium"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-navy mb-1.5">Description</label>
-                <textarea
-                  rows={2}
-                  placeholder="e.g. Undergraduate Engineering Hall (Floors 1-4)"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  className="glass-input w-full p-2.5 text-xs font-medium"
-                />
-              </div>
-
-              <div className="pt-3 border-t border-ice/80 flex justify-end gap-2">
+      {/* --- Add / Edit Modal Rendered via React Portal --- */}
+      {modalOpen &&
+        typeof document !== 'undefined' &&
+        createPortal(
+          <div
+            className="staff-modal-overlay"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) {
+                setModalOpen(false);
+              }
+            }}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="block-modal-title"
+          >
+            <div
+              className="staff-modal glass-modal p-5 sm:p-8 space-y-4 animate-in fade-in"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between border-b border-ice/80 pb-3">
+                <h3 id="block-modal-title" className="font-heading font-bold text-base text-navy">
+                  {editingBlock ? 'Edit Hostel Block' : 'Register New Hostel Block'}
+                </h3>
                 <button
                   type="button"
                   onClick={() => setModalOpen(false)}
-                  className="btn-secondary px-4 py-2 text-xs font-bold"
+                  className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-navy hover:bg-slate-100 transition-colors touch-target cursor-pointer"
+                  aria-label="Close dialog"
                 >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={modalLoading}
-                  className="btn-action px-5 py-2 text-xs font-bold shadow-md"
-                >
-                  {modalLoading ? 'Saving...' : editingBlock ? 'Save Changes' : 'Create Block'}
+                  <X className="w-5 h-5" />
                 </button>
               </div>
-            </form>
-          </div>
-        </div>
-      )}
+
+              {error && (
+                <div className="p-3 rounded-control bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 text-rose-600" />
+                  <span>{error}</span>
+                </div>
+              )}
+
+              <form onSubmit={handleModalSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-xs font-semibold text-navy mb-1.5">Block Name</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Aryabhata Block"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="glass-input w-full p-2.5 text-xs font-medium"
+                  />
+                </div>
+
+                {!editingBlock && (
+                  <div>
+                    <label className="block text-xs font-semibold text-navy mb-1.5">Block Code</label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Block A"
+                      value={code}
+                      onChange={(e) => setCode(e.target.value)}
+                      className="glass-input w-full p-2.5 text-xs font-medium uppercase"
+                    />
+                  </div>
+                )}
+
+                <div>
+                  <label className="block text-xs font-semibold text-navy mb-1.5">Total Rooms</label>
+                  <input
+                    type="number"
+                    min="1"
+                    max="1000"
+                    value={totalRooms}
+                    onChange={(e) => setTotalRooms(e.target.value)}
+                    className="glass-input w-full p-2.5 text-xs font-medium"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-navy mb-1.5">Description</label>
+                  <textarea
+                    rows={2}
+                    placeholder="e.g. Undergraduate Engineering Hall (Floors 1-4)"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    className="glass-input w-full p-2.5 text-xs font-medium"
+                  />
+                </div>
+
+                <div className="pt-3 border-t border-ice/80 flex justify-end gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setModalOpen(false)}
+                    className="btn-secondary px-4 py-2 text-xs font-bold cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={modalLoading}
+                    className="btn-action px-5 py-2 text-xs font-bold shadow-md cursor-pointer disabled:opacity-60"
+                  >
+                    {modalLoading ? 'Saving...' : editingBlock ? 'Save Changes' : 'Create Block'}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>,
+          document.body
+        )}
     </div>
   );
 };

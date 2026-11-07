@@ -20,10 +20,15 @@ const StudentLogin = () => {
       } else if (user.role === 'staff') {
         navigate('/staff/dashboard', { replace: true });
       } else {
-        const dest = fromPath && !fromPath.startsWith('/admin') && !fromPath.startsWith('/staff')
-          ? fromPath
-          : '/student/dashboard';
-        navigate(dest, { replace: true });
+        const isComplete = Boolean(user.profileCompleted || user.isProfileComplete);
+        if (!isComplete) {
+          navigate('/student/onboarding', { replace: true });
+        } else {
+          const dest = fromPath && !fromPath.startsWith('/admin') && !fromPath.startsWith('/staff') && fromPath !== '/student/onboarding'
+            ? fromPath
+            : '/student/dashboard';
+          navigate(dest, { replace: true });
+        }
       }
     }
   }, [user, authLoading, navigate, fromPath]);
@@ -34,11 +39,16 @@ const StudentLogin = () => {
     try {
       setLoading(true);
       setError('');
-      await loginWithGoogle(credentialResponse.credential);
-      const dest = fromPath && !fromPath.startsWith('/admin') && !fromPath.startsWith('/staff')
-        ? fromPath
-        : '/student/dashboard';
-      navigate(dest, { replace: true });
+      const authRes = await loginWithGoogle(credentialResponse.credential);
+      const isComplete = Boolean(authRes?.user?.profileCompleted || authRes?.user?.isProfileComplete);
+      if (!isComplete) {
+        navigate('/student/onboarding', { replace: true });
+      } else {
+        const dest = fromPath && !fromPath.startsWith('/admin') && !fromPath.startsWith('/staff') && fromPath !== '/student/onboarding'
+          ? fromPath
+          : '/student/dashboard';
+        navigate(dest, { replace: true });
+      }
     } catch (err) {
       setError(err.response?.data?.message || err.message || 'Google authentication failed.');
     } finally {

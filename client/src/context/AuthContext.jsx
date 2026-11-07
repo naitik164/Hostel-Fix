@@ -78,6 +78,16 @@ export const AuthProvider = ({ children }) => {
     throw new Error(res.data.message || 'Failed to update profile');
   };
 
+  // Complete student onboarding
+  const completeStudentOnboarding = async (formData) => {
+    const res = await api.post('/student/onboarding', formData);
+    if (res.data && res.data.success) {
+      setUser(res.data.user);
+      return res.data.user;
+    }
+    throw new Error(res.data?.message || 'Failed to complete profile onboarding');
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -92,6 +102,7 @@ export const AuthProvider = ({ children }) => {
         loginAsAdmin,
         logout,
         updateUserProfile,
+        completeStudentOnboarding,
       }}
     >
       {children}

@@ -176,19 +176,36 @@ const googleLogin = async (req, res, next) => {
 
     setAuthCookie(res, token);
 
+    const isComplete = typeof student.checkProfileCompleted === 'function'
+      ? student.checkProfileCompleted()
+      : Boolean(student.profileCompleted);
+
     return res.status(200).json({
       success: true,
       message: 'Student authenticated successfully via Google.',
       token,
       user: {
         id: student._id,
+        _id: student._id,
         name: student.name,
+        fullName: student.name,
         email: student.email,
         role: 'student',
         hostelBlock: student.hostelBlock || '',
         roomNumber: student.roomNumber || '',
+        hostelAddress: student.hostelAddress || '',
         profilePhoto: student.profilePhoto || '',
-        isProfileComplete: Boolean(student.hostelBlock && student.roomNumber),
+        phone: student.phone || '',
+        phoneNumber: student.phone || '',
+        enrollmentNumber: student.enrollmentNumber || '',
+        gender: student.gender || '',
+        collegeName: student.collegeName || 'LNCTE',
+        branch: student.branch || '',
+        academicYear: student.academicYear || '',
+        rollNumber: student.rollNumber || '',
+        profileCompleted: isComplete,
+        isProfileComplete: isComplete,
+        profileCompletedAt: student.profileCompletedAt || null,
       },
     });
   } catch (error) {
@@ -240,19 +257,36 @@ const demoStudentLogin = async (req, res, next) => {
 
     setAuthCookie(res, token);
 
+    const isComplete = typeof student.checkProfileCompleted === 'function'
+      ? student.checkProfileCompleted()
+      : Boolean(student.profileCompleted);
+
     return res.status(200).json({
       success: true,
       message: 'Logged in as Demo Student.',
       token,
       user: {
         id: student._id,
+        _id: student._id,
         name: student.name,
+        fullName: student.name,
         email: student.email,
         role: 'student',
-        hostelBlock: student.hostelBlock,
-        roomNumber: student.roomNumber,
-        profilePhoto: student.profilePhoto,
-        isProfileComplete: Boolean(student.hostelBlock && student.roomNumber),
+        hostelBlock: student.hostelBlock || '',
+        roomNumber: student.roomNumber || '',
+        hostelAddress: student.hostelAddress || '',
+        profilePhoto: student.profilePhoto || '',
+        phone: student.phone || '',
+        phoneNumber: student.phone || '',
+        enrollmentNumber: student.enrollmentNumber || '',
+        gender: student.gender || '',
+        collegeName: student.collegeName || 'LNCTE',
+        branch: student.branch || '',
+        academicYear: student.academicYear || '',
+        rollNumber: student.rollNumber || '',
+        profileCompleted: isComplete,
+        isProfileComplete: isComplete,
+        profileCompletedAt: student.profileCompletedAt || null,
       },
     });
   } catch (error) {

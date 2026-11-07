@@ -76,20 +76,35 @@ const authenticate = async (req, res, next) => {
       });
     }
 
+    const isProfileCompleted = decoded.role === 'student'
+      ? (typeof account.checkProfileCompleted === 'function' ? account.checkProfileCompleted() : Boolean(account.profileCompleted))
+      : true;
+
     req.user = {
       id: account._id.toString(),
       _id: account._id,
       name: account.name,
+      fullName: account.name,
       email: account.email || account.loginId || '',
       role: account.role || decoded.role,
       hostelBlock: account.hostelBlock || '',
       roomNumber: account.roomNumber || '',
+      hostelAddress: account.hostelAddress || '',
       profilePhoto: account.profilePhoto || '',
+      phone: account.phone || '',
+      phoneNumber: account.phone || '',
+      enrollmentNumber: account.enrollmentNumber || '',
+      gender: account.gender || '',
+      collegeName: account.collegeName || 'LNCTE',
+      branch: account.branch || '',
+      academicYear: account.academicYear || '',
+      rollNumber: account.rollNumber || '',
       employeeId: account.employeeId || '',
       specialization: account.specialization || '',
       assignedBlocks: account.assignedBlocks || [],
-      phone: account.phone || '',
-      isProfileComplete: Boolean(account.hostelBlock && account.roomNumber),
+      profileCompleted: isProfileCompleted,
+      isProfileComplete: isProfileCompleted,
+      profileCompletedAt: account.profileCompletedAt || null,
     };
 
     next();
@@ -102,4 +117,22 @@ const authenticate = async (req, res, next) => {
   }
 };
 
+/**
+ * Middleware: Strictly block incomplete student profiles from accessing protected student features
+ */
+const requireProfileComplete = (req, res, next) => {
+  if (req.user && req.user.role === 'student' && !req.user.profileCompleted) {
+    return res.status(403).json({
+      success: false,
+      code: 'PROFILE_INCOMPLETE',
+      message: 'Please complete your student profile onboarding before accessing hostel services.',
+    });
+  }
+  next();
+};
+
+authenticate.requireProfileComplete = requireProfileComplete;
+authenticate.authenticate = authenticate;
+
 module.exports = authenticate;
+module.exports.requireProfileComplete = requireProfileComplete;

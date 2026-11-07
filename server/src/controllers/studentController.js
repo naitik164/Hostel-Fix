@@ -450,21 +450,225 @@ const markAllNotificationsRead = async (req, res, next) => {
 };
 
 /**
- * Update Student Profile (Hostel Block, Room Number, Phone, Name)
+ * Get Active Hostel Blocks for Dropdown Selection
+ * GET /api/student/blocks
+ */
+const getStudentHostelBlocks = async (req, res, next) => {
+  try {
+    const blocks = await HostelBlock.find({ isActive: true }).sort({ code: 1, name: 1 });
+    return res.status(200).json({
+      success: true,
+      blocks,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Complete Mandatory Student Onboarding
+ * POST /api/student/onboarding
+ */
+const completeOnboarding = async (req, res, next) => {
+  try {
+    const studentId = req.user.id;
+    const {
+      name,
+      phone,
+      enrollmentNumber,
+      gender,
+      collegeName = 'LNCTE',
+      branch,
+      academicYear,
+      rollNumber,
+      hostelBlock,
+      roomNumber,
+      hostelAddress = 'LNCTE Campus, Bhopal',
+    } = req.body;
+
+    const errors = {};
+
+    if (!name || typeof name !== 'string' || name.trim().length < 2) {
+      errors.name = 'Full name must be at least 2 characters.';
+    }
+
+    // Phone validation: Indian 10-digit mobile number starting with 6-9
+    const cleanedPhone = phone ? String(phone).replace(/[\s-]/g, '').trim() : '';
+    const indianPhoneRegex = /^[6-9]\d{9}$/;
+    if (!cleanedPhone || !indianPhoneRegex.test(cleanedPhone)) {
+      errors.phone = 'Please provide a valid 10-digit Indian mobile number (e.g., 9876543210).';
+    }
+
+    if (!enrollmentNumber || typeof enrollmentNumber !== 'string' || !enrollmentNumber.trim()) {
+      errors.enrollmentNumber = 'Enrollment number is mandatory.';
+    }
+
+    const validGenders = ['Male', 'Female', 'Other'];
+    if (!gender || !validGenders.includes(gender)) {
+      errors.gender = 'Please select a valid gender option.';
+    }
+
+    if (!branch || typeof branch !== 'string' || !branch.trim()) {
+      errors.branch = 'Branch / Department is mandatory.';
+    }
+
+    const validYears = ['1st Year', '2nd Year', '3rd Year', '4th Year'];
+    if (!academicYear || !validYears.includes(academicYear)) {
+      errors.academicYear = 'Please select your current academic year.';
+    }
+
+    if (!rollNumber || typeof rollNumber !== 'string' || !rollNumber.trim()) {
+      errors.rollNumber = 'College roll number is mandatory.';
+    }
+
+    if (!hostelBlock || typeof hostelBlock !== 'string' || !hostelBlock.trim()) {
+      errors.hostelBlock = 'Hostel block is mandatory.';
+    }
+
+    if (!roomNumber || typeof roomNumber !== 'string' || !roomNumber.trim()) {
+      errors.roomNumber = 'Room number is mandatory.';
+    }
+
+    if (Object.keys(errors).length > 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please fill in all mandatory profile fields correctly.',
+        errors,
+      });
+    }
+
+    // Check enrollment number uniqueness against other students
+    const cleanEnrollment = enrollmentNumber.trim().toUpperCase();
+    const existingEnrollment = await User.findOne({
+      enrollmentNumber: cleanEnrollment,
+      _id: { $ne: studentId },
+    });
+
+    if (existingEnrollment) {
+      return res.status(400).json({
+        success: false,
+        message: 'This enrollment number is already registered with another student account.',
+        errors: {
+          enrollmentNumber: 'Enrollment number already in use.',
+        },
+      });
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      studentId,
+      {
+        $set: {
+          name: name.trim(),
+          phone: cleanedPhone,
+          enrollmentNumber: cleanEnrollment,
+          gender,
+          collegeName: (collegeName && collegeName.trim()) || 'LNCTE',
+          branch: branch.trim(),
+          academicYear,
+          rollNumber: rollNumber.trim(),
+          hostelBlock: hostelBlock.trim(),
+          roomNumber: roomNumber.trim(),
+          hostelAddress: (hostelAddress && hostelAddress.trim()) || 'LNCTE Campus, Bhopal',
+          profileCompleted: true,
+          profileCompletedAt: new Date(),
+        },
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({
+        success: false,
+        message: 'Student account not found.',
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'Student profile onboarding completed successfully.',
+      user: {
+        id: updatedUser._id,
+        _id: updatedUser._id,
+        name: updatedUser.name,
+        fullName: updatedUser.name,
+        email: updatedUser.email,
+        role: updatedUser.role,
+        phone: updatedUser.phone,
+        phoneNumber: updatedUser.phone,
+        enrollmentNumber: updatedUser.enrollmentNumber,
+        gender: updatedUser.gender,
+        collegeName: updatedUser.collegeName,
+        branch: updatedUser.branch,
+        academicYear: updatedUser.academicYear,
+        rollNumber: updatedUser.rollNumber,
+        hostelBlock: updatedUser.hostelBlock,
+        roomNumber: updatedUser.roomNumber,
+        hostelAddress: updatedUser.hostelAddress,
+        profilePhoto: updatedUser.profilePhoto,
+        profileCompleted: true,
+        isProfileComplete: true,
+        profileCompletedAt: updatedUser.profileCompletedAt,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Update Student Profile (Hostel Block, Room Number, Phone, Name, etc.)
  * PATCH /api/student/profile
  * Security: Strict allowlist and type validation; prevents privilege escalation or mass-assignment
  */
 const updateStudentProfile = async (req, res, next) => {
   try {
     const studentId = req.user.id;
-    const { hostelBlock, roomNumber, phone, name } = req.body;
+    const {
+      name,
+      phone,
+      gender,
+      collegeName,
+      branch,
+      academicYear,
+      rollNumber,
+      hostelBlock,
+      roomNumber,
+      hostelAddress,
+    } = req.body;
 
-    // Strict allowlist: only student-editable profile fields are accepted
     const updateFields = {};
+    if (typeof name === 'string' && name.trim()) updateFields.name = name.trim();
     if (typeof hostelBlock === 'string') updateFields.hostelBlock = hostelBlock.trim();
     if (typeof roomNumber === 'string') updateFields.roomNumber = roomNumber.trim();
-    if (typeof phone === 'string') updateFields.phone = phone.trim();
-    if (typeof name === 'string' && name.trim()) updateFields.name = name.trim();
+    if (typeof hostelAddress === 'string') updateFields.hostelAddress = hostelAddress.trim();
+    if (typeof branch === 'string') updateFields.branch = branch.trim();
+    if (typeof rollNumber === 'string') updateFields.rollNumber = rollNumber.trim();
+    if (typeof collegeName === 'string') updateFields.collegeName = collegeName.trim();
+
+    if (typeof gender === 'string') {
+      const validGenders = ['Male', 'Female', 'Other'];
+      if (validGenders.includes(gender)) updateFields.gender = gender;
+    }
+
+    if (typeof academicYear === 'string') {
+      const validYears = ['1st Year', '2nd Year', '3rd Year', '4th Year'];
+      if (validYears.includes(academicYear)) updateFields.academicYear = academicYear;
+    }
+
+    if (phone !== undefined) {
+      const cleanedPhone = String(phone).replace(/[\s-]/g, '').trim();
+      const indianPhoneRegex = /^[6-9]\d{9}$/;
+      if (cleanedPhone && !indianPhoneRegex.test(cleanedPhone)) {
+        return res.status(400).json({
+          success: false,
+          message: 'Please provide a valid 10-digit Indian mobile number.',
+        });
+      }
+      updateFields.phone = cleanedPhone;
+    }
 
     // Perform atomic update with validators
     const updatedUser = await User.findByIdAndUpdate(
@@ -476,19 +680,42 @@ const updateStudentProfile = async (req, res, next) => {
       }
     );
 
+    if (!updatedUser) {
+      return res.status(404).json({
+        success: false,
+        message: 'Student account not found.',
+      });
+    }
+
+    const isComplete = typeof updatedUser.checkProfileCompleted === 'function'
+      ? updatedUser.checkProfileCompleted()
+      : Boolean(updatedUser.profileCompleted);
+
     return res.status(200).json({
       success: true,
       message: 'Profile updated successfully.',
       user: {
         id: updatedUser._id,
+        _id: updatedUser._id,
         name: updatedUser.name,
+        fullName: updatedUser.name,
         email: updatedUser.email,
         role: updatedUser.role,
         hostelBlock: updatedUser.hostelBlock,
         roomNumber: updatedUser.roomNumber,
+        hostelAddress: updatedUser.hostelAddress,
         phone: updatedUser.phone,
+        phoneNumber: updatedUser.phone,
+        enrollmentNumber: updatedUser.enrollmentNumber,
+        gender: updatedUser.gender,
+        collegeName: updatedUser.collegeName,
+        branch: updatedUser.branch,
+        academicYear: updatedUser.academicYear,
+        rollNumber: updatedUser.rollNumber,
         profilePhoto: updatedUser.profilePhoto,
-        isProfileComplete: Boolean(updatedUser.hostelBlock && updatedUser.roomNumber),
+        profileCompleted: isComplete,
+        isProfileComplete: isComplete,
+        profileCompletedAt: updatedUser.profileCompletedAt,
       },
     });
   } catch (error) {
@@ -506,4 +733,6 @@ module.exports = {
   markNotificationRead,
   markAllNotificationsRead,
   updateStudentProfile,
+  getStudentHostelBlocks,
+  completeOnboarding,
 };

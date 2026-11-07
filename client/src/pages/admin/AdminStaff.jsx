@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import api from '../../services/api';
 import {
   Users,
@@ -80,6 +81,34 @@ const AdminStaff = () => {
   useEffect(() => {
     fetchStaff();
   }, [statusFilter, specFilter]);
+
+  // Lock background page scroll when modal is open and restore on close
+  useEffect(() => {
+    if (!modalOpen) return;
+
+    const originalOverflow = document.body.style.overflow;
+    const originalPaddingRight = document.body.style.paddingRight;
+
+    // Compensate for scrollbar removal to prevent layout shift
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    if (scrollbarWidth > 0) {
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+    }
+    document.body.style.overflow = 'hidden';
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setModalOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      document.body.style.paddingRight = originalPaddingRight;
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [modalOpen]);
 
   const openAddModal = () => {
     setEditingStaff(null);
@@ -346,171 +375,188 @@ const AdminStaff = () => {
         </div>
       )}
 
-      {/* --- Add / Edit Modal --- */}
-      {modalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
-          <div className="glass-modal max-w-lg w-full p-5 sm:p-8 space-y-4 animate-in fade-in max-h-[90dvh] overflow-y-auto">
-            <div className="flex items-center justify-between border-b border-ice/80 pb-3">
-              <h3 className="font-heading font-bold text-base text-navy">
-                {editingStaff ? 'Edit Staff Profile' : 'Register New Maintenance Staff Profile'}
-              </h3>
-              <button 
-                onClick={() => setModalOpen(false)} 
-                className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-navy hover:bg-slate-100 transition-colors touch-target"
-                aria-label="Close dialog"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            {error && (
-              <div className="p-3 rounded-control bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2">
-                <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
-                <span>{error}</span>
-              </div>
-            )}
-
-            <form onSubmit={handleModalSubmit} className="space-y-4 text-xs">
-              <div>
-                <label className="block text-xs font-semibold text-navy mb-1.5">
-                  Staff Full Name <span className="text-rose-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. Ramesh Yadav"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="glass-input w-full p-2.5 text-xs font-medium"
-                />
+      {/* --- Add / Edit Modal Rendered via React Portal directly into body --- */}
+      {modalOpen &&
+        typeof document !== 'undefined' &&
+        createPortal(
+          <div
+            className="staff-modal-overlay"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) {
+                setModalOpen(false);
+              }
+            }}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="staff-modal-title"
+          >
+            <div
+              className="staff-modal glass-modal p-5 sm:p-8 space-y-4 animate-in fade-in"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between border-b border-ice/80 pb-3">
+                <h3 id="staff-modal-title" className="font-heading font-bold text-base text-navy">
+                  {editingStaff ? 'Edit Staff Profile' : 'Register New Maintenance Staff Profile'}
+                </h3>
+                <button
+                  type="button"
+                  onClick={() => setModalOpen(false)}
+                  className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-navy hover:bg-slate-100 transition-colors touch-target cursor-pointer"
+                  aria-label="Close dialog"
+                >
+                  <X className="w-5 h-5" />
+                </button>
               </div>
 
-              {!editingStaff && (
+              {error && (
+                <div className="p-3 rounded-control bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
+                  <span>{error}</span>
+                </div>
+              )}
+
+              <form onSubmit={handleModalSubmit} className="space-y-4 text-xs">
                 <div>
                   <label className="block text-xs font-semibold text-navy mb-1.5">
-                    Unique Employee ID <span className="text-rose-500">*</span>
+                    Staff Full Name <span className="text-rose-500">*</span>
                   </label>
                   <input
                     type="text"
                     required
-                    placeholder="e.g. EMP-E101"
-                    value={employeeId}
-                    onChange={(e) => setEmployeeId(e.target.value)}
-                    className="glass-input w-full p-2.5 text-xs font-medium uppercase font-mono"
+                    placeholder="e.g. Ramesh Yadav"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="glass-input w-full p-2.5 text-xs font-medium"
                   />
-                  <p className="text-[11px] text-slate-400 mt-1">
-                    Administrative ID for internal records.
-                  </p>
                 </div>
-              )}
 
-              <div>
-                <label className="block text-xs font-semibold text-navy mb-1.5">
-                  Approved Google Email Address <span className="text-rose-500">*</span>
-                </label>
-                <input
-                  type="email"
-                  required
-                  placeholder="e.g. ramesh.maintenance@gmail.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="glass-input w-full p-2.5 text-xs font-medium"
-                />
-                <p className="text-[11px] text-slate-500 mt-1">
-                  Staff member MUST log in using this approved Google account. Password login is disabled for security.
-                </p>
-              </div>
+                {!editingStaff && (
+                  <div>
+                    <label className="block text-xs font-semibold text-navy mb-1.5">
+                      Unique Employee ID <span className="text-rose-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. EMP-E101"
+                      value={employeeId}
+                      onChange={(e) => setEmployeeId(e.target.value)}
+                      className="glass-input w-full p-2.5 text-xs font-medium uppercase font-mono"
+                    />
+                    <p className="text-[11px] text-slate-400 mt-1">
+                      Administrative ID for internal records.
+                    </p>
+                  </div>
+                )}
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-semibold text-navy mb-1.5">
-                    Trade Specialization <span className="text-rose-500">*</span>
+                    Approved Google Email Address <span className="text-rose-500">*</span>
                   </label>
-                  <select
-                    value={specialization}
-                    onChange={(e) => {
-                      setSpecialization(e.target.value);
-                      if (!department) setDepartment(e.target.value);
-                    }}
-                    className="glass-input w-full p-2.5 text-xs font-medium"
-                  >
-                    {SPECIALIZATIONS.map((spec) => (
-                      <option key={spec} value={spec}>
-                        {spec}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-semibold text-navy mb-1.5">Phone Number</label>
                   <input
-                    type="text"
-                    placeholder="+91 98765 11002"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    type="email"
+                    required
+                    placeholder="e.g. ramesh.maintenance@gmail.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     className="glass-input w-full p-2.5 text-xs font-medium"
                   />
-                </div>
-              </div>
-
-              {/* Assigned Hostel Blocks */}
-              <div>
-                <label className="block text-xs font-semibold text-navy mb-1.5">
-                  Assigned Hostel Blocks (Field Coverage)
-                </label>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 p-3 rounded-xl bg-blue-50/50 border border-sky/20">
-                  {CAMPUS_BLOCKS.map((block) => (
-                    <label key={block} className="flex items-center gap-2 cursor-pointer text-xs text-navy">
-                      <input
-                        type="checkbox"
-                        checked={assignedBlocks.includes(block)}
-                        onChange={() => handleBlockToggle(block)}
-                        className="rounded text-electric focus:ring-electric"
-                      />
-                      <span>{block}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              {editingStaff && (
-                <div className="p-3 rounded-xl bg-amber-50 border border-amber-200 space-y-1">
-                  <label className="flex items-center gap-2 cursor-pointer text-xs font-bold text-amber-900">
-                    <input
-                      type="checkbox"
-                      checked={resetGoogleLink}
-                      onChange={(e) => setResetGoogleLink(e.target.checked)}
-                      className="rounded text-amber-600 focus:ring-amber-500"
-                    />
-                    <span>Reset Google Account Linking</span>
-                  </label>
-                  <p className="text-[11px] text-amber-800 leading-relaxed">
-                    Check this if the staff member switched their Google account or needs to re-authorize from scratch.
+                  <p className="text-[11px] text-slate-500 mt-1">
+                    Staff member MUST log in using this approved Google account. Password login is disabled for security.
                   </p>
                 </div>
-              )}
 
-              <div className="pt-3 border-t border-ice/80 flex flex-col-reverse sm:flex-row justify-end gap-2">
-                <button
-                  type="button"
-                  onClick={() => setModalOpen(false)}
-                  className="btn-secondary w-full sm:w-auto px-4 py-2.5 text-xs font-bold text-center"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={modalLoading}
-                  className="btn-action w-full sm:w-auto px-5 py-2.5 text-xs font-bold shadow-md text-center"
-                >
-                  {modalLoading ? 'Saving...' : editingStaff ? 'Save Changes' : 'Register Staff'}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-semibold text-navy mb-1.5">
+                      Trade Specialization <span className="text-rose-500">*</span>
+                    </label>
+                    <select
+                      value={specialization}
+                      onChange={(e) => {
+                        setSpecialization(e.target.value);
+                        if (!department) setDepartment(e.target.value);
+                      }}
+                      className="glass-input w-full p-2.5 text-xs font-medium"
+                    >
+                      {SPECIALIZATIONS.map((spec) => (
+                        <option key={spec} value={spec}>
+                          {spec}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-navy mb-1.5">Phone Number</label>
+                    <input
+                      type="text"
+                      placeholder="+91 98765 11002"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      className="glass-input w-full p-2.5 text-xs font-medium"
+                    />
+                  </div>
+                </div>
+
+                {/* Assigned Hostel Blocks */}
+                <div>
+                  <label className="block text-xs font-semibold text-navy mb-1.5">
+                    Assigned Hostel Blocks (Field Coverage)
+                  </label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 p-3 rounded-xl bg-blue-50/50 border border-sky/20">
+                    {CAMPUS_BLOCKS.map((block) => (
+                      <label key={block} className="flex items-center gap-2 cursor-pointer text-xs text-navy">
+                        <input
+                          type="checkbox"
+                          checked={assignedBlocks.includes(block)}
+                          onChange={() => handleBlockToggle(block)}
+                          className="rounded text-electric focus:ring-electric"
+                        />
+                        <span>{block}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                {editingStaff && (
+                  <div className="p-3 rounded-xl bg-amber-50 border border-amber-200 space-y-1">
+                    <label className="flex items-center gap-2 cursor-pointer text-xs font-bold text-amber-900">
+                      <input
+                        type="checkbox"
+                        checked={resetGoogleLink}
+                        onChange={(e) => setResetGoogleLink(e.target.checked)}
+                        className="rounded text-amber-600 focus:ring-amber-500"
+                      />
+                      <span>Reset Google Account Linking</span>
+                    </label>
+                    <p className="text-[11px] text-amber-800 leading-relaxed">
+                      Check this if the staff member switched their Google account or needs to re-authorize from scratch.
+                    </p>
+                  </div>
+                )}
+
+                <div className="pt-3 border-t border-ice/80 flex flex-col-reverse sm:flex-row justify-end gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setModalOpen(false)}
+                    className="btn-secondary w-full sm:w-auto px-4 py-2.5 text-xs font-bold text-center cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={modalLoading}
+                    className="btn-action w-full sm:w-auto px-5 py-2.5 text-xs font-bold shadow-md text-center cursor-pointer disabled:opacity-60"
+                  >
+                    {modalLoading ? 'Saving...' : editingStaff ? 'Save Changes' : 'Register Staff'}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>,
+          document.body
+        )}
     </div>
   );
 };

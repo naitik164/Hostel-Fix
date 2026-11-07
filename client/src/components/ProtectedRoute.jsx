@@ -48,6 +48,20 @@ const ProtectedRoute = ({ children, requiredRole }) => {
     }
   }
 
+  // Mandatory Student Onboarding Access Control
+  if (user && user.role === 'student') {
+    const isProfileComplete = Boolean(user.profileCompleted || user.isProfileComplete);
+    const isOnboardingRoute = location.pathname === '/student/onboarding';
+
+    if (!isProfileComplete && !isOnboardingRoute) {
+      return <Navigate to="/student/onboarding" replace />;
+    }
+
+    if (isProfileComplete && isOnboardingRoute) {
+      return <Navigate to="/student/dashboard" replace />;
+    }
+  }
+
   return children;
 };
 

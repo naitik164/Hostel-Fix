@@ -18,6 +18,7 @@ import StaffLogin from './pages/auth/StaffLogin';
 import AdminLogin from './pages/auth/AdminLogin';
 
 // Student Pages
+import StudentOnboarding from './pages/student/StudentOnboarding';
 import StudentDashboard from './pages/student/StudentDashboard';
 import StudentComplaints from './pages/student/StudentComplaints';
 import NewComplaint from './pages/student/NewComplaint';
@@ -69,6 +70,16 @@ function AppContent() {
           <Route path="/student/login" element={<StudentLogin />} />
           <Route path="/staff/login" element={<StaffLogin />} />
           <Route path="/admin/login" element={<AdminLogin />} />
+
+          {/* Mandatory Student Onboarding Route */}
+          <Route
+            path="/student/onboarding"
+            element={
+              <ProtectedRoute requiredRole="student">
+                <StudentOnboarding />
+              </ProtectedRoute>
+            }
+          />
 
           {/* Protected Student Routes */}
           <Route
