@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { GoogleLogin } from '@react-oauth/google';
 import { ArrowLeft, Shield, AlertCircle, CheckCircle, Sparkles, Loader2 } from 'lucide-react';
@@ -7,18 +7,26 @@ import { ArrowLeft, Shield, AlertCircle, CheckCircle, Sparkles, Loader2 } from '
 const StudentLogin = () => {
   const { user, loading: authLoading, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const fromPath = location.state?.from?.pathname;
 
   useEffect(() => {
     if (!authLoading && user) {
       if (user.role === 'admin') {
         navigate('/admin/dashboard', { replace: true });
+      } else if (user.role === 'staff') {
+        navigate('/staff/dashboard', { replace: true });
       } else {
-        navigate('/student/dashboard', { replace: true });
+        const dest = fromPath && !fromPath.startsWith('/admin') && !fromPath.startsWith('/staff')
+          ? fromPath
+          : '/student/dashboard';
+        navigate(dest, { replace: true });
       }
     }
-  }, [user, authLoading, navigate]);
+  }, [user, authLoading, navigate, fromPath]);
 
   const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
@@ -27,7 +35,10 @@ const StudentLogin = () => {
       setLoading(true);
       setError('');
       await loginWithGoogle(credentialResponse.credential);
-      navigate('/student/dashboard');
+      const dest = fromPath && !fromPath.startsWith('/admin') && !fromPath.startsWith('/staff')
+        ? fromPath
+        : '/student/dashboard';
+      navigate(dest, { replace: true });
     } catch (err) {
       setError(err.response?.data?.message || err.message || 'Google authentication failed.');
     } finally {

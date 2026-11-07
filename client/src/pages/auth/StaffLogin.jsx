@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { GoogleLogin } from '@react-oauth/google';
 import { ArrowLeft, Shield, AlertCircle, Sparkles, CheckCircle2 } from 'lucide-react';
@@ -7,20 +7,25 @@ import { ArrowLeft, Shield, AlertCircle, Sparkles, CheckCircle2 } from 'lucide-r
 const StaffLogin = () => {
   const { user, loading: authLoading, loginStaffWithGoogle } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const fromPath = location.state?.from?.pathname;
 
   useEffect(() => {
     if (!authLoading && user) {
       if (user.role === 'staff') {
-        navigate('/staff/dashboard', { replace: true });
+        const dest = fromPath && fromPath.startsWith('/staff') ? fromPath : '/staff/dashboard';
+        navigate(dest, { replace: true });
       } else if (user.role === 'admin') {
         navigate('/admin/dashboard', { replace: true });
       } else {
         navigate('/student/dashboard', { replace: true });
       }
     }
-  }, [user, authLoading, navigate]);
+  }, [user, authLoading, navigate, fromPath]);
 
   const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
@@ -29,7 +34,8 @@ const StaffLogin = () => {
       setLoading(true);
       setError('');
       await loginStaffWithGoogle(credentialResponse.credential);
-      navigate('/staff/dashboard');
+      const dest = fromPath && fromPath.startsWith('/staff') ? fromPath : '/staff/dashboard';
+      navigate(dest, { replace: true });
     } catch (err) {
       const msg =
         err.response?.data?.message ||

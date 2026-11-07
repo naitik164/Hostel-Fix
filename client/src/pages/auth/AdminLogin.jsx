@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { Shield, ArrowLeft, Eye, EyeOff, Lock, Mail, AlertCircle, Loader2 } from 'lucide-react';
 
 const AdminLogin = () => {
   const { user, loading: authLoading, loginAsAdmin } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [loginId, setLoginId] = useState('');
   const [password, setPassword] = useState('');
@@ -13,15 +14,20 @@ const AdminLogin = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const fromPath = location.state?.from?.pathname;
+
   useEffect(() => {
     if (!authLoading && user) {
       if (user.role === 'admin') {
-        navigate('/admin/dashboard', { replace: true });
+        const dest = fromPath && fromPath.startsWith('/admin') ? fromPath : '/admin/dashboard';
+        navigate(dest, { replace: true });
+      } else if (user.role === 'staff') {
+        navigate('/staff/dashboard', { replace: true });
       } else {
         navigate('/student/dashboard', { replace: true });
       }
     }
-  }, [user, authLoading, navigate]);
+  }, [user, authLoading, navigate, fromPath]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,7 +40,8 @@ const AdminLogin = () => {
       setLoading(true);
       setError('');
       await loginAsAdmin(loginId, password);
-      navigate('/admin/dashboard');
+      const dest = fromPath && fromPath.startsWith('/admin') ? fromPath : '/admin/dashboard';
+      navigate(dest, { replace: true });
     } catch (err) {
       setError(err.response?.data?.message || err.message || 'Authentication failed. Please check credentials.');
     } finally {

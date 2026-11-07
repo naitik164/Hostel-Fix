@@ -6,6 +6,7 @@ import {
   Wrench,
   Wifi,
   ShieldCheck,
+  Check,
 } from 'lucide-react';
 
 export const CATEGORIES_DATA = [
@@ -55,15 +56,20 @@ const CategorySelector = ({
 }) => {
   return (
     <div
-      className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 w-full ${className}`}
+      className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 auto-rows-fr w-full ${className}`}
       role="radiogroup"
       aria-label="Complaint Categories"
     >
       {CATEGORIES_DATA.map((cat, idx) => {
         const Icon = cat.icon;
         const isSelected =
-          selectedCategory === cat.name ||
-          selectedCategory === cat.backendValue;
+          Boolean(selectedCategory) &&
+          (selectedCategory === cat.name ||
+            selectedCategory === cat.backendValue ||
+            (cat.id === 'plumbing' && selectedCategory.startsWith('Plumbing')) ||
+            (cat.id === 'electrical' && selectedCategory.includes('Electri')) ||
+            (cat.id === 'security' &&
+              (selectedCategory.includes('Security') || selectedCategory.includes('Safety'))));
 
         return (
           <button
@@ -75,37 +81,70 @@ const CategorySelector = ({
             aria-checked={isSelected}
             tabIndex={interactive ? 0 : -1}
             style={{
-              animationDelay: `${idx * 110}ms`,
+              animationDelay: `${idx * 80}ms`,
               animationFillMode: 'both',
             }}
             className={`
-              group relative w-full min-h-[96px] sm:h-[104px] px-5 sm:px-7 py-4 sm:py-0
-              flex items-center justify-center gap-4 sm:gap-5
-              rounded-[24px] text-left select-none
-              transition-all duration-300 ease-out
-              animate-in fade-in slide-in-from-bottom-3 duration-500
+              group relative w-full h-full min-h-[92px] sm:min-h-[100px]
+              p-4 sm:px-6 sm:py-5
+              flex items-center text-left select-none
+              rounded-[22px]
+              transition-all duration-200 ease-out
+              animate-in fade-in slide-in-from-bottom-2 duration-400
               ${interactive ? 'cursor-pointer' : 'cursor-default'}
-              bg-gradient-to-r from-white/95 via-white/85 to-[#EBF5FE]/75
+              border-2
+              ${
+                isSelected
+                  ? 'border-[#1951FC] bg-gradient-to-r from-blue-50/95 via-white to-[#E1F1FD]/90 shadow-[0_12px_28px_-4px_rgba(25,81,252,0.2),inset_0_1px_0_0_rgba(255,255,255,0.95)]'
+                  : 'border-white/80 bg-gradient-to-r from-white/95 via-white/85 to-[#EBF5FE]/75 shadow-[0_8px_24px_-6px_rgba(3,25,91,0.06),0_2px_8px_-2px_rgba(25,81,252,0.04),inset_0_1px_0_0_rgba(255,255,255,0.95)] hover:border-[#77C1FC] hover:bg-gradient-to-r hover:from-white hover:via-[#F0F7FF] hover:to-[#E1F1FD] hover:shadow-[0_14px_32px_-6px_rgba(25,81,252,0.14),0_4px_12px_-2px_rgba(3,25,91,0.06),inset_0_1px_0_0_rgba(255,255,255,0.95)] hover:-translate-y-1'
+              }
               backdrop-blur-xl
-              border border-white/90
-              shadow-[0_8px_24px_-6px_rgba(3,25,91,0.06),0_2px_8px_-2px_rgba(25,81,252,0.04),inset_0_1px_0_0_rgba(255,255,255,0.95)]
-              hover:border-[#77C1FC]
-              hover:bg-gradient-to-r hover:from-white hover:via-[#F0F7FF] hover:to-[#E1F1FD]
-              hover:shadow-[0_16px_36px_-6px_rgba(25,81,252,0.16),0_4px_14px_-2px_rgba(3,25,91,0.08),inset_0_1px_0_0_rgba(255,255,255,0.95)]
-              hover:-translate-y-1.5
             `}
           >
-            {/* 56px square icon container */}
-            <div
-              className="w-14 h-14 shrink-0 rounded-[16px] flex items-center justify-center bg-[#CBE9FD]/70 text-[#1951FC] border border-[#77C1FC]/60 transition-all duration-300 ease-out group-hover:bg-[#CBE9FD] group-hover:scale-105 group-hover:border-[#1951FC]/40"
-            >
-              <Icon className="w-6 h-6 stroke-[2.2] text-[#1951FC]" />
-            </div>
+            {/* Top-right subtle selection indicator (does not affect flex flow or shift layout) */}
+            {isSelected && (
+              <div
+                aria-hidden="true"
+                className="absolute top-2.5 right-2.5 sm:top-3 sm:right-3 w-5 h-5 rounded-full bg-[#1951FC] text-white flex items-center justify-center shadow-sm animate-in fade-in zoom-in-75 duration-200"
+              >
+                <Check className="w-3 h-3 stroke-[3]" />
+              </div>
+            )}
 
-            {/* Category Title typography */}
-            <h3 className="font-heading font-bold text-[18px] sm:text-[20px] tracking-tight text-[#03195B] group-hover:text-[#0B2CB1] transition-colors duration-200 whitespace-normal sm:whitespace-nowrap">
-              {cat.name}
-            </h3>
+            <div className="flex items-center gap-4 sm:gap-4.5 w-full min-w-0">
+              {/* 56px fixed-size square icon container */}
+              <div
+                className={`
+                  w-14 h-14 min-w-[56px] min-h-[56px] shrink-0
+                  rounded-[16px] flex items-center justify-center
+                  transition-all duration-200 ease-out
+                  ${
+                    isSelected
+                      ? 'bg-[#1951FC] text-white shadow-md shadow-electric/25'
+                      : 'bg-[#CBE9FD]/70 text-[#1951FC] border border-[#77C1FC]/60 group-hover:bg-[#CBE9FD] group-hover:scale-105 group-hover:border-[#1951FC]/40'
+                  }
+                `}
+              >
+                <Icon
+                  className={`w-6 h-6 stroke-[2.2] transition-colors duration-200 ${
+                    isSelected ? 'text-white' : 'text-[#1951FC]'
+                  }`}
+                />
+              </div>
+
+              {/* Vertically centered category title */}
+              <div className="flex-1 min-w-0 flex items-center">
+                <h3
+                  className={`
+                    font-heading font-bold text-[17px] sm:text-[18px] lg:text-[19px] tracking-tight leading-snug
+                    transition-colors duration-200 break-words
+                    ${isSelected ? 'text-[#0B2CB1]' : 'text-[#03195B] group-hover:text-[#0B2CB1]'}
+                  `}
+                >
+                  {cat.name}
+                </h3>
+              </div>
+            </div>
           </button>
         );
       })}
