@@ -110,7 +110,7 @@ const StaffNotifications = () => {
                   <Link
                     to={n.link}
                     onClick={() => !n.isRead && handleMarkRead(n._id)}
-                    className="p-2 rounded-xl bg-electric text-white hover:bg-royal transition-colors text-xs font-semibold"
+                    className="p-2.5 rounded-xl bg-electric text-white hover:bg-royal transition-colors text-xs font-semibold touch-target flex items-center justify-center"
                     title="View task"
                   >
                     <ArrowRight className="w-4 h-4" />
@@ -119,7 +119,7 @@ const StaffNotifications = () => {
                 {!n.isRead && (
                   <button
                     onClick={() => handleMarkRead(n._id)}
-                    className="p-2 rounded-xl bg-white border border-sky/30 text-slate-500 hover:text-navy transition-colors text-xs"
+                    className="p-2.5 rounded-xl bg-white border border-sky/30 text-slate-500 hover:text-navy transition-colors text-xs touch-target flex items-center justify-center"
                     title="Mark as read"
                   >
                     <Check className="w-4 h-4" />

@@ -235,13 +235,17 @@ const AdminBlocks = () => {
 
       {/* --- Add / Edit Modal --- */}
       {modalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="glass-modal max-w-md w-full p-6 sm:p-8 space-y-4 animate-in fade-in">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+          <div className="glass-modal max-w-md w-full p-5 sm:p-8 space-y-4 max-h-[90dvh] overflow-y-auto animate-in fade-in">
             <div className="flex items-center justify-between border-b border-ice/80 pb-3">
               <h3 className="font-heading font-bold text-base text-navy">
                 {editingBlock ? 'Edit Hostel Block' : 'Register New Hostel Block'}
               </h3>
-              <button onClick={() => setModalOpen(false)} className="text-slate-400 hover:text-navy">
+              <button 
+                onClick={() => setModalOpen(false)} 
+                className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-navy hover:bg-slate-100 transition-colors touch-target"
+                aria-label="Close dialog"
+              >
                 <X className="w-5 h-5" />
               </button>
             </div>

@@ -145,7 +145,7 @@ const StaffHistory = () => {
 
               <Link
                 to={`/staff/tasks/${task._id}`}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-100 text-slate-700 hover:bg-white text-xs font-bold transition-all border border-slate-300 shrink-0 self-start md:self-center"
+                className="w-full md:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-white text-xs font-bold transition-all border border-slate-300 shrink-0 touch-target"
               >
                 <Eye className="w-3.5 h-3.5" />
                 <span>View Full Record</span>

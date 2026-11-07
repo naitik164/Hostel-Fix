@@ -134,12 +134,12 @@ const StaffLayout = () => {
       </aside>
 
       {/* Mobile Top Navbar for Staff */}
-      <div className="md:hidden flex items-center justify-between p-4 bg-navy text-white sticky top-0 z-40 shadow-md">
+      <div className="md:hidden flex items-center justify-between p-3.5 sm:p-4 bg-navy text-white sticky top-0 z-40 shadow-md">
         <div className="flex items-center gap-2.5">
           <img
             src="/logo-icon.png"
             alt="HostelFix Logo"
-            className="w-8 h-8 object-contain drop-shadow-md rounded-xl"
+            className="w-8 h-8 object-contain drop-shadow-md rounded-xl shrink-0"
           />
           <div>
             <span className="font-heading font-extrabold text-base tracking-tight text-white">
@@ -151,16 +151,21 @@ const StaffLayout = () => {
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
-          <NavLink to="/staff/notifications" className="p-2 text-sky relative">
+        <div className="flex items-center gap-1.5">
+          <NavLink
+            to="/staff/notifications"
+            className="p-2 text-sky relative touch-target flex items-center justify-center"
+            aria-label="Staff notifications"
+          >
             <Bell className="w-5 h-5" />
             {unreadCount > 0 && (
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-500 rounded-full" />
+              <span className="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full animate-pulse" />
             )}
           </NavLink>
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="p-2 text-white hover:bg-white/10 rounded-lg"
+            aria-label={sidebarOpen ? 'Close Staff Menu' : 'Open Staff Menu'}
+            className="p-2 text-white hover:bg-white/10 rounded-lg touch-target flex items-center justify-center"
           >
             {sidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -170,15 +175,19 @@ const StaffLayout = () => {
       {/* Mobile Sidebar Overlay */}
       {sidebarOpen && (
         <div className="md:hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex">
-          <div className="w-72 glass-dark-panel p-5 flex flex-col h-full overflow-y-auto">
+          <div className="w-72 max-w-[85vw] glass-dark-panel p-5 flex flex-col h-full overflow-y-auto animate-in slide-in-from-left duration-200">
             <div className="flex items-center justify-between pb-4 border-b border-sky/20">
               <span className="font-heading font-bold text-white text-lg">Staff Menu</span>
-              <button onClick={() => setSidebarOpen(false)} className="text-slate-300">
+              <button
+                onClick={() => setSidebarOpen(false)}
+                className="text-slate-300 hover:text-white p-1 touch-target flex items-center justify-center"
+                aria-label="Close menu"
+              >
                 <X className="w-6 h-6" />
               </button>
             </div>
 
-            <nav className="flex-1 py-4 space-y-1">
+            <nav className="flex-1 py-4 space-y-1.5">
               {navItems.map((item) => {
                 const Icon = item.icon;
                 return (
@@ -187,13 +196,13 @@ const StaffLayout = () => {
                     to={item.to}
                     onClick={() => setSidebarOpen(false)}
                     className={({ isActive }) =>
-                      `flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold ${
-                        isActive ? 'bg-electric text-white font-bold' : 'text-slate-300 hover:bg-white/10'
+                      `flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold touch-target ${
+                        isActive ? 'bg-electric text-white font-bold shadow-md shadow-electric/25' : 'text-slate-300 hover:bg-white/10 active:bg-white/15'
                       }`
                     }
                   >
                     <div className="flex items-center gap-3">
-                      <Icon className="w-4 h-4 text-sky" />
+                      <Icon className="w-4 h-4 text-sky shrink-0" />
                       <span>{item.label}</span>
                     </div>
                     {item.badge > 0 && (
@@ -208,7 +217,7 @@ const StaffLayout = () => {
 
             <button
               onClick={handleLogout}
-              className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs font-semibold text-rose-300 bg-rose-500/20 mt-auto"
+              className="w-full flex items-center justify-center gap-2 px-3 py-3 rounded-xl text-xs font-semibold text-rose-300 bg-rose-500/20 active:bg-rose-500/30 mt-auto touch-target"
             >
               <LogOut className="w-4 h-4" />
               <span>Sign Out</span>
@@ -219,13 +228,13 @@ const StaffLayout = () => {
       )}
 
       {/* Main Staff Content Area */}
-      <div className="flex-1 flex flex-col min-w-0">
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
+      <div className="flex-1 flex flex-col min-w-0 overflow-x-hidden">
+        <main className="flex-1 p-3.5 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto min-w-0">
           <PageTransition>
             <Outlet />
           </PageTransition>
         </main>
-        <footer className="py-4 border-t border-sky/20 bg-white/40 text-center text-xs text-slate-500">
+        <footer className="py-4 px-4 border-t border-sky/20 bg-white/40 text-center text-xs text-slate-500">
           <p>© 2026 HostelFix — Maintenance Field Operations & Verification Portal</p>
         </footer>
       </div>

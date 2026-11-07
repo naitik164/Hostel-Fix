@@ -231,14 +231,14 @@ const NewComplaint = () => {
         <span>Back to Dashboard</span>
       </Link>
 
-      <div className="glass-card p-6 sm:p-10 shadow-glass-hover">
+      <div className="glass-card p-4 sm:p-8 lg:p-10 shadow-glass-hover">
         {/* Header */}
-        <div className="border-b border-ice/80 pb-6 mb-8">
+        <div className="border-b border-ice/80 pb-5 mb-6 sm:mb-8">
           <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-xl bg-gradient-action flex items-center justify-center text-white shadow-md">
+            <div className="w-10 h-10 rounded-xl bg-gradient-action flex items-center justify-center text-white shadow-md shrink-0">
               <PlusCircle className="w-5 h-5" />
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-navy font-heading">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-navy font-heading">
               Raise a Complaint
             </h1>
           </div>
@@ -433,16 +433,17 @@ const NewComplaint = () => {
 
             {/* Photo Previews */}
             {previews.length > 0 && (
-              <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
                 {previews.map((src, index) => (
-                  <div key={index} className="relative group rounded-xl overflow-hidden border border-sky/40">
-                    <img src={src} alt="Preview" className="w-full h-24 object-cover" />
+                  <div key={index} className="relative group rounded-xl overflow-hidden border border-sky/40 aspect-video bg-slate-100">
+                    <img src={src} alt="Preview" className="w-full h-full object-cover" />
                     <button
                       type="button"
                       onClick={() => removeFile(index)}
-                      className="absolute top-1 right-1 bg-black/70 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                      aria-label="Remove photo"
+                      className="absolute top-1.5 right-1.5 bg-black/80 hover:bg-black text-white rounded-full p-1.5 transition-opacity opacity-90 sm:opacity-0 group-hover:opacity-100 touch-target flex items-center justify-center w-7 h-7"
                     >
-                      <X className="w-3.5 h-3.5" />
+                      <X className="w-4 h-4" />
                     </button>
                   </div>
                 ))}
@@ -455,9 +456,9 @@ const NewComplaint = () => {
             <label className="block text-xs font-semibold text-navy mb-1.5">
               Preferred Contact Method
             </label>
-            <div className="flex items-center gap-4 text-xs font-medium text-slate-700">
+            <div className="flex flex-wrap items-center gap-3 sm:gap-5 text-xs font-medium text-slate-700">
               {['Email', 'Phone', 'In-Person'].map((method) => (
-                <label key={method} className="flex items-center gap-2 cursor-pointer">
+                <label key={method} className="flex items-center gap-2 cursor-pointer p-1">
                   <input
                     type="radio"
                     name="contact"

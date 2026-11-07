@@ -50,12 +50,12 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="min-h-screen relative flex items-center justify-center p-4 overflow-hidden bg-navy-900 font-sans">
+    <div className="min-h-[100dvh] relative flex items-center justify-center p-3 sm:p-4 overflow-hidden bg-navy-900 font-sans">
       {/* Dark Navy Atmospheric Background & Glows */}
       <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-royal/40 rounded-full filter blur-[100px] pointer-events-none" />
       <div className="absolute -bottom-40 -left-40 w-[500px] h-[500px] bg-electric/25 rounded-full filter blur-[100px] pointer-events-none" />
 
-      <div className="relative z-10 w-full max-w-md">
+      <div className="relative z-10 w-full max-w-md my-auto">
         {/* Back Link */}
         <Link
           to="/"
@@ -66,7 +66,7 @@ const AdminLogin = () => {
         </Link>
 
         {/* Dark Glass Login Card */}
-        <div className="glass-dark-panel p-8 sm:p-10 rounded-card shadow-glass-dark border border-sky/30">
+        <div className="glass-dark-panel p-5 sm:p-8 lg:p-10 rounded-card shadow-glass-dark border border-sky/30">
           {/* Header */}
           <div className="text-center">
             <img

@@ -519,14 +519,14 @@ const AdminComplaints = () => {
 
       {/* --- MODAL: Update Status --- */}
       {activeModal === 'status' && selectedComplaint && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="glass-modal max-w-lg w-full p-6 sm:p-8 space-y-5 animate-in fade-in">
-            <div className="flex items-center justify-between border-b border-ice/80 pb-4">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+          <div className="glass-modal max-w-lg w-full p-5 sm:p-8 space-y-4 sm:space-y-5 animate-in fade-in max-h-[90dvh] overflow-y-auto">
+            <div className="flex items-center justify-between border-b border-ice/80 pb-3 sm:pb-4">
               <div>
-                <h3 className="font-heading font-bold text-lg text-navy">Update Complaint Status</h3>
+                <h3 className="font-heading font-bold text-base sm:text-lg text-navy">Update Complaint Status</h3>
                 <p className="text-xs text-slate-500 font-mono">{selectedComplaint.referenceId}</p>
               </div>
-              <button onClick={() => setActiveModal(null)} className="text-slate-400 hover:text-navy">
+              <button onClick={() => setActiveModal(null)} className="text-slate-400 hover:text-navy p-1 touch-target flex items-center justify-center">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -607,14 +607,14 @@ const AdminComplaints = () => {
 
       {/* --- MODAL: Override Priority --- */}
       {activeModal === 'priority' && selectedComplaint && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="glass-modal max-w-md w-full p-6 sm:p-8 space-y-5 animate-in fade-in">
-            <div className="flex items-center justify-between border-b border-ice/80 pb-4">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+          <div className="glass-modal max-w-md w-full p-5 sm:p-8 space-y-4 sm:space-y-5 animate-in fade-in max-h-[90dvh] overflow-y-auto">
+            <div className="flex items-center justify-between border-b border-ice/80 pb-3 sm:pb-4">
               <div>
-                <h3 className="font-heading font-bold text-lg text-navy">Override Priority</h3>
+                <h3 className="font-heading font-bold text-base sm:text-lg text-navy">Override Priority</h3>
                 <p className="text-xs text-slate-500 font-mono">{selectedComplaint.referenceId}</p>
               </div>
-              <button onClick={() => setActiveModal(null)} className="text-slate-400 hover:text-navy">
+              <button onClick={() => setActiveModal(null)} className="text-slate-400 hover:text-navy p-1 touch-target flex items-center justify-center">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -671,14 +671,14 @@ const AdminComplaints = () => {
 
       {/* --- MODAL: Assign Staff --- */}
       {activeModal === 'assign' && selectedComplaint && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="glass-modal max-w-md w-full p-6 sm:p-8 space-y-5 animate-in fade-in">
-            <div className="flex items-center justify-between border-b border-ice/80 pb-4">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+          <div className="glass-modal max-w-md w-full p-5 sm:p-8 space-y-4 sm:space-y-5 animate-in fade-in max-h-[90dvh] overflow-y-auto">
+            <div className="flex items-center justify-between border-b border-ice/80 pb-3 sm:pb-4">
               <div>
-                <h3 className="font-heading font-bold text-lg text-navy">Assign Maintenance Personnel</h3>
+                <h3 className="font-heading font-bold text-base sm:text-lg text-navy">Assign Maintenance Personnel</h3>
                 <p className="text-xs text-slate-500 font-mono">{selectedComplaint.referenceId}</p>
               </div>
-              <button onClick={() => setActiveModal(null)} className="text-slate-400 hover:text-navy">
+              <button onClick={() => setActiveModal(null)} className="text-slate-400 hover:text-navy p-1 touch-target flex items-center justify-center">
                 <X className="w-5 h-5" />
               </button>
             </div>

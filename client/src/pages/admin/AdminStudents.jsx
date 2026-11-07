@@ -82,8 +82,8 @@ const AdminStudents = () => {
 
       {/* Filters */}
       <div className="glass-card p-4 sm:p-5">
-        <form onSubmit={handleSearchSubmit} className="flex flex-wrap items-center gap-3">
-          <div className="relative flex-1 min-w-[200px]">
+        <form onSubmit={handleSearchSubmit} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+          <div className="relative flex-1 min-w-0">
             <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
             <input
               type="text"
@@ -97,7 +97,7 @@ const AdminStudents = () => {
           <select
             value={selectedBlock}
             onChange={(e) => setSelectedBlock(e.target.value)}
-            className="glass-input px-3 py-2 text-xs"
+            className="glass-input px-3 py-2 text-xs w-full sm:w-auto"
           >
             <option value="all">All Hostel Blocks</option>
             {blocks.map((b) => (
@@ -109,7 +109,7 @@ const AdminStudents = () => {
 
           <button
             type="submit"
-            className="btn-action px-4 py-2 rounded-control text-xs font-semibold"
+            className="btn-action px-4 py-2 rounded-control text-xs font-semibold justify-center w-full sm:w-auto"
           >
             Search
           </button>
@@ -128,21 +128,26 @@ const AdminStudents = () => {
             No student residents found matching search query.
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="glass-table">
-              <thead>
-                <tr>
-                  <th>Student</th>
-                  <th>Hostel Block</th>
-                  <th>Room Number</th>
-                  <th>Contact Info</th>
-                  <th>Complaints Raised</th>
-                  <th>Registered</th>
-                  <th>Status</th>
-                  <th className="text-right">Action</th>
-                </tr>
-              </thead>
-              <tbody>
+          <div className="table-responsive-container">
+            <div className="sm:hidden px-4 py-2 bg-ice/40 border-b border-ice text-[11px] text-royal flex items-center justify-between font-medium">
+              <span>Swipe horizontally to view full resident data</span>
+              <span>👉</span>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="glass-table min-w-[760px]">
+                <thead>
+                  <tr>
+                    <th>Student</th>
+                    <th>Hostel Block</th>
+                    <th>Room Number</th>
+                    <th>Contact Info</th>
+                    <th>Complaints Raised</th>
+                    <th>Registered</th>
+                    <th>Status</th>
+                    <th className="text-right">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
                 {students.map((student) => (
                   <tr key={student._id} className="transition-colors">
                     <td>
@@ -204,6 +209,7 @@ const AdminStudents = () => {
               </tbody>
             </table>
           </div>
+        </div>
         )}
       </div>
     </div>

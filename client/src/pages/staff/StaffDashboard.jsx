@@ -99,17 +99,17 @@ const StaffDashboard = () => {
   return (
     <div className="space-y-6">
       {/* Welcome Banner */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#03195B] via-[#0B2CB1] to-[#1951FC] p-6 sm:p-8 text-white shadow-xl shadow-royal/20 border border-sky/30">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#03195B] via-[#0B2CB1] to-[#1951FC] p-5 sm:p-8 text-white shadow-xl shadow-royal/20 border border-sky/30">
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="space-y-1.5">
+          <div className="space-y-1.5 min-w-0">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs text-sky-light font-semibold">
-              <HardHat className="w-3.5 h-3.5 text-sky" />
+              <HardHat className="w-3.5 h-3.5 text-sky shrink-0" />
               <span>Field Staff Operational Command</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold font-heading tracking-tight text-white">
+            <h1 className="text-2xl sm:text-3xl font-extrabold font-heading tracking-tight text-white truncate">
               Welcome, {user?.name}
             </h1>
-            <p className="text-xs sm:text-sm text-ice-pale/90 max-w-xl">
+            <p className="text-xs sm:text-sm text-ice-pale/90 max-w-xl break-anywhere">
               Specialization: <span className="font-semibold text-white">{user?.specialization || 'Maintenance'}</span> • 
               Employee ID: <span className="font-semibold text-white">{user?.employeeId || 'STAFF'}</span>
               {user?.assignedBlocks && user.assignedBlocks.length > 0 && (
@@ -359,7 +359,7 @@ const StaffDashboard = () => {
 
                   <Link
                     to={`/staff/tasks/${task._id}`}
-                    className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-electric text-white text-xs font-bold hover:bg-royal transition-all shadow-sm shadow-electric/25 self-start sm:self-center"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-electric text-white text-xs font-bold hover:bg-royal transition-all shadow-sm shadow-electric/25 touch-target"
                   >
                     <Eye className="w-3.5 h-3.5" />
                     <span>Open Task</span>

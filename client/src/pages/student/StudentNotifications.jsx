@@ -68,9 +68,9 @@ const StudentNotifications = () => {
   return (
     <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in duration-300">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-navy font-heading flex items-center gap-3">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-navy font-heading flex flex-wrap items-center gap-2.5">
             <span>Notifications</span>
             {unreadCount > 0 && (
               <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-electric text-white shadow-sm">
@@ -86,7 +86,7 @@ const StudentNotifications = () => {
         {unreadCount > 0 && (
           <button
             onClick={markAllRead}
-            className="btn-secondary inline-flex items-center gap-2 px-3.5 py-2 rounded-control text-xs font-bold"
+            className="btn-secondary self-start sm:self-auto inline-flex items-center gap-2 px-3.5 py-2 rounded-control text-xs font-bold touch-target"
           >
             <CheckCheck className="w-4 h-4 text-royal" />
             <span>Mark All as Read</span>

@@ -170,19 +170,21 @@ const StudentLayout = () => {
             </div>
 
             {/* Mobile Hamburger Button */}
-            <div className="flex md:hidden items-center gap-2">
+            <div className="flex md:hidden items-center gap-1.5 sm:gap-2">
               <NavLink
                 to="/student/notifications"
-                className="relative p-2 rounded-xl text-slate-600 hover:bg-white/80"
+                className="relative p-2.5 rounded-xl text-slate-600 hover:bg-white/80 touch-target flex items-center justify-center"
+                aria-label="View notifications"
               >
                 <Bell className="w-5 h-5" />
                 {unreadCount > 0 && (
-                  <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-electric rounded-full" />
+                  <span className="absolute top-2 right-2 w-2 h-2 bg-electric rounded-full animate-pulse" />
                 )}
               </NavLink>
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-2 rounded-xl text-navy hover:bg-white/80"
+                aria-label={mobileMenuOpen ? 'Close Navigation Menu' : 'Open Navigation Menu'}
+                className="p-2.5 rounded-xl text-navy hover:bg-white/80 touch-target flex items-center justify-center"
               >
                 {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
@@ -190,67 +192,73 @@ const StudentLayout = () => {
           </div>
         </div>
 
-        {/* Mobile Navigation Drawer */}
+        {/* Mobile Navigation Drawer with Overlay */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-ice bg-white/95 backdrop-blur-xl px-4 pt-3 pb-5 space-y-2">
-            <div className="flex items-center gap-3 p-2 bg-ice/40 rounded-xl mb-3">
-              <img
-                src={
-                  user?.profilePhoto ||
-                  'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100'
-                }
-                alt={user?.name}
-                className="w-9 h-9 rounded-full object-cover border border-sky"
-              />
-              <div>
-                <p className="text-sm font-semibold text-navy">{user?.name}</p>
-                <p className="text-xs text-slate-500">
-                  {user?.hostelBlock ? `${user.hostelBlock} • ${user.roomNumber}` : 'Student'}
-                </p>
-              </div>
-            </div>
-
-            {navLinks.map((item) => {
-              const Icon = item.icon;
-              return (
-                <NavLink
-                  key={item.to}
-                  to={item.to}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={({ isActive }) =>
-                    `flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold ${
-                      isActive
-                        ? 'bg-gradient-action text-white'
-                        : 'text-slate-700 hover:bg-ice/50'
-                    }`
+          <>
+            <div
+              className="md:hidden fixed inset-0 top-[73px] bg-black/40 backdrop-blur-sm z-30"
+              onClick={() => setMobileMenuOpen(false)}
+            />
+            <div className="md:hidden relative z-40 border-t border-ice bg-white/98 backdrop-blur-2xl px-4 pt-3 pb-6 space-y-2 shadow-2xl animate-in fade-in slide-in-from-top-2 duration-200 max-h-[calc(100dvh-73px)] overflow-y-auto">
+              <div className="flex items-center gap-3 p-3 bg-ice/40 rounded-2xl mb-3">
+                <img
+                  src={
+                    user?.profilePhoto ||
+                    'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100'
                   }
-                >
-                  <div className="flex items-center gap-3">
-                    <Icon className="w-4 h-4" />
-                    <span>{item.label}</span>
-                  </div>
-                  {item.badge > 0 && (
-                    <span className="px-2 py-0.5 text-xs bg-electric text-white rounded-full">
-                      {item.badge}
-                    </span>
-                  )}
-                </NavLink>
-              );
-            })}
+                  alt={user?.name}
+                  className="w-10 h-10 rounded-full object-cover border border-sky shrink-0"
+                />
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-bold text-navy truncate">{user?.name}</p>
+                  <p className="text-xs text-slate-500 truncate">
+                    {user?.hostelBlock ? `${user.hostelBlock} • ${user.roomNumber || ''}` : 'Student'}
+                  </p>
+                </div>
+              </div>
 
-            <button
-              onClick={handleLogout}
-              className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold text-rose-600 hover:bg-rose-50 mt-2"
-            >
-              <LogOut className="w-4 h-4" />
-              <span>Sign Out</span>
-            </button>
-          </div>
+              {navLinks.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <NavLink
+                    key={item.to}
+                    to={item.to}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={({ isActive }) =>
+                      `flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold touch-target ${
+                        isActive
+                          ? 'bg-gradient-action text-white shadow-md shadow-electric/25'
+                          : 'text-slate-700 hover:bg-ice/50 active:bg-ice/70'
+                      }`
+                    }
+                  >
+                    <div className="flex items-center gap-3">
+                      <Icon className="w-4 h-4 shrink-0" />
+                      <span>{item.label}</span>
+                    </div>
+                    {item.badge > 0 && (
+                      <span className="px-2 py-0.5 text-xs bg-electric text-white rounded-full">
+                        {item.badge}
+                      </span>
+                    )}
+                  </NavLink>
+                );
+              })}
+
+              <button
+                onClick={handleLogout}
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-rose-600 hover:bg-rose-50 active:bg-rose-100 mt-2 touch-target"
+              >
+                <LogOut className="w-4 h-4 shrink-0" />
+                <span>Sign Out</span>
+              </button>
+            </div>
+          </>
         )}
       </header>
 
       {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3.5 sm:px-6 lg:px-8 py-5 sm:py-8 relative z-10 min-w-0">
         <PageTransition>
           <Outlet />
         </PageTransition>

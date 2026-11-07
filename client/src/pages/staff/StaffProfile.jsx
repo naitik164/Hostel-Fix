@@ -49,21 +49,21 @@ const StaffProfile = () => {
         </p>
       </div>
 
-      <div className="glass-card p-6 sm:p-8 border border-white/80 shadow-glass space-y-6">
+      <div className="glass-card p-5 sm:p-8 border border-white/80 shadow-glass space-y-6">
         {/* Profile Card Header */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-4 pb-6 border-b border-sky/20">
-          <div className="w-16 h-16 rounded-3xl bg-gradient-action text-white flex items-center justify-center font-black text-2xl shadow-lg shadow-electric/25 border border-sky/40">
+          <div className="w-16 h-16 rounded-3xl bg-gradient-action text-white flex items-center justify-center font-black text-2xl shadow-lg shadow-electric/25 border border-sky/40 shrink-0">
             {staff?.name ? staff.name.charAt(0) : 'S'}
           </div>
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <h2 className="text-xl font-bold text-navy font-heading">{staff?.name}</h2>
+          <div className="space-y-1 min-w-0">
+            <div className="flex flex-wrap items-center gap-2">
+              <h2 className="text-xl font-bold text-navy font-heading truncate">{staff?.name}</h2>
               <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300 inline-flex items-center gap-1">
                 <CheckCircle2 className="w-3 h-3 text-emerald-600" />
                 <span>Active Staff</span>
               </span>
             </div>
-            <p className="text-xs text-slate-600 font-medium">
+            <p className="text-xs text-slate-600 font-medium break-anywhere">
               Employee ID: <span className="font-mono font-bold text-royal">{staff?.employeeId}</span> • 
               Specialization: <span className="font-semibold text-navy">{staff?.specialization}</span>
             </p>
@@ -72,10 +72,10 @@ const StaffProfile = () => {
 
         {/* Identity & Google Account Details */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-          <div className="p-4 rounded-2xl bg-blue-50/50 border border-sky/20 space-y-1">
+          <div className="p-4 rounded-2xl bg-blue-50/50 border border-sky/20 space-y-1 min-w-0">
             <span className="text-slate-400 block text-[11px] font-semibold">Verified Google Email</span>
-            <div className="flex items-center gap-1.5 font-bold text-navy text-sm">
-              <Mail className="w-4 h-4 text-royal" />
+            <div className="flex items-center gap-1.5 font-bold text-navy text-sm break-anywhere">
+              <Mail className="w-4 h-4 text-royal shrink-0" />
               <span>{staff?.email}</span>
             </div>
             <p className="text-[11px] text-slate-500">
@@ -83,28 +83,28 @@ const StaffProfile = () => {
             </p>
           </div>
 
-          <div className="p-4 rounded-2xl bg-blue-50/50 border border-sky/20 space-y-1">
+          <div className="p-4 rounded-2xl bg-blue-50/50 border border-sky/20 space-y-1 min-w-0">
             <span className="text-slate-400 block text-[11px] font-semibold">Registered Phone</span>
-            <div className="flex items-center gap-1.5 font-bold text-navy text-sm">
-              <Phone className="w-4 h-4 text-royal" />
+            <div className="flex items-center gap-1.5 font-bold text-navy text-sm break-anywhere">
+              <Phone className="w-4 h-4 text-royal shrink-0" />
               <span>{staff?.phone || 'Not provided'}</span>
             </div>
             <p className="text-[11px] text-slate-500">Contact number for student & warden calls</p>
           </div>
 
-          <div className="p-4 rounded-2xl bg-blue-50/50 border border-sky/20 space-y-1">
+          <div className="p-4 rounded-2xl bg-blue-50/50 border border-sky/20 space-y-1 min-w-0">
             <span className="text-slate-400 block text-[11px] font-semibold">Department / Trade</span>
-            <div className="flex items-center gap-1.5 font-bold text-navy text-sm">
-              <HardHat className="w-4 h-4 text-royal" />
+            <div className="flex items-center gap-1.5 font-bold text-navy text-sm break-anywhere">
+              <HardHat className="w-4 h-4 text-royal shrink-0" />
               <span>{staff?.department || staff?.specialization}</span>
             </div>
             <p className="text-[11px] text-slate-500">Hostel maintenance division</p>
           </div>
 
-          <div className="p-4 rounded-2xl bg-blue-50/50 border border-sky/20 space-y-1">
+          <div className="p-4 rounded-2xl bg-blue-50/50 border border-sky/20 space-y-1 min-w-0">
             <span className="text-slate-400 block text-[11px] font-semibold">Assigned Hostel Blocks</span>
-            <div className="flex items-center gap-1.5 font-bold text-navy text-sm">
-              <Building className="w-4 h-4 text-royal" />
+            <div className="flex items-center gap-1.5 font-bold text-navy text-sm break-anywhere">
+              <Building className="w-4 h-4 text-royal shrink-0" />
               <span>
                 {staff?.assignedBlocks && staff.assignedBlocks.length > 0
                   ? staff.assignedBlocks.join(', ')
@@ -116,7 +116,7 @@ const StaffProfile = () => {
         </div>
 
         {/* Workload Stats */}
-        <div className="grid grid-cols-2 gap-4 pt-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
           <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200">
             <span className="text-xs text-emerald-800 font-semibold block">Total Tasks Completed</span>
             <span className="text-2xl font-black text-emerald-950 mt-1 block">

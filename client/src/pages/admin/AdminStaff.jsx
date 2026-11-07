@@ -184,7 +184,7 @@ const AdminStaff = () => {
 
         <button
           onClick={openAddModal}
-          className="btn-action inline-flex items-center gap-2 px-4 py-2.5 rounded-control text-xs font-bold shadow-md self-start sm:self-center"
+          className="btn-action w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-control text-xs font-bold shadow-md"
         >
           <PlusCircle className="w-4 h-4" />
           <span>Register Staff Member</span>
@@ -192,14 +192,16 @@ const AdminStaff = () => {
       </div>
 
       {/* Filter Bar */}
-      <div className="glass-card p-4 flex flex-wrap items-center justify-between gap-3 text-xs">
-        <div className="flex flex-wrap items-center gap-3">
-          <Filter className="w-4 h-4 text-slate-400" />
-          <span className="font-semibold text-navy">Filter:</span>
+      <div className="glass-card p-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 text-xs">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3">
+          <div className="flex items-center gap-2">
+            <Filter className="w-4 h-4 text-slate-400" />
+            <span className="font-semibold text-navy">Filter:</span>
+          </div>
           <select
             value={specFilter}
             onChange={(e) => setSpecFilter(e.target.value)}
-            className="glass-input px-3 py-1.5 text-xs font-medium"
+            className="glass-input px-3 py-2 text-xs font-medium w-full sm:w-auto"
           >
             <option value="all">All Specializations</option>
             {SPECIALIZATIONS.map((spec) => (
@@ -212,7 +214,7 @@ const AdminStaff = () => {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="glass-input px-3 py-1.5 text-xs font-medium"
+            className="glass-input px-3 py-2 text-xs font-medium w-full sm:w-auto"
           >
             <option value="all">All Statuses</option>
             <option value="active">Active Only</option>
@@ -346,13 +348,17 @@ const AdminStaff = () => {
 
       {/* --- Add / Edit Modal --- */}
       {modalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="glass-modal max-w-lg w-full p-6 sm:p-8 space-y-4 animate-in fade-in max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+          <div className="glass-modal max-w-lg w-full p-5 sm:p-8 space-y-4 animate-in fade-in max-h-[90dvh] overflow-y-auto">
             <div className="flex items-center justify-between border-b border-ice/80 pb-3">
               <h3 className="font-heading font-bold text-base text-navy">
                 {editingStaff ? 'Edit Staff Profile' : 'Register New Maintenance Staff Profile'}
               </h3>
-              <button onClick={() => setModalOpen(false)} className="text-slate-400 hover:text-navy">
+              <button 
+                onClick={() => setModalOpen(false)} 
+                className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-navy hover:bg-slate-100 transition-colors touch-target"
+                aria-label="Close dialog"
+              >
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -485,18 +491,18 @@ const AdminStaff = () => {
                 </div>
               )}
 
-              <div className="pt-3 border-t border-ice/80 flex justify-end gap-2">
+              <div className="pt-3 border-t border-ice/80 flex flex-col-reverse sm:flex-row justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setModalOpen(false)}
-                  className="btn-secondary px-4 py-2 text-xs font-bold"
+                  className="btn-secondary w-full sm:w-auto px-4 py-2.5 text-xs font-bold text-center"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={modalLoading}
-                  className="btn-action px-5 py-2 text-xs font-bold shadow-md"
+                  className="btn-action w-full sm:w-auto px-5 py-2.5 text-xs font-bold shadow-md text-center"
                 >
                   {modalLoading ? 'Saving...' : editingStaff ? 'Save Changes' : 'Register Staff'}
                 </button>

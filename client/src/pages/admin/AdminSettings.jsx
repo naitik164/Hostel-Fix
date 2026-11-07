@@ -77,28 +77,28 @@ const AdminSettings = () => {
       </div>
 
       {/* Warden Account Profile Card */}
-      <div className="glass-card p-6 sm:p-8 flex items-center justify-between">
+      <div className="glass-card p-5 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-action text-white flex items-center justify-center shadow-md">
-            <Shield className="w-7 h-7 text-ice" />
+          <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-action text-white flex items-center justify-center shadow-md flex-shrink-0">
+            <Shield className="w-6 h-6 sm:w-7 sm:h-7 text-ice" />
           </div>
-          <div>
-            <h2 className="text-lg font-bold text-navy">{user?.name}</h2>
-            <p className="text-xs text-slate-500">{user?.email}</p>
-            <span className="inline-block mt-2 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-navy text-white">
+          <div className="min-w-0">
+            <h2 className="text-base sm:text-lg font-bold text-navy truncate">{user?.name}</h2>
+            <p className="text-xs text-slate-500 break-anywhere">{user?.email}</p>
+            <span className="inline-block mt-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-navy text-white">
               Administrator Role
             </span>
           </div>
         </div>
 
-        <div className="text-right text-xs text-slate-500 hidden sm:block">
+        <div className="sm:text-right text-xs text-slate-500 pt-3 sm:pt-0 border-t sm:border-0 border-ice/80">
           <p className="font-semibold text-navy">Authentication Mode</p>
           <p className="text-[11px]">Bcrypt Password & HttpOnly Cookie Session</p>
         </div>
       </div>
 
       {/* Service Level Agreement (SLA) Targets Form */}
-      <div className="glass-card p-6 sm:p-8 space-y-6">
+      <div className="glass-card p-5 sm:p-8 space-y-6">
         <div className="border-b border-ice/80 pb-4">
           <h3 className="text-base font-bold text-navy flex items-center gap-2">
             <Clock className="w-5 h-5 text-royal" />
@@ -199,7 +199,7 @@ const AdminSettings = () => {
             <button
               type="submit"
               disabled={saving}
-              className="btn-action flex items-center gap-2 px-6 py-2.5 rounded-control text-xs font-bold shadow-md"
+              className="btn-action flex items-center justify-center gap-2 px-6 py-2.5 rounded-control text-xs font-bold shadow-md w-full sm:w-auto"
             >
               {saving ? (
                 <>

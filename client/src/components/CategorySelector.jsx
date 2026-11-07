@@ -85,10 +85,10 @@ const CategorySelector = ({
               animationFillMode: 'both',
             }}
             className={`
-              group relative w-full h-full min-h-[92px] sm:min-h-[100px]
-              p-4 sm:px-6 sm:py-5
+              group relative w-full h-full min-h-[82px] sm:min-h-[96px]
+              p-3 sm:px-5 sm:py-4.5
               flex items-center text-left select-none
-              rounded-[22px]
+              rounded-[20px] sm:rounded-[22px]
               transition-all duration-200 ease-out
               animate-in fade-in slide-in-from-bottom-2 duration-400
               ${interactive ? 'cursor-pointer' : 'cursor-default'}
@@ -105,18 +105,18 @@ const CategorySelector = ({
             {isSelected && (
               <div
                 aria-hidden="true"
-                className="absolute top-2.5 right-2.5 sm:top-3 sm:right-3 w-5 h-5 rounded-full bg-[#1951FC] text-white flex items-center justify-center shadow-sm animate-in fade-in zoom-in-75 duration-200"
+                className="absolute top-2 right-2 sm:top-3 sm:right-3 w-5 h-5 rounded-full bg-[#1951FC] text-white flex items-center justify-center shadow-sm animate-in fade-in zoom-in-75 duration-200"
               >
                 <Check className="w-3 h-3 stroke-[3]" />
               </div>
             )}
 
-            <div className="flex items-center gap-4 sm:gap-4.5 w-full min-w-0">
-              {/* 56px fixed-size square icon container */}
+            <div className="flex items-center gap-3 sm:gap-4.5 w-full min-w-0">
+              {/* Responsive icon container (46px on small mobile, 56px on sm+) */}
               <div
                 className={`
-                  w-14 h-14 min-w-[56px] min-h-[56px] shrink-0
-                  rounded-[16px] flex items-center justify-center
+                  w-11.5 h-11.5 min-w-[46px] min-h-[46px] sm:w-14 sm:h-14 sm:min-w-[56px] sm:min-h-[56px] shrink-0
+                  rounded-[14px] sm:rounded-[16px] flex items-center justify-center
                   transition-all duration-200 ease-out
                   ${
                     isSelected
@@ -126,7 +126,7 @@ const CategorySelector = ({
                 `}
               >
                 <Icon
-                  className={`w-6 h-6 stroke-[2.2] transition-colors duration-200 ${
+                  className={`w-5 h-5 sm:w-6 sm:h-6 stroke-[2.2] transition-colors duration-200 ${
                     isSelected ? 'text-white' : 'text-[#1951FC]'
                   }`}
                 />
@@ -136,7 +136,7 @@ const CategorySelector = ({
               <div className="flex-1 min-w-0 flex items-center">
                 <h3
                   className={`
-                    font-heading font-bold text-[17px] sm:text-[18px] lg:text-[19px] tracking-tight leading-snug
+                    font-heading font-bold text-[15px] sm:text-[18px] lg:text-[19px] tracking-tight leading-snug
                     transition-colors duration-200 break-words
                     ${isSelected ? 'text-[#0B2CB1]' : 'text-[#03195B] group-hover:text-[#0B2CB1]'}
                   `}

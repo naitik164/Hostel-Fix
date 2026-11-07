@@ -97,7 +97,7 @@ const StudentComplaints = () => {
 
       {/* Filters Card */}
       <div className="glass-card p-4 sm:p-5">
-        <form onSubmit={handleSearchSubmit} className="flex flex-wrap items-center gap-3">
+        <form onSubmit={handleSearchSubmit} className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2.5 sm:gap-3">
           {/* Search Input */}
           <div className="relative flex-1 min-w-[200px]">
             <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
@@ -110,45 +110,47 @@ const StudentComplaints = () => {
             />
           </div>
 
-          {/* Status Filter */}
-          <select
-            value={status}
-            onChange={(e) => {
-              setStatus(e.target.value);
-              setPage(1);
-            }}
-            className="glass-input px-3 py-2 text-xs"
-          >
-            <option value="all">All Statuses</option>
-            <option value="Submitted">Submitted</option>
-            <option value="Assigned">Assigned</option>
-            <option value="In Progress">In Progress</option>
-            <option value="Resolved">Resolved</option>
-            <option value="Rejected">Rejected</option>
-          </select>
+          <div className="flex flex-wrap sm:flex-nowrap items-center gap-2">
+            {/* Status Filter */}
+            <select
+              value={status}
+              onChange={(e) => {
+                setStatus(e.target.value);
+                setPage(1);
+              }}
+              className="glass-input px-3 py-2 text-xs flex-1 sm:flex-none"
+            >
+              <option value="all">All Statuses</option>
+              <option value="Submitted">Submitted</option>
+              <option value="Assigned">Assigned</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Resolved">Resolved</option>
+              <option value="Rejected">Rejected</option>
+            </select>
 
-          {/* Category Filter */}
-          <select
-            value={category}
-            onChange={(e) => {
-              setCategory(e.target.value);
-              setPage(1);
-            }}
-            className="glass-input px-3 py-2 text-xs"
-          >
-            {CATEGORIES.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
-              </option>
-            ))}
-          </select>
+            {/* Category Filter */}
+            <select
+              value={category}
+              onChange={(e) => {
+                setCategory(e.target.value);
+                setPage(1);
+              }}
+              className="glass-input px-3 py-2 text-xs flex-1 sm:flex-none"
+            >
+              {CATEGORIES.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
+            </select>
 
-          <button
-            type="submit"
-            className="btn-action px-4 py-2 rounded-control text-xs font-semibold"
-          >
-            Filter
-          </button>
+            <button
+              type="submit"
+              className="btn-action px-4 py-2 rounded-control text-xs font-semibold w-full sm:w-auto touch-target flex items-center justify-center"
+            >
+              Filter
+            </button>
+          </div>
         </form>
       </div>
 
@@ -166,6 +168,13 @@ const StudentComplaints = () => {
             <RefreshCw className="w-3.5 h-3.5" />
             <span>Retry</span>
           </button>
+        </div>
+      )}
+
+      {/* Mobile swipe helper */}
+      {complaints.length > 0 && (
+        <div className="md:hidden text-[10px] text-slate-400 flex items-center justify-end px-1">
+          <span>← Swipe table sideways →</span>
         </div>
       )}
 
@@ -191,7 +200,7 @@ const StudentComplaints = () => {
             </p>
           </div>
         ) : (
-          <div className="overflow-x-auto">
+          <div className="table-responsive-container">
             <table className="glass-table">
               <thead>
                 <tr>

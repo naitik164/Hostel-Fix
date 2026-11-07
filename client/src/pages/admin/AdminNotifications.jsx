@@ -92,7 +92,7 @@ const AdminNotifications = () => {
         {unreadCount > 0 && (
           <button
             onClick={markAllRead}
-            className="btn-secondary inline-flex items-center gap-2 px-3.5 py-2 rounded-control text-xs font-bold"
+            className="btn-secondary w-full sm:w-auto justify-center inline-flex items-center gap-2 px-3.5 py-2.5 rounded-control text-xs font-bold touch-target"
           >
             <CheckCheck className="w-4 h-4 text-royal" />
             <span>Mark All as Read</span>
@@ -124,9 +124,9 @@ const AdminNotifications = () => {
                 n.isRead ? 'bg-white/40 hover:bg-white/70' : 'bg-ice/40 hover:bg-ice/60 font-medium'
               }`}
             >
-              <div className="flex items-start gap-3.5">
+              <div className="flex items-start gap-3.5 min-w-0">
                 <div className="mt-0.5 shrink-0">{getTypeIcon(n.type)}</div>
-                <div>
+                <div className="min-w-0">
                   <div className="flex items-center gap-2">
                     <h4 className={`text-xs sm:text-sm text-navy ${!n.isRead ? 'font-bold' : 'font-semibold'}`}>
                       {n.title}
@@ -135,7 +135,7 @@ const AdminNotifications = () => {
                       <span className="w-2 h-2 rounded-full bg-rose-500 shrink-0" />
                     )}
                   </div>
-                  <p className="text-xs text-slate-600 mt-1 leading-relaxed">{n.message}</p>
+                  <p className="text-xs text-slate-600 mt-1 leading-relaxed break-anywhere">{n.message}</p>
                   <span className="text-[10px] text-slate-400 mt-2 block">
                     {new Date(n.createdAt).toLocaleString()}
                   </span>
@@ -145,7 +145,7 @@ const AdminNotifications = () => {
               {n.link && (
                 <Link
                   to={n.link}
-                  className="btn-secondary shrink-0 p-2 rounded-lg text-royal hover:text-navy"
+                  className="btn-secondary shrink-0 p-2.5 rounded-lg text-royal hover:text-navy touch-target flex items-center justify-center"
                   title="Inspect Ticket"
                 >
                   <ExternalLink className="w-4 h-4" />

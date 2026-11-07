@@ -70,28 +70,28 @@ const StudentProfile = () => {
       </div>
 
       {/* Profile Overview Card */}
-      <div className="glass-card p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-6">
+      <div className="glass-card p-4.5 sm:p-6 md:p-8 flex flex-col sm:flex-row items-center gap-5 sm:gap-6 text-center sm:text-left">
         <UserAvatar
           src={user?.profilePhoto}
           name={user?.name}
           size="xl"
-          className="rounded-2xl"
+          className="rounded-2xl shrink-0"
         />
-        <div className="text-center sm:text-left flex-1">
+        <div className="flex-1 min-w-0">
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
-            <h2 className="text-xl font-bold text-navy">{user?.name}</h2>
-            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-ice text-royal border border-sky/40">
+            <h2 className="text-lg sm:text-xl font-bold text-navy truncate">{user?.name}</h2>
+            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-ice text-royal border border-sky/40 shrink-0">
               Verified Student
             </span>
           </div>
-          <p className="text-xs text-slate-500 mt-1">{user?.email}</p>
-          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4 mt-3 text-xs text-slate-600">
+          <p className="text-xs text-slate-500 mt-1 truncate">{user?.email}</p>
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 sm:gap-4 mt-3 text-xs text-slate-600">
             <span className="flex items-center gap-1">
-              <Building className="w-3.5 h-3.5 text-royal" />
+              <Building className="w-3.5 h-3.5 text-royal shrink-0" />
               <span>{user?.hostelBlock ? `${user.hostelBlock} • Room ${user.roomNumber}` : 'Hostel Unassigned'}</span>
             </span>
             <span className="flex items-center gap-1 text-emerald-600 font-medium">
-              <ShieldCheck className="w-3.5 h-3.5" />
+              <ShieldCheck className="w-3.5 h-3.5 shrink-0" />
               <span>Google Identity Verified</span>
             </span>
           </div>

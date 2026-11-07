@@ -774,18 +774,19 @@ const StaffTaskDetail = () => {
 
       {/* Verification Submission Modal */}
       {showVerificationModal && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="w-full max-w-lg glass-card p-6 sm:p-8 border border-white shadow-2xl space-y-5 animate-in fade-in zoom-in-95">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+          <div className="w-full max-w-lg glass-card p-5 sm:p-8 border border-white shadow-2xl space-y-5 max-h-[90dvh] overflow-y-auto animate-in fade-in zoom-in-95">
             <div className="flex items-center justify-between pb-3 border-b border-sky/20">
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-5 h-5 text-emerald-600" />
-                <h3 className="text-lg font-bold text-navy font-heading">
+                <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0" />
+                <h3 className="text-base sm:text-lg font-bold text-navy font-heading">
                   Submit Work for Warden Verification
                 </h3>
               </div>
               <button
                 onClick={() => setShowVerificationModal(false)}
-                className="text-slate-400 hover:text-slate-600"
+                className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-navy hover:bg-slate-100 transition-colors touch-target"
+                aria-label="Close modal"
               >
                 ✕
               </button>
@@ -829,18 +830,18 @@ const StaffTaskDetail = () => {
                 Submitting changes the status to <strong>Pending Verification</strong>. The Warden will review your photo evidence and either approve the resolution or request rework.
               </div>
 
-              <div className="flex items-center justify-end gap-3 pt-3">
+              <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-2 sm:gap-3 pt-3">
                 <button
                   type="button"
                   onClick={() => setShowVerificationModal(false)}
-                  className="px-4 py-2 rounded-xl bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200 transition-colors"
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200 transition-colors text-center"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={actionLoading || !hasCurrentRoundEvidence}
-                  className="px-5 py-2 rounded-xl bg-emerald-600 text-white font-bold hover:bg-emerald-700 transition-all shadow-md shadow-emerald-600/30 disabled:opacity-50"
+                  className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-emerald-600 text-white font-bold hover:bg-emerald-700 transition-all shadow-md shadow-emerald-600/30 disabled:opacity-50 text-center"
                 >
                   {actionLoading ? 'Submitting...' : 'Confirm & Submit to Warden'}
                 </button>
@@ -852,18 +853,19 @@ const StaffTaskDetail = () => {
 
       {/* Unable to Complete Modal */}
       {showUnableModal && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="w-full max-w-md glass-card p-6 sm:p-8 border border-white shadow-2xl space-y-4 animate-in fade-in zoom-in-95">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+          <div className="w-full max-w-md glass-card p-5 sm:p-8 border border-white shadow-2xl space-y-4 max-h-[90dvh] overflow-y-auto animate-in fade-in zoom-in-95">
             <div className="flex items-center justify-between pb-3 border-b border-rose-200">
               <div className="flex items-center gap-2 text-rose-700">
-                <AlertTriangle className="w-5 h-5 text-rose-600" />
+                <AlertTriangle className="w-5 h-5 text-rose-600 flex-shrink-0" />
                 <h3 className="text-base font-bold text-navy font-heading">
                   Report Blocker / Impediment
                 </h3>
               </div>
               <button
                 onClick={() => setShowUnableModal(false)}
-                className="text-slate-400 hover:text-slate-600"
+                className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-navy hover:bg-slate-100 transition-colors touch-target"
+                aria-label="Close modal"
               >
                 ✕
               </button>
@@ -888,18 +890,18 @@ const StaffTaskDetail = () => {
                 The Warden will be immediately alerted with high priority so they can arrange spare parts, issue campus instructions, or reassign the complaint.
               </div>
 
-              <div className="flex items-center justify-end gap-3 pt-2">
+              <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-2 sm:gap-3 pt-2">
                 <button
                   type="button"
                   onClick={() => setShowUnableModal(false)}
-                  className="px-4 py-2 rounded-xl bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200 transition-colors"
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200 transition-colors text-center"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={actionLoading}
-                  className="px-5 py-2 rounded-xl bg-rose-600 text-white font-bold hover:bg-rose-700 transition-all shadow-md shadow-rose-600/30 disabled:opacity-50"
+                  className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-rose-600 text-white font-bold hover:bg-rose-700 transition-all shadow-md shadow-rose-600/30 disabled:opacity-50 text-center"
                 >
                   {actionLoading ? 'Reporting...' : 'Notify Warden of Blocker'}
                 </button>

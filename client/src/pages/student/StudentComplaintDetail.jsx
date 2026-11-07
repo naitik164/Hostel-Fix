@@ -117,30 +117,30 @@ const StudentComplaintDetail = () => {
       </Link>
 
       {/* Main Details Card */}
-      <div className="glass-card p-6 sm:p-8 space-y-6">
+      <div className="glass-card p-4 sm:p-6 md:p-8 space-y-6">
         {/* Top Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-ice/80 pb-6">
-          <div>
-            <div className="flex flex-wrap items-center gap-2.5 mb-2">
-              <span className="font-mono text-base sm:text-lg font-extrabold text-royal bg-ice/80 px-3 py-1 rounded-lg border border-sky/40">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-ice/80 pb-5 sm:pb-6">
+          <div className="space-y-2">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="font-mono text-sm sm:text-base md:text-lg font-extrabold text-royal bg-ice/80 px-2.5 sm:px-3 py-1 rounded-lg border border-sky/40">
                 {complaint.referenceId}
               </span>
               <StatusBadge status={complaint.status} size="lg" />
               <PriorityBadge priority={complaint.priority} size="lg" />
             </div>
-            <h1 className="text-xl sm:text-2xl font-bold text-navy font-heading">
+            <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-navy font-heading break-words">
               {complaint.title}
             </h1>
           </div>
 
           <div className="text-xs text-slate-500 sm:text-right shrink-0">
             <div className="flex items-center gap-1 sm:justify-end">
-              <Calendar className="w-3.5 h-3.5 text-slate-400" />
-              <span>Logged on {new Date(complaint.createdAt).toLocaleString()}</span>
+              <Calendar className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+              <span className="break-words">Logged on {new Date(complaint.createdAt).toLocaleDateString()}</span>
             </div>
             {complaint.resolvedAt && (
               <div className="text-emerald-600 font-semibold mt-1">
-                Resolved on {new Date(complaint.resolvedAt).toLocaleString()}
+                Resolved on {new Date(complaint.resolvedAt).toLocaleDateString()}
               </div>
             )}
           </div>
@@ -393,15 +393,23 @@ const StudentComplaintDetail = () => {
 
       {/* Lightbox Modal */}
       {activePhoto && (
-        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="relative max-w-4xl w-full">
+        <div
+          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-3 sm:p-6"
+          onClick={() => setActivePhoto(null)}
+        >
+          <div className="relative max-w-4xl w-full flex flex-col items-center" onClick={(e) => e.stopPropagation()}>
             <button
               onClick={() => setActivePhoto(null)}
-              className="absolute -top-12 right-0 text-white hover:text-ice p-2"
+              aria-label="Close photo view"
+              className="absolute -top-12 right-0 sm:right-0 text-white hover:text-ice p-2.5 touch-target flex items-center justify-center bg-white/10 rounded-full"
             >
-              <X className="w-7 h-7" />
+              <X className="w-6 h-6" />
             </button>
-            <img src={activePhoto} alt="Full view" className="w-full max-h-[85vh] object-contain rounded-xl" />
+            <img
+              src={activePhoto}
+              alt="Full view"
+              className="w-full max-h-[80vh] sm:max-h-[85vh] object-contain rounded-xl shadow-2xl"
+            />
           </div>
         </div>
       )}

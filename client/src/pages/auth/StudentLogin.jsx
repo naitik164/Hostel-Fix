@@ -51,14 +51,14 @@ const StudentLogin = () => {
   };
 
   return (
-    <div className="min-h-screen relative flex items-center justify-center p-4 overflow-hidden bg-gradient-dark font-sans">
+    <div className="min-h-[100dvh] relative flex items-center justify-center p-3 sm:p-4 overflow-hidden bg-gradient-dark font-sans">
       {/* Layered liquid-glass atmospheric shapes */}
       <div className="absolute -top-32 -left-32 w-96 h-96 bg-royal/40 rounded-full filter blur-3xl pointer-events-none animate-pulse" />
       <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-electric/30 rounded-full filter blur-3xl pointer-events-none" />
       <div className="absolute top-1/3 right-1/4 w-72 h-72 bg-sky/20 rounded-full filter blur-2xl pointer-events-none" />
 
       {/* Main Centered Frosted-Glass Card */}
-      <div className="relative z-10 w-full max-w-md">
+      <div className="relative z-10 w-full max-w-md my-auto">
         {/* Back Link */}
         <Link
           to="/"
@@ -68,7 +68,7 @@ const StudentLogin = () => {
           <span>Back to Home</span>
         </Link>
 
-        <div className="glass-card p-8 sm:p-10 shadow-glass-dark border border-white/80">
+        <div className="glass-card p-5 sm:p-8 lg:p-10 shadow-glass-dark border border-white/80">
           {/* Logo & Header */}
           <div className="text-center">
             <img

@@ -61,9 +61,9 @@ const AdminDashboard = () => {
   return (
     <div className="space-y-8 animate-in fade-in duration-300">
       {/* Title & Fast Links */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-navy font-heading">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-navy font-heading">
             Warden Command Center
           </h1>
           <p className="text-xs text-slate-500 mt-1">
@@ -71,19 +71,19 @@ const AdminDashboard = () => {
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
           <Link
             to="/admin/analytics"
-            className="btn-secondary flex items-center gap-2 px-4 py-2 rounded-control text-xs font-bold"
+            className="btn-secondary flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-control text-xs font-bold touch-target"
           >
             <TrendingUp className="w-4 h-4 text-royal" />
             <span>Deep Analytics</span>
           </Link>
           <Link
             to="/admin/complaints"
-            className="btn-action flex items-center gap-2 px-4 py-2 rounded-control text-xs font-bold shadow-md"
+            className="btn-action flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-control text-xs font-bold shadow-md touch-target"
           >
-            <span>Manage All Complaints</span>
+            <span>Complaints Repository</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
@@ -132,9 +132,9 @@ const AdminDashboard = () => {
       )}
 
       {/* 6 Key Overview Metric Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-6 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
         {/* Total */}
-        <div className="glass-card p-4 glass-card-hover">
+        <div className="glass-card p-3.5 sm:p-4 glass-card-hover">
           <div className="flex items-center justify-between text-slate-400">
             <span className="text-[10px] uppercase font-bold tracking-wider">Total</span>
             <FileText className="w-4 h-4 text-navy" />
@@ -146,7 +146,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* Awaiting Review */}
-        <div className="glass-card p-4 glass-card-hover border-royal/40">
+        <div className="glass-card p-3.5 sm:p-4 glass-card-hover border-royal/40">
           <div className="flex items-center justify-between text-royal">
             <span className="text-[10px] uppercase font-bold tracking-wider">Submitted</span>
             <Clock className="w-4 h-4" />
@@ -158,7 +158,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* In Progress */}
-        <div className="glass-card p-4 glass-card-hover border-amber-300">
+        <div className="glass-card p-3.5 sm:p-4 glass-card-hover border-amber-300">
           <div className="flex items-center justify-between text-amber-600">
             <span className="text-[10px] uppercase font-bold tracking-wider">In Progress</span>
             <AlertCircle className="w-4 h-4" />
@@ -170,7 +170,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* Resolved */}
-        <div className="glass-card p-4 glass-card-hover border-emerald-300">
+        <div className="glass-card p-3.5 sm:p-4 glass-card-hover border-emerald-300">
           <div className="flex items-center justify-between text-emerald-600">
             <span className="text-[10px] uppercase font-bold tracking-wider">Resolved</span>
             <CheckCircle2 className="w-4 h-4" />
@@ -182,7 +182,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* Overdue */}
-        <div className="glass-card p-4 glass-card-hover border-rose-300">
+        <div className="glass-card p-3.5 sm:p-4 glass-card-hover border-rose-300">
           <div className="flex items-center justify-between text-rose-600">
             <span className="text-[10px] uppercase font-bold tracking-wider">Overdue</span>
             <AlertTriangle className="w-4 h-4" />
@@ -194,9 +194,9 @@ const AdminDashboard = () => {
         </div>
 
         {/* Avg Resolution Time */}
-        <div className="glass-card p-4 glass-card-hover border-sky/40">
+        <div className="glass-card p-3.5 sm:p-4 glass-card-hover border-sky/40">
           <div className="flex items-center justify-between text-electric">
-            <span className="text-[10px] uppercase font-bold tracking-wider">Avg Resolution</span>
+            <span className="text-[10px] uppercase font-bold tracking-wider">Avg Res.</span>
             <TrendingUp className="w-4 h-4" />
           </div>
           <p className="mt-2 text-2xl sm:text-3xl font-extrabold text-electric font-heading">
@@ -207,20 +207,26 @@ const AdminDashboard = () => {
       </div>
 
       {/* Recent Complaints Table */}
-      <div className="glass-card p-6 sm:p-8 space-y-6">
-        <div className="flex items-center justify-between">
+      <div className="glass-card p-4 sm:p-6 md:p-8 space-y-5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <h2 className="text-xl font-heading font-extrabold text-navy">Recent Complaints Queue</h2>
+            <h2 className="text-lg sm:text-xl font-heading font-extrabold text-navy">Recent Complaints Queue</h2>
             <p className="text-xs text-slate-500 mt-0.5">Prioritized administrative intake</p>
           </div>
           <Link
             to="/admin/complaints"
-            className="text-xs font-bold text-royal hover:underline flex items-center gap-1"
+            className="text-xs font-bold text-royal hover:underline flex items-center gap-1 self-start sm:self-auto"
           >
             <span>Open All Complaints Table</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
+
+        {recentComplaints.length > 0 && (
+          <div className="md:hidden text-[10px] text-slate-400 flex items-center justify-end px-1">
+            <span>← Swipe table sideways →</span>
+          </div>
+        )}
 
         {loading ? (
           <div className="p-6 space-y-3">
@@ -237,7 +243,7 @@ const AdminDashboard = () => {
         ) : recentComplaints.length === 0 ? (
           <div className="py-16 text-center text-slate-500">No complaints logged in the system.</div>
         ) : (
-          <div className="overflow-x-auto">
+          <div className="table-responsive-container">
             <table className="glass-table">
               <thead>
                 <tr>

@@ -321,7 +321,7 @@ const AdminAnalytics = () => {
 
         <button
           onClick={handleExportCsv}
-          className="btn-secondary flex items-center gap-2 px-4 py-2.5 rounded-control text-xs font-bold shadow-sm"
+          className="btn-secondary w-full sm:w-auto justify-center flex items-center gap-2 px-4 py-2.5 rounded-control text-xs font-bold shadow-sm"
         >
           <FileSpreadsheet className="w-4 h-4 text-emerald-600" />
           <span>Export Analytics CSV</span>
@@ -329,15 +329,17 @@ const AdminAnalytics = () => {
       </div>
 
       {/* Filter Bar */}
-      <div className="glass-card p-4 sm:p-5 flex flex-wrap items-center gap-3">
-        <Filter className="w-4 h-4 text-slate-400" />
-        <span className="text-xs font-semibold text-navy">Filter Metrics:</span>
+      <div className="glass-card p-4 sm:p-5 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2.5 sm:gap-3">
+        <div className="flex items-center gap-2">
+          <Filter className="w-4 h-4 text-slate-400" />
+          <span className="text-xs font-semibold text-navy">Filter Metrics:</span>
+        </div>
 
         {/* Date Window */}
         <select
           value={days}
           onChange={(e) => setDays(e.target.value)}
-          className="glass-input px-3 py-1.5 text-xs font-medium"
+          className="glass-input px-3 py-2 text-xs font-medium w-full sm:w-auto"
         >
           <option value="7">Last 7 Days</option>
           <option value="30">Last 30 Days</option>
@@ -349,7 +351,7 @@ const AdminAnalytics = () => {
         <select
           value={hostelBlock}
           onChange={(e) => setHostelBlock(e.target.value)}
-          className="glass-input px-3 py-1.5 text-xs font-medium"
+          className="glass-input px-3 py-2 text-xs font-medium w-full sm:w-auto"
         >
           <option value="all">All Hostel Blocks</option>
           {blocks.map((b) => (
@@ -363,7 +365,7 @@ const AdminAnalytics = () => {
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="glass-input px-3 py-1.5 text-xs font-medium"
+          className="glass-input px-3 py-2 text-xs font-medium w-full sm:w-auto"
         >
           <option value="all">All Categories</option>
           {CATEGORIES.filter((c) => c !== 'All Categories').map((c) => (
@@ -377,7 +379,7 @@ const AdminAnalytics = () => {
         <select
           value={status}
           onChange={(e) => setStatus(e.target.value)}
-          className="glass-input px-3 py-1.5 text-xs font-medium"
+          className="glass-input px-3 py-2 text-xs font-medium w-full sm:w-auto"
         >
           <option value="all">All Statuses</option>
           <option value="Submitted">Submitted</option>
@@ -389,57 +391,57 @@ const AdminAnalytics = () => {
       </div>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 sm:gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2.5 sm:gap-4">
         {/* Total */}
-        <div className="glass-card p-4 text-center">
-          <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1">
+        <div className="glass-card p-3 sm:p-4 text-center min-w-0">
+          <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1 truncate">
             Total Tickets
           </span>
-          <p className="text-2xl font-extrabold text-navy font-heading">{kpis.totalComplaints || 0}</p>
+          <p className="text-xl sm:text-2xl font-extrabold text-navy font-heading">{kpis.totalComplaints || 0}</p>
         </div>
 
         {/* Resolution Rate */}
-        <div className="glass-card p-4 text-center border-emerald-300">
-          <span className="text-[10px] uppercase font-bold text-emerald-600 block mb-1">
+        <div className="glass-card p-3 sm:p-4 text-center border-emerald-300 min-w-0">
+          <span className="text-[10px] uppercase font-bold text-emerald-600 block mb-1 truncate">
             Resolution Rate
           </span>
-          <p className="text-2xl font-extrabold text-emerald-600 font-heading">
+          <p className="text-xl sm:text-2xl font-extrabold text-emerald-600 font-heading">
             {kpis.resolutionRate || 0}%
           </p>
         </div>
 
         {/* Avg Resolution Time */}
-        <div className="glass-card p-4 text-center border-sky/50">
-          <span className="text-[10px] uppercase font-bold text-royal block mb-1">
+        <div className="glass-card p-3 sm:p-4 text-center border-sky/50 min-w-0">
+          <span className="text-[10px] uppercase font-bold text-royal block mb-1 truncate">
             Avg Turnaround
           </span>
-          <p className="text-2xl font-extrabold text-royal font-heading">
+          <p className="text-xl sm:text-2xl font-extrabold text-royal font-heading">
             {kpis.overallAvgHours || 0}h
           </p>
         </div>
 
         {/* SLA Compliance */}
-        <div className="glass-card p-4 text-center border-electric/40">
-          <span className="text-[10px] uppercase font-bold text-electric block mb-1">
+        <div className="glass-card p-3 sm:p-4 text-center border-electric/40 min-w-0">
+          <span className="text-[10px] uppercase font-bold text-electric block mb-1 truncate">
             SLA Compliance
           </span>
-          <p className="text-2xl font-extrabold text-electric font-heading">
+          <p className="text-xl sm:text-2xl font-extrabold text-electric font-heading">
             {kpis.slaComplianceRate || 100}%
           </p>
         </div>
 
         {/* Overdue Count */}
-        <div className="glass-card p-4 text-center border-rose-300">
-          <span className="text-[10px] uppercase font-bold text-rose-600 block mb-1">
+        <div className="glass-card p-3 sm:p-4 text-center border-rose-300 min-w-0">
+          <span className="text-[10px] uppercase font-bold text-rose-600 block mb-1 truncate">
             Overdue
           </span>
-          <p className="text-2xl font-extrabold text-rose-600 font-heading">
+          <p className="text-xl sm:text-2xl font-extrabold text-rose-600 font-heading">
             {kpis.overdueCount || 0}
           </p>
         </div>
 
         {/* Top Category */}
-        <div className="glass-card p-4 text-center col-span-2 sm:col-span-1">
+        <div className="glass-card p-3 sm:p-4 text-center col-span-2 sm:col-span-1 min-w-0">
           <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1 truncate">
             Top Category
           </span>
@@ -449,7 +451,7 @@ const AdminAnalytics = () => {
         </div>
 
         {/* Most Affected Block */}
-        <div className="glass-card p-4 text-center col-span-2 sm:col-span-1">
+        <div className="glass-card p-3 sm:p-4 text-center col-span-2 sm:col-span-1 min-w-0">
           <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1 truncate">
             Most Active Block
           </span>
@@ -460,9 +462,9 @@ const AdminAnalytics = () => {
       </div>
 
       {/* Charts Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         {/* Chart 1: Complaints by Status (Doughnut) */}
-        <div className="glass-card p-6 flex flex-col justify-between">
+        <div className="glass-card p-4 sm:p-6 flex flex-col justify-between min-w-0">
           <div>
             <h3 className="font-heading font-bold text-navy text-sm sm:text-base mb-1">
               Complaints by Status Lifecycle
@@ -484,7 +486,7 @@ const AdminAnalytics = () => {
         </div>
 
         {/* Chart 4: Complaints Over Time (Line) */}
-        <div className="glass-card p-6 flex flex-col justify-between">
+        <div className="glass-card p-4 sm:p-6 flex flex-col justify-between min-w-0">
           <div>
             <h3 className="font-heading font-bold text-navy text-sm sm:text-base mb-1">
               Complaint Submissions Over Time
@@ -503,7 +505,7 @@ const AdminAnalytics = () => {
         </div>
 
         {/* Chart 2: Complaints by Category (Bar) */}
-        <div className="glass-card p-6 flex flex-col justify-between">
+        <div className="glass-card p-4 sm:p-6 flex flex-col justify-between min-w-0">
           <div>
             <h3 className="font-heading font-bold text-navy text-sm sm:text-base mb-1">
               Complaints by Category
@@ -516,7 +518,7 @@ const AdminAnalytics = () => {
         </div>
 
         {/* Chart 3: Complaints by Hostel Block (Bar) */}
-        <div className="glass-card p-6 flex flex-col justify-between">
+        <div className="glass-card p-4 sm:p-6 flex flex-col justify-between min-w-0">
           <div>
             <h3 className="font-heading font-bold text-navy text-sm sm:text-base mb-1">
               Complaints by Hostel Block
@@ -529,7 +531,7 @@ const AdminAnalytics = () => {
         </div>
 
         {/* Chart 5: Average Resolution Time by Category (Bar) */}
-        <div className="glass-card p-6 flex flex-col justify-between">
+        <div className="glass-card p-4 sm:p-6 flex flex-col justify-between min-w-0">
           <div>
             <h3 className="font-heading font-bold text-navy text-sm sm:text-base mb-1">
               Avg Resolution Time by Category (Hours)
@@ -548,7 +550,7 @@ const AdminAnalytics = () => {
         </div>
 
         {/* Chart 6: Unresolved Complaints by Block (Horizontal Bar) */}
-        <div className="glass-card p-6 flex flex-col justify-between">
+        <div className="glass-card p-4 sm:p-6 flex flex-col justify-between min-w-0">
           <div>
             <h3 className="font-heading font-bold text-navy text-sm sm:text-base mb-1">
               Unresolved Complaints by Hostel Block
@@ -567,7 +569,7 @@ const AdminAnalytics = () => {
         </div>
 
         {/* Chart 7: Staff Workload (Bar) */}
-        <div className="glass-card p-6 flex flex-col justify-between lg:col-span-2">
+        <div className="glass-card p-4 sm:p-6 flex flex-col justify-between lg:col-span-2 min-w-0">
           <div>
             <h3 className="font-heading font-bold text-navy text-sm sm:text-base mb-1">
               Active Maintenance Staff Workloads

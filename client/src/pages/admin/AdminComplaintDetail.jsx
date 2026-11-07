@@ -473,26 +473,34 @@ const AdminComplaintDetail = () => {
 
       {/* --- Lightbox Modal --- */}
       {activePhoto && (
-        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="relative max-w-4xl w-full">
+        <div
+          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-3 sm:p-6"
+          onClick={() => setActivePhoto(null)}
+        >
+          <div className="relative max-w-4xl w-full flex flex-col items-center" onClick={(e) => e.stopPropagation()}>
             <button
               onClick={() => setActivePhoto(null)}
-              className="absolute -top-12 right-0 text-white hover:text-ice p-2"
+              aria-label="Close photo view"
+              className="absolute -top-12 right-0 text-white hover:text-ice p-2.5 touch-target flex items-center justify-center bg-white/10 rounded-full"
             >
-              <X className="w-7 h-7" />
+              <X className="w-6 h-6" />
             </button>
-            <img src={activePhoto} alt="Full view" className="w-full max-h-[85vh] object-contain rounded-xl" />
+            <img
+              src={activePhoto}
+              alt="Full view"
+              className="w-full max-h-[80vh] sm:max-h-[85vh] object-contain rounded-xl shadow-2xl"
+            />
           </div>
         </div>
       )}
 
       {/* --- Modals for Status, Priority, Staff --- */}
       {activeModal === 'status' && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="glass-modal max-w-md w-full p-6 sm:p-8 space-y-4">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+          <div className="glass-modal max-w-md w-full p-5 sm:p-8 space-y-4 max-h-[90dvh] overflow-y-auto">
             <div className="flex items-center justify-between border-b border-ice pb-3">
               <h3 className="font-heading font-bold text-base text-navy">Update Complaint Status</h3>
-              <button onClick={() => setActiveModal(null)} className="text-slate-400"><X className="w-5 h-5" /></button>
+              <button onClick={() => setActiveModal(null)} className="text-slate-400 p-1 touch-target flex items-center justify-center"><X className="w-5 h-5" /></button>
             </div>
             <form onSubmit={handleStatusSubmit} className="space-y-4">
               <div>
@@ -521,11 +529,11 @@ const AdminComplaintDetail = () => {
       )}
 
       {activeModal === 'priority' && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="glass-modal max-w-md w-full p-6 sm:p-8 space-y-4">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+          <div className="glass-modal max-w-md w-full p-5 sm:p-8 space-y-4 max-h-[90dvh] overflow-y-auto">
             <div className="flex items-center justify-between border-b border-ice pb-3">
               <h3 className="font-heading font-bold text-base text-navy">Override Priority</h3>
-              <button onClick={() => setActiveModal(null)} className="text-slate-400"><X className="w-5 h-5" /></button>
+              <button onClick={() => setActiveModal(null)} className="text-slate-400 p-1 touch-target flex items-center justify-center"><X className="w-5 h-5" /></button>
             </div>
             <form onSubmit={handlePrioritySubmit} className="space-y-4">
               <div>
@@ -551,11 +559,11 @@ const AdminComplaintDetail = () => {
       )}
 
       {activeModal === 'assign' && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="glass-modal max-w-md w-full p-6 sm:p-8 space-y-4">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+          <div className="glass-modal max-w-md w-full p-5 sm:p-8 space-y-4 max-h-[90dvh] overflow-y-auto">
             <div className="flex items-center justify-between border-b border-ice pb-3">
               <h3 className="font-heading font-bold text-base text-navy">Assign Maintenance Staff</h3>
-              <button onClick={() => setActiveModal(null)} className="text-slate-400"><X className="w-5 h-5" /></button>
+              <button onClick={() => setActiveModal(null)} className="text-slate-400 p-1 touch-target flex items-center justify-center"><X className="w-5 h-5" /></button>
             </div>
             <form onSubmit={handleAssignSubmit} className="space-y-4">
               <div>
