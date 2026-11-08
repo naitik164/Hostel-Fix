@@ -294,11 +294,17 @@ const NewComplaint = () => {
                 setCategory(target);
                 const subList = CATEGORIES_MAP[target] || [];
                 setSubcategory(subList[0] || '');
+
+                // Smoothly navigate / scroll down to the next submission step
+                const nextStepElement = document.getElementById('complaint-details-section');
+                if (nextStepElement) {
+                  nextStepElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
               }}
             />
 
-            {/* Subcategory & Category Override Selection */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+            {/* Subcategory & Category Override Selection (Next Step) */}
+            <div id="complaint-details-section" className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 scroll-mt-24">
               <div>
                 <label className="block text-xs font-semibold text-navy mb-1.5">
                   Category Area (All 12 Categories)

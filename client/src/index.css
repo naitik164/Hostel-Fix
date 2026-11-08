@@ -249,6 +249,87 @@ h1, h2, h3, h4, h5, h6, .font-heading {
   }
 }
 
+/* ==========================================================================
+   Complaint Category Cards: Premium Interactive Hover & Reset Selection
+   ========================================================================== */
+.category-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 84px;
+  display: flex;
+  align-items: center;
+  text-align: left;
+  user-select: none;
+  border-radius: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(255, 255, 255, 0.85) 50%,
+    rgba(235, 245, 254, 0.75) 100%
+  );
+  box-shadow: 0 8px 24px -6px rgba(3, 25, 91, 0.06),
+              0 2px 8px -2px rgba(25, 81, 252, 0.04),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transform: translate3d(0, 0, 0) scale(1);
+  transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 280ms cubic-bezier(0.16, 1, 0.3, 1),
+              background 280ms ease,
+              border-color 280ms ease;
+  will-change: transform, box-shadow;
+  outline: none;
+}
+
+@media (min-width: 640px) {
+  .category-card {
+    min-height: 96px;
+    border-radius: 22px;
+  }
+}
+
+/* Premium Hover: Smooth -5px lift, 1.015 scale, subtle blue glow, brightened background */
+.category-card:hover {
+  transform: translateY(-5px) scale(1.015);
+  border-color: rgba(119, 193, 252, 0.85);
+  background: linear-gradient(
+    90deg,
+    #ffffff 0%,
+    #f4f9ff 50%,
+    rgba(225, 241, 253, 0.92) 100%
+  );
+  box-shadow: 0 16px 36px -6px rgba(25, 81, 252, 0.18),
+              0 0 22px rgba(119, 193, 252, 0.32),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.98);
+}
+
+/* Tactile Click / Tap feedback: clean instantaneous response without persistent selection */
+.category-card:active {
+  transform: translateY(-2px) scale(0.995);
+  transition-duration: 100ms;
+}
+
+/* Subtle Icon Container Hover Scaling */
+.category-card:hover .category-card-icon {
+  transform: scale(1.06);
+  background-color: #cbe9fd;
+  border-color: rgba(25, 81, 252, 0.4);
+  box-shadow: 0 6px 16px -2px rgba(25, 81, 252, 0.18);
+}
+
+/* Accessibility: Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .category-card,
+  .category-card:hover,
+  .category-card:active,
+  .category-card:hover .category-card-icon {
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
 /* Glass Table Styles */
 .glass-table {
   width: 100%;
