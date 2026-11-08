@@ -289,74 +289,80 @@ const LandingPage = () => {
         </div>
 
         {/* 2. FEATURES SECTION: Portal Entry Cards (Staggered Reveal: 100ms, 250ms, 400ms) */}
-        <div className="mt-10 sm:mt-12 grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6 max-w-5xl mx-auto">
-          {/* Student Card */}
-          <div className="scroll-reveal-scale delay-100 h-full">
-            <div className="glass-card p-5 sm:p-6 text-left flex flex-col justify-between h-full hover:shadow-glass-hover transition-all border-sky/40">
+        <div className="mt-10 sm:mt-12 grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6 max-w-5xl mx-auto items-stretch">
+          {/* Card 1: Resident Student Portal */}
+          <div className="scroll-reveal-scale delay-100 h-full flex flex-col">
+            <div className="portal-card p-5 sm:p-6 text-left flex flex-col justify-between h-full group">
               <div>
-                <div className="w-12 h-12 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md">
-                  <Wrench className="w-6 h-6" />
+                <div className="w-12 h-12 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20 shrink-0 group-hover:scale-105 transition-transform">
+                  <Wrench className="w-6 h-6 text-white" />
                 </div>
-                <h2 className="text-lg font-heading font-bold text-navy">Resident Student Portal</h2>
-                <p className="mt-2 text-xs text-slate-600 leading-relaxed">
+                <h2 className="text-lg sm:text-xl font-heading font-bold text-navy tracking-tight leading-snug">
+                  Resident Student Portal
+                </h2>
+                <p className="mt-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
                   Sign in with Google, report facility complaints, track maintenance milestones, and rate resolution quality.
                 </p>
               </div>
-              <div className="mt-6">
+              <div className="mt-6 pt-1">
                 <Link
                   to="/student/login"
-                  className="btn-action w-full flex items-center justify-center gap-2 py-3 rounded-control text-xs font-bold cursor-pointer"
+                  className="btn-action w-full flex items-center justify-center gap-2 py-3 px-4 rounded-control text-xs sm:text-sm font-bold text-white shadow-md hover:shadow-lg cursor-pointer transition-all"
                 >
                   <span>Student Google Sign In</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                 </Link>
               </div>
             </div>
           </div>
 
-          {/* Staff Card */}
-          <div className="scroll-reveal-scale delay-250 h-full">
-            <div className="glass-card p-5 sm:p-6 text-left flex flex-col justify-between h-full hover:shadow-glass-hover transition-all border-sky/40 bg-gradient-to-b from-white/90 to-blue-50/50">
+          {/* Card 2: Maintenance Staff Portal */}
+          <div className="scroll-reveal-scale delay-250 h-full flex flex-col">
+            <div className="portal-card p-5 sm:p-6 text-left flex flex-col justify-between h-full group">
               <div>
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-royal to-electric text-white flex items-center justify-center mb-4 shadow-md">
-                  <HardHat className="w-6 h-6 text-ice" />
+                <div className="w-12 h-12 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20 shrink-0 group-hover:scale-105 transition-transform">
+                  <HardHat className="w-6 h-6 text-white" />
                 </div>
-                <h2 className="text-lg font-heading font-bold text-navy">Maintenance Staff Portal</h2>
-                <p className="mt-2 text-xs text-slate-600 leading-relaxed">
+                <h2 className="text-lg sm:text-xl font-heading font-bold text-navy tracking-tight leading-snug">
+                  Maintenance Staff Portal
+                </h2>
+                <p className="mt-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
                   Authorized field technicians sign in with approved Google accounts, manage assigned tasks, and submit photo proof for sign-off.
                 </p>
               </div>
-              <div className="mt-6">
+              <div className="mt-6 pt-1">
                 <Link
                   to="/staff/login"
-                  className="w-full flex items-center justify-center gap-2 py-3 rounded-control text-xs font-bold bg-royal text-white hover:bg-electric transition-all shadow-md cursor-pointer"
+                  className="btn-action w-full flex items-center justify-center gap-2 py-3 px-4 rounded-control text-xs sm:text-sm font-bold text-white shadow-md hover:shadow-lg cursor-pointer transition-all"
                 >
                   <span>Staff Google Sign In</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                 </Link>
               </div>
             </div>
           </div>
 
-          {/* Warden Card */}
-          <div className="scroll-reveal-scale delay-400 h-full">
-            <div className="glass-dark-panel p-5 sm:p-6 text-left flex flex-col justify-between h-full rounded-card shadow-glass-dark text-white">
+          {/* Card 3: Warden Admin Center */}
+          <div className="scroll-reveal-scale delay-400 h-full flex flex-col">
+            <div className="portal-card p-5 sm:p-6 text-left flex flex-col justify-between h-full group">
               <div>
-                <div className="w-12 h-12 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md border border-sky/50">
-                  <Shield className="w-6 h-6 text-ice" />
+                <div className="w-12 h-12 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20 shrink-0 group-hover:scale-105 transition-transform">
+                  <Shield className="w-6 h-6 text-white" />
                 </div>
-                <h2 className="text-lg font-heading font-bold text-white">Warden Admin Center</h2>
-                <p className="mt-2 text-xs text-slate-200/80 leading-relaxed">
+                <h2 className="text-lg sm:text-xl font-heading font-bold text-navy tracking-tight leading-snug">
+                  Warden Admin Center
+                </h2>
+                <p className="mt-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
                   Assign tasks, inspect before/after photo proof, approve resolutions, register staff, and monitor MongoDB analytics.
                 </p>
               </div>
-              <div className="mt-6">
+              <div className="mt-6 pt-1">
                 <Link
                   to="/admin/login"
-                  className="w-full flex items-center justify-center gap-2 py-3 rounded-control text-xs font-bold bg-white text-navy hover:bg-ice transition-all shadow-md cursor-pointer"
+                  className="btn-action w-full flex items-center justify-center gap-2 py-3 px-4 rounded-control text-xs sm:text-sm font-bold text-white shadow-md hover:shadow-lg cursor-pointer transition-all"
                 >
                   <span>Warden ID & Pass Sign In</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                 </Link>
               </div>
             </div>
