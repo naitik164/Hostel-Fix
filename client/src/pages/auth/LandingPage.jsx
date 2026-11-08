@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import {
@@ -43,6 +43,16 @@ const LandingPage = () => {
   const { isAuthenticated, user } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // Dashboard showcase interactive reveal and animated counters
+  const [showcaseRevealed, setShowcaseRevealed] = useState(false);
+  const [showcaseCounts, setShowcaseCounts] = useState({
+    total: 0,
+    review: 0,
+    progress: 0,
+    resolved: 0,
+  });
+  const showcaseRef = useRef(null);
+
   const dashboardPath =
     user?.role === 'admin'
       ? '/admin/dashboard'
@@ -59,7 +69,88 @@ const LandingPage = () => {
     }
   };
 
-  // Intersection Observer for scroll-triggered reveal animations
+  // Dedicated Intersection Observer for Dashboard Showcase (triggers when 20% in view)
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      setShowcaseRevealed(true);
+      setShowcaseCounts({ total: 14, review: 1, progress: 2, resolved: 11 });
+      return;
+    }
+
+    if (!('IntersectionObserver' in window)) {
+      setShowcaseRevealed(true);
+      setShowcaseCounts({ total: 14, review: 1, progress: 2, resolved: 11 });
+      return;
+    }
+
+    const currentEl = showcaseRef.current;
+    if (!currentEl) return;
+
+    const showcaseObserver = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setShowcaseRevealed(true);
+            obs.unobserve(entry.target); // Trigger only once
+          }
+        });
+      },
+      {
+        threshold: 0.20, // Exactly 20% viewport threshold
+        rootMargin: '0px 0px -40px 0px',
+      }
+    );
+
+    showcaseObserver.observe(currentEl);
+
+    return () => {
+      showcaseObserver.disconnect();
+    };
+  }, []);
+
+  // Micro-animation: Counter rollout for Dashboard statistics
+  useEffect(() => {
+    if (!showcaseRevealed) return;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      setShowcaseCounts({ total: 14, review: 1, progress: 2, resolved: 11 });
+      return;
+    }
+
+    const duration = 1100;
+    const startTime = performance.now();
+
+    const animateShowcaseNumbers = (currentTime) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // Cubic ease-out: 1 - (1 - progress)^3
+      const ease = 1 - Math.pow(1 - progress, 3);
+
+      setShowcaseCounts({
+        total: Math.round(14 * ease),
+        review: Math.round(1 * ease),
+        progress: Math.round(2 * ease),
+        resolved: Math.round(11 * ease),
+      });
+
+      if (progress < 1) {
+        requestAnimationFrame(animateShowcaseNumbers);
+      }
+    };
+
+    // Stagger slightly so numbers count up in sync with card reveal
+    const timer = setTimeout(() => {
+      requestAnimationFrame(animateShowcaseNumbers);
+    }, 280);
+
+    return () => clearTimeout(timer);
+  }, [showcaseRevealed]);
+
+  // Intersection Observer for scroll-triggered reveal animations across general sections
   useEffect(() => {
     if (typeof window === 'undefined' || !('IntersectionObserver' in window)) return;
 
@@ -382,15 +473,30 @@ const LandingPage = () => {
           </div>
         </div>
 
-        {/* Realistic Product Dashboard Mockup Preview */}
-        <div className="scroll-reveal-scale delay-200 mt-12 sm:mt-16 max-w-5xl mx-auto relative">
-          <div className="relative rounded-2xl sm:rounded-3xl p-2 sm:p-3 bg-white/70 backdrop-blur-2xl border border-sky/40 shadow-2xl shadow-navy/15">
-            {/* macOS / SaaS Browser Chrome */}
-            <div className="flex items-center justify-between px-3 py-2 sm:px-4 sm:py-2.5 bg-slate-100/90 rounded-t-xl sm:rounded-t-2xl border-b border-sky/20 text-xs text-slate-500">
+        {/* Realistic Product Dashboard Mockup Preview with Cinematic Scroll Entrance & Interactive Hover */}
+        <div
+          ref={showcaseRef}
+          className="mt-12 sm:mt-16 max-w-5xl mx-auto relative"
+        >
+          {/* Main Dashboard Container with 900ms Fade-Up, 0.97 Scale Entrance & Soft Blue Glow Hover */}
+          <div
+            className={`dashboard-showcase-container relative rounded-2xl sm:rounded-3xl p-2 sm:p-3 bg-white/75 backdrop-blur-2xl border border-sky/40 shadow-2xl shadow-navy/15 overflow-hidden transition-all duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${showcaseRevealed
+              ? 'opacity-100 translate-y-0 scale-100'
+              : 'opacity-0 translate-y-[45px] scale-[0.97]'
+              }`}
+          >
+            {/* Animated Subtle Frame Shine on Entrance */}
+            {showcaseRevealed && <div className="animate-frame-shine" />}
+
+            {/* macOS / SaaS Browser Chrome (Downward-to-normal entrance) */}
+            <div
+              className={`flex items-center justify-between px-3 py-2 sm:px-4 sm:py-2.5 bg-slate-100/90 rounded-t-xl sm:rounded-t-2xl border-b border-sky/20 text-xs text-slate-500 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] delay-100 ${showcaseRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'
+                }`}
+            >
               <div className="flex items-center gap-1.5 sm:gap-2">
-                <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-rose-400 inline-block" />
-                <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-amber-400 inline-block" />
-                <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-emerald-400 inline-block" />
+                <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-rose-400 inline-block transition-transform hover:scale-125 duration-150" />
+                <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-amber-400 inline-block transition-transform hover:scale-125 duration-150" />
+                <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-emerald-400 inline-block transition-transform hover:scale-125 duration-150" />
               </div>
               <div className="px-3 sm:px-4 py-1 rounded-full bg-white border border-sky/30 text-[11px] sm:text-xs font-mono text-slate-600 flex items-center gap-1.5 shadow-2xs max-w-xs truncate">
                 <Lock className="w-3 h-3 text-emerald-600 shrink-0" />
@@ -404,10 +510,16 @@ const LandingPage = () => {
 
             {/* Dashboard Inner Canvas */}
             <div className="p-4 sm:p-7 bg-gradient-to-b from-white/95 to-[#F5F9FF] rounded-b-xl sm:rounded-b-2xl text-left space-y-5">
-              {/* Mockup Header */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-sky/20">
+              {/* Mockup Header (Student Profile Section with scale-in avatar & sequential fade-in) */}
+              <div
+                className={`flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-sky/20 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] delay-200 ${showcaseRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
+                  }`}
+              >
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-2xl bg-gradient-action text-white font-bold flex items-center justify-center text-sm shadow-md">
+                  <div
+                    className={`w-10 h-10 rounded-2xl bg-gradient-action text-white font-bold flex items-center justify-center text-sm shadow-md transition-transform duration-600 ease-[cubic-bezier(0.16,1,0.3,1)] delay-300 ${showcaseRevealed ? 'scale-100' : 'scale-[0.85]'
+                      }`}
+                  >
                     NA
                   </div>
                   <div>
@@ -423,45 +535,79 @@ const LandingPage = () => {
                   </div>
                 </div>
                 <div className="flex items-center gap-2 text-xs">
-                  <span className="px-3 py-1.5 rounded-xl bg-blue-50 text-royal font-semibold border border-sky/30 flex items-center gap-1.5">
-                    <Activity className="w-3.5 h-3.5 text-electric" />
+                  <span className="px-3 py-1.5 rounded-xl bg-blue-50 text-royal font-semibold border border-sky/30 flex items-center gap-1.5 shadow-2xs">
+                    <Activity className="w-3.5 h-3.5 text-electric animate-pulse" />
                     <span>Real-time Maintenance Tracking</span>
                   </span>
                 </div>
               </div>
 
-              {/* 4 Stat Cards Mini Grid */}
+              {/* 4 Stat Cards Mini Grid (120ms Staggered Entrance, Animated Counters, 5px Lift on Hover) */}
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-                <div className="p-3 sm:p-4 rounded-xl bg-white border border-sky/30 shadow-2xs">
+                {/* Stat 01: Total Complaints */}
+                <div
+                  className={`dashboard-stat-card p-3 sm:p-4 rounded-xl bg-white border border-sky/30 shadow-2xs transition-all duration-600 ease-[cubic-bezier(0.16,1,0.3,1)] delay-[250ms] ${showcaseRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                    }`}
+                >
                   <p className="text-[11px] text-slate-500 font-semibold">Total Complaints</p>
-                  <p className="text-xl sm:text-2xl font-extrabold text-navy mt-1">14</p>
+                  <p className="text-xl sm:text-2xl font-extrabold text-navy mt-1 tabular-nums">
+                    {showcaseCounts.total}
+                  </p>
                   <p className="text-[10px] text-emerald-600 font-medium mt-0.5">Lifetime logged</p>
                 </div>
-                <div className="p-3 sm:p-4 rounded-xl bg-white border border-sky/30 shadow-2xs">
+
+                {/* Stat 02: Awaiting Review */}
+                <div
+                  className={`dashboard-stat-card p-3 sm:p-4 rounded-xl bg-white border border-sky/30 shadow-2xs transition-all duration-600 ease-[cubic-bezier(0.16,1,0.3,1)] delay-[370ms] ${showcaseRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                    }`}
+                >
                   <p className="text-[11px] text-slate-500 font-semibold">Awaiting Review</p>
-                  <p className="text-xl sm:text-2xl font-extrabold text-amber-600 mt-1">1</p>
+                  <p className="text-xl sm:text-2xl font-extrabold text-amber-600 mt-1 tabular-nums">
+                    {showcaseCounts.review}
+                  </p>
                   <p className="text-[10px] text-slate-400 mt-0.5">Warden triage queue</p>
                 </div>
-                <div className="p-3 sm:p-4 rounded-xl bg-white border border-sky/30 shadow-2xs">
+
+                {/* Stat 03: In Progress */}
+                <div
+                  className={`dashboard-stat-card p-3 sm:p-4 rounded-xl bg-white border border-sky/30 shadow-2xs transition-all duration-600 ease-[cubic-bezier(0.16,1,0.3,1)] delay-[490ms] ${showcaseRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                    }`}
+                >
                   <p className="text-[11px] text-slate-500 font-semibold">In Progress</p>
-                  <p className="text-xl sm:text-2xl font-extrabold text-electric mt-1">2</p>
+                  <p className="text-xl sm:text-2xl font-extrabold text-electric mt-1 tabular-nums">
+                    {showcaseCounts.progress}
+                  </p>
                   <p className="text-[10px] text-royal font-medium mt-0.5">Assigned to staff</p>
                 </div>
-                <div className="p-3 sm:p-4 rounded-xl bg-white border border-sky/30 shadow-2xs">
+
+                {/* Stat 04: Verified Resolved */}
+                <div
+                  className={`dashboard-stat-card p-3 sm:p-4 rounded-xl bg-white border border-sky/30 shadow-2xs transition-all duration-600 ease-[cubic-bezier(0.16,1,0.3,1)] delay-[610ms] ${showcaseRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                    }`}
+                >
                   <p className="text-[11px] text-slate-500 font-semibold">Verified Resolved</p>
-                  <p className="text-xl sm:text-2xl font-extrabold text-emerald-600 mt-1">11</p>
+                  <p className="text-xl sm:text-2xl font-extrabold text-emerald-600 mt-1 tabular-nums">
+                    {showcaseCounts.resolved}
+                  </p>
                   <p className="text-[10px] text-emerald-600 font-medium mt-0.5">Photo proof signed</p>
                 </div>
               </div>
 
-              {/* Live Ticket Card Inside Mockup */}
-              <div className="p-3.5 sm:p-4 rounded-2xl bg-white border border-sky/40 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-3">
+              {/* Live Ticket Card Inside Mockup (Smooth Fade-Up & 4px Hover Lift) */}
+              <div
+                className={`dashboard-ticket-card p-3.5 sm:p-4 rounded-2xl bg-white border border-sky/40 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-3 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] delay-[550ms] ${showcaseRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                  }`}
+              >
                 <div className="flex items-start gap-3">
                   <div className="w-9 h-9 rounded-xl bg-royal/10 text-royal flex items-center justify-center shrink-0 mt-0.5">
                     <Wrench className="w-5 h-5 text-electric" />
                   </div>
                   <div>
-                    <div className="flex flex-wrap items-center gap-2">
+                    {/* ID and priority badge (appear first) */}
+                    <div
+                      className={`flex flex-wrap items-center gap-2 transition-all duration-500 delay-[650ms] ${showcaseRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-1'
+                        }`}
+                    >
                       <span className="font-mono text-xs font-bold text-royal">HF-2026-0048</span>
                       <span className="px-2 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-[10px] font-bold">
                         High Priority
@@ -470,18 +616,29 @@ const LandingPage = () => {
                         Plumbing & Washroom
                       </span>
                     </div>
-                    <h4 className="font-heading font-bold text-navy text-sm sm:text-base mt-1">
-                      Water Leakage in 3rd Floor Restroom
-                    </h4>
-                    <p className="text-xs text-slate-500 mt-0.5">
-                      Technician assigned: <strong className="text-navy">Ramesh Kumar (Master Plumber)</strong> • Visvesvaraya Block
-                    </p>
+
+                    {/* Title and technician details (follow smoothly) */}
+                    <div
+                      className={`transition-all duration-500 delay-[750ms] ${showcaseRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-1'
+                        }`}
+                    >
+                      <h4 className="font-heading font-bold text-navy text-sm sm:text-base mt-1">
+                        Water Leakage in 3rd Floor Restroom
+                      </h4>
+                      <p className="text-xs text-slate-500 mt-0.5">
+                        Technician assigned: <strong className="text-navy">Ramesh Kumar (Master Plumber)</strong> • Visvesvaraya Block
+                      </p>
+                    </div>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 self-start md:self-center shrink-0">
-                  <span className="px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-bold flex items-center gap-1.5">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                {/* Status Badge with Scale-In Animation */}
+                <div
+                  className={`flex items-center gap-2 self-start md:self-center shrink-0 transition-all duration-500 delay-[850ms] ${showcaseRevealed ? 'opacity-100 scale-100' : 'opacity-0 scale-90'
+                    }`}
+                >
+                  <span className="px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-bold flex items-center gap-1.5 shadow-2xs">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 drop-shadow-xs" />
                     <span>In Progress • Photo Attached</span>
                   </span>
                 </div>
@@ -489,8 +646,11 @@ const LandingPage = () => {
             </div>
           </div>
 
-          {/* Floating Glassmorphic Depth Badges */}
-          <div className="hidden sm:flex absolute -bottom-5 -left-4 p-3 rounded-2xl bg-white/95 backdrop-blur-xl border border-sky/50 shadow-xl shadow-royal/10 items-center gap-2.5 text-xs font-bold text-navy animate-in fade-in zoom-in-95 duration-500">
+          {/* Floating Glassmorphic Depth Badge 1: Bottom-Left (Before & After Photo Proof with independent upward entrance & continuous slow float) */}
+          <div
+            className={`dashboard-floating-badge animate-floating-badge-1 hidden sm:flex absolute -bottom-5 -left-4 p-3 rounded-2xl bg-white/95 backdrop-blur-xl border border-sky/50 shadow-xl shadow-royal/10 items-center gap-2.5 text-xs font-bold text-navy transition-all duration-800 ease-[cubic-bezier(0.16,1,0.3,1)] delay-[750ms] ${showcaseRevealed ? 'opacity-100 translate-x-0 translate-y-0 scale-100' : 'opacity-0 -translate-x-3 translate-y-4 scale-90'
+              }`}
+          >
             <div className="w-8 h-8 rounded-xl bg-emerald-500 text-white flex items-center justify-center shadow-md">
               <Check className="w-4 h-4" />
             </div>
@@ -500,7 +660,11 @@ const LandingPage = () => {
             </div>
           </div>
 
-          <div className="hidden sm:flex absolute -top-4 -right-4 p-3 rounded-2xl bg-white/95 backdrop-blur-xl border border-sky/50 shadow-xl shadow-royal/10 items-center gap-2.5 text-xs font-bold text-navy animate-in fade-in zoom-in-95 duration-500">
+          {/* Floating Glassmorphic Depth Badge 2: Top-Right (First Response with independent top-right entrance & continuous slow float) */}
+          <div
+            className={`dashboard-floating-badge animate-floating-badge-2 hidden sm:flex absolute -top-4 -right-4 p-3 rounded-2xl bg-white/95 backdrop-blur-xl border border-sky/50 shadow-xl shadow-royal/10 items-center gap-2.5 text-xs font-bold text-navy transition-all duration-800 ease-[cubic-bezier(0.16,1,0.3,1)] delay-[650ms] ${showcaseRevealed ? 'opacity-100 translate-x-0 translate-y-0 scale-100' : 'opacity-0 translate-x-4 -translate-y-3 scale-90'
+              }`}
+          >
             <div className="w-8 h-8 rounded-xl bg-gradient-action text-white flex items-center justify-center shadow-md">
               <Zap className="w-4 h-4" />
             </div>
@@ -515,134 +679,144 @@ const LandingPage = () => {
       {/* =========================================================================
           2. THE PROBLEM – WHY HOSTELFIX IS NEEDED
           ========================================================================= */}
-      <section id="problem" className="relative z-10 py-16 sm:py-24 bg-white/70 border-t border-sky/20">
+      <section id="problem" className="relative z-10 py-16 sm:py-24 bg-[#F8FAFC] border-t border-[#E1EBF8]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="scroll-reveal text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-            <h2 className="text-2xl sm:text-4xl md:text-5xl font-heading font-extrabold text-navy tracking-tight">
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-heading font-extrabold text-[#10234F] tracking-tight">
               Hostel Problems Shouldn't Remain Unresolved.
             </h2>
-            <p className="mt-3 sm:mt-4 text-xs sm:text-base text-slate-600 leading-relaxed max-w-2xl mx-auto">
+            <p className="mt-3 sm:mt-4 text-xs sm:text-base text-[#64748B] leading-relaxed max-w-2xl mx-auto">
               Traditional hostel maintenance relies on paper registers, verbal complaints, and lost messages. Here is why the old approach fails students, wardens, and technicians alike:
             </p>
           </div>
 
-          {/* 5 Problem Cards Responsive Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          {/* 5 Problem Cards Responsive Grid: 3 Top Row + 2 Bottom Row Centered on Desktop */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6 sm:gap-7 max-w-6xl mx-auto items-stretch">
             {/* Problem 01 */}
-            <div className="scroll-reveal-scale delay-100">
-              <div className="portal-card p-6 h-full flex flex-col justify-between border-rose-200/60 bg-gradient-to-b from-white to-rose-50/20">
+            <div className="scroll-reveal-scale delay-100 col-span-1 md:col-span-1 lg:col-span-2 h-full flex flex-col">
+              <div className="problem-card p-6 sm:p-7 h-full flex flex-col justify-between">
                 <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-xs font-mono font-extrabold px-2.5 py-1 rounded-lg bg-rose-100 text-rose-700">
+                  <div className="flex items-center justify-between mb-5">
+                    <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-md bg-[#EFF6FF] text-[#1749EF]">
                       01
                     </span>
-                    <AlertOctagon className="w-5 h-5 text-rose-500" />
+                    <div className="w-10 h-10 rounded-xl bg-[#EFF6FF] text-[#1749EF] flex items-center justify-center border border-[#E1EBF8]/80">
+                      <FileText className="w-5 h-5 stroke-[2]" />
+                    </div>
                   </div>
-                  <h3 className="text-base sm:text-lg font-heading font-bold text-navy">
+                  <h3 className="text-lg sm:text-[19px] font-heading font-bold text-[#10234F] leading-snug">
                     Manual Complaint Reporting
                   </h3>
-                  <p className="mt-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  <p className="mt-3 text-sm text-[#64748B] leading-relaxed">
                     Students often struggle to report maintenance issues through disconnected channels.
                   </p>
                 </div>
-                <div className="mt-5 pt-3 border-t border-rose-100 text-[11px] text-rose-600 font-semibold flex items-center gap-1.5">
-                  <XCircle className="w-3.5 h-3.5" />
+                <div className="mt-6 pt-4 border-t border-[#E1EBF8] text-xs text-[#64748B] font-medium flex items-center gap-2">
+                  <XCircle className="w-4 h-4 text-[#1749EF] shrink-0" />
                   <span>Lost WhatsApp messages & paper registers</span>
                 </div>
               </div>
             </div>
 
             {/* Problem 02 */}
-            <div className="scroll-reveal-scale delay-200">
-              <div className="portal-card p-6 h-full flex flex-col justify-between border-amber-200/60 bg-gradient-to-b from-white to-amber-50/20">
+            <div className="scroll-reveal-scale delay-200 col-span-1 md:col-span-1 lg:col-span-2 h-full flex flex-col">
+              <div className="problem-card p-6 sm:p-7 h-full flex flex-col justify-between">
                 <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-xs font-mono font-extrabold px-2.5 py-1 rounded-lg bg-amber-100 text-amber-800">
+                  <div className="flex items-center justify-between mb-5">
+                    <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-md bg-[#EFF6FF] text-[#1749EF]">
                       02
                     </span>
-                    <Timer className="w-5 h-5 text-amber-600" />
+                    <div className="w-10 h-10 rounded-xl bg-[#EFF6FF] text-[#1749EF] flex items-center justify-center border border-[#E1EBF8]/80">
+                      <Timer className="w-5 h-5 stroke-[2]" />
+                    </div>
                   </div>
-                  <h3 className="text-base sm:text-lg font-heading font-bold text-navy">
+                  <h3 className="text-lg sm:text-[19px] font-heading font-bold text-[#10234F] leading-snug">
                     Delayed Resolutions
                   </h3>
-                  <p className="mt-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  <p className="mt-3 text-sm text-[#64748B] leading-relaxed">
                     Complaints can remain pending without proper follow-up.
                   </p>
                 </div>
-                <div className="mt-5 pt-3 border-t border-amber-100 text-[11px] text-amber-700 font-semibold flex items-center gap-1.5">
-                  <Clock className="w-3.5 h-3.5" />
+                <div className="mt-6 pt-4 border-t border-[#E1EBF8] text-xs text-[#64748B] font-medium flex items-center gap-2">
+                  <Clock className="w-4 h-4 text-[#1749EF] shrink-0" />
                   <span>No response timelines or priority escalation</span>
                 </div>
               </div>
             </div>
 
             {/* Problem 03 */}
-            <div className="scroll-reveal-scale delay-300">
-              <div className="portal-card p-6 h-full flex flex-col justify-between border-sky-200/70 bg-gradient-to-b from-white to-sky-50/30">
+            <div className="scroll-reveal-scale delay-300 col-span-1 md:col-span-1 lg:col-span-2 h-full flex flex-col">
+              <div className="problem-card p-6 sm:p-7 h-full flex flex-col justify-between">
                 <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-xs font-mono font-extrabold px-2.5 py-1 rounded-lg bg-sky-100 text-royal">
+                  <div className="flex items-center justify-between mb-5">
+                    <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-md bg-[#EFF6FF] text-[#1749EF]">
                       03
                     </span>
-                    <EyeOff className="w-5 h-5 text-electric" />
+                    <div className="w-10 h-10 rounded-xl bg-[#EFF6FF] text-[#1749EF] flex items-center justify-center border border-[#E1EBF8]/80">
+                      <EyeOff className="w-5 h-5 stroke-[2]" />
+                    </div>
                   </div>
-                  <h3 className="text-base sm:text-lg font-heading font-bold text-navy">
+                  <h3 className="text-lg sm:text-[19px] font-heading font-bold text-[#10234F] leading-snug">
                     Lack of Transparency
                   </h3>
-                  <p className="mt-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  <p className="mt-3 text-sm text-[#64748B] leading-relaxed">
                     Students have limited visibility into complaint progress.
                   </p>
                 </div>
-                <div className="mt-5 pt-3 border-t border-sky-100 text-[11px] text-royal font-semibold flex items-center gap-1.5">
-                  <Activity className="w-3.5 h-3.5" />
+                <div className="mt-6 pt-4 border-t border-[#E1EBF8] text-xs text-[#64748B] font-medium flex items-center gap-2">
+                  <Activity className="w-4 h-4 text-[#1749EF] shrink-0" />
                   <span>Zero live status updates or technician details</span>
                 </div>
               </div>
             </div>
 
             {/* Problem 04 */}
-            <div className="scroll-reveal-scale delay-400">
-              <div className="portal-card p-6 h-full flex flex-col justify-between border-rose-200/60 bg-gradient-to-b from-white to-rose-50/20">
+            <div className="scroll-reveal-scale delay-400 col-span-1 md:col-span-1 lg:col-span-2 lg:col-start-2 h-full flex flex-col">
+              <div className="problem-card p-6 sm:p-7 h-full flex flex-col justify-between">
                 <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-xs font-mono font-extrabold px-2.5 py-1 rounded-lg bg-rose-100 text-rose-700">
+                  <div className="flex items-center justify-between mb-5">
+                    <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-md bg-[#EFF6FF] text-[#1749EF]">
                       04
                     </span>
-                    <UserX className="w-5 h-5 text-rose-500" />
+                    <div className="w-10 h-10 rounded-xl bg-[#EFF6FF] text-[#1749EF] flex items-center justify-center border border-[#E1EBF8]/80">
+                      <UserX className="w-5 h-5 stroke-[2]" />
+                    </div>
                   </div>
-                  <h3 className="text-base sm:text-lg font-heading font-bold text-navy">
+                  <h3 className="text-lg sm:text-[19px] font-heading font-bold text-[#10234F] leading-snug">
                     Poor Accountability
                   </h3>
-                  <p className="mt-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  <p className="mt-3 text-sm text-[#64748B] leading-relaxed">
                     Wardens need a structured way to assign tasks and verify completed work.
                   </p>
                 </div>
-                <div className="mt-5 pt-3 border-t border-rose-100 text-[11px] text-rose-600 font-semibold flex items-center gap-1.5">
-                  <XCircle className="w-3.5 h-3.5" />
+                <div className="mt-6 pt-4 border-t border-[#E1EBF8] text-xs text-[#64748B] font-medium flex items-center gap-2">
+                  <XCircle className="w-4 h-4 text-[#1749EF] shrink-0" />
                   <span>Unverified completions & verbal assurances</span>
                 </div>
               </div>
             </div>
 
             {/* Problem 05 */}
-            <div className="scroll-reveal-scale delay-500 md:col-span-2 lg:col-span-1">
-              <div className="portal-card p-6 h-full flex flex-col justify-between border-slate-200 bg-gradient-to-b from-white to-slate-50/40">
+            <div className="scroll-reveal-scale delay-500 col-span-1 md:col-span-2 md:w-[calc(50%-14px)] md:mx-auto lg:w-full lg:max-w-none lg:mx-0 lg:col-span-2 h-full flex flex-col">
+              <div className="problem-card p-6 sm:p-7 h-full flex flex-col justify-between">
                 <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-xs font-mono font-extrabold px-2.5 py-1 rounded-lg bg-slate-200 text-slate-700">
+                  <div className="flex items-center justify-between mb-5">
+                    <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-md bg-[#EFF6FF] text-[#1749EF]">
                       05
                     </span>
-                    <FolderArchive className="w-5 h-5 text-slate-600" />
+                    <div className="w-10 h-10 rounded-xl bg-[#EFF6FF] text-[#1749EF] flex items-center justify-center border border-[#E1EBF8]/80">
+                      <FolderArchive className="w-5 h-5 stroke-[2]" />
+                    </div>
                   </div>
-                  <h3 className="text-base sm:text-lg font-heading font-bold text-navy">
+                  <h3 className="text-lg sm:text-[19px] font-heading font-bold text-[#10234F] leading-snug">
                     No Centralized Records
                   </h3>
-                  <p className="mt-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  <p className="mt-3 text-sm text-[#64748B] leading-relaxed">
                     Historical complaints and recurring issues are difficult to monitor.
                   </p>
                 </div>
-                <div className="mt-5 pt-3 border-t border-slate-200 text-[11px] text-slate-600 font-semibold flex items-center gap-1.5">
-                  <BarChart3 className="w-3.5 h-3.5" />
+                <div className="mt-6 pt-4 border-t border-[#E1EBF8] text-xs text-[#64748B] font-medium flex items-center gap-2">
+                  <BarChart3 className="w-4 h-4 text-[#1749EF] shrink-0" />
                   <span>No analytics on block breakdowns or recurring faults</span>
                 </div>
               </div>
@@ -1291,7 +1465,7 @@ const LandingPage = () => {
                 </div>
                 <div className="mt-4 pt-2 border-t border-sky/20 flex items-center gap-1.5 text-[11px] text-royal font-semibold">
                   <UserPlus className="w-3.5 h-3.5 text-electric" />
-                  <span>Technician Dispatched</span>
+                  <span>Staff Assigned</span>
                 </div>
               </div>
             </div>

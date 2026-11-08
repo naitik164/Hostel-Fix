@@ -172,6 +172,36 @@ h1, h2, h3, h4, h5, h6, .font-heading {
   }
 }
 
+/* ==========================================================================
+   Problem Section: Enterprise-Grade Problem Cards
+   ========================================================================== */
+.problem-card {
+  background-color: #FFFFFF;
+  border: 1px solid #E1EBF8;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px -2px rgba(16, 35, 79, 0.04), 0 2px 6px -1px rgba(16, 35, 79, 0.02);
+  transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 280ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, box-shadow;
+}
+
+@media (hover: hover) {
+  .problem-card:hover {
+    transform: translateY(-5px) scale(1.01);
+    border-color: rgba(23, 73, 239, 0.35);
+    box-shadow: 0 14px 35px -8px rgba(23, 73, 239, 0.12), 0 4px 12px -2px rgba(23, 73, 239, 0.06);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .problem-card,
+  .problem-card:hover {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
 /* Dark Navy Glass Panels (for Warden Sidebar & Dark UI) */
 .glass-dark-panel {
   background: linear-gradient(
@@ -672,6 +702,139 @@ h1, h2, h3, h4, h5, h6, .font-heading {
 .delay-500 { transition-delay: 500ms; }
 .delay-600 { transition-delay: 600ms; }
 
+/* ==========================================================================
+   Dashboard Showcase: Cinematic Entrance, Micro-animations & Interactive Hover
+   ========================================================================== */
+
+/* Main Dashboard Showcase Container */
+.dashboard-showcase-container {
+  transition: transform 350ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 350ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 350ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, box-shadow;
+}
+
+@media (hover: hover) {
+  .dashboard-showcase-container:hover {
+    transform: translateY(-4px) scale(1.005);
+    box-shadow: 0 28px 65px -12px rgba(3, 25, 91, 0.18),
+                0 0 35px rgba(25, 81, 252, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    border-color: rgba(119, 193, 252, 0.7);
+  }
+}
+
+/* Statistics Cards Hover Interaction */
+.dashboard-stat-card {
+  transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 280ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, box-shadow;
+}
+
+@media (hover: hover) {
+  .dashboard-stat-card:hover {
+    transform: translateY(-5px) scale(1.015);
+    box-shadow: 0 12px 28px -4px rgba(11, 44, 177, 0.14),
+                0 0 16px rgba(25, 81, 252, 0.10);
+    border-color: rgba(55, 129, 252, 0.6);
+  }
+}
+
+/* Complaint Detail Card Hover Interaction */
+.dashboard-ticket-card {
+  transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 280ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, box-shadow;
+}
+
+@media (hover: hover) {
+  .dashboard-ticket-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 32px -6px rgba(11, 44, 177, 0.15),
+                0 0 18px rgba(25, 81, 252, 0.12);
+    border-color: rgba(55, 129, 252, 0.6);
+  }
+}
+
+/* Floating Badges Slow Continuous Float & Interactive Hover */
+@keyframes gentleFloat1 {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-3px, -7px);
+  }
+}
+
+@keyframes gentleFloat2 {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(3px, -6px);
+  }
+}
+
+.animate-floating-badge-1 {
+  animation: gentleFloat1 6s ease-in-out infinite;
+}
+
+.animate-floating-badge-2 {
+  animation: gentleFloat2 7s ease-in-out infinite 1s;
+}
+
+.dashboard-floating-badge {
+  transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, box-shadow;
+}
+
+@media (hover: hover) {
+  .dashboard-floating-badge:hover {
+    transform: scale(1.05) !important;
+    box-shadow: 0 20px 42px -8px rgba(11, 44, 177, 0.22),
+                0 0 22px rgba(25, 81, 252, 0.20) !important;
+  }
+}
+
+/* Frame Shine Initial Entrance Animation */
+@keyframes frameShineSweep {
+  0% {
+    transform: translateX(-120%) skewX(-20deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.6;
+  }
+  70% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateX(220%) skewX(-20deg);
+    opacity: 0;
+  }
+}
+
+.animate-frame-shine {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.35) 50%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 20;
+  animation: frameShineSweep 2s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
@@ -680,9 +843,15 @@ h1, h2, h3, h4, h5, h6, .font-heading {
     scroll-behavior: auto !important;
   }
   .scroll-reveal,
-  .scroll-reveal-scale {
+  .scroll-reveal-scale,
+  .dashboard-showcase-container,
+  .dashboard-stat-card,
+  .dashboard-ticket-card,
+  .dashboard-floating-badge,
+  .animate-frame-shine {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
+    animation: none !important;
   }
 }
