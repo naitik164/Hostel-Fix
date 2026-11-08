@@ -292,7 +292,7 @@ h1, h2, h3, h4, h5, h6, .font-heading {
 
 /* Premium Hover: Smooth -5px lift, 1.015 scale, subtle blue glow, brightened background */
 .category-card:hover {
-  transform: translateY(-5px) scale(1.015);
+  transform: translateY(-5px) scale(1.015) !important;
   border-color: rgba(119, 193, 252, 0.85);
   background: linear-gradient(
     90deg,
@@ -307,7 +307,7 @@ h1, h2, h3, h4, h5, h6, .font-heading {
 
 /* Tactile Click / Tap feedback: clean instantaneous response without persistent selection */
 .category-card:active {
-  transform: translateY(-2px) scale(0.995);
+  transform: translateY(-2px) scale(0.995) !important;
   transition-duration: 100ms;
 }
 
@@ -600,11 +600,55 @@ h1, h2, h3, h4, h5, h6, .font-heading {
   animation: skeleton-wave 1.8s ease-in-out infinite;
 }
 
+/* ==========================================================================
+   Public Landing Page: Cinematic Scroll-Triggered Reveal Animations
+   ========================================================================== */
+.scroll-reveal {
+  opacity: 0;
+  transform: translate3d(0, 30px, 0);
+  transition: opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+              transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.scroll-reveal-scale {
+  opacity: 0;
+  transform: translate3d(0, 30px, 0) scale(0.97);
+  transition: opacity 750ms cubic-bezier(0.16, 1, 0.3, 1),
+              transform 750ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.scroll-reveal.is-revealed,
+.scroll-reveal-scale.is-revealed {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+/* Stagger transition delay helpers */
+.delay-75 { transition-delay: 75ms; }
+.delay-100 { transition-delay: 100ms; }
+.delay-150 { transition-delay: 150ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-250 { transition-delay: 250ms; }
+.delay-300 { transition-delay: 300ms; }
+.delay-350 { transition-delay: 350ms; }
+.delay-400 { transition-delay: 400ms; }
+.delay-450 { transition-delay: 450ms; }
+.delay-500 { transition-delay: 500ms; }
+.delay-600 { transition-delay: 600ms; }
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+  .scroll-reveal,
+  .scroll-reveal-scale {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
   }
 }

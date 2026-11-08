@@ -51,8 +51,18 @@ const CategorySelector = ({
   selectedCategory, // Kept for backwards compatibility; persistent visual selection is completely removed
   onSelectCategory,
   interactive = true,
+  enableScrollReveal = false,
   className = '',
 }) => {
+  const delayClasses = [
+    'delay-75',
+    'delay-150',
+    'delay-225',
+    'delay-300',
+    'delay-375',
+    'delay-450',
+  ];
+
   return (
     <div
       className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 auto-rows-fr w-full ${className}`}
@@ -69,16 +79,12 @@ const CategorySelector = ({
             onClick={() => onSelectCategory && onSelectCategory(cat.name, cat.backendValue)}
             disabled={!interactive}
             tabIndex={interactive ? 0 : -1}
-            style={{
-              animationDelay: `${idx * 80}ms`,
-              animationFillMode: 'both',
-            }}
             className={`
-              category-card group relative w-full h-full min-h-[82px] sm:min-h-[96px]
+              category-card ${enableScrollReveal ? `scroll-reveal ${delayClasses[idx] || 'delay-100'}` : ''}
+              group relative w-full h-full min-h-[82px] sm:min-h-[96px]
               p-3 sm:px-5 sm:py-4.5
               flex items-center text-left select-none
               rounded-[20px] sm:rounded-[22px]
-              animate-in fade-in slide-in-from-bottom-2 duration-400
               ${interactive ? 'cursor-pointer' : 'cursor-default'}
             `}
           >
