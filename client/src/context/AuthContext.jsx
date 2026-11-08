@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef, useCallback } from 'react';
 import api from '../services/api';
 
 const AuthContext = createContext(null);
@@ -6,26 +6,43 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const authCheckInProgressRef = useRef(false);
 
-  // Check and restore auth session on initial mount through backend GET /api/auth/me
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const res = await api.get('/auth/me');
-        if (res.data && res.data.success && res.data.user) {
-          setUser(res.data.user);
-        } else {
-          setUser(null);
-        }
-      } catch (err) {
+  // Check and restore auth session asynchronously in the background
+  const checkAuth = useCallback(async (abortSignal) => {
+    // Prevent redundant duplicate in-flight requests
+    if (authCheckInProgressRef.current) return;
+    authCheckInProgressRef.current = true;
+
+    try {
+      const res = await api.get('/auth/me', {
+        signal: abortSignal,
+        timeout: 7000, // 7s safeguard timeout for initial auth verification
+      });
+      if (res.data && res.data.success && res.data.user) {
+        setUser(res.data.user);
+      } else {
         setUser(null);
-      } finally {
-        setLoading(false);
       }
-    };
-
-    checkAuth();
+    } catch (err) {
+      // Ignore AbortController cancellations; otherwise set unauthenticated
+      if (err?.name !== 'CanceledError' && err?.code !== 'ERR_CANCELED') {
+        setUser(null);
+      }
+    } finally {
+      authCheckInProgressRef.current = false;
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    checkAuth(controller.signal);
+
+    return () => {
+      controller.abort();
+    };
+  }, [checkAuth]);
 
   // Google Student Login
   const loginWithGoogle = async (credential) => {
@@ -101,6 +118,7 @@ export const AuthProvider = ({ children }) => {
         loginStaffWithGoogle,
         loginAsAdmin,
         logout,
+        checkAuth,
         updateUserProfile,
         completeStudentOnboarding,
       }}

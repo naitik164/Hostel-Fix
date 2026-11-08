@@ -14,6 +14,7 @@ import React, { useState, useEffect, useRef } from 'react';
  *  - 2500-3400ms: Connected multi-stage exit (content fade-out -> backdrop scale & fade -> 900ms website reveal)
  */
 const MIN_SHOWCASE_MS = 2500; // 2.5s golden visual experience when ready
+const MAX_FALLBACK_TIMEOUT_MS = 5500; // 5.5s maximum safeguard - never freeze or hold the screen indefinitely
 
 const PremiumPageLoader = ({
   isReady = false,
@@ -55,8 +56,9 @@ const PremiumPageLoader = ({
       const ready = isReadyRef.current;
 
       if (!exitTriggered) {
-        if (ready && elapsed >= MIN_SHOWCASE_MS) {
-          // Both application is ready AND minimum showcase duration has elapsed
+        const isTimeCapped = elapsed >= MAX_FALLBACK_TIMEOUT_MS;
+        if ((ready && elapsed >= MIN_SHOWCASE_MS) || isTimeCapped) {
+          // Both application is ready (or maximum safeguard timeout elapsed)
           exitTriggered = true;
           setProgress(100);
           setSmoothStatus('Ready...');
@@ -100,12 +102,12 @@ const PremiumPageLoader = ({
           setSmoothStatus(customMessage || 'Almost there...');
         } else {
           // If elapsed >= 2300ms but app is still waiting on actual backend readiness:
-          if (!ready) {
+          if (!ready && elapsed < MAX_FALLBACK_TIMEOUT_MS - 300) {
             // Eases gently toward 92% and naturally holds without stalling or jumping
             setProgress((prev) => Math.min(92, prev + 0.15));
             setSmoothStatus(customMessage || 'Finalizing secure connection...');
           } else {
-            // App is ready: glide smoothly toward 100%
+            // App is ready or approaching safeguard ceiling: glide smoothly toward 100%
             const ratio = Math.min(1, (elapsed - 2300) / 200);
             setProgress(88 + ratio * 12);
             setSmoothStatus('Ready...');

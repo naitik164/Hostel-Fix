@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -49,13 +49,26 @@ import AdminSettings from './pages/admin/AdminSettings';
 function AppContent() {
   const { loading } = useAuth();
   const [initialLoadingComplete, setInitialLoadingComplete] = useState(false);
+  const location = useLocation();
+
+  // Public routes that never require authentication to render
+  const isPublicRoute =
+    location.pathname === '/' ||
+    location.pathname.startsWith('/student/login') ||
+    location.pathname.startsWith('/staff/login') ||
+    location.pathname.startsWith('/admin/login');
+
+  // Decouple public landing page and login screens from background auth verification.
+  // Public routes showcase the entrance sequence and reveal the page without delay.
+  // Protected routes wait for auth verification (safeguarded by fallback timeouts).
+  const isLoaderReady = isPublicRoute ? true : !loading;
 
   return (
     <>
       {/* Premium Cinematic Initial Page Loader */}
       {!initialLoadingComplete && (
         <PremiumPageLoader
-          isReady={!loading}
+          isReady={isLoaderReady}
           onComplete={() => setInitialLoadingComplete(true)}
         />
       )}
