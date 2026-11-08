@@ -1,39 +1,47 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import CategorySelector from '../../components/CategorySelector';
 import {
   Wrench,
   Shield,
   ArrowRight,
+  ArrowDown,
+  ChevronDown,
   HardHat,
   Menu,
   X,
-  Sparkles,
   CheckCircle2,
   Clock,
   ThumbsUp,
-  FileCheck,
-  ShieldCheck,
+  FileText,
   Lock,
   Layers,
   Zap,
+  Camera,
+  Activity,
+  UserCheck,
+  ClipboardList,
+  BarChart3,
+  Repeat,
+  AlertOctagon,
+  Timer,
+  EyeOff,
+  UserX,
+  FolderArchive,
+  Check,
+  XCircle,
+  Building2,
+  Eye,
+  UserPlus,
+  User,
+  Users,
+  Sparkles,
+  ExternalLink,
 } from 'lucide-react';
 
 const LandingPage = () => {
   const { isAuthenticated, user } = useAuth();
-  const [selectedCategory, setSelectedCategory] = useState('Food Quality & Mess');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  // Statistics animated counter state
-  const [statsVisible, setStatsVisible] = useState(false);
-  const [counts, setCounts] = useState({
-    resolutionRate: 0,
-    categoriesCount: 0,
-    satisfaction: 0,
-  });
-
-  const statsSectionRef = useRef(null);
 
   const dashboardPath =
     user?.role === 'admin'
@@ -41,6 +49,15 @@ const LandingPage = () => {
       : user?.role === 'staff'
         ? '/staff/dashboard'
         : '/student/dashboard';
+
+  // Smooth scroll handler for anchor links
+  const scrollToSection = (id) => {
+    setMobileMenuOpen(false);
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   // Intersection Observer for scroll-triggered reveal animations
   useEffect(() => {
@@ -52,7 +69,6 @@ const LandingPage = () => {
       document.querySelectorAll('.scroll-reveal, .scroll-reveal-scale').forEach((el) => {
         el.classList.add('is-revealed');
       });
-      setStatsVisible(true);
       return;
     }
 
@@ -61,16 +77,12 @@ const LandingPage = () => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add('is-revealed');
-            // If the statistics section is revealed, start the number counter animation
-            if (entry.target.getAttribute('data-section') === 'stats') {
-              setStatsVisible(true);
-            }
             obs.unobserve(entry.target); // Animate once only
           }
         });
       },
       {
-        threshold: 0.15, // Triggers when 15%–20% enters viewport
+        threshold: 0.15,
         rootMargin: '0px 0px -40px 0px',
       }
     );
@@ -83,36 +95,9 @@ const LandingPage = () => {
     };
   }, []);
 
-  // Smooth number counter animation for Statistics Section
-  useEffect(() => {
-    if (!statsVisible) return;
-
-    const duration = 1200;
-    const startTime = performance.now();
-
-    const animateCounters = (currentTime) => {
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      // Cubic ease-out
-      const ease = 1 - Math.pow(1 - progress, 3);
-
-      setCounts({
-        resolutionRate: Math.round(98 * ease),
-        categoriesCount: Math.round(12 * ease),
-        satisfaction: (4.8 * ease).toFixed(1),
-      });
-
-      if (progress < 1) {
-        requestAnimationFrame(animateCounters);
-      }
-    };
-
-    requestAnimationFrame(animateCounters);
-  }, [statsVisible]);
-
   return (
     <div className="flex-1 flex flex-col min-h-screen bg-[#F5F9FF] text-navy relative overflow-hidden font-sans w-full">
-      {/* Dynamic ambient lights */}
+      {/* Ambient background glows */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
         <div className="ambient-glow" />
         <div className="ambient-glow-bottom" />
@@ -137,28 +122,69 @@ const LandingPage = () => {
                 Hostel<span className="text-electric">Fix</span>
               </span>
               <p className="text-[10px] sm:text-[11px] text-slate-500 font-medium hidden xs:block">
-                Smart Complaint & Maintenance System
+                Smart Hostel Complaint & Maintenance System
               </p>
             </div>
           </Link>
 
-          {/* Desktop Actions: Clean minimal header (removed the 3 cluttered login buttons as requested) */}
+          {/* Desktop Navigation Links */}
+          <nav className="hidden lg:flex items-center gap-1.5 xl:gap-2 text-xs font-semibold text-slate-600">
+            <button
+              onClick={() => scrollToSection('problem')}
+              className="px-3 py-2 rounded-xl hover:text-navy hover:bg-white/80 transition-all cursor-pointer"
+            >
+              The Problem
+            </button>
+            <button
+              onClick={() => scrollToSection('solution')}
+              className="px-3 py-2 rounded-xl hover:text-navy hover:bg-white/80 transition-all cursor-pointer"
+            >
+              Our Solution
+            </button>
+            <button
+              onClick={() => scrollToSection('portals')}
+              className="px-3 py-2 rounded-xl hover:text-navy hover:bg-white/80 transition-all cursor-pointer"
+            >
+              Portals
+            </button>
+            <button
+              onClick={() => scrollToSection('features')}
+              className="px-3 py-2 rounded-xl hover:text-navy hover:bg-white/80 transition-all cursor-pointer"
+            >
+              Features
+            </button>
+            <button
+              onClick={() => scrollToSection('why-us')}
+              className="px-3 py-2 rounded-xl hover:text-navy hover:bg-white/80 transition-all cursor-pointer"
+            >
+              Why HostelFix
+            </button>
+            <button
+              onClick={() => scrollToSection('how-it-works')}
+              className="px-3 py-2 rounded-xl hover:text-navy hover:bg-white/80 transition-all cursor-pointer"
+            >
+              Workflow
+            </button>
+          </nav>
+
+          {/* Desktop Action Button */}
           <div className="hidden md:flex items-center gap-3">
             {isAuthenticated ? (
               <Link
                 to={dashboardPath}
-                className="btn-action flex items-center gap-2 px-5 py-2.5 rounded-control text-xs font-bold shadow-md"
+                className="btn-action flex items-center gap-2 px-5 py-2.5 rounded-control text-xs font-bold shadow-md cursor-pointer"
               >
                 <span>Go to Dashboard</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
             ) : (
-              <div className="flex items-center gap-2 text-xs font-semibold text-slate-500">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-ice/50 border border-sky/30 text-royal">
-                  <Sparkles className="w-3.5 h-3.5 text-electric animate-spin-slow" />
-                  <span>Campus Maintenance Portal</span>
-                </span>
-              </div>
+              <button
+                onClick={() => scrollToSection('portals')}
+                className="btn-action flex items-center gap-2 px-5 py-2.5 rounded-control text-xs font-bold shadow-md cursor-pointer"
+              >
+                <span>Get Started</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
             )}
           </div>
 
@@ -187,6 +213,46 @@ const LandingPage = () => {
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
           <div className="md:hidden border-t border-sky/20 bg-white/95 backdrop-blur-2xl px-4 py-4 space-y-3 animate-in fade-in slide-in-from-top-2 duration-200 shadow-xl">
+            {/* Quick Section Anchor Links */}
+            <div className="grid grid-cols-2 gap-1.5 pb-3 border-b border-sky/20 text-xs font-semibold text-slate-700">
+              <button
+                onClick={() => scrollToSection('problem')}
+                className="text-left px-3 py-2 rounded-xl hover:bg-ice/50 transition-colors"
+              >
+                The Problem
+              </button>
+              <button
+                onClick={() => scrollToSection('solution')}
+                className="text-left px-3 py-2 rounded-xl hover:bg-ice/50 transition-colors"
+              >
+                Our Solution
+              </button>
+              <button
+                onClick={() => scrollToSection('portals')}
+                className="text-left px-3 py-2 rounded-xl hover:bg-ice/50 transition-colors text-royal font-bold"
+              >
+                Login Portals
+              </button>
+              <button
+                onClick={() => scrollToSection('features')}
+                className="text-left px-3 py-2 rounded-xl hover:bg-ice/50 transition-colors"
+              >
+                Product Features
+              </button>
+              <button
+                onClick={() => scrollToSection('why-us')}
+                className="text-left px-3 py-2 rounded-xl hover:bg-ice/50 transition-colors"
+              >
+                Why HostelFix
+              </button>
+              <button
+                onClick={() => scrollToSection('how-it-works')}
+                className="text-left px-3 py-2 rounded-xl hover:bg-ice/50 transition-colors"
+              >
+                How It Works
+              </button>
+            </div>
+
             {isAuthenticated ? (
               <div className="p-3.5 rounded-2xl bg-ice/50 border border-sky/40 flex items-center justify-between">
                 <div>
@@ -203,24 +269,24 @@ const LandingPage = () => {
                 </Link>
               </div>
             ) : (
-              <div className="space-y-2">
-                <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-1 mb-2">
-                  Select User Portal
+              <div className="space-y-2 pt-1">
+                <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-1">
+                  Access Portal
                 </p>
 
                 {/* Student Login */}
                 <Link
                   to="/student/login"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-between p-3.5 rounded-2xl bg-gradient-to-r from-blue-50 to-white border border-sky/40 text-navy font-semibold text-xs active:bg-sky/20 shadow-sm"
+                  className="flex items-center justify-between p-3 rounded-2xl bg-gradient-to-r from-blue-50 to-white border border-sky/40 text-navy font-semibold text-xs active:bg-sky/20 shadow-sm"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-xl bg-gradient-action text-white flex items-center justify-center shrink-0">
+                    <div className="w-8 h-8 rounded-xl bg-gradient-action text-white flex items-center justify-center shrink-0">
                       <Wrench className="w-4 h-4" />
                     </div>
                     <div>
                       <div className="font-bold text-navy">Resident Student Portal</div>
-                      <div className="text-[11px] text-slate-500">Google OAuth Sign-In</div>
+                      <div className="text-[10px] text-slate-500">Student Google Sign In</div>
                     </div>
                   </div>
                   <ArrowRight className="w-4 h-4 text-royal" />
@@ -230,15 +296,15 @@ const LandingPage = () => {
                 <Link
                   to="/staff/login"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-between p-3.5 rounded-2xl bg-gradient-to-r from-blue-50/70 to-white border border-sky/40 text-navy font-semibold text-xs active:bg-sky/20 shadow-sm"
+                  className="flex items-center justify-between p-3 rounded-2xl bg-gradient-to-r from-blue-50/70 to-white border border-sky/40 text-navy font-semibold text-xs active:bg-sky/20 shadow-sm"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-xl bg-royal text-white flex items-center justify-center shrink-0">
-                      <HardHat className="w-4 h-4 text-ice" />
+                    <div className="w-8 h-8 rounded-xl bg-gradient-action text-white flex items-center justify-center shrink-0">
+                      <HardHat className="w-4 h-4" />
                     </div>
                     <div>
                       <div className="font-bold text-navy">Maintenance Staff Portal</div>
-                      <div className="text-[11px] text-slate-500">Field Technicians & Proof</div>
+                      <div className="text-[10px] text-slate-500">Staff Google Sign In</div>
                     </div>
                   </div>
                   <ArrowRight className="w-4 h-4 text-royal" />
@@ -248,18 +314,18 @@ const LandingPage = () => {
                 <Link
                   to="/admin/login"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-between p-3.5 rounded-2xl glass-dark-panel text-white font-semibold text-xs active:opacity-90 shadow-md"
+                  className="flex items-center justify-between p-3 rounded-2xl bg-gradient-to-r from-blue-50/70 to-white border border-sky/40 text-navy font-semibold text-xs active:bg-sky/20 shadow-sm"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-xl bg-gradient-action text-white flex items-center justify-center shrink-0 border border-sky/40">
-                      <Shield className="w-4 h-4 text-ice" />
+                    <div className="w-8 h-8 rounded-xl bg-gradient-action text-white flex items-center justify-center shrink-0">
+                      <Shield className="w-4 h-4" />
                     </div>
                     <div>
-                      <div className="font-bold text-white">Warden Administration</div>
-                      <div className="text-[11px] text-sky-light/80">Command & Control Center</div>
+                      <div className="font-bold text-navy">Warden Admin Center</div>
+                      <div className="text-[10px] text-slate-500">Warden ID & Pass Sign In</div>
                     </div>
                   </div>
-                  <ArrowRight className="w-4 h-4 text-sky" />
+                  <ArrowRight className="w-4 h-4 text-royal" />
                 </Link>
               </div>
             )}
@@ -267,308 +333,1017 @@ const LandingPage = () => {
         )}
       </header>
 
-      {/* 1. HERO SECTION (Scroll Reveal: Fade-in + slight upward movement) */}
-      <section className="relative z-10 pt-10 sm:pt-16 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center">
+      {/* =========================================================================
+          1. HERO SECTION – INTRODUCING HOSTELFIX
+          ========================================================================= */}
+      <section className="relative z-10 pt-12 sm:pt-20 pb-16 sm:pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center">
         <div className="scroll-reveal max-w-4xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-ice/60 border border-sky/40 text-royal text-xs font-bold mb-4 shadow-sm">
-            <Sparkles className="w-3.5 h-3.5 text-electric animate-spin-slow" />
-            <span>Next-Generation Hostel Facility Care</span>
+          {/* Logo Brand Accent */}
+          <div className="inline-flex items-center justify-center mb-6">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-3xl bg-white p-3 shadow-glass border border-sky/40 hover:scale-105 transition-transform">
+              <img
+                src="/logo-icon.png"
+                alt="HostelFix Logo"
+                className="w-full h-full object-contain"
+              />
+            </div>
           </div>
 
-          <h1 className="text-[32px] sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-navy tracking-tight leading-[1.18]">
-            Your Hostel. Your Voice. <br />
+          {/* Required Headline */}
+          <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-navy tracking-tight leading-[1.15]">
+            Hostel Maintenance, <br />
             <span className="bg-gradient-to-r from-royal via-electric to-blue bg-clip-text text-transparent">
-              Better Living.
+              Finally Under Control.
             </span>
           </h1>
 
-          <p className="mt-4 sm:mt-6 text-sm sm:text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
-            Empowering hostel residents to log issues in seconds with photo evidence and live status tracking,
-            enabling technicians to manage tasks with photo proof, and providing wardens with complete verification controls.
+          {/* Required Subheadline */}
+          <p className="mt-5 sm:mt-7 text-sm sm:text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+            A smarter way to report, track and resolve hostel maintenance issues. Bringing students, wardens and maintenance staff together on one transparent platform.
           </p>
+
+          {/* CTAs */}
+          <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4">
+            <button
+              onClick={() => scrollToSection('problem')}
+              className="btn-action w-full sm:w-auto px-7 py-3.5 rounded-control text-sm font-bold flex items-center justify-center gap-2 shadow-lg shadow-electric/25 hover:shadow-electric/40 transition-all cursor-pointer"
+            >
+              <span>Explore HostelFix</span>
+              <ArrowDown className="w-4 h-4" />
+            </button>
+
+            <button
+              onClick={() => scrollToSection('portals')}
+              className="w-full sm:w-auto px-7 py-3.5 rounded-control text-sm font-bold bg-white text-navy hover:bg-ice/40 border border-sky/40 flex items-center justify-center gap-2 shadow-sm transition-all cursor-pointer hover:border-sky"
+            >
+              <span>Get Started</span>
+              <ArrowRight className="w-4 h-4 text-royal" />
+            </button>
+          </div>
         </div>
 
-        {/* 2. FEATURES SECTION: Portal Entry Cards (Staggered Reveal: 100ms, 250ms, 400ms) */}
-        <div className="mt-10 sm:mt-12 grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6 max-w-5xl mx-auto items-stretch">
-          {/* Card 1: Resident Student Portal */}
-          <div className="scroll-reveal-scale delay-100 h-full flex flex-col">
-            <div className="portal-card p-5 sm:p-6 text-left flex flex-col justify-between h-full group">
-              <div>
-                <div className="w-12 h-12 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20 shrink-0 group-hover:scale-105 transition-transform">
-                  <Wrench className="w-6 h-6 text-white" />
-                </div>
-                <h2 className="text-lg sm:text-xl font-heading font-bold text-navy tracking-tight leading-snug">
-                  Resident Student Portal
-                </h2>
-                <p className="mt-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                  Sign in with Google, report facility complaints, track maintenance milestones, and rate resolution quality.
-                </p>
+        {/* Realistic Product Dashboard Mockup Preview */}
+        <div className="scroll-reveal-scale delay-200 mt-12 sm:mt-16 max-w-5xl mx-auto relative">
+          <div className="relative rounded-2xl sm:rounded-3xl p-2 sm:p-3 bg-white/70 backdrop-blur-2xl border border-sky/40 shadow-2xl shadow-navy/15">
+            {/* macOS / SaaS Browser Chrome */}
+            <div className="flex items-center justify-between px-3 py-2 sm:px-4 sm:py-2.5 bg-slate-100/90 rounded-t-xl sm:rounded-t-2xl border-b border-sky/20 text-xs text-slate-500">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-rose-400 inline-block" />
+                <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-amber-400 inline-block" />
+                <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-emerald-400 inline-block" />
               </div>
-              <div className="mt-6 pt-1">
-                <Link
-                  to="/student/login"
-                  className="btn-action w-full flex items-center justify-center gap-2 py-3 px-4 rounded-control text-xs sm:text-sm font-bold text-white shadow-md hover:shadow-lg cursor-pointer transition-all"
-                >
-                  <span>Student Google Sign In</span>
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                </Link>
+              <div className="px-3 sm:px-4 py-1 rounded-full bg-white border border-sky/30 text-[11px] sm:text-xs font-mono text-slate-600 flex items-center gap-1.5 shadow-2xs max-w-xs truncate">
+                <Lock className="w-3 h-3 text-emerald-600 shrink-0" />
+                <span className="truncate">hostelfix.app/student/dashboard</span>
+              </div>
+              <div className="hidden sm:flex items-center gap-1.5 text-[11px] font-semibold text-emerald-600 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span>Live Sync Active</span>
+              </div>
+            </div>
+
+            {/* Dashboard Inner Canvas */}
+            <div className="p-4 sm:p-7 bg-gradient-to-b from-white/95 to-[#F5F9FF] rounded-b-xl sm:rounded-b-2xl text-left space-y-5">
+              {/* Mockup Header */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-sky/20">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-gradient-action text-white font-bold flex items-center justify-center text-sm shadow-md">
+                    NA
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h3 className="font-heading font-extrabold text-navy text-sm sm:text-base">
+                        Naitik Anand
+                      </h3>
+                      <span className="px-2 py-0.5 rounded-md bg-royal/10 text-royal text-[10px] font-bold">
+                        STUDENT
+                      </span>
+                    </div>
+                    <p className="text-xs text-slate-500">Visvesvaraya Block • Room D-101</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 text-xs">
+                  <span className="px-3 py-1.5 rounded-xl bg-blue-50 text-royal font-semibold border border-sky/30 flex items-center gap-1.5">
+                    <Activity className="w-3.5 h-3.5 text-electric" />
+                    <span>Real-time Maintenance Tracking</span>
+                  </span>
+                </div>
+              </div>
+
+              {/* 4 Stat Cards Mini Grid */}
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                <div className="p-3 sm:p-4 rounded-xl bg-white border border-sky/30 shadow-2xs">
+                  <p className="text-[11px] text-slate-500 font-semibold">Total Complaints</p>
+                  <p className="text-xl sm:text-2xl font-extrabold text-navy mt-1">14</p>
+                  <p className="text-[10px] text-emerald-600 font-medium mt-0.5">Lifetime logged</p>
+                </div>
+                <div className="p-3 sm:p-4 rounded-xl bg-white border border-sky/30 shadow-2xs">
+                  <p className="text-[11px] text-slate-500 font-semibold">Awaiting Review</p>
+                  <p className="text-xl sm:text-2xl font-extrabold text-amber-600 mt-1">1</p>
+                  <p className="text-[10px] text-slate-400 mt-0.5">Warden triage queue</p>
+                </div>
+                <div className="p-3 sm:p-4 rounded-xl bg-white border border-sky/30 shadow-2xs">
+                  <p className="text-[11px] text-slate-500 font-semibold">In Progress</p>
+                  <p className="text-xl sm:text-2xl font-extrabold text-electric mt-1">2</p>
+                  <p className="text-[10px] text-royal font-medium mt-0.5">Assigned to staff</p>
+                </div>
+                <div className="p-3 sm:p-4 rounded-xl bg-white border border-sky/30 shadow-2xs">
+                  <p className="text-[11px] text-slate-500 font-semibold">Verified Resolved</p>
+                  <p className="text-xl sm:text-2xl font-extrabold text-emerald-600 mt-1">11</p>
+                  <p className="text-[10px] text-emerald-600 font-medium mt-0.5">Photo proof signed</p>
+                </div>
+              </div>
+
+              {/* Live Ticket Card Inside Mockup */}
+              <div className="p-3.5 sm:p-4 rounded-2xl bg-white border border-sky/40 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-3">
+                <div className="flex items-start gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-royal/10 text-royal flex items-center justify-center shrink-0 mt-0.5">
+                    <Wrench className="w-5 h-5 text-electric" />
+                  </div>
+                  <div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="font-mono text-xs font-bold text-royal">HF-2026-0048</span>
+                      <span className="px-2 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-[10px] font-bold">
+                        High Priority
+                      </span>
+                      <span className="px-2 py-0.5 rounded-full bg-blue-50 border border-sky/30 text-royal text-[10px] font-semibold">
+                        Plumbing & Washroom
+                      </span>
+                    </div>
+                    <h4 className="font-heading font-bold text-navy text-sm sm:text-base mt-1">
+                      Water Leakage in 3rd Floor Restroom
+                    </h4>
+                    <p className="text-xs text-slate-500 mt-0.5">
+                      Technician assigned: <strong className="text-navy">Ramesh Kumar (Master Plumber)</strong> • Visvesvaraya Block
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 self-start md:self-center shrink-0">
+                  <span className="px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-bold flex items-center gap-1.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                    <span>In Progress • Photo Attached</span>
+                  </span>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Card 2: Maintenance Staff Portal */}
-          <div className="scroll-reveal-scale delay-250 h-full flex flex-col">
-            <div className="portal-card p-5 sm:p-6 text-left flex flex-col justify-between h-full group">
-              <div>
-                <div className="w-12 h-12 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20 shrink-0 group-hover:scale-105 transition-transform">
-                  <HardHat className="w-6 h-6 text-white" />
-                </div>
-                <h2 className="text-lg sm:text-xl font-heading font-bold text-navy tracking-tight leading-snug">
-                  Maintenance Staff Portal
-                </h2>
-                <p className="mt-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                  Authorized field technicians sign in with approved Google accounts, manage assigned tasks, and submit photo proof for sign-off.
-                </p>
-              </div>
-              <div className="mt-6 pt-1">
-                <Link
-                  to="/staff/login"
-                  className="btn-action w-full flex items-center justify-center gap-2 py-3 px-4 rounded-control text-xs sm:text-sm font-bold text-white shadow-md hover:shadow-lg cursor-pointer transition-all"
-                >
-                  <span>Staff Google Sign In</span>
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                </Link>
-              </div>
+          {/* Floating Glassmorphic Depth Badges */}
+          <div className="hidden sm:flex absolute -bottom-5 -left-4 p-3 rounded-2xl bg-white/95 backdrop-blur-xl border border-sky/50 shadow-xl shadow-royal/10 items-center gap-2.5 text-xs font-bold text-navy animate-in fade-in zoom-in-95 duration-500">
+            <div className="w-8 h-8 rounded-xl bg-emerald-500 text-white flex items-center justify-center shadow-md">
+              <Check className="w-4 h-4" />
+            </div>
+            <div>
+              <p className="leading-tight">Before & After Photo Proof</p>
+              <p className="text-[10px] text-slate-500 font-normal">Warden verified resolution</p>
             </div>
           </div>
 
-          {/* Card 3: Warden Admin Center */}
-          <div className="scroll-reveal-scale delay-400 h-full flex flex-col">
-            <div className="portal-card p-5 sm:p-6 text-left flex flex-col justify-between h-full group">
-              <div>
-                <div className="w-12 h-12 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20 shrink-0 group-hover:scale-105 transition-transform">
-                  <Shield className="w-6 h-6 text-white" />
-                </div>
-                <h2 className="text-lg sm:text-xl font-heading font-bold text-navy tracking-tight leading-snug">
-                  Warden Admin Center
-                </h2>
-                <p className="mt-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                  Assign tasks, inspect before/after photo proof, approve resolutions, register staff, and monitor MongoDB analytics.
-                </p>
-              </div>
-              <div className="mt-6 pt-1">
-                <Link
-                  to="/admin/login"
-                  className="btn-action w-full flex items-center justify-center gap-2 py-3 px-4 rounded-control text-xs sm:text-sm font-bold text-white shadow-md hover:shadow-lg cursor-pointer transition-all"
-                >
-                  <span>Warden ID & Pass Sign In</span>
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                </Link>
-              </div>
+          <div className="hidden sm:flex absolute -top-4 -right-4 p-3 rounded-2xl bg-white/95 backdrop-blur-xl border border-sky/50 shadow-xl shadow-royal/10 items-center gap-2.5 text-xs font-bold text-navy animate-in fade-in zoom-in-95 duration-500">
+            <div className="w-8 h-8 rounded-xl bg-gradient-action text-white flex items-center justify-center shadow-md">
+              <Zap className="w-4 h-4" />
+            </div>
+            <div>
+              <p className="leading-tight">&lt; 2h First Response</p>
+              <p className="text-[10px] text-slate-500 font-normal">Fast-tracked priority triage</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 3. STATISTICS SECTION (Animated Counters when scrolling into view) */}
-      <section
-        ref={statsSectionRef}
-        data-section="stats"
-        className="scroll-reveal relative z-10 py-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full"
-      >
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 text-center">
-          <div className="glass-card p-5 sm:p-6 hover:shadow-glass-hover transition-all">
-            <div className="w-8 h-8 rounded-full bg-blue-50 text-electric flex items-center justify-center mx-auto mb-2.5">
-              <Clock className="w-4 h-4" />
-            </div>
-            <p className="text-2xl sm:text-4xl font-extrabold text-navy font-heading tracking-tight">
-              &lt; 2 hrs
-            </p>
-            <p className="text-[11px] sm:text-xs text-slate-500 font-semibold mt-1">Average First Response</p>
-          </div>
-
-          <div className="glass-card p-5 sm:p-6 hover:shadow-glass-hover transition-all">
-            <div className="w-8 h-8 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-2.5">
-              <CheckCircle2 className="w-4 h-4" />
-            </div>
-            <p className="text-2xl sm:text-4xl font-extrabold text-emerald-600 font-heading tracking-tight">
-              {counts.resolutionRate}%
-            </p>
-            <p className="text-[11px] sm:text-xs text-slate-500 font-semibold mt-1">Resolution Rate</p>
-          </div>
-
-          <div className="glass-card p-5 sm:p-6 hover:shadow-glass-hover transition-all">
-            <div className="w-8 h-8 rounded-full bg-sky-50 text-royal flex items-center justify-center mx-auto mb-2.5">
-              <Layers className="w-4 h-4" />
-            </div>
-            <p className="text-2xl sm:text-4xl font-extrabold text-navy font-heading tracking-tight">
-              {counts.categoriesCount}
-            </p>
-            <p className="text-[11px] sm:text-xs text-slate-500 font-semibold mt-1">Specialized Categories</p>
-          </div>
-
-          <div className="glass-card p-5 sm:p-6 hover:shadow-glass-hover transition-all">
-            <div className="w-8 h-8 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center mx-auto mb-2.5">
-              <ThumbsUp className="w-4 h-4" />
-            </div>
-            <p className="text-2xl sm:text-4xl font-extrabold text-royal font-heading tracking-tight">
-              {counts.satisfaction} / 5
-            </p>
-            <p className="text-[11px] sm:text-xs text-slate-500 font-semibold mt-1">Resident Satisfaction</p>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. COMPLAINT CATEGORIES (Staggered Card Reveal on Scroll) */}
-      <section className="relative z-10 py-12 sm:py-20 bg-white/60 border-y border-sky/20">
+      {/* =========================================================================
+          2. THE PROBLEM – WHY HOSTELFIX IS NEEDED
+          ========================================================================= */}
+      <section id="problem" className="relative z-10 py-16 sm:py-24 bg-white/70 border-t border-sky/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="scroll-reveal text-center max-w-2xl mx-auto mb-8 sm:mb-14">
-            <h2 className="text-2xl sm:text-4xl font-heading font-extrabold text-navy tracking-tight">
-              Comprehensive Hostel Care
+          <div className="scroll-reveal text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-heading font-extrabold text-navy tracking-tight">
+              Hostel Problems Shouldn't Remain Unresolved.
             </h2>
-            <p className="mt-2 sm:mt-3 text-xs sm:text-base text-slate-600 leading-relaxed">
-              Every complaint is auto-categorized with server-suggested priority and routed to the right maintenance technician.
+            <p className="mt-3 sm:mt-4 text-xs sm:text-base text-slate-600 leading-relaxed max-w-2xl mx-auto">
+              Traditional hostel maintenance relies on paper registers, verbal complaints, and lost messages. Here is why the old approach fails students, wardens, and technicians alike:
             </p>
           </div>
 
-          {/* Category Cards with Staggered Scroll-Reveal Animation */}
-          <CategorySelector
-            selectedCategory={selectedCategory}
-            onSelectCategory={(name) => setSelectedCategory(name)}
-            enableScrollReveal={true}
-          />
+          {/* 5 Problem Cards Responsive Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            {/* Problem 01 */}
+            <div className="scroll-reveal-scale delay-100">
+              <div className="portal-card p-6 h-full flex flex-col justify-between border-rose-200/60 bg-gradient-to-b from-white to-rose-50/20">
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-xs font-mono font-extrabold px-2.5 py-1 rounded-lg bg-rose-100 text-rose-700">
+                      01
+                    </span>
+                    <AlertOctagon className="w-5 h-5 text-rose-500" />
+                  </div>
+                  <h3 className="text-base sm:text-lg font-heading font-bold text-navy">
+                    Manual Complaint Reporting
+                  </h3>
+                  <p className="mt-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    Students often struggle to report maintenance issues through disconnected channels.
+                  </p>
+                </div>
+                <div className="mt-5 pt-3 border-t border-rose-100 text-[11px] text-rose-600 font-semibold flex items-center gap-1.5">
+                  <XCircle className="w-3.5 h-3.5" />
+                  <span>Lost WhatsApp messages & paper registers</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Problem 02 */}
+            <div className="scroll-reveal-scale delay-200">
+              <div className="portal-card p-6 h-full flex flex-col justify-between border-amber-200/60 bg-gradient-to-b from-white to-amber-50/20">
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-xs font-mono font-extrabold px-2.5 py-1 rounded-lg bg-amber-100 text-amber-800">
+                      02
+                    </span>
+                    <Timer className="w-5 h-5 text-amber-600" />
+                  </div>
+                  <h3 className="text-base sm:text-lg font-heading font-bold text-navy">
+                    Delayed Resolutions
+                  </h3>
+                  <p className="mt-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    Complaints can remain pending without proper follow-up.
+                  </p>
+                </div>
+                <div className="mt-5 pt-3 border-t border-amber-100 text-[11px] text-amber-700 font-semibold flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5" />
+                  <span>No response timelines or priority escalation</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Problem 03 */}
+            <div className="scroll-reveal-scale delay-300">
+              <div className="portal-card p-6 h-full flex flex-col justify-between border-sky-200/70 bg-gradient-to-b from-white to-sky-50/30">
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-xs font-mono font-extrabold px-2.5 py-1 rounded-lg bg-sky-100 text-royal">
+                      03
+                    </span>
+                    <EyeOff className="w-5 h-5 text-electric" />
+                  </div>
+                  <h3 className="text-base sm:text-lg font-heading font-bold text-navy">
+                    Lack of Transparency
+                  </h3>
+                  <p className="mt-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    Students have limited visibility into complaint progress.
+                  </p>
+                </div>
+                <div className="mt-5 pt-3 border-t border-sky-100 text-[11px] text-royal font-semibold flex items-center gap-1.5">
+                  <Activity className="w-3.5 h-3.5" />
+                  <span>Zero live status updates or technician details</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Problem 04 */}
+            <div className="scroll-reveal-scale delay-400">
+              <div className="portal-card p-6 h-full flex flex-col justify-between border-rose-200/60 bg-gradient-to-b from-white to-rose-50/20">
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-xs font-mono font-extrabold px-2.5 py-1 rounded-lg bg-rose-100 text-rose-700">
+                      04
+                    </span>
+                    <UserX className="w-5 h-5 text-rose-500" />
+                  </div>
+                  <h3 className="text-base sm:text-lg font-heading font-bold text-navy">
+                    Poor Accountability
+                  </h3>
+                  <p className="mt-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    Wardens need a structured way to assign tasks and verify completed work.
+                  </p>
+                </div>
+                <div className="mt-5 pt-3 border-t border-rose-100 text-[11px] text-rose-600 font-semibold flex items-center gap-1.5">
+                  <XCircle className="w-3.5 h-3.5" />
+                  <span>Unverified completions & verbal assurances</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Problem 05 */}
+            <div className="scroll-reveal-scale delay-500 md:col-span-2 lg:col-span-1">
+              <div className="portal-card p-6 h-full flex flex-col justify-between border-slate-200 bg-gradient-to-b from-white to-slate-50/40">
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-xs font-mono font-extrabold px-2.5 py-1 rounded-lg bg-slate-200 text-slate-700">
+                      05
+                    </span>
+                    <FolderArchive className="w-5 h-5 text-slate-600" />
+                  </div>
+                  <h3 className="text-base sm:text-lg font-heading font-bold text-navy">
+                    No Centralized Records
+                  </h3>
+                  <p className="mt-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    Historical complaints and recurring issues are difficult to monitor.
+                  </p>
+                </div>
+                <div className="mt-5 pt-3 border-t border-slate-200 text-[11px] text-slate-600 font-semibold flex items-center gap-1.5">
+                  <BarChart3 className="w-3.5 h-3.5" />
+                  <span>No analytics on block breakdowns or recurring faults</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* 5. HOW IT WORKS: 4-Stage Lifecycle (Sequential Scroll Reveal) */}
-      <section className="relative z-10 py-12 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="scroll-reveal text-center max-w-2xl mx-auto mb-10 sm:mb-14">
-          <h2 className="text-2xl sm:text-3xl font-heading font-extrabold text-navy">
-            Transparent 4-Stage Lifecycle
+      {/* =========================================================================
+          3. OUR SOLUTION – INTRODUCING HOSTELFIX
+          ========================================================================= */}
+      <section id="solution" className="relative z-10 py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="scroll-reveal text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-heading font-extrabold text-navy tracking-tight">
+            Meet HostelFix. One Platform. Complete Accountability.
           </h2>
-          <p className="mt-2 text-xs sm:text-sm text-slate-600">
-            Real-time status updates and immutable audit trails keep students and wardens completely aligned.
+          <p className="mt-3 sm:mt-4 text-xs sm:text-base text-slate-600 leading-relaxed">
+            HostelFix connects students, wardens and maintenance staff through a centralized complaint and maintenance management system.
           </p>
+
+          {/* Three Visual Role Indicators with Connecting Lines */}
+          <div className="mt-8 sm:mt-10 p-4 sm:p-6 rounded-2xl bg-white/80 border border-sky/40 shadow-sm flex flex-col md:flex-row items-center justify-center gap-3 sm:gap-6">
+            <div className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-blue-50 border border-sky/30 text-navy font-bold text-xs sm:text-sm shadow-2xs">
+              <div className="w-8 h-8 rounded-lg bg-gradient-action text-white flex items-center justify-center shadow-xs">
+                <User className="w-4 h-4" />
+              </div>
+              <span>STUDENTS</span>
+            </div>
+
+            <div className="flex items-center text-royal">
+              <span className="hidden md:inline font-bold text-xs uppercase tracking-wider text-slate-400 px-2">Reports Issue</span>
+              <ArrowRight className="w-4 h-4" />
+            </div>
+
+            <div className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-blue-50 border border-sky/30 text-navy font-bold text-xs sm:text-sm shadow-2xs">
+              <div className="w-8 h-8 rounded-lg bg-gradient-action text-white flex items-center justify-center shadow-xs">
+                <Shield className="w-4 h-4" />
+              </div>
+              <span>WARDENS</span>
+            </div>
+
+            <div className="flex items-center text-royal">
+              <span className="hidden md:inline font-bold text-xs uppercase tracking-wider text-slate-400 px-2">Assigns Task</span>
+              <ArrowRight className="w-4 h-4" />
+            </div>
+
+            <div className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-blue-50 border border-sky/30 text-navy font-bold text-xs sm:text-sm shadow-2xs">
+              <div className="w-8 h-8 rounded-lg bg-gradient-action text-white flex items-center justify-center shadow-xs">
+                <HardHat className="w-4 h-4" />
+              </div>
+              <span>MAINTENANCE STAFF</span>
+            </div>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 text-center">
+        {/* How the platform works: 6 Structured Pillars */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
           <div className="scroll-reveal-scale delay-100">
-            <div className="glass-card p-5 sm:p-6 relative h-full hover:shadow-glass-hover transition-all">
-              <div className="w-10 h-10 rounded-full bg-blue-100 text-blue-700 font-bold flex items-center justify-center mx-auto mb-3 shadow-sm">
-                1
+            <div className="portal-card p-6 h-full flex flex-col justify-between">
+              <div>
+                <div className="w-11 h-11 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20">
+                  <FileText className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="text-base sm:text-lg font-heading font-bold text-navy">
+                  1. Student Submission
+                </h3>
+                <p className="mt-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  Students submit complaints with descriptions, categories and photographs.
+                </p>
               </div>
-              <h4 className="font-bold text-navy text-sm">Submitted</h4>
-              <p className="text-xs text-slate-500 mt-1">
-                Concurrency-safe reference ID (e.g. HF-2026-0001) logged immediately.
-              </p>
+              <div className="mt-4 pt-3 border-t border-sky/20 text-[11px] font-semibold text-royal flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+                <span>Instant reference ID generation</span>
+              </div>
             </div>
           </div>
 
           <div className="scroll-reveal-scale delay-200">
-            <div className="glass-card p-5 sm:p-6 relative h-full hover:shadow-glass-hover transition-all">
-              <div className="w-10 h-10 rounded-full bg-sky-100 text-sky-700 font-bold flex items-center justify-center mx-auto mb-3 shadow-sm">
-                2
+            <div className="portal-card p-6 h-full flex flex-col justify-between">
+              <div>
+                <div className="w-11 h-11 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20">
+                  <UserCheck className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="text-base sm:text-lg font-heading font-bold text-navy">
+                  2. Warden Triage
+                </h3>
+                <p className="mt-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  Wardens review complaints and assign tasks.
+                </p>
               </div>
-              <h4 className="font-bold text-navy text-sm">Assigned</h4>
-              <p className="text-xs text-slate-500 mt-1">
-                Warden assigns designated technician with trade specialization.
-              </p>
+              <div className="mt-4 pt-3 border-t border-sky/20 text-[11px] font-semibold text-royal flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+                <span>Smart trade specialization matching</span>
+              </div>
             </div>
           </div>
 
           <div className="scroll-reveal-scale delay-300">
-            <div className="glass-card p-5 sm:p-6 relative h-full hover:shadow-glass-hover transition-all">
-              <div className="w-10 h-10 rounded-full bg-amber-100 text-amber-700 font-bold flex items-center justify-center mx-auto mb-3 shadow-sm">
-                3
+            <div className="portal-card p-6 h-full flex flex-col justify-between">
+              <div>
+                <div className="w-11 h-11 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20">
+                  <ClipboardList className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="text-base sm:text-lg font-heading font-bold text-navy">
+                  3. Staff Task Execution
+                </h3>
+                <p className="mt-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  Staff manage assigned maintenance work.
+                </p>
               </div>
-              <h4 className="font-bold text-navy text-sm">In Progress</h4>
-              <p className="text-xs text-slate-500 mt-1">
-                Physical inspection and repair underway on site.
-              </p>
+              <div className="mt-4 pt-3 border-t border-sky/20 text-[11px] font-semibold text-royal flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+                <span>Real-time status updates from field</span>
+              </div>
             </div>
           </div>
 
           <div className="scroll-reveal-scale delay-400">
-            <div className="glass-card p-5 sm:p-6 relative h-full hover:shadow-glass-hover transition-all">
-              <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 font-bold flex items-center justify-center mx-auto mb-3 shadow-sm">
-                4
+            <div className="portal-card p-6 h-full flex flex-col justify-between">
+              <div>
+                <div className="w-11 h-11 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20">
+                  <Camera className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="text-base sm:text-lg font-heading font-bold text-navy">
+                  4. Proof Upload
+                </h3>
+                <p className="mt-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  Staff upload completion photographs.
+                </p>
               </div>
-              <h4 className="font-bold text-navy text-sm">Resolved</h4>
-              <p className="text-xs text-slate-500 mt-1">
-                Photo evidence verified and student feedback rating submitted.
+              <div className="mt-4 pt-3 border-t border-sky/20 text-[11px] font-semibold text-royal flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+                <span>Mandatory visual sign-off evidence</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="scroll-reveal-scale delay-500">
+            <div className="portal-card p-6 h-full flex flex-col justify-between">
+              <div>
+                <div className="w-11 h-11 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20">
+                  <CheckCircle2 className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="text-base sm:text-lg font-heading font-bold text-navy">
+                  5. Warden Inspection
+                </h3>
+                <p className="mt-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  Wardens inspect proof and approve resolutions.
+                </p>
+              </div>
+              <div className="mt-4 pt-3 border-t border-sky/20 text-[11px] font-semibold text-royal flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+                <span>Only verified repairs marked resolved</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="scroll-reveal-scale delay-600">
+            <div className="portal-card p-6 h-full flex flex-col justify-between">
+              <div>
+                <div className="w-11 h-11 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20">
+                  <BarChart3 className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="text-base sm:text-lg font-heading font-bold text-navy">
+                  6. Analytics & Insights
+                </h3>
+                <p className="mt-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  Analytics help identify recurring maintenance issues.
+                </p>
+              </div>
+              <div className="mt-4 pt-3 border-t border-sky/20 text-[11px] font-semibold text-royal flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+                <span>Block-by-block trend identification</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          4. LOGIN PORTALS – ACCESS HOSTELFIX
+          ========================================================================= */}
+      <section id="portals" className="relative z-10 py-16 sm:py-24 bg-white/60 border-y border-sky/20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="scroll-reveal text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-heading font-extrabold text-navy tracking-tight">
+              One Platform for Everyone.
+            </h2>
+            <p className="mt-3 text-xs sm:text-base text-slate-600">
+              Choose your portal and get started.
+            </p>
+          </div>
+
+          {/* 3 Unified Portal Cards with Identical Dimensions & Bottom Button Alignment */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto items-stretch">
+            {/* CARD 1: Resident Student Portal */}
+            <div className="scroll-reveal-scale delay-100 h-full flex flex-col">
+              <div className="portal-card p-6 text-left flex flex-col justify-between h-full group">
+                <div>
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20 shrink-0 group-hover:scale-105 transition-transform">
+                    <Wrench className="w-6 h-6 text-white" />
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-heading font-bold text-navy tracking-tight leading-snug">
+                    Resident Student Portal
+                  </h3>
+                  <p className="mt-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                    Sign in with Google, report facility complaints, track maintenance milestones, and rate resolution quality.
+                  </p>
+                </div>
+                <div className="mt-6 pt-1">
+                  <Link
+                    to={isAuthenticated && user?.role === 'student' ? '/student/dashboard' : '/student/login'}
+                    className="btn-action w-full flex items-center justify-center gap-2 py-3 px-4 rounded-control text-xs sm:text-sm font-bold text-white shadow-md hover:shadow-lg cursor-pointer transition-all"
+                  >
+                    <span>{isAuthenticated && user?.role === 'student' ? 'Open Student Dashboard' : 'Student Google Sign In'}</span>
+                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* CARD 2: Maintenance Staff Portal */}
+            <div className="scroll-reveal-scale delay-250 h-full flex flex-col">
+              <div className="portal-card p-6 text-left flex flex-col justify-between h-full group">
+                <div>
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20 shrink-0 group-hover:scale-105 transition-transform">
+                    <HardHat className="w-6 h-6 text-white" />
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-heading font-bold text-navy tracking-tight leading-snug">
+                    Maintenance Staff Portal
+                  </h3>
+                  <p className="mt-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                    Authorized field technicians sign in with approved Google accounts, manage assigned tasks, and submit photo proof for sign-off.
+                  </p>
+                </div>
+                <div className="mt-6 pt-1">
+                  <Link
+                    to={isAuthenticated && user?.role === 'staff' ? '/staff/dashboard' : '/staff/login'}
+                    className="btn-action w-full flex items-center justify-center gap-2 py-3 px-4 rounded-control text-xs sm:text-sm font-bold text-white shadow-md hover:shadow-lg cursor-pointer transition-all"
+                  >
+                    <span>{isAuthenticated && user?.role === 'staff' ? 'Open Staff Dashboard' : 'Staff Google Sign In'}</span>
+                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* CARD 3: Warden Admin Center */}
+            <div className="scroll-reveal-scale delay-400 h-full flex flex-col">
+              <div className="portal-card p-6 text-left flex flex-col justify-between h-full group">
+                <div>
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20 shrink-0 group-hover:scale-105 transition-transform">
+                    <Shield className="w-6 h-6 text-white" />
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-heading font-bold text-navy tracking-tight leading-snug">
+                    Warden Admin Center
+                  </h3>
+                  <p className="mt-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                    Assign tasks, inspect before/after photo proof, approve resolutions, register staff, and monitor MongoDB analytics.
+                  </p>
+                </div>
+                <div className="mt-6 pt-1">
+                  <Link
+                    to={isAuthenticated && user?.role === 'admin' ? '/admin/dashboard' : '/admin/login'}
+                    className="btn-action w-full flex items-center justify-center gap-2 py-3 px-4 rounded-control text-xs sm:text-sm font-bold text-white shadow-md hover:shadow-lg cursor-pointer transition-all"
+                  >
+                    <span>{isAuthenticated && user?.role === 'admin' ? 'Open Warden Admin Center' : 'Warden ID & Pass Sign In'}</span>
+                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          5. PRODUCT FEATURES – WHAT HOSTELFIX PROVIDES
+          ========================================================================= */}
+      <section id="features" className="relative z-10 py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="scroll-reveal text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-heading font-extrabold text-navy tracking-tight">
+            Everything You Need to Manage Hostel Maintenance.
+          </h2>
+          <p className="mt-3 text-xs sm:text-base text-slate-600">
+            A complete suite of purpose-built features engineered directly for Indian campus dormitories and residential blocks.
+          </p>
+        </div>
+
+        {/* 8 Required Capabilities Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 max-w-6xl mx-auto">
+          {/* Feature 01 */}
+          <div className="scroll-reveal-scale delay-100">
+            <div className="portal-card p-5 sm:p-6 h-full flex flex-col justify-between">
+              <div>
+                <div className="w-11 h-11 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20">
+                  <FileText className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="text-base font-heading font-bold text-navy">
+                  01. Smart Complaint Reporting
+                </h3>
+                <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  Submit complaints with category, description and photographs.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Feature 02 */}
+          <div className="scroll-reveal-scale delay-150">
+            <div className="portal-card p-5 sm:p-6 h-full flex flex-col justify-between">
+              <div>
+                <div className="w-11 h-11 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20">
+                  <Camera className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="text-base font-heading font-bold text-navy">
+                  02. Photo-Based Documentation
+                </h3>
+                <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  Attach images to help explain maintenance problems.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Feature 03 */}
+          <div className="scroll-reveal-scale delay-200">
+            <div className="portal-card p-5 sm:p-6 h-full flex flex-col justify-between">
+              <div>
+                <div className="w-11 h-11 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20">
+                  <Activity className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="text-base font-heading font-bold text-navy">
+                  03. Complaint Status Tracking
+                </h3>
+                <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  Monitor progress from submission to resolution.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Feature 04 */}
+          <div className="scroll-reveal-scale delay-250">
+            <div className="portal-card p-5 sm:p-6 h-full flex flex-col justify-between">
+              <div>
+                <div className="w-11 h-11 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20">
+                  <UserCheck className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="text-base font-heading font-bold text-navy">
+                  04. Warden Task Assignment
+                </h3>
+                <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  Assign complaints to appropriate maintenance staff.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Feature 05 */}
+          <div className="scroll-reveal-scale delay-300">
+            <div className="portal-card p-5 sm:p-6 h-full flex flex-col justify-between">
+              <div>
+                <div className="w-11 h-11 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20">
+                  <ClipboardList className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="text-base font-heading font-bold text-navy">
+                  05. Staff Task Management
+                </h3>
+                <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  Allow staff to view and manage their assigned work.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Feature 06 */}
+          <div className="scroll-reveal-scale delay-350">
+            <div className="portal-card p-5 sm:p-6 h-full flex flex-col justify-between">
+              <div>
+                <div className="w-11 h-11 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20">
+                  <CheckCircle2 className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="text-base font-heading font-bold text-navy">
+                  06. Before/After Photo Verification
+                </h3>
+                <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  Staff upload completion proof for warden inspection.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Feature 07 */}
+          <div className="scroll-reveal-scale delay-400">
+            <div className="portal-card p-5 sm:p-6 h-full flex flex-col justify-between">
+              <div>
+                <div className="w-11 h-11 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20">
+                  <BarChart3 className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="text-base font-heading font-bold text-navy">
+                  07. Resolution Analytics
+                </h3>
+                <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  Monitor complaint statistics and resolution performance.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Feature 08 */}
+          <div className="scroll-reveal-scale delay-450">
+            <div className="portal-card p-5 sm:p-6 h-full flex flex-col justify-between">
+              <div>
+                <div className="w-11 h-11 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20">
+                  <Repeat className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="text-base font-heading font-bold text-navy">
+                  08. Recurring Issue Identification
+                </h3>
+                <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  Identify frequently reported issues across hostel blocks and categories.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          6. WHY HOSTELFIX – WHAT MAKES US DIFFERENT
+          ========================================================================= */}
+      <section id="why-us" className="relative z-10 py-16 sm:py-24 bg-white/70 border-y border-sky/20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="scroll-reveal text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-heading font-extrabold text-navy tracking-tight">
+              Not Just Complaint Registration. Complete Accountability.
+            </h2>
+            <p className="mt-3 text-xs sm:text-base text-slate-600">
+              Compare traditional hostel maintenance procedures with the unified digital standard of HostelFix.
+            </p>
+          </div>
+
+          {/* Side-by-Side Comparison Layout */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto items-stretch">
+            {/* Traditional Method Column */}
+            <div className="scroll-reveal-scale delay-100">
+              <div className="p-6 sm:p-8 rounded-2xl bg-white border border-rose-200/80 shadow-sm h-full flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center gap-3 pb-4 mb-5 border-b border-rose-100">
+                    <div className="w-10 h-10 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center font-bold">
+                      <XCircle className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h3 className="font-heading font-extrabold text-base sm:text-lg text-slate-900">
+                        Traditional Hostel Maintenance
+                      </h3>
+                      <p className="text-xs text-rose-600 font-semibold">Paper-based & unverified</p>
+                    </div>
+                  </div>
+
+                  <ul className="space-y-4 text-xs sm:text-sm text-slate-600">
+                    <li className="flex items-start gap-3">
+                      <XCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
+                      <span>Manual complaint reporting.</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <XCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
+                      <span>Unclear complaint progress.</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <XCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
+                      <span>Verbal task assignments.</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <XCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
+                      <span>No standardized visual verification.</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <XCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
+                      <span>Scattered maintenance records.</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <XCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
+                      <span>Limited performance insights.</span>
+                    </li>
+                  </ul>
+                </div>
+                <div className="mt-6 pt-4 border-t border-rose-100 text-[11px] text-slate-400 font-medium italic">
+                  High resident frustration, unverified closures, recurring breakdowns.
+                </div>
+              </div>
+            </div>
+
+            {/* HostelFix Method Column */}
+            <div className="scroll-reveal-scale delay-200">
+              <div className="p-6 sm:p-8 rounded-2xl bg-gradient-to-b from-blue-50/90 to-white border-2 border-royal/40 shadow-lg shadow-royal/10 h-full flex flex-col justify-between relative overflow-hidden">
+                <div className="absolute top-0 right-0 px-3 py-1 bg-royal text-white text-[10px] font-bold rounded-bl-xl uppercase tracking-wider">
+                  Modern SaaS
+                </div>
+                <div>
+                  <div className="flex items-center gap-3 pb-4 mb-5 border-b border-sky/30">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-action text-white flex items-center justify-center font-bold shadow-md shadow-royal/20">
+                      <Check className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="font-heading font-extrabold text-base sm:text-lg text-navy">
+                        HostelFix Digital Platform
+                      </h3>
+                      <p className="text-xs text-royal font-semibold">Transparent, verified & audited</p>
+                    </div>
+                  </div>
+
+                  <ul className="space-y-4 text-xs sm:text-sm text-navy font-medium">
+                    <li className="flex items-start gap-3">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                      <span>Digital complaint reporting.</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                      <span>Transparent status tracking.</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                      <span>Structured staff assignments.</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                      <span>Before/after photo proof.</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                      <span>Centralized complaint history.</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                      <span>Maintenance analytics and insights.</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="mt-6 pt-4 border-t border-sky/30 text-[11px] text-royal font-semibold">
+                  Guaranteed student satisfaction, verifiable trade work, executive visibility.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Highlighted Main Differentiator Callout Box */}
+          <div className="scroll-reveal delay-300 mt-10 max-w-4xl mx-auto">
+            <div className="p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-royal/10 via-electric/10 to-sky/20 border border-royal/30 text-center shadow-sm">
+              <p className="text-sm sm:text-lg md:text-xl font-heading font-bold text-navy leading-relaxed">
+                "HostelFix connects the entire maintenance lifecycle — from student complaint to verified resolution — in one platform."
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 6. BENEFITS & TRUST SECTION (Scroll Reveal with Staggered Features) */}
-      <section className="relative z-10 py-12 sm:py-16 bg-gradient-to-b from-white/70 to-blue-50/40 border-t border-sky/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="scroll-reveal text-center max-w-2xl mx-auto mb-10 sm:mb-14">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-sky/30 text-royal text-xs font-bold mb-3 shadow-sm">
-              <ShieldCheck className="w-3.5 h-3.5 text-electric" />
-              <span>Campus Security & Accountability</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-heading font-extrabold text-navy">
-              Engineered for Campus Reliability
-            </h2>
-            <p className="mt-2 text-xs sm:text-sm text-slate-600">
-              Modern digital infrastructure built for educational institutions to eliminate verbal complaints and lost requests.
-            </p>
-          </div>
+      {/* =========================================================================
+          7. HOW IT WORKS – COMPLETE WORKFLOW
+          ========================================================================= */}
+      <section id="how-it-works" className="relative z-10 py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="scroll-reveal text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-heading font-extrabold text-navy tracking-tight">
+            From Complaint to Resolution.
+          </h2>
+          <p className="mt-3 text-xs sm:text-base text-slate-600">
+            A clear, 5-stage sequential process guaranteeing every ticket is logged, triaged, completed and verified.
+          </p>
+        </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            <div className="scroll-reveal-scale delay-100 h-full">
-              <div className="glass-card p-6 h-full flex flex-col justify-between hover:shadow-glass-hover transition-all">
+        {/* 5-Step Connected Workflow (Horizontal on Desktop, Vertical on Mobile) */}
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4 sm:gap-4 relative">
+            {/* Step 01 */}
+            <div className="scroll-reveal-scale delay-100 relative">
+              <div className="portal-card p-5 h-full flex flex-col justify-between text-left">
                 <div>
-                  <div className="w-11 h-11 rounded-xl bg-ice text-royal flex items-center justify-center mb-4 border border-sky/40">
-                    <FileCheck className="w-5 h-5" />
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-xs font-mono font-extrabold px-2.5 py-1 rounded-lg bg-blue-100 text-royal">
+                      01
+                    </span>
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                      STUDENT
+                    </span>
                   </div>
-                  <h3 className="text-base font-bold text-navy">Photo Proof Verification</h3>
-                  <p className="text-xs text-slate-600 mt-2 leading-relaxed">
-                    Technicians are required to submit before & after photo evidence on completion, eliminating disputes and ensuring genuine repairs.
+                  <h3 className="font-heading font-bold text-navy text-sm sm:text-base">
+                    STEP 01 – REPORT
+                  </h3>
+                  <p className="mt-2 text-xs text-slate-600 leading-relaxed">
+                    Student submits a complaint with category, description and photos.
                   </p>
                 </div>
-                <div className="mt-4 pt-3 border-t border-ice/60 text-[11px] font-semibold text-royal flex items-center gap-1">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
-                  <span>Verified Sign-off</span>
+                <div className="mt-4 pt-2 border-t border-sky/20 flex items-center gap-1.5 text-[11px] text-royal font-semibold">
+                  <FileText className="w-3.5 h-3.5 text-electric" />
+                  <span>Ticket Logged</span>
                 </div>
               </div>
             </div>
 
-            <div className="scroll-reveal-scale delay-250 h-full">
-              <div className="glass-card p-6 h-full flex flex-col justify-between hover:shadow-glass-hover transition-all">
+            {/* Step 02 */}
+            <div className="scroll-reveal-scale delay-200 relative">
+              <div className="portal-card p-5 h-full flex flex-col justify-between text-left">
                 <div>
-                  <div className="w-11 h-11 rounded-xl bg-ice text-royal flex items-center justify-center mb-4 border border-sky/40">
-                    <Zap className="w-5 h-5 text-electric" />
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-xs font-mono font-extrabold px-2.5 py-1 rounded-lg bg-blue-100 text-royal">
+                      02
+                    </span>
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                      WARDEN
+                    </span>
                   </div>
-                  <h3 className="text-base font-bold text-navy">Smart Urgency Engine</h3>
-                  <p className="text-xs text-slate-600 mt-2 leading-relaxed">
-                    Categorization rules calculate suggested priorities instantly, escalating electrical hazards and drinking water outages automatically.
+                  <h3 className="font-heading font-bold text-navy text-sm sm:text-base">
+                    STEP 02 – REVIEW
+                  </h3>
+                  <p className="mt-2 text-xs text-slate-600 leading-relaxed">
+                    Warden reviews the reported issue.
                   </p>
                 </div>
-                <div className="mt-4 pt-3 border-t border-ice/60 text-[11px] font-semibold text-royal flex items-center gap-1">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
-                  <span>Real-time Triage</span>
+                <div className="mt-4 pt-2 border-t border-sky/20 flex items-center gap-1.5 text-[11px] text-royal font-semibold">
+                  <Eye className="w-3.5 h-3.5 text-electric" />
+                  <span>Priority Assessed</span>
                 </div>
               </div>
             </div>
 
-            <div className="scroll-reveal-scale delay-400 h-full">
-              <div className="glass-card p-6 h-full flex flex-col justify-between hover:shadow-glass-hover transition-all">
+            {/* Step 03 */}
+            <div className="scroll-reveal-scale delay-300 relative">
+              <div className="portal-card p-5 h-full flex flex-col justify-between text-left">
                 <div>
-                  <div className="w-11 h-11 rounded-xl bg-ice text-royal flex items-center justify-center mb-4 border border-sky/40">
-                    <Lock className="w-5 h-5" />
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-xs font-mono font-extrabold px-2.5 py-1 rounded-lg bg-blue-100 text-royal">
+                      03
+                    </span>
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                      WARDEN
+                    </span>
                   </div>
-                  <h3 className="text-base font-bold text-navy">Institutional Security</h3>
-                  <p className="text-xs text-slate-600 mt-2 leading-relaxed">
-                    Google OAuth student verification and warden-authorized staff profiles ensure zero spoofing and strictly protected data privacy.
+                  <h3 className="font-heading font-bold text-navy text-sm sm:text-base">
+                    STEP 03 – ASSIGN
+                  </h3>
+                  <p className="mt-2 text-xs text-slate-600 leading-relaxed">
+                    Warden assigns the maintenance task to staff.
                   </p>
                 </div>
-                <div className="mt-4 pt-3 border-t border-ice/60 text-[11px] font-semibold text-royal flex items-center gap-1">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
-                  <span>Google SSO Protected</span>
+                <div className="mt-4 pt-2 border-t border-sky/20 flex items-center gap-1.5 text-[11px] text-royal font-semibold">
+                  <UserPlus className="w-3.5 h-3.5 text-electric" />
+                  <span>Technician Dispatched</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Step 04 */}
+            <div className="scroll-reveal-scale delay-400 relative">
+              <div className="portal-card p-5 h-full flex flex-col justify-between text-left">
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-xs font-mono font-extrabold px-2.5 py-1 rounded-lg bg-blue-100 text-royal">
+                      04
+                    </span>
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                      STAFF
+                    </span>
+                  </div>
+                  <h3 className="font-heading font-bold text-navy text-sm sm:text-base">
+                    STEP 04 – RESOLVE
+                  </h3>
+                  <p className="mt-2 text-xs text-slate-600 leading-relaxed">
+                    Staff completes the work and uploads photographic proof.
+                  </p>
+                </div>
+                <div className="mt-4 pt-2 border-t border-sky/20 flex items-center gap-1.5 text-[11px] text-royal font-semibold">
+                  <Camera className="w-3.5 h-3.5 text-electric" />
+                  <span>Proof Uploaded</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Step 05 */}
+            <div className="scroll-reveal-scale delay-500 relative">
+              <div className="portal-card p-5 h-full flex flex-col justify-between text-left border-emerald-200/80 bg-gradient-to-b from-white to-emerald-50/20">
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-xs font-mono font-extrabold px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800">
+                      05
+                    </span>
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-600">
+                      WARDEN
+                    </span>
+                  </div>
+                  <h3 className="font-heading font-bold text-navy text-sm sm:text-base">
+                    STEP 05 – VERIFY
+                  </h3>
+                  <p className="mt-2 text-xs text-slate-600 leading-relaxed">
+                    Warden reviews the submitted proof and approves the resolution.
+                  </p>
+                </div>
+                <div className="mt-4 pt-2 border-t border-emerald-100 flex items-center gap-1.5 text-[11px] text-emerald-700 font-bold">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>Ticket Closed</span>
                 </div>
               </div>
             </div>
@@ -576,19 +1351,127 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* 7. FOOTER (Smooth Fade-in on Scroll) */}
-      <footer className="scroll-reveal mt-auto shrink-0 border-t border-sky/30 bg-white/70 py-8 text-center text-xs text-slate-500 relative z-10">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <img
-              src="/logo-icon.png"
-              alt="HostelFix Logo"
-              className="w-6 h-6 object-contain"
-            />
-            <span className="font-bold text-navy">HostelFix</span>
-            <span className="text-slate-400">| "Your Hostel. Your Voice. Better Living."</span>
+      {/* =========================================================================
+          8. FINAL CALL TO ACTION
+          ========================================================================= */}
+      <section id="cta" className="relative z-10 py-16 sm:py-24 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto">
+          <div className="scroll-reveal rounded-3xl p-8 sm:p-14 text-center text-white relative overflow-hidden shadow-2xl shadow-navy/30 bg-gradient-to-br from-[#03195B] via-[#0B2CB1] to-[#1951FC]">
+            {/* Ambient decorative glowing orbs */}
+            <div className="absolute top-0 right-0 w-80 h-80 bg-electric/30 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-80 h-80 bg-sky/20 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="relative z-10 max-w-2xl mx-auto">
+              <div className="w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 p-2.5 mx-auto mb-6 flex items-center justify-center shadow-lg">
+                <img
+                  src="/logo-icon.png"
+                  alt="HostelFix"
+                  className="w-full h-full object-contain"
+                />
+              </div>
+
+              {/* Required Headline */}
+              <h2 className="text-2xl sm:text-4xl md:text-5xl font-heading font-extrabold tracking-tight leading-tight">
+                A Better Hostel Starts With Better Management.
+              </h2>
+
+              {/* Required Description */}
+              <p className="mt-4 sm:mt-5 text-sm sm:text-base text-sky-light/90 leading-relaxed">
+                Bring transparency, accountability and smarter maintenance management to your hostel with HostelFix.
+              </p>
+
+              {/* Primary CTA */}
+              <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+                <button
+                  onClick={() => scrollToSection('portals')}
+                  className="w-full sm:w-auto px-8 py-4 rounded-control text-sm font-bold bg-white text-navy hover:bg-ice transition-all shadow-xl hover:shadow-2xl flex items-center justify-center gap-2 cursor-pointer hover:scale-[1.02] duration-200"
+                >
+                  <span>Get Started</span>
+                  <ArrowRight className="w-4 h-4 text-royal" />
+                </button>
+              </div>
+
+              {/* Required Secondary Text */}
+              <p className="mt-5 text-xs text-sky-light/80 font-medium">
+                One platform. Better hostel management.
+              </p>
+            </div>
           </div>
-          <p>© {new Date().getFullYear()} HostelFix. Smart Hostel Complaint & Maintenance Management System.</p>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          9. FOOTER
+          ========================================================================= */}
+      <footer className="scroll-reveal mt-auto shrink-0 border-t border-sky/30 bg-white/80 backdrop-blur-md py-10 text-xs text-slate-500 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-sky/20">
+            {/* Brand & Tagline */}
+            <div className="flex items-center gap-3 text-left">
+              <img
+                src="/logo-icon.png"
+                alt="HostelFix Logo"
+                className="w-8 h-8 object-contain rounded-xl"
+              />
+              <div>
+                <span className="font-heading font-extrabold text-base text-navy">
+                  Hostel<span className="text-electric">Fix</span>
+                </span>
+                <p className="text-[11px] text-slate-500 font-medium">
+                  "Making hostel life better."
+                </p>
+              </div>
+            </div>
+
+            {/* Section Quick Links */}
+            <nav className="flex flex-wrap items-center justify-center gap-4 text-xs font-semibold text-slate-600">
+              <button
+                onClick={() => scrollToSection('problem')}
+                className="hover:text-royal transition-colors cursor-pointer"
+              >
+                The Problem
+              </button>
+              <button
+                onClick={() => scrollToSection('solution')}
+                className="hover:text-royal transition-colors cursor-pointer"
+              >
+                Our Solution
+              </button>
+              <button
+                onClick={() => scrollToSection('portals')}
+                className="hover:text-royal transition-colors cursor-pointer"
+              >
+                Login Portals
+              </button>
+              <button
+                onClick={() => scrollToSection('features')}
+                className="hover:text-royal transition-colors cursor-pointer"
+              >
+                Product Features
+              </button>
+              <button
+                onClick={() => scrollToSection('why-us')}
+                className="hover:text-royal transition-colors cursor-pointer"
+              >
+                Why HostelFix
+              </button>
+              <button
+                onClick={() => scrollToSection('how-it-works')}
+                className="hover:text-royal transition-colors cursor-pointer"
+              >
+                Workflow
+              </button>
+            </nav>
+          </div>
+
+          {/* Bottom Copyright & Campus Info */}
+          <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left text-[11px] text-slate-400">
+            <p>© {new Date().getFullYear()} HostelFix. Smart Hostel Complaint & Maintenance Management System.</p>
+            <p className="flex items-center gap-1.5">
+              <Building2 className="w-3.5 h-3.5 text-royal/60" />
+              <span>LNCTE Campus Maintenance & Facility Operations</span>
+            </p>
+          </div>
         </div>
       </footer>
     </div>
