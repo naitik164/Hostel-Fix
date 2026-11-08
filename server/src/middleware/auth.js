@@ -5,6 +5,8 @@ const Staff = require('../models/Staff');
 const Session = require('../models/Session');
 
 const authenticate = async (req, res, next) => {
+  const tAuthStart = performance.now();
+
   try {
     let token = null;
 
@@ -35,31 +37,42 @@ const authenticate = async (req, res, next) => {
       });
     }
 
-    // Verify server-side session status if sessionId is present
-    if (decoded.sessionId) {
-      const activeSession = await Session.findById(decoded.sessionId);
-      if (!activeSession || !activeSession.isActive || (activeSession.expiresAt && activeSession.expiresAt < new Date())) {
-        return res.status(401).json({
-          success: false,
-          message: 'Session has been invalidated or expired. Please log in again.',
-        });
-      }
-    } else {
-      // Reject tokens lacking valid server-managed session identifier
+    // Reject tokens lacking valid server-managed session identifier
+    if (!decoded.sessionId) {
       return res.status(401).json({
         success: false,
         message: 'Session identifier missing or invalid. Please log in again.',
       });
     }
 
-    // Check account in database and ensure active status
-    let account = null;
+    // Run Session verification and Account lookup concurrently in MongoDB Atlas
+    const tDbStart = performance.now();
+    let accountPromise;
     if (decoded.role === 'admin') {
-      account = await Admin.findById(decoded.id).select('-passwordHash');
+      accountPromise = Admin.findById(decoded.id).select('-passwordHash');
     } else if (decoded.role === 'student') {
-      account = await User.findById(decoded.id);
+      accountPromise = User.findById(decoded.id);
     } else if (decoded.role === 'staff') {
-      account = await Staff.findById(decoded.id);
+      accountPromise = Staff.findById(decoded.id);
+    } else {
+      return res.status(401).json({
+        success: false,
+        message: 'Unknown user role specified in session token.',
+      });
+    }
+
+    const [activeSession, account] = await Promise.all([
+      Session.findById(decoded.sessionId),
+      accountPromise,
+    ]);
+
+    const tDbDuration = performance.now() - tDbStart;
+
+    if (!activeSession || !activeSession.isActive || (activeSession.expiresAt && activeSession.expiresAt < new Date())) {
+      return res.status(401).json({
+        success: false,
+        message: 'Session has been invalidated or expired. Please log in again.',
+      });
     }
 
     if (!account) {
@@ -106,6 +119,9 @@ const authenticate = async (req, res, next) => {
       isProfileComplete: isProfileCompleted,
       profileCompletedAt: account.profileCompletedAt || null,
     };
+
+    const tAuthDuration = performance.now() - tAuthStart;
+    console.log(`[AUTH MIDDLEWARE] [${req.method} ${req.originalUrl}] Authentication verified in ${tAuthDuration.toFixed(1)}ms for ${req.user.role} (${req.user.id})`);
 
     next();
   } catch (error) {

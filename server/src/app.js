@@ -14,6 +14,9 @@ const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
 
+// Trust reverse proxy (Render, Vercel, Cloudflare) for accurate client IP in rate limiting & secure cookies
+app.set('trust proxy', 1);
+
 // Security HTTP headers
 app.use(
   helmet({
@@ -22,8 +25,9 @@ app.use(
 );
 
 const isProduction = process.env.NODE_ENV === 'production';
+const rawClientOrigin = (process.env.CLIENT_ORIGIN || 'http://localhost:5173').trim().replace(/\/$/, '');
 const allowedOrigins = [
-  process.env.CLIENT_ORIGIN || 'http://localhost:5173',
+  rawClientOrigin,
   'http://localhost:5173',
   'http://127.0.0.1:5173',
 ];
@@ -31,13 +35,18 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (like mobile apps, curl, server-to-server)
-      if (!origin || allowedOrigins.includes(origin)) {
+      // Allow requests with no origin (mobile apps, curl, server-to-server)
+      if (!origin) {
+        return callback(null, true);
+      }
+      
+      const normalizedOrigin = origin.trim().replace(/\/$/, '');
+      if (allowedOrigins.includes(normalizedOrigin) || normalizedOrigin.endsWith('.vercel.app')) {
         callback(null, true);
       } else if (!isProduction) {
         callback(null, true); // Permissive in development
       } else {
-        callback(new Error('Origin not allowed by HostelFix CORS policy.'));
+        callback(new Error(`Origin ${origin} not allowed by HostelFix CORS policy.`));
       }
     },
     credentials: true,
@@ -52,12 +61,19 @@ app.use(cookieParser());
 // Static file serving for uploaded complaint photos
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
-// Health check endpoint
+// Fast Health check endpoint for pre-warming and uptime checks
+const mongoose = require('mongoose');
+
 app.get('/api/health', (req, res) => {
+  const dbStates = ['disconnected', 'connected', 'connecting', 'disconnecting'];
+  const dbStatus = dbStates[mongoose.connection?.readyState] || 'unknown';
+  
   res.status(200).json({
     success: true,
     service: 'HostelFix API',
     status: 'Operational',
+    database: dbStatus,
+    uptimeSeconds: Math.floor(process.uptime()),
     timestamp: new Date().toISOString(),
   });
 });

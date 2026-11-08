@@ -20,72 +20,27 @@ const startServer = async () => {
     // Connect to MongoDB
     await connectDB();
 
-    console.log('\n========== MONGODB DIAGNOSTICS ==========');
-
-    // Verify MongoDB connection and permissions
-    try {
-      const result = await mongoose.connection.db.admin().command({
-        connectionStatus: 1,
-        showPrivileges: true
-      });
-
-      console.log(
-        'DATABASE:',
-        mongoose.connection.name
-      );
-
-      console.log(
-        'AUTHENTICATED USERS:',
-        JSON.stringify(
-          result.authInfo.authenticatedUsers,
-          null,
-          2
-        )
-      );
-
-      console.log(
-        'ASSIGNED ROLES:',
-        JSON.stringify(
-          result.authInfo.authenticatedUserRoles,
-          null,
-          2
-        )
-      );
-
-      console.log(
-        'INHERITED PRIVILEGES:',
-        JSON.stringify(
-          result.authInfo.authenticatedUserPrivileges,
-          null,
-          2
-        )
-      );
-
-    } catch (diagnosticError) {
-      console.error(
-        '[MongoDB Diagnostic Error]:',
-        diagnosticError.message
-      );
-    }
-
-    console.log('========================================\n');
-
-    // Start Express server
+    // Start Express server immediately upon database readiness
     app.listen(PORT, '0.0.0.0', () => {
-      console.log(
-        `[HostelFix Server] Running on port ${PORT}`
-      );
-
-      console.log(
-        `[HostelFix Server] Environment: ${process.env.NODE_ENV || 'development'
-        }`
-      );
-
-      console.log(
-        '[HostelFix Server] MongoDB Connected:',
-        mongoose.connection.readyState === 1
-      );
+      console.log(`[HostelFix Server] Running on port ${PORT}`);
+      console.log(`[HostelFix Server] Environment: ${process.env.NODE_ENV || 'development'}`);
+      console.log(`[HostelFix Server] MongoDB Connected: ${mongoose.connection.readyState === 1}`);
     });
+
+    // Run MongoDB diagnostics non-blockingly in the background (dev/debug only)
+    if (process.env.NODE_ENV !== 'production') {
+      setImmediate(async () => {
+        try {
+          const result = await mongoose.connection.db.admin().command({
+            connectionStatus: 1,
+            showPrivileges: false,
+          });
+          console.log(`[Database Diagnostics] Connected DB: ${mongoose.connection.name}`);
+        } catch (diagnosticError) {
+          // Non-critical diagnostic info
+        }
+      });
+    }
 
   } catch (error) {
     console.error(

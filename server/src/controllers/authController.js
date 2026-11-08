@@ -13,6 +13,9 @@ const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
  * POST /api/auth/google
  */
 const googleLogin = async (req, res, next) => {
+  const tRequestReceived = performance.now();
+  console.log(`[AUTH TIMING] [${new Date().toISOString()}] Request received by backend: POST /api/auth/google`);
+
   try {
     const { credential } = req.body;
 
@@ -31,7 +34,8 @@ const googleLogin = async (req, res, next) => {
       });
     }
 
-    // Initialize Google OAuth2 client with configured client ID
+    // Google token verification
+    const tTokenStart = performance.now();
     const googleClient = new OAuth2Client(clientId);
     let ticket;
 
@@ -41,12 +45,16 @@ const googleLogin = async (req, res, next) => {
         audience: clientId,
       });
     } catch (err) {
-      console.warn('[Google Auth] Token verification rejected:', err.message);
+      const tTokenFail = performance.now() - tTokenStart;
+      console.warn(`[AUTH TIMING] [POST /api/auth/google] Google token verification failed after ${tTokenFail.toFixed(1)}ms:`, err.message);
       return res.status(401).json({
         success: false,
         message: 'Invalid, expired, or incorrectly targeted Google ID token. Verification failed.',
       });
     }
+
+    const tTokenDuration = performance.now() - tTokenStart;
+    console.log(`[AUTH TIMING] [POST /api/auth/google] Google token verification completed in ${tTokenDuration.toFixed(1)}ms`);
 
     const payload = ticket.getPayload();
 
@@ -86,8 +94,16 @@ const googleLogin = async (req, res, next) => {
     const name = payload.name || 'Student';
     const picture = payload.picture || '';
 
+    // Parallel MongoDB queries: check admin collision and lookup student by googleSub simultaneously
+    const tDbStart = performance.now();
+    const [adminCollision, existingStudentBySub] = await Promise.all([
+      Admin.findOne({ loginId: email }),
+      User.findOne({ googleSub }),
+    ]);
+    const tDbDuration = performance.now() - tDbStart;
+    console.log(`[AUTH TIMING] [POST /api/auth/google] MongoDB user lookup completed in ${tDbDuration.toFixed(1)}ms (found by sub: ${Boolean(existingStudentBySub)})`);
+
     // Defense-in-depth: Ensure Google student account cannot collide with admin accounts
-    const adminCollision = await Admin.findOne({ loginId: email });
     if (adminCollision) {
       return res.status(403).json({
         success: false,
@@ -95,15 +111,14 @@ const googleLogin = async (req, res, next) => {
       });
     }
 
-    // 1. Primary lookup by stable Google subject ID
-    let student = await User.findOne({ googleSub });
+    let student = existingStudentBySub;
 
     if (!student) {
-      // 2. Safe account linking: check if a student was pre-registered with this verified email
+      // Safe account linking: check if a student was pre-registered with this verified email
+      const tLinkStart = performance.now();
       const existingByEmail = await User.findOne({ email });
 
       if (existingByEmail) {
-        // Prevent account hijacking: If already linked to a different googleSub, reject with conflict
         if (existingByEmail.googleSub && existingByEmail.googleSub !== googleSub) {
           return res.status(409).json({
             success: false,
@@ -111,7 +126,6 @@ const googleLogin = async (req, res, next) => {
           });
         }
 
-        // Safe linking: attach verified googleSub to the existing student record
         existingByEmail.googleSub = googleSub;
         if (picture && !existingByEmail.profilePhoto) {
           existingByEmail.profilePhoto = picture;
@@ -120,21 +134,20 @@ const googleLogin = async (req, res, next) => {
           existingByEmail.name = name;
         }
         student = await existingByEmail.save();
-        console.log(`[Google Auth] Linked existing account (${email}) with Google Sub ID: ${googleSub}`);
+        console.log(`[AUTH TIMING] [POST /api/auth/google] Linked existing student in ${(performance.now() - tLinkStart).toFixed(1)}ms`);
       } else {
-        // 3. Create new student record with verified profile information
+        // Create new student record with verified profile information
         student = await User.create({
           googleSub,
           email,
           name,
           profilePhoto: picture,
-          role: 'student', // Enforce student role on server
+          role: 'student',
           isActive: true,
         });
-        console.log(`[Google Auth] Created new student account: ${student.email} (${student.googleSub})`);
+        console.log(`[AUTH TIMING] [POST /api/auth/google] Created new student record in ${(performance.now() - tLinkStart).toFixed(1)}ms`);
       }
     } else {
-      // Student already linked by googleSub: sync profile image/name if changed on Google
       let changed = false;
       if (picture && student.profilePhoto !== picture) {
         student.profilePhoto = picture;
@@ -149,7 +162,6 @@ const googleLogin = async (req, res, next) => {
       }
     }
 
-    // 4. Check if account is active
     if (!student.isActive) {
       return res.status(403).json({
         success: false,
@@ -157,7 +169,8 @@ const googleLogin = async (req, res, next) => {
       });
     }
 
-    // 5. Establish secure server-managed application session
+    // Session & JWT generation
+    const tSessionStart = performance.now();
     const session = await Session.create({
       userId: student._id,
       role: 'student',
@@ -175,10 +188,15 @@ const googleLogin = async (req, res, next) => {
     });
 
     setAuthCookie(res, token);
+    const tSessionDuration = performance.now() - tSessionStart;
+    console.log(`[AUTH TIMING] [POST /api/auth/google] JWT/session generation completed in ${tSessionDuration.toFixed(1)}ms`);
 
     const isComplete = typeof student.checkProfileCompleted === 'function'
       ? student.checkProfileCompleted()
       : Boolean(student.profileCompleted);
+
+    const totalDuration = performance.now() - tRequestReceived;
+    console.log(`[AUTH TIMING] [POST /api/auth/google] Final HTTP response sent: SUCCESS (200) | Total elapsed: ${totalDuration.toFixed(1)}ms`);
 
     return res.status(200).json({
       success: true,
@@ -209,6 +227,8 @@ const googleLogin = async (req, res, next) => {
       },
     });
   } catch (error) {
+    const totalDuration = performance.now() - tRequestReceived;
+    console.error(`[AUTH TIMING] [POST /api/auth/google] Request failed after ${totalDuration.toFixed(1)}ms:`, error.message);
     next(error);
   }
 };
@@ -299,6 +319,9 @@ const demoStudentLogin = async (req, res, next) => {
  * POST /api/auth/admin/login
  */
 const adminLogin = async (req, res, next) => {
+  const tRequestReceived = performance.now();
+  console.log(`[AUTH TIMING] [${new Date().toISOString()}] Request received by backend: POST /api/auth/admin/login`);
+
   try {
     const { loginId, password } = req.body;
 
@@ -309,17 +332,32 @@ const adminLogin = async (req, res, next) => {
       });
     }
 
-    const admin = await Admin.findOne({ loginId: loginId.toLowerCase().trim() });
+    const sanitizedId = loginId.toLowerCase().trim();
+
+    // MongoDB Warden lookup
+    const tDbStart = performance.now();
+    const admin = await Admin.findOne({ loginId: sanitizedId });
+    const tDbDuration = performance.now() - tDbStart;
+    console.log(`[AUTH TIMING] [POST /api/auth/admin/login] MongoDB query completed: Warden lookup finished in ${tDbDuration.toFixed(1)}ms (found: ${Boolean(admin)})`);
 
     if (!admin) {
+      const totalDuration = performance.now() - tRequestReceived;
+      console.warn(`[AUTH TIMING] [POST /api/auth/admin/login] Authentication failed: Warden not found (${totalDuration.toFixed(1)}ms)`);
       return res.status(401).json({
         success: false,
         message: 'Invalid credentials. Please verify your login ID and password.',
       });
     }
 
+    // Password verification
+    const tBcryptStart = performance.now();
     const isMatch = await admin.comparePassword(password);
+    const tBcryptDuration = performance.now() - tBcryptStart;
+    console.log(`[AUTH TIMING] [POST /api/auth/admin/login] Password verification completed in ${tBcryptDuration.toFixed(1)}ms (valid: ${isMatch})`);
+
     if (!isMatch) {
+      const totalDuration = performance.now() - tRequestReceived;
+      console.warn(`[AUTH TIMING] [POST /api/auth/admin/login] Authentication failed: Invalid password (${totalDuration.toFixed(1)}ms)`);
       return res.status(401).json({
         success: false,
         message: 'Invalid credentials. Please verify your login ID and password.',
@@ -333,19 +371,21 @@ const adminLogin = async (req, res, next) => {
       });
     }
 
-    // Update last login timestamp
+    // Concurrent DB operations: Update lastLogin timestamp and create session in parallel
+    const tSessionStart = performance.now();
     admin.lastLoginAt = new Date();
-    await admin.save();
 
-    // Create server-managed admin session
-    const session = await Session.create({
-      userId: admin._id,
-      role: 'admin',
-      isActive: true,
-      ipAddress: req.ip || '',
-      userAgent: req.headers['user-agent'] || '',
-      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-    });
+    const [_, session] = await Promise.all([
+      admin.save(),
+      Session.create({
+        userId: admin._id,
+        role: 'admin',
+        isActive: true,
+        ipAddress: req.ip || '',
+        userAgent: req.headers['user-agent'] || '',
+        expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      }),
+    ]);
 
     const token = generateToken({
       id: admin._id.toString(),
@@ -355,6 +395,11 @@ const adminLogin = async (req, res, next) => {
     });
 
     setAuthCookie(res, token);
+    const tSessionDuration = performance.now() - tSessionStart;
+    console.log(`[AUTH TIMING] [POST /api/auth/admin/login] JWT/session generation completed in ${tSessionDuration.toFixed(1)}ms`);
+
+    const totalDuration = performance.now() - tRequestReceived;
+    console.log(`[AUTH TIMING] [POST /api/auth/admin/login] Final HTTP response sent: SUCCESS (200) | Total elapsed: ${totalDuration.toFixed(1)}ms`);
 
     return res.status(200).json({
       success: true,
@@ -369,6 +414,8 @@ const adminLogin = async (req, res, next) => {
       },
     });
   } catch (error) {
+    const totalDuration = performance.now() - tRequestReceived;
+    console.error(`[AUTH TIMING] [POST /api/auth/admin/login] Request failed after ${totalDuration.toFixed(1)}ms:`, error.message);
     next(error);
   }
 };
@@ -423,6 +470,9 @@ const getMe = async (req, res) => {
  * POST /api/auth/staff/google
  */
 const staffGoogleLogin = async (req, res, next) => {
+  const tRequestReceived = performance.now();
+  console.log(`[AUTH TIMING] [${new Date().toISOString()}] Request received by backend: POST /api/auth/staff/google`);
+
   try {
     const { credential } = req.body;
 
@@ -441,6 +491,8 @@ const staffGoogleLogin = async (req, res, next) => {
       });
     }
 
+    // Google token verification
+    const tTokenStart = performance.now();
     const client = new OAuth2Client(clientId);
     let ticket;
     try {
@@ -449,12 +501,16 @@ const staffGoogleLogin = async (req, res, next) => {
         audience: clientId,
       });
     } catch (err) {
-      console.warn('[Staff Google Auth] Token verification rejected:', err.message);
+      const tTokenFail = performance.now() - tTokenStart;
+      console.warn(`[AUTH TIMING] [POST /api/auth/staff/google] Google token verification rejected after ${tTokenFail.toFixed(1)}ms:`, err.message);
       return res.status(401).json({
         success: false,
         message: 'Invalid, expired, or untrusted Google ID token.',
       });
     }
+
+    const tTokenDuration = performance.now() - tTokenStart;
+    console.log(`[AUTH TIMING] [POST /api/auth/staff/google] Google token verification completed in ${tTokenDuration.toFixed(1)}ms`);
 
     const payload = ticket.getPayload();
     if (!payload || !payload.sub || !payload.email) {
@@ -492,21 +548,22 @@ const staffGoogleLogin = async (req, res, next) => {
     const name = payload.name || 'Staff Member';
     const picture = payload.picture || '';
 
-    // 1. Primary lookup by stable googleSub
+    // MongoDB Staff lookup
+    const tDbStart = performance.now();
     let staff = await Staff.findOne({ googleSub });
 
     if (!staff) {
-      // 2. Lookup by pre-registered Google email
       const staffByEmail = await Staff.findOne({ email });
 
       if (!staffByEmail) {
+        const totalDuration = performance.now() - tRequestReceived;
+        console.warn(`[AUTH TIMING] [POST /api/auth/staff/google] Access denied: Staff email "${email}" not registered (${totalDuration.toFixed(1)}ms)`);
         return res.status(403).json({
           success: false,
           message: `Access denied. The Google account "${email}" is not registered as an authorized HostelFix staff member. Please contact the Chief Warden office to register your staff profile.`,
         });
       }
 
-      // Check conflict if already linked to another sub
       if (staffByEmail.googleSub && staffByEmail.googleSub !== googleSub) {
         return res.status(409).json({
           success: false,
@@ -514,14 +571,16 @@ const staffGoogleLogin = async (req, res, next) => {
         });
       }
 
-      // Securely link verified googleSub to staff record
       staffByEmail.googleSub = googleSub;
       if (picture && !staffByEmail.profilePhoto) {
         staffByEmail.profilePhoto = picture;
       }
       staff = await staffByEmail.save();
-      console.log(`[Staff Google Auth] Successfully linked staff account (${email}) with Google Sub ID: ${googleSub}`);
+      console.log(`[AUTH TIMING] [POST /api/auth/staff/google] Linked staff account (${email}) with Google Sub`);
     }
+
+    const tDbDuration = performance.now() - tDbStart;
+    console.log(`[AUTH TIMING] [POST /api/auth/staff/google] MongoDB query completed: Staff lookup finished in ${tDbDuration.toFixed(1)}ms`);
 
     if (!staff.isActive) {
       return res.status(403).json({
@@ -530,19 +589,21 @@ const staffGoogleLogin = async (req, res, next) => {
       });
     }
 
-    // Update last login timestamp
+    // Concurrent DB operations: Update lastLogin timestamp and create session in parallel
+    const tSessionStart = performance.now();
     staff.lastLoginAt = new Date();
-    await staff.save();
 
-    // Create server-managed session in MongoDB Atlas
-    const session = await Session.create({
-      userId: staff._id,
-      role: 'staff',
-      isActive: true,
-      ipAddress: req.ip || '',
-      userAgent: req.headers['user-agent'] || '',
-      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-    });
+    const [_, session] = await Promise.all([
+      staff.save(),
+      Session.create({
+        userId: staff._id,
+        role: 'staff',
+        isActive: true,
+        ipAddress: req.ip || '',
+        userAgent: req.headers['user-agent'] || '',
+        expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      }),
+    ]);
 
     const token = generateToken({
       id: staff._id.toString(),
@@ -552,6 +613,11 @@ const staffGoogleLogin = async (req, res, next) => {
     });
 
     setAuthCookie(res, token);
+    const tSessionDuration = performance.now() - tSessionStart;
+    console.log(`[AUTH TIMING] [POST /api/auth/staff/google] JWT/session generation completed in ${tSessionDuration.toFixed(1)}ms`);
+
+    const totalDuration = performance.now() - tRequestReceived;
+    console.log(`[AUTH TIMING] [POST /api/auth/staff/google] Final HTTP response sent: SUCCESS (200) | Total elapsed: ${totalDuration.toFixed(1)}ms`);
 
     return res.status(200).json({
       success: true,
@@ -572,6 +638,8 @@ const staffGoogleLogin = async (req, res, next) => {
       },
     });
   } catch (error) {
+    const totalDuration = performance.now() - tRequestReceived;
+    console.error(`[AUTH TIMING] [POST /api/auth/staff/google] Request failed after ${totalDuration.toFixed(1)}ms:`, error.message);
     next(error);
   }
 };

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useRef, useCallback } from 'react';
-import api from '../services/api';
+import api, { prewarmBackend } from '../services/api';
 
 const AuthContext = createContext(null);
 
@@ -36,6 +36,9 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
+    // Proactively pre-warm backend so Render wakes up before login interaction
+    prewarmBackend();
+
     const controller = new AbortController();
     checkAuth(controller.signal);
 
@@ -44,9 +47,9 @@ export const AuthProvider = ({ children }) => {
     };
   }, [checkAuth]);
 
-  // Google Student Login
+  // Google Student Login (with dedicated 25s auth timeout for cold-start tolerance)
   const loginWithGoogle = async (credential) => {
-    const res = await api.post('/auth/google', { credential });
+    const res = await api.post('/auth/google', { credential }, { timeout: 25000 });
     if (res.data && res.data.success) {
       setUser(res.data.user);
       return res.data;
@@ -54,9 +57,9 @@ export const AuthProvider = ({ children }) => {
     throw new Error(res.data?.message || 'Google authentication failed');
   };
 
-  // Google Staff Login
+  // Google Staff Login (with dedicated 25s auth timeout for cold-start tolerance)
   const loginStaffWithGoogle = async (credential) => {
-    const res = await api.post('/auth/staff/google', { credential });
+    const res = await api.post('/auth/staff/google', { credential }, { timeout: 25000 });
     if (res.data && res.data.success) {
       setUser(res.data.user);
       return res.data;
@@ -64,9 +67,9 @@ export const AuthProvider = ({ children }) => {
     throw new Error(res.data?.message || 'Staff authentication failed');
   };
 
-  // Warden Admin Login
+  // Warden Admin Login (with dedicated 25s auth timeout for cold-start tolerance)
   const loginAsAdmin = async (loginId, password) => {
-    const res = await api.post('/auth/admin/login', { loginId, password });
+    const res = await api.post('/auth/admin/login', { loginId, password }, { timeout: 25000 });
     if (res.data && res.data.success) {
       setUser(res.data.user);
       return res.data;
