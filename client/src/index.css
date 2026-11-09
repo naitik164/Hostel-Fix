@@ -629,7 +629,6 @@ h1, h2, h3, h4, h5, h6, .font-heading {
 
 .animate-page-reveal {
   animation: page-reveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  will-change: opacity, transform;
 }
 
 /* Liquid-glass skeleton shimmer */

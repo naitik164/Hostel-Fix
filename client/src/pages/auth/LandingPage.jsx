@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import ProblemCarousel3D from '../../components/landing/ProblemCarousel3D';
 import {
   Wrench,
   Shield,
@@ -30,7 +31,6 @@ import {
   FolderArchive,
   Check,
   XCircle,
-  Building2,
   Eye,
   UserPlus,
   User,
@@ -187,7 +187,7 @@ const LandingPage = () => {
   }, []);
 
   return (
-    <div className="flex-1 flex flex-col min-h-screen bg-[#F5F9FF] text-navy relative overflow-hidden font-sans w-full">
+    <div className="flex-1 flex flex-col min-h-screen bg-[#F5F9FF] text-navy relative overflow-x-clip font-sans w-full">
       {/* Ambient background glows */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
         <div className="ambient-glow" />
@@ -677,153 +677,9 @@ const LandingPage = () => {
       </section>
 
       {/* =========================================================================
-          2. THE PROBLEM – WHY HOSTELFIX IS NEEDED
+          2. THE PROBLEM – SCROLL-DRIVEN 3D CAROUSEL EXPERIENCE
           ========================================================================= */}
-      <section id="problem" className="relative z-10 py-16 sm:py-24 bg-[#F8FAFC] border-t border-[#E1EBF8]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="scroll-reveal text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-            <h2 className="text-2xl sm:text-4xl md:text-5xl font-heading font-extrabold text-[#10234F] tracking-tight">
-              Hostel Problems Shouldn't Remain Unresolved.
-            </h2>
-            <p className="mt-3 sm:mt-4 text-xs sm:text-base text-[#64748B] leading-relaxed max-w-2xl mx-auto">
-              Traditional hostel maintenance relies on paper registers, verbal complaints, and lost messages. Here is why the old approach fails students, wardens, and technicians alike:
-            </p>
-          </div>
-
-          {/* 5 Problem Cards Responsive Grid: 3 Top Row + 2 Bottom Row Centered on Desktop */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6 sm:gap-7 max-w-6xl mx-auto items-stretch">
-            {/* Problem 01 */}
-            <div className="scroll-reveal-scale delay-100 col-span-1 md:col-span-1 lg:col-span-2 h-full flex flex-col">
-              <div className="problem-card p-6 sm:p-7 h-full flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center justify-between mb-5">
-                    <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-md bg-[#EFF6FF] text-[#1749EF]">
-                      01
-                    </span>
-                    <div className="w-10 h-10 rounded-xl bg-[#EFF6FF] text-[#1749EF] flex items-center justify-center border border-[#E1EBF8]/80">
-                      <FileText className="w-5 h-5 stroke-[2]" />
-                    </div>
-                  </div>
-                  <h3 className="text-lg sm:text-[19px] font-heading font-bold text-[#10234F] leading-snug">
-                    Manual Complaint Reporting
-                  </h3>
-                  <p className="mt-3 text-sm text-[#64748B] leading-relaxed">
-                    Students often struggle to report maintenance issues through disconnected channels.
-                  </p>
-                </div>
-                <div className="mt-6 pt-4 border-t border-[#E1EBF8] text-xs text-[#64748B] font-medium flex items-center gap-2">
-                  <XCircle className="w-4 h-4 text-[#1749EF] shrink-0" />
-                  <span>Lost WhatsApp messages & paper registers</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Problem 02 */}
-            <div className="scroll-reveal-scale delay-200 col-span-1 md:col-span-1 lg:col-span-2 h-full flex flex-col">
-              <div className="problem-card p-6 sm:p-7 h-full flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center justify-between mb-5">
-                    <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-md bg-[#EFF6FF] text-[#1749EF]">
-                      02
-                    </span>
-                    <div className="w-10 h-10 rounded-xl bg-[#EFF6FF] text-[#1749EF] flex items-center justify-center border border-[#E1EBF8]/80">
-                      <Timer className="w-5 h-5 stroke-[2]" />
-                    </div>
-                  </div>
-                  <h3 className="text-lg sm:text-[19px] font-heading font-bold text-[#10234F] leading-snug">
-                    Delayed Resolutions
-                  </h3>
-                  <p className="mt-3 text-sm text-[#64748B] leading-relaxed">
-                    Complaints can remain pending without proper follow-up.
-                  </p>
-                </div>
-                <div className="mt-6 pt-4 border-t border-[#E1EBF8] text-xs text-[#64748B] font-medium flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-[#1749EF] shrink-0" />
-                  <span>No response timelines or priority escalation</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Problem 03 */}
-            <div className="scroll-reveal-scale delay-300 col-span-1 md:col-span-1 lg:col-span-2 h-full flex flex-col">
-              <div className="problem-card p-6 sm:p-7 h-full flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center justify-between mb-5">
-                    <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-md bg-[#EFF6FF] text-[#1749EF]">
-                      03
-                    </span>
-                    <div className="w-10 h-10 rounded-xl bg-[#EFF6FF] text-[#1749EF] flex items-center justify-center border border-[#E1EBF8]/80">
-                      <EyeOff className="w-5 h-5 stroke-[2]" />
-                    </div>
-                  </div>
-                  <h3 className="text-lg sm:text-[19px] font-heading font-bold text-[#10234F] leading-snug">
-                    Lack of Transparency
-                  </h3>
-                  <p className="mt-3 text-sm text-[#64748B] leading-relaxed">
-                    Students have limited visibility into complaint progress.
-                  </p>
-                </div>
-                <div className="mt-6 pt-4 border-t border-[#E1EBF8] text-xs text-[#64748B] font-medium flex items-center gap-2">
-                  <Activity className="w-4 h-4 text-[#1749EF] shrink-0" />
-                  <span>Zero live status updates or technician details</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Problem 04 */}
-            <div className="scroll-reveal-scale delay-400 col-span-1 md:col-span-1 lg:col-span-2 lg:col-start-2 h-full flex flex-col">
-              <div className="problem-card p-6 sm:p-7 h-full flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center justify-between mb-5">
-                    <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-md bg-[#EFF6FF] text-[#1749EF]">
-                      04
-                    </span>
-                    <div className="w-10 h-10 rounded-xl bg-[#EFF6FF] text-[#1749EF] flex items-center justify-center border border-[#E1EBF8]/80">
-                      <UserX className="w-5 h-5 stroke-[2]" />
-                    </div>
-                  </div>
-                  <h3 className="text-lg sm:text-[19px] font-heading font-bold text-[#10234F] leading-snug">
-                    Poor Accountability
-                  </h3>
-                  <p className="mt-3 text-sm text-[#64748B] leading-relaxed">
-                    Wardens need a structured way to assign tasks and verify completed work.
-                  </p>
-                </div>
-                <div className="mt-6 pt-4 border-t border-[#E1EBF8] text-xs text-[#64748B] font-medium flex items-center gap-2">
-                  <XCircle className="w-4 h-4 text-[#1749EF] shrink-0" />
-                  <span>Unverified completions & verbal assurances</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Problem 05 */}
-            <div className="scroll-reveal-scale delay-500 col-span-1 md:col-span-2 md:w-[calc(50%-14px)] md:mx-auto lg:w-full lg:max-w-none lg:mx-0 lg:col-span-2 h-full flex flex-col">
-              <div className="problem-card p-6 sm:p-7 h-full flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center justify-between mb-5">
-                    <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-md bg-[#EFF6FF] text-[#1749EF]">
-                      05
-                    </span>
-                    <div className="w-10 h-10 rounded-xl bg-[#EFF6FF] text-[#1749EF] flex items-center justify-center border border-[#E1EBF8]/80">
-                      <FolderArchive className="w-5 h-5 stroke-[2]" />
-                    </div>
-                  </div>
-                  <h3 className="text-lg sm:text-[19px] font-heading font-bold text-[#10234F] leading-snug">
-                    No Centralized Records
-                  </h3>
-                  <p className="mt-3 text-sm text-[#64748B] leading-relaxed">
-                    Historical complaints and recurring issues are difficult to monitor.
-                  </p>
-                </div>
-                <div className="mt-6 pt-4 border-t border-[#E1EBF8] text-xs text-[#64748B] font-medium flex items-center gap-2">
-                  <BarChart3 className="w-4 h-4 text-[#1749EF] shrink-0" />
-                  <span>No analytics on block breakdowns or recurring faults</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <ProblemCarousel3D />
 
       {/* =========================================================================
           3. OUR SOLUTION – INTRODUCING HOSTELFIX
@@ -1638,13 +1494,9 @@ const LandingPage = () => {
             </nav>
           </div>
 
-          {/* Bottom Copyright & Campus Info */}
-          <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left text-[11px] text-slate-400">
+          {/* Bottom Copyright */}
+          <div className="pt-6 flex items-center justify-center text-center text-[11px] text-slate-400">
             <p>© {new Date().getFullYear()} HostelFix. Smart Hostel Complaint & Maintenance Management System.</p>
-            <p className="flex items-center gap-1.5">
-              <Building2 className="w-3.5 h-3.5 text-royal/60" />
-              <span>LNCTE Campus Maintenance & Facility Operations</span>
-            </p>
           </div>
         </div>
       </footer>
