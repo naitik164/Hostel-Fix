@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { useAuth } from '../../context/AuthContext';
 import ProblemCarousel3D from '../../components/landing/ProblemCarousel3D';
 import {
@@ -60,7 +61,47 @@ const LandingPage = () => {
         ? '/staff/dashboard'
         : '/student/dashboard';
 
-  // Smooth scroll handler for anchor links
+  // Full-width to floating navbar transformation state
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const checkResponsive = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReducedMotion(motionQuery.matches);
+    const handleMotionChange = (e) => setReducedMotion(e.matches);
+    motionQuery.addEventListener('change', handleMotionChange);
+
+    checkResponsive();
+    window.addEventListener('resize', checkResponsive, { passive: true });
+
+    const handleScroll = () => {
+      const scrollY =
+        window.scrollY ??
+        window.pageYOffset ??
+        document.documentElement.scrollTop ??
+        0;
+      // At window.scrollY <= 50: isScrolled = false; at window.scrollY > 50: isScrolled = true
+      setIsScrolled(scrollY > 50);
+    };
+
+    // Run immediately on mount to establish accurate initial state
+    handleScroll();
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', checkResponsive);
+      motionQuery.removeEventListener('change', handleMotionChange);
+    };
+  }, []);
   const scrollToSection = (id) => {
     setMobileMenuOpen(false);
     const element = document.getElementById(id);
@@ -194,9 +235,54 @@ const LandingPage = () => {
         <div className="ambient-glow-bottom" />
       </div>
 
-      {/* Top Navbar */}
-      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-white/80 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 sm:h-20 flex items-center justify-between">
+      {/* Invisible spacer to maintain natural document flow and prevent layout shifts (100px tall) */}
+      <div className="h-[100px] w-full shrink-0" aria-hidden="true" />
+
+      {/* Top Navbar: Full-Width to Floating Glass Morphing Header */}
+      <motion.header
+        id="main-navbar"
+        style={{
+          position: 'fixed',
+          left: '50%',
+          zIndex: 9999,
+          borderStyle: 'solid',
+          backdropFilter: isScrolled ? 'blur(20px)' : 'none',
+          WebkitBackdropFilter: isScrolled ? 'blur(20px)' : 'none',
+        }}
+        initial={false}
+        animate={{
+          x: '-50%',
+          top: isScrolled ? 16 : 0,
+          width: isScrolled
+            ? isMobile
+              ? 'calc(100% - 24px)'
+              : 'calc(100% - 80px)'
+            : '100%',
+          maxWidth: isScrolled ? '1520px' : '100%',
+          height: isScrolled ? (isMobile ? 64 : 76) : isMobile ? 84 : 100,
+          borderRadius: isScrolled ? 20 : 0,
+          backgroundColor: isScrolled
+            ? 'rgba(255, 255, 255, 0.88)'
+            : 'rgba(255, 255, 255, 1)',
+          borderColor: isScrolled ? 'rgba(255, 255, 255, 0.7)' : '#E1EBF8',
+          borderTopWidth: isScrolled ? '1px' : '0px',
+          borderLeftWidth: isScrolled ? '1px' : '0px',
+          borderRightWidth: isScrolled ? '1px' : '0px',
+          borderBottomWidth: '1px',
+          boxShadow: isScrolled
+            ? '0 8px 35px rgba(15, 35, 75, 0.12)'
+            : '0 0 0 0 rgba(0, 0, 0, 0)',
+          paddingLeft: isScrolled ? (isMobile ? 16 : 28) : isMobile ? 16 : 36,
+          paddingRight: isScrolled ? (isMobile ? 16 : 28) : isMobile ? 16 : 36,
+        }}
+        transition={
+          reducedMotion
+            ? { duration: 0 }
+            : { duration: 0.4, ease: 'easeInOut' }
+        }
+        className="flex flex-col justify-center overflow-visible"
+      >
+        <div className="w-full flex items-center justify-between">
           {/* Logo & Brand */}
           <Link
             to="/"
@@ -206,56 +292,50 @@ const LandingPage = () => {
             <img
               src="/logo-icon.png"
               alt="HostelFix Logo"
-              className="w-10 h-10 sm:w-11 sm:h-11 object-contain drop-shadow-md rounded-2xl group-hover:scale-105 transition-transform"
+              className={`object-contain drop-shadow-sm rounded-xl sm:rounded-2xl group-hover:scale-105 transition-all duration-300 ${
+                isScrolled
+                  ? 'w-8.5 h-8.5 sm:w-9 sm:h-9'
+                  : 'w-11 h-11 sm:w-12 sm:h-12'
+              }`}
             />
             <div>
-              <span className="font-heading font-extrabold text-xl sm:text-2xl text-navy tracking-tight">
-                Hostel<span className="text-electric">Fix</span>
+              <span
+                className={`font-heading font-extrabold text-[#10234F] tracking-tight transition-all duration-300 ${
+                  isScrolled ? 'text-xl sm:text-2xl' : 'text-2xl sm:text-3xl'
+                }`}
+              >
+                Hostel<span className="text-[#1951FC]">Fix</span>
               </span>
-              <p className="text-[10px] sm:text-[11px] text-slate-500 font-medium hidden xs:block">
-                Smart Hostel Complaint & Maintenance System
-              </p>
+              {!isScrolled && (
+                <p className="text-[10px] sm:text-[11px] text-slate-500 font-medium hidden xs:block transition-all duration-300">
+                  Smart Hostel Complaint & Maintenance System
+                </p>
+              )}
             </div>
           </Link>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-1.5 xl:gap-2 text-xs font-semibold text-slate-600">
-            <button
-              onClick={() => scrollToSection('problem')}
-              className="px-3 py-2 rounded-xl hover:text-navy hover:bg-white/80 transition-all cursor-pointer"
-            >
-              The Problem
-            </button>
-            <button
-              onClick={() => scrollToSection('solution')}
-              className="px-3 py-2 rounded-xl hover:text-navy hover:bg-white/80 transition-all cursor-pointer"
-            >
-              Our Solution
-            </button>
-            <button
-              onClick={() => scrollToSection('portals')}
-              className="px-3 py-2 rounded-xl hover:text-navy hover:bg-white/80 transition-all cursor-pointer"
-            >
-              Portals
-            </button>
-            <button
-              onClick={() => scrollToSection('features')}
-              className="px-3 py-2 rounded-xl hover:text-navy hover:bg-white/80 transition-all cursor-pointer"
-            >
-              Features
-            </button>
-            <button
-              onClick={() => scrollToSection('why-us')}
-              className="px-3 py-2 rounded-xl hover:text-navy hover:bg-white/80 transition-all cursor-pointer"
-            >
-              Why HostelFix
-            </button>
-            <button
-              onClick={() => scrollToSection('how-it-works')}
-              className="px-3 py-2 rounded-xl hover:text-navy hover:bg-white/80 transition-all cursor-pointer"
-            >
-              Workflow
-            </button>
+          {/* Desktop Navigation Links with subtle hover indicator & pill transition */}
+          <nav className="hidden lg:flex items-center gap-1 xl:gap-1.5 text-xs font-semibold text-slate-600">
+            {[
+              { id: 'problem', label: 'The Problem' },
+              { id: 'solution', label: 'Our Solution' },
+              { id: 'portals', label: 'Portals' },
+              { id: 'features', label: 'Features' },
+              { id: 'why-us', label: 'Why HostelFix' },
+              { id: 'how-it-works', label: 'Workflow' },
+            ].map((item) => (
+              <button
+                key={item.id}
+                onClick={() => scrollToSection(item.id)}
+                className="relative px-3 sm:px-3.5 py-1.5 rounded-full text-xs font-semibold text-slate-600 hover:text-navy transition-colors duration-200 group cursor-pointer"
+              >
+                <span className="relative z-10">{item.label}</span>
+                {/* Subtle hover background pill */}
+                <span className="absolute inset-0 rounded-full bg-royal/0 group-hover:bg-royal/6 transition-all duration-200" />
+                {/* Smooth hover underline accent */}
+                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-royal rounded-full group-hover:w-4 transition-all duration-250 ease-out" />
+              </button>
+            ))}
           </nav>
 
           {/* Desktop Action Button */}
@@ -263,18 +343,22 @@ const LandingPage = () => {
             {isAuthenticated ? (
               <Link
                 to={dashboardPath}
-                className="btn-action flex items-center gap-2 px-5 py-2.5 rounded-control text-xs font-bold shadow-md cursor-pointer"
+                className={`btn-action flex items-center gap-2 rounded-full font-bold shadow-md shadow-royal/20 hover:shadow-lg hover:shadow-royal/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer ${
+                  isScrolled ? 'px-4 py-2 text-xs' : 'px-5 py-2.5 text-xs'
+                }`}
               >
                 <span>Go to Dashboard</span>
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
               </Link>
             ) : (
               <button
                 onClick={() => scrollToSection('portals')}
-                className="btn-action flex items-center gap-2 px-5 py-2.5 rounded-control text-xs font-bold shadow-md cursor-pointer"
+                className={`btn-action flex items-center gap-2 rounded-full font-bold shadow-md shadow-royal/20 hover:shadow-lg hover:shadow-royal/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer ${
+                  isScrolled ? 'px-4 py-2 text-xs' : 'px-5 py-2.5 text-xs'
+                }`}
               >
                 <span>Get Started</span>
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
               </button>
             )}
           </div>
@@ -284,7 +368,9 @@ const LandingPage = () => {
             {isAuthenticated && (
               <Link
                 to={dashboardPath}
-                className="btn-action px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 shadow-sm"
+                className={`btn-action rounded-lg font-bold flex items-center gap-1 shadow-sm ${
+                  isScrolled ? 'px-2.5 py-1 text-[11px]' : 'px-3 py-1.5 text-xs'
+                }`}
               >
                 <span>Dashboard</span>
                 <ArrowRight className="w-3 h-3" />
@@ -294,16 +380,18 @@ const LandingPage = () => {
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label={mobileMenuOpen ? 'Close Navigation Menu' : 'Open Navigation Menu'}
               aria-expanded={mobileMenuOpen}
-              className="p-2.5 rounded-xl text-navy hover:bg-white/80 active:bg-ice/50 transition-colors border border-sky/30 touch-target flex items-center justify-center cursor-pointer"
+              className={`rounded-xl text-navy hover:bg-white/80 active:bg-ice/50 transition-all border border-sky/30 touch-target flex items-center justify-center cursor-pointer ${
+                isScrolled ? 'p-2' : 'p-2.5'
+              }`}
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
 
-        {/* Mobile Navigation Drawer */}
+        {/* Mobile Navigation Drawer: floats cleanly underneath navbar */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-sky/20 bg-white/95 backdrop-blur-2xl px-4 py-4 space-y-3 animate-in fade-in slide-in-from-top-2 duration-200 shadow-xl">
+          <div className="md:hidden absolute top-[calc(100%+8px)] left-0 right-0 rounded-2xl border border-[#E1EBF8] bg-white/95 backdrop-blur-2xl p-4 space-y-3 shadow-2xl animate-in fade-in slide-in-from-top-2 z-[9999]">
             {/* Quick Section Anchor Links */}
             <div className="grid grid-cols-2 gap-1.5 pb-3 border-b border-sky/20 text-xs font-semibold text-slate-700">
               <button
@@ -422,7 +510,7 @@ const LandingPage = () => {
             )}
           </div>
         )}
-      </header>
+      </motion.header>
 
       {/* =========================================================================
           1. HERO SECTION – INTRODUCING HOSTELFIX
