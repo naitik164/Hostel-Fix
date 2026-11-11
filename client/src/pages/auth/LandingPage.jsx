@@ -1523,9 +1523,9 @@ const LandingPage = () => {
           ========================================================================= */}
       <footer className="scroll-reveal mt-auto shrink-0 border-t border-sky/30 bg-white/80 backdrop-blur-md py-10 text-xs text-slate-500 relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-sky/20">
+          <div className="flex flex-col items-center justify-center gap-6 pb-8 border-b border-sky/20">
             {/* Brand & Tagline */}
-            <div className="flex items-center gap-3 text-left">
+            <div className="flex items-center gap-3 text-center">
               <img
                 src="/logo-icon.png"
                 alt="HostelFix Logo"
