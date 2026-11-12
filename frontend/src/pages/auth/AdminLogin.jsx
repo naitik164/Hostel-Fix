@@ -50,24 +50,33 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="min-h-[100dvh] relative flex items-center justify-center p-3 sm:p-4 overflow-hidden bg-navy-900 font-sans">
-      {/* Dark Navy Atmospheric Background & Glows */}
-      <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-[#20543F]/40 rounded-full filter blur-[100px] pointer-events-none" />
-      <div className="absolute -bottom-40 -left-40 w-[500px] h-[500px] bg-[#00A878]/25 rounded-full filter blur-[100px] pointer-events-none" />
+    <div
+      className="min-h-[100dvh] relative flex items-center justify-center p-4 sm:p-6 overflow-hidden font-sans"
+      style={{
+        background: 'linear-gradient(135deg, #E9EDDA 0%, #F7F8F0 45%, #DCE6D5 100%)',
+      }}
+    >
+      {/* Subtle organic ambient gradients & forest-green lighting for depth */}
+      <div className="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full bg-[#20543F]/8 filter blur-[100px] pointer-events-none animate-pulse" />
+      <div className="absolute -bottom-40 -right-40 w-[550px] h-[550px] rounded-full bg-[#00A878]/8 filter blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/4 right-1/4 w-80 h-80 rounded-full bg-[#A8B99A]/20 filter blur-[90px] pointer-events-none" />
+      <div className="absolute bottom-1/4 left-1/4 w-72 h-72 rounded-full bg-[#C3DC9B]/15 filter blur-[80px] pointer-events-none" />
 
-      {/* Main Glass Login Card Landmark */}
+      {/* Main Centered Frosted-Glass Card Landmark */}
       <main className="relative z-10 w-full max-w-md my-auto">
         {/* Back Link */}
         <Link
           to="/"
-          className="inline-flex items-center gap-2 text-xs font-semibold text-[#A8B99A] hover:text-white mb-6 transition-colors"
+          className="inline-flex items-center gap-2 text-xs font-bold text-[#20543F] hover:text-[#173D30] mb-5 transition-all group"
         >
-          <ArrowLeft className="w-4 h-4 text-[#A8B99A]" />
+          <div className="w-7 h-7 rounded-full bg-[#E9EDDA] border border-[#A8B99A]/40 flex items-center justify-center group-hover:bg-[#E9EDDA]/90 group-hover:-translate-x-0.5 transition-all shadow-xs">
+            <ArrowLeft className="w-3.5 h-3.5 text-[#20543F]" />
+          </div>
           <span>Back to Home</span>
         </Link>
 
-        {/* Dark Glass Login Card */}
-        <div className="glass-dark-panel p-5 sm:p-8 lg:p-10 rounded-card shadow-glass-dark border border-[#A8B99A]/30">
+        {/* Soft cream/sage glassmorphic card */}
+        <div className="bg-[#F7F8F0]/90 backdrop-blur-xl p-6 sm:p-8 lg:p-10 rounded-[28px] sm:rounded-[32px] border border-[#C8D5BC] shadow-[0_20px_50px_rgba(23,61,48,0.08)] hover:shadow-[0_25px_60px_rgba(23,61,48,0.12)] transition-all duration-300">
           {/* Header */}
           <header className="text-center">
             <img
@@ -80,33 +89,33 @@ const AdminLogin = () => {
               loading="eager"
               fetchPriority="high"
               decoding="async"
-              className="w-16 h-16 mx-auto mb-4 object-contain filter drop-shadow-md"
+              className="w-16 h-16 mx-auto mb-4 object-contain filter drop-shadow-md rounded-2xl"
             />
-            <h1 className="text-2xl font-extrabold text-white font-heading tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-[#173D30] font-heading tracking-tight">
               Warden Administration
             </h1>
-            <p className="mt-1 text-xs text-[#DADFB9]/80 font-medium">
+            <p className="mt-1.5 text-xs text-[#647568] font-medium tracking-wide">
               Complaint • Maintenance • Resolution
             </p>
           </header>
 
           {/* Error Message */}
           {error && (
-            <div className="mt-6 p-3 rounded-control bg-rose-500/20 border border-rose-400/40 text-rose-200 text-xs flex items-start gap-2 animate-in fade-in">
-              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-rose-400" />
-              <span>{error}</span>
+            <div className="mt-6 p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-start gap-2.5 animate-in fade-in">
+              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-rose-600" />
+              <span className="font-medium leading-relaxed">{error}</span>
             </div>
           )}
 
           {/* Login Form */}
-          <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+          <form onSubmit={handleSubmit} className="mt-7 space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-200 mb-1.5">
+              <label className="block text-xs font-bold text-[#20543F] mb-1.5">
                 Warden Login ID / Email
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#A8B99A]">
-                  <Mail className="w-4 h-4 text-[#A8B99A]" />
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#20543F]">
+                  <Mail className="w-4 h-4 text-[#20543F]" />
                 </div>
                 <input
                   type="text"
@@ -114,18 +123,18 @@ const AdminLogin = () => {
                   value={loginId}
                   onChange={(e) => setLoginId(e.target.value)}
                   placeholder="admin@hostelfix.edu"
-                  className="w-full pl-10 pr-3.5 py-2.5 rounded-control text-xs font-medium bg-navy-900/80 border border-[#A8B99A]/40 text-white placeholder-slate-400 focus:outline-none focus:border-[#A8B99A] focus:ring-2 focus:ring-[#A8B99A]/20 transition-all"
+                  className="w-full pl-10 pr-3.5 py-2.5 rounded-xl text-xs font-semibold bg-[#FFFFFF] border border-[#D2DDC7] text-[#173D30] placeholder-[#829184] focus:outline-none focus:border-[#20543F] focus:ring-2 focus:ring-[#A8B99A]/30 transition-all shadow-xs"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-200 mb-1.5">
+              <label className="block text-xs font-bold text-[#20543F] mb-1.5">
                 Password
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#A8B99A]">
-                  <Lock className="w-4 h-4 text-[#A8B99A]" />
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#20543F]">
+                  <Lock className="w-4 h-4 text-[#20543F]" />
                 </div>
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -133,12 +142,13 @@ const AdminLogin = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••••••"
-                  className="w-full pl-10 pr-10 py-2.5 rounded-control text-xs font-medium bg-navy-900/80 border border-[#A8B99A]/40 text-white placeholder-slate-400 focus:outline-none focus:border-[#A8B99A] focus:ring-2 focus:ring-[#A8B99A]/20 transition-all"
+                  className="w-full pl-10 pr-10 py-2.5 rounded-xl text-xs font-semibold bg-[#FFFFFF] border border-[#D2DDC7] text-[#173D30] placeholder-[#829184] focus:outline-none focus:border-[#20543F] focus:ring-2 focus:ring-[#A8B99A]/30 transition-all shadow-xs"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-[#A8B99A] hover:text-white"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-[#20543F] hover:text-[#173D30] cursor-pointer"
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -148,7 +158,7 @@ const AdminLogin = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 rounded-control text-xs font-bold text-white bg-gradient-action hover:shadow-glow-electric border border-[#A8B99A]/50 transition-all flex items-center justify-center gap-2"
+              className="w-full py-3 rounded-xl text-xs font-bold text-white bg-[#20543F] hover:bg-[#173D30] shadow-[0_4px_14px_rgba(32,84,63,0.3)] hover:shadow-[0_6px_20px_rgba(32,84,63,0.4)] transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-60 disabled:pointer-events-none flex items-center justify-center gap-2 cursor-pointer mt-2"
             >
               {loading ? (
                 <>
@@ -162,16 +172,19 @@ const AdminLogin = () => {
           </form>
 
           {/* Security Notice */}
-          <div className="mt-6 pt-5 border-t border-[#A8B99A]/20 text-center">
-            <p className="text-xs text-[#E9EDDA] font-medium flex items-center justify-center gap-1.5">
-              <Shield className="w-3.5 h-3.5 text-white" />
+          <div className="mt-6 p-3.5 rounded-2xl bg-[#E9EDDA]/65 border border-[#C8D5BC] text-center">
+            <p className="text-xs text-[#173D30] font-medium flex items-center justify-center gap-2 leading-relaxed">
+              <Shield className="w-4 h-4 text-[#20543F] shrink-0" />
               <span>Administrative access is strictly restricted to authorized hostel wardens.</span>
             </p>
           </div>
 
-          <footer className="mt-4 text-center text-xs text-slate-300 font-medium">
+          <footer className="mt-6 pt-5 border-t border-[#C8D5BC]/60 text-center text-xs text-[#647568] font-medium">
             <span>Are you a student resident? </span>
-            <Link to="/student/login" className="font-bold text-[#E9EDDA] hover:underline">
+            <Link
+              to="/student/login"
+              className="font-bold text-[#20543F] hover:text-[#173D30] hover:underline transition-colors ml-1"
+            >
               Student Google Login
             </Link>
           </footer>
