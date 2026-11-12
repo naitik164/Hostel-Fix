@@ -311,8 +311,8 @@ const StudentOnboarding = () => {
         <div className="glass-card p-5 sm:p-8 lg:p-10 shadow-glass-dark border border-white/80 relative overflow-hidden">
           {/* Top Decorative Header Accent */}
           <div className="text-center mb-6">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-sky/30 text-royal text-xs font-bold mb-3 shadow-sm">
-              <Sparkles className="w-3.5 h-3.5 text-electric animate-spin-slow" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E9EDDA] border border-[#A8B99A]/40 text-[#20543F] text-xs font-bold mb-3 shadow-sm">
+              <Sparkles className="w-3.5 h-3.5 text-[#00A878] animate-spin-slow" />
               <span>Mandatory Profile Registration</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-navy font-heading tracking-tight">
@@ -357,7 +357,7 @@ const StudentOnboarding = () => {
                 </div>
                 <span
                   className={`mt-2 text-xs font-bold tracking-tight transition-colors ${
-                    currentStep === 1 ? 'text-royal' : currentStep > 1 ? 'text-slate-700' : 'text-slate-600'
+                    currentStep === 1 ? 'text-[#20543F]' : currentStep > 1 ? 'text-slate-700' : 'text-slate-600'
                   }`}
                 >
                   Personal
@@ -378,7 +378,7 @@ const StudentOnboarding = () => {
                     currentStep > 2
                       ? 'bg-emerald-600 text-white shadow-md ring-4 ring-emerald-100'
                       : currentStep === 2
-                      ? 'bg-gradient-action text-white shadow-lg ring-4 ring-sky/30 scale-105'
+                      ? 'bg-gradient-action text-white shadow-lg ring-4 ring-[#A8B99A]/30 scale-105'
                       : 'bg-white border-2 border-slate-300 text-slate-700'
                   }`}
                 >
@@ -386,7 +386,7 @@ const StudentOnboarding = () => {
                 </div>
                 <span
                   className={`mt-2 text-xs font-bold tracking-tight transition-colors ${
-                    currentStep === 2 ? 'text-royal' : currentStep > 2 ? 'text-slate-700' : 'text-slate-600'
+                    currentStep === 2 ? 'text-[#20543F]' : currentStep > 2 ? 'text-slate-700' : 'text-slate-600'
                   }`}
                 >
                   Academic
@@ -405,7 +405,7 @@ const StudentOnboarding = () => {
                 <div
                   className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs transition-all duration-300 ${
                     currentStep === 3
-                      ? 'bg-gradient-action text-white shadow-lg ring-4 ring-sky/30 scale-105'
+                      ? 'bg-gradient-action text-white shadow-lg ring-4 ring-[#A8B99A]/30 scale-105'
                       : 'bg-white border-2 border-slate-300 text-slate-700'
                   }`}
                 >
@@ -413,7 +413,7 @@ const StudentOnboarding = () => {
                 </div>
                 <span
                   className={`mt-2 text-xs font-bold tracking-tight transition-colors ${
-                    currentStep === 3 ? 'text-royal' : 'text-slate-600'
+                    currentStep === 3 ? 'text-[#20543F]' : 'text-slate-600'
                   }`}
                 >
                   Hostel
@@ -437,7 +437,7 @@ const StudentOnboarding = () => {
               <div className="space-y-4 animate-in fade-in duration-200">
                 <div className="border-b border-ice/80 pb-2 mb-4">
                   <h2 className="text-sm font-bold text-navy flex items-center gap-2">
-                    <User className="w-4 h-4 text-royal" />
+                    <User className="w-4 h-4 text-[#20543F]" />
                     <span>Personal Information</span>
                   </h2>
                   <p className="text-xs text-slate-600 font-medium mt-0.5">
@@ -550,8 +550,8 @@ const StudentOnboarding = () => {
                         onClick={() => handleChange('gender', g)}
                         className={`py-2 px-3 rounded-control text-xs font-semibold border transition-all text-center ${
                           formData.gender === g
-                            ? 'bg-royal text-white border-royal shadow-sm'
-                            : 'bg-white/70 hover:bg-white text-slate-700 border-ice hover:border-sky/40'
+                            ? 'bg-[#20543F] text-white border-[#20543F] shadow-sm'
+                            : 'bg-white/70 hover:bg-white text-slate-700 border-[#E9EDDA] hover:border-[#A8B99A]/40'
                         }`}
                       >
                         {g}
@@ -581,7 +581,7 @@ const StudentOnboarding = () => {
               <div className="space-y-4 animate-in fade-in duration-200">
                 <div className="border-b border-ice/80 pb-2 mb-4">
                   <h2 className="text-sm font-bold text-navy flex items-center gap-2">
-                    <GraduationCap className="w-4 h-4 text-royal" />
+                    <GraduationCap className="w-4 h-4 text-[#20543F]" />
                     <span>Academic Information</span>
                   </h2>
                   <p className="text-xs text-slate-600 font-medium mt-0.5">
@@ -640,7 +640,7 @@ const StudentOnboarding = () => {
                           type="button"
                           key={tag}
                           onClick={() => handleChange('branch', tag)}
-                          className="px-2.5 py-1 rounded-full text-xs font-semibold bg-ice hover:bg-sky/30 text-royal transition-colors border border-sky/30"
+                          className="px-2.5 py-1 rounded-full text-xs font-semibold bg-[#E9EDDA] hover:bg-[#E9EDDA]/80 text-[#20543F] transition-colors border border-[#A8B99A]/30"
                         >
                           {tag}
                         </button>
@@ -722,7 +722,7 @@ const StudentOnboarding = () => {
               <div className="space-y-4 animate-in fade-in duration-200">
                 <div className="border-b border-ice/80 pb-2 mb-4">
                   <h2 className="text-sm font-bold text-navy flex items-center gap-2">
-                    <Building2 className="w-4 h-4 text-royal" />
+                    <Building2 className="w-4 h-4 text-[#20543F]" />
                     <span>Hostel & Room Assignment</span>
                   </h2>
                   <p className="text-xs text-slate-600 font-medium mt-0.5">
@@ -809,9 +809,9 @@ const StudentOnboarding = () => {
                 </div>
 
                 {/* Privacy & Verification Note */}
-                <div className="p-3.5 rounded-control bg-blue-50/70 border border-sky/30 text-xs text-slate-700 space-y-1">
-                  <p className="font-semibold text-royal flex items-center gap-1.5">
-                    <ShieldCheck className="w-3.5 h-3.5 text-electric shrink-0" />
+                <div className="p-3.5 rounded-control bg-[#F7F8F0] border border-[#A8B99A]/40 text-xs text-slate-700 space-y-1">
+                  <p className="font-semibold text-[#20543F] flex items-center gap-1.5">
+                    <ShieldCheck className="w-3.5 h-3.5 text-[#00A878] shrink-0" />
                     <span>Hostel Administration Data Guarantee</span>
                   </p>
                   <p className="leading-relaxed">

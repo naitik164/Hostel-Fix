@@ -46,7 +46,7 @@ const StaffNotifications = () => {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-extrabold text-navy font-heading tracking-tight flex items-center gap-2">
-            <Bell className="w-6 h-6 text-royal" />
+            <Bell className="w-6 h-6 text-[#20543F]" />
             <span>Staff Operational Alerts</span>
           </h1>
           <p className="text-xs text-slate-600 font-medium mt-0.5">
@@ -88,7 +88,7 @@ const StaffNotifications = () => {
               key={n._id}
               className={`glass-card p-4 sm:p-5 border transition-all flex items-start justify-between gap-4 ${
                 !n.isRead
-                  ? 'border-royal/50 bg-blue-50/40 shadow-sm'
+                  ? 'border-[#A8B99A]/50 bg-[#F7F8F0] shadow-sm'
                   : 'border-white/80 opacity-80'
               }`}
             >
@@ -96,7 +96,7 @@ const StaffNotifications = () => {
                 <div className="flex items-center gap-2">
                   <h2 className="text-sm font-bold text-navy">{n.title}</h2>
                   {!n.isRead && (
-                    <span className="w-2 h-2 rounded-full bg-electric shrink-0" />
+                    <span className="w-2 h-2 rounded-full bg-[#00A878] shrink-0" />
                   )}
                 </div>
                 <p className="text-xs text-slate-600 leading-relaxed">{n.message}</p>
@@ -110,16 +110,16 @@ const StaffNotifications = () => {
                   <Link
                     to={n.link}
                     onClick={() => !n.isRead && handleMarkRead(n._id)}
-                    className="p-2.5 rounded-xl bg-electric text-white hover:bg-royal transition-colors text-xs font-semibold touch-target flex items-center justify-center"
+                    className="p-2.5 rounded-xl bg-[#20543F] text-white hover:bg-[#173D30] transition-colors text-xs font-semibold touch-target flex items-center justify-center"
                     title="View task"
                   >
-                    <ArrowRight className="w-4 h-4" />
+                    <ArrowRight className="w-4 h-4 text-white" />
                   </Link>
                 )}
                 {!n.isRead && (
                   <button
                     onClick={() => handleMarkRead(n._id)}
-                    className="p-2.5 rounded-xl bg-white border border-sky/30 text-slate-500 hover:text-navy transition-colors text-xs touch-target flex items-center justify-center"
+                    className="p-2.5 rounded-xl bg-white border border-[#A8B99A]/30 text-slate-500 hover:text-[#20543F] transition-colors text-xs touch-target flex items-center justify-center"
                     title="Mark as read"
                   >
                     <Check className="w-4 h-4" />

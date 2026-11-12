@@ -90,7 +90,7 @@ const StudentLayout = () => {
                   <span className="font-heading font-extrabold text-xl text-navy tracking-tight">
                     Hostel<span className="text-[#22503B] relative inline-block">Fix<svg className="absolute -bottom-0.5 left-0 w-full h-1 overflow-visible" viewBox="0 0 48 6" fill="none"><path d="M 2 2 C 14 5, 34 5, 46 2 C 34 3.5, 14 3.5, 2 2 Z" fill="#C3DC9B" /></svg></span>
                   </span>
-                  <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-ice text-royal border border-sky/40">
+                  <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-[#E9EDDA] text-[#20543F] border border-[#A8B99A]/40">
                     Student
                   </span>
                 </div>
@@ -123,15 +123,15 @@ const StudentLayout = () => {
                     className={({ isActive }) =>
                       `relative flex items-center gap-2 px-3 py-2 rounded-control text-xs font-semibold transition-all ${
                         isActive
-                          ? 'bg-ice text-royal shadow-sm border border-sky/50'
-                          : 'text-slate-600 hover:text-navy hover:bg-white/60'
+                          ? 'bg-[#E9EDDA] text-[#20543F] shadow-sm border border-[#A8B99A]/50'
+                          : 'text-slate-600 hover:text-[#173D30] hover:bg-white/60'
                       }`
                     }
                   >
                     <Icon className="w-4 h-4" />
                     <span>{item.label}</span>
                     {item.badge > 0 && (
-                      <span className="ml-1 px-1.5 py-0.2 bg-electric text-white text-[10px] font-bold rounded-full animate-pulse">
+                      <span className="ml-1 px-1.5 py-0.2 bg-[#00A878] text-white text-[10px] font-bold rounded-full animate-pulse">
                         {item.badge}
                       </span>
                     )}
@@ -169,9 +169,9 @@ const StudentLayout = () => {
                   <Link
                     to="/student/profile"
                     onClick={() => setUserDropdown(false)}
-                    className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-slate-700 hover:bg-ice/50 rounded-lg"
+                    className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-slate-700 hover:bg-[#E9EDDA]/50 rounded-lg"
                   >
-                    <User className="w-4 h-4 text-royal" />
+                    <User className="w-4 h-4 text-[#20543F]" />
                     <span>Edit Profile</span>
                   </Link>
                   <button
@@ -194,7 +194,7 @@ const StudentLayout = () => {
               >
                 <Bell className="w-5 h-5" />
                 {unreadCount > 0 && (
-                  <span className="absolute top-2 right-2 w-2 h-2 bg-electric rounded-full animate-pulse" />
+                  <span className="absolute top-2 right-2 w-2 h-2 bg-[#00A878] rounded-full animate-pulse" />
                 )}
               </NavLink>
               <button
@@ -216,7 +216,7 @@ const StudentLayout = () => {
               onClick={() => setMobileMenuOpen(false)}
             />
             <div className="md:hidden relative z-40 border-t border-ice bg-white/98 backdrop-blur-2xl px-4 pt-3 pb-6 space-y-2 shadow-2xl animate-in fade-in slide-in-from-top-2 duration-200 max-h-[calc(100dvh-73px)] overflow-y-auto">
-              <div className="flex items-center gap-3 p-3 bg-ice/40 rounded-2xl mb-3">
+              <div className="flex items-center gap-3 p-3 bg-[#F7F8F0] border border-[#E9EDDA] rounded-2xl mb-3">
                 <img
                   src={
                     user?.profilePhoto ||
@@ -227,7 +227,7 @@ const StudentLayout = () => {
                   height="40"
                   loading="lazy"
                   decoding="async"
-                  className="w-10 h-10 rounded-full object-cover border border-sky shrink-0"
+                  className="w-10 h-10 rounded-full object-cover border border-[#A8B99A] shrink-0"
                 />
                 <div className="min-w-0 flex-1">
                   <p className="text-sm font-bold text-navy truncate">{user?.name}</p>
@@ -248,8 +248,8 @@ const StudentLayout = () => {
                       className={({ isActive }) =>
                         `flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold touch-target ${
                           isActive
-                            ? 'bg-gradient-action text-white shadow-md shadow-electric/25'
-                            : 'text-slate-700 hover:bg-ice/50 active:bg-ice/70'
+                            ? 'bg-gradient-action text-white shadow-md shadow-[#20543F]/25'
+                            : 'text-slate-700 hover:bg-[#E9EDDA]/50 active:bg-[#E9EDDA]/70'
                         }`
                       }
                     >
@@ -258,7 +258,7 @@ const StudentLayout = () => {
                         <span>{item.label}</span>
                       </div>
                       {item.badge > 0 && (
-                        <span className="px-2 py-0.5 text-xs bg-electric text-white rounded-full">
+                        <span className="px-2 py-0.5 text-xs bg-[#00A878] text-white rounded-full">
                           {item.badge}
                         </span>
                       )}

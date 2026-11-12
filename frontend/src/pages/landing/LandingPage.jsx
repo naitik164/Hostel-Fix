@@ -334,9 +334,9 @@ const LandingPage = () => {
               >
                 <span className="relative z-10">{item.label}</span>
                 {/* Subtle hover background pill */}
-                <span className="absolute inset-0 rounded-full bg-royal/0 group-hover:bg-royal/6 transition-all duration-200" />
+                <span className="absolute inset-0 rounded-full bg-[#20543F]/0 group-hover:bg-[#20543F]/6 transition-all duration-200" />
                 {/* Smooth hover underline accent */}
-                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-royal rounded-full group-hover:w-4 transition-all duration-250 ease-out" />
+                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#20543F] rounded-full group-hover:w-4 transition-all duration-250 ease-out" />
               </button>
             ))}
           </nav>
@@ -346,7 +346,7 @@ const LandingPage = () => {
             {isAuthenticated ? (
               <Link
                 to={dashboardPath}
-                className={`btn-action flex items-center gap-2 rounded-full font-bold shadow-md shadow-royal/20 hover:shadow-lg hover:shadow-royal/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer ${
+                className={`btn-action flex items-center gap-2 rounded-full font-bold shadow-md shadow-[#20543F]/20 hover:shadow-lg hover:shadow-[#20543F]/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer ${
                   isScrolled ? 'px-4 py-2 text-xs' : 'px-5 py-2.5 text-xs'
                 }`}
               >
@@ -356,7 +356,7 @@ const LandingPage = () => {
             ) : (
               <button
                 onClick={() => scrollToSection('portals')}
-                className={`btn-action flex items-center gap-2 rounded-full font-bold shadow-md shadow-royal/20 hover:shadow-lg hover:shadow-royal/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer ${
+                className={`btn-action flex items-center gap-2 rounded-full font-bold shadow-md shadow-[#20543F]/20 hover:shadow-lg hover:shadow-[#20543F]/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer ${
                   isScrolled ? 'px-4 py-2 text-xs' : 'px-5 py-2.5 text-xs'
                 }`}
               >
@@ -383,7 +383,7 @@ const LandingPage = () => {
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label={mobileMenuOpen ? 'Close Navigation Menu' : 'Open Navigation Menu'}
               aria-expanded={mobileMenuOpen}
-              className={`rounded-xl text-navy hover:bg-white/80 active:bg-ice/50 transition-all border border-sky/30 touch-target flex items-center justify-center cursor-pointer ${
+              className={`rounded-xl text-navy hover:bg-white/80 active:bg-[#E9EDDA]/50 transition-all border border-[#A8B99A]/30 touch-target flex items-center justify-center cursor-pointer ${
                 isScrolled ? 'p-2' : 'p-2.5'
               }`}
             >
@@ -396,47 +396,47 @@ const LandingPage = () => {
         {mobileMenuOpen && (
           <div className="md:hidden absolute top-[calc(100%+8px)] left-0 right-0 rounded-2xl border border-[#A7B88C]/40 bg-[#F9FBF6]/95 backdrop-blur-2xl p-4 space-y-3 shadow-2xl animate-in fade-in slide-in-from-top-2 z-[9999]">
             {/* Quick Section Anchor Links */}
-            <nav aria-label="Mobile section navigation" className="grid grid-cols-2 gap-1.5 pb-3 border-b border-sky/20 text-xs font-semibold text-slate-700">
+            <nav aria-label="Mobile section navigation" className="grid grid-cols-2 gap-1.5 pb-3 border-b border-[#A8B99A]/20 text-xs font-semibold text-slate-700">
               <button
                 onClick={() => scrollToSection('problem')}
-                className="text-left px-3 py-2 rounded-xl hover:bg-ice/50 transition-colors"
+                className="text-left px-3 py-2 rounded-xl hover:bg-[#E9EDDA]/50 transition-colors"
               >
                 The Problem
               </button>
               <button
                 onClick={() => scrollToSection('solution')}
-                className="text-left px-3 py-2 rounded-xl hover:bg-ice/50 transition-colors"
+                className="text-left px-3 py-2 rounded-xl hover:bg-[#E9EDDA]/50 transition-colors"
               >
                 Our Solution
               </button>
               <button
                 onClick={() => scrollToSection('portals')}
-                className="text-left px-3 py-2 rounded-xl hover:bg-ice/50 transition-colors text-royal font-bold"
+                className="text-left px-3 py-2 rounded-xl hover:bg-[#E9EDDA]/50 transition-colors text-[#20543F] font-bold"
               >
                 Login Portals
               </button>
               <button
                 onClick={() => scrollToSection('features')}
-                className="text-left px-3 py-2 rounded-xl hover:bg-ice/50 transition-colors"
+                className="text-left px-3 py-2 rounded-xl hover:bg-[#E9EDDA]/50 transition-colors"
               >
                 Product Features
               </button>
               <button
                 onClick={() => scrollToSection('why-us')}
-                className="text-left px-3 py-2 rounded-xl hover:bg-ice/50 transition-colors"
+                className="text-left px-3 py-2 rounded-xl hover:bg-[#E9EDDA]/50 transition-colors"
               >
                 Why HostelFix
               </button>
               <button
                 onClick={() => scrollToSection('how-it-works')}
-                className="text-left px-3 py-2 rounded-xl hover:bg-ice/50 transition-colors"
+                className="text-left px-3 py-2 rounded-xl hover:bg-[#E9EDDA]/50 transition-colors"
               >
                 How It Works
               </button>
             </nav>
 
             {isAuthenticated ? (
-              <div className="p-3.5 rounded-2xl bg-ice/50 border border-sky/40 flex items-center justify-between">
+              <div className="p-3.5 rounded-2xl bg-[#E9EDDA]/50 border border-[#A8B99A]/40 flex items-center justify-between">
                 <div>
                   <p className="text-xs font-bold text-navy">{user?.name}</p>
                   <p className="text-[11px] text-slate-500 capitalize">{user?.role} Account</p>
@@ -460,54 +460,54 @@ const LandingPage = () => {
                 <Link
                   to="/student/login"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-between p-3 rounded-2xl bg-gradient-to-r from-blue-50 to-white border border-sky/40 text-navy font-semibold text-xs active:bg-sky/20 shadow-sm"
+                  className="flex items-center justify-between p-3 rounded-2xl bg-[#F7F8F0] border border-[#A8B99A]/40 text-[#173D30] font-semibold text-xs active:bg-[#E9EDDA] shadow-sm"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-xl bg-gradient-action text-white flex items-center justify-center shrink-0">
-                      <Wrench className="w-4 h-4" />
+                    <div className="w-8 h-8 rounded-xl bg-[#E9EDDA] text-[#20543F] flex items-center justify-center shrink-0 border border-[#A8B99A]/30">
+                      <Wrench className="w-4 h-4 text-[#20543F]" />
                     </div>
                     <div>
-                      <div className="font-bold text-navy">Resident Student Portal</div>
+                      <div className="font-bold text-[#173D30]">Resident Student Portal</div>
                       <div className="text-xs text-slate-600 font-medium">Student Google Sign In</div>
                     </div>
                   </div>
-                  <ArrowRight className="w-4 h-4 text-royal" />
+                  <ArrowRight className="w-4 h-4 text-[#20543F]" />
                 </Link>
 
                 {/* Staff Login */}
                 <Link
                   to="/staff/login"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-between p-3 rounded-2xl bg-gradient-to-r from-blue-50/70 to-white border border-sky/40 text-navy font-semibold text-xs active:bg-sky/20 shadow-sm"
+                  className="flex items-center justify-between p-3 rounded-2xl bg-[#F7F8F0] border border-[#A8B99A]/40 text-[#173D30] font-semibold text-xs active:bg-[#E9EDDA] shadow-sm"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-xl bg-gradient-action text-white flex items-center justify-center shrink-0">
-                      <HardHat className="w-4 h-4" />
+                    <div className="w-8 h-8 rounded-xl bg-[#E9EDDA] text-[#20543F] flex items-center justify-center shrink-0 border border-[#A8B99A]/30">
+                      <HardHat className="w-4 h-4 text-[#20543F]" />
                     </div>
                     <div>
-                      <div className="font-bold text-navy">Maintenance Staff Portal</div>
+                      <div className="font-bold text-[#173D30]">Maintenance Staff Portal</div>
                       <div className="text-xs text-slate-600 font-medium">Staff Google Sign In</div>
                     </div>
                   </div>
-                  <ArrowRight className="w-4 h-4 text-royal" />
+                  <ArrowRight className="w-4 h-4 text-[#20543F]" />
                 </Link>
 
                 {/* Warden Login */}
                 <Link
                   to="/admin/login"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-between p-3 rounded-2xl bg-gradient-to-r from-blue-50/70 to-white border border-sky/40 text-navy font-semibold text-xs active:bg-sky/20 shadow-sm"
+                  className="flex items-center justify-between p-3 rounded-2xl bg-[#F7F8F0] border border-[#A8B99A]/40 text-[#173D30] font-semibold text-xs active:bg-[#E9EDDA] shadow-sm"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-xl bg-gradient-action text-white flex items-center justify-center shrink-0">
-                      <Shield className="w-4 h-4" />
+                    <div className="w-8 h-8 rounded-xl bg-[#E9EDDA] text-[#20543F] flex items-center justify-center shrink-0 border border-[#A8B99A]/30">
+                      <Shield className="w-4 h-4 text-[#20543F]" />
                     </div>
                     <div>
-                      <div className="font-bold text-navy">Warden Admin Center</div>
+                      <div className="font-bold text-[#173D30]">Warden Admin Center</div>
                       <div className="text-xs text-slate-600 font-medium">Warden ID & Pass Sign In</div>
                     </div>
                   </div>
-                  <ArrowRight className="w-4 h-4 text-royal" />
+                  <ArrowRight className="w-4 h-4 text-[#20543F]" />
                 </Link>
               </div>
             )}
@@ -567,7 +567,7 @@ const LandingPage = () => {
               className="w-full sm:w-auto px-7 py-3.5 rounded-control text-sm font-bold bg-[#F9FBF6] text-[#2A3F38] hover:bg-[#E8EFD3] border border-[#A7B88C]/60 flex items-center justify-center gap-2 shadow-sm transition-all cursor-pointer"
             >
               <span>Get Started</span>
-              <ArrowRight className="w-4 h-4 text-royal" />
+              <ArrowRight className="w-4 h-4 text-[#20543F]" />
             </button>
           </div>
         </div>
@@ -623,10 +623,10 @@ const LandingPage = () => {
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
-                      <p className="font-heading font-extrabold text-navy text-sm sm:text-base">
+                      <p className="font-heading font-extrabold text-[#173D30] text-sm sm:text-base">
                         Naitik Anand
                       </p>
-                      <span className="px-2 py-0.5 rounded-md bg-royal/10 text-royal text-xs font-bold">
+                      <span className="px-2 py-0.5 rounded-md bg-[#E9EDDA] text-[#20543F] text-xs font-bold border border-[#A8B99A]/40">
                         STUDENT
                       </span>
                     </div>
@@ -634,8 +634,8 @@ const LandingPage = () => {
                   </div>
                 </div>
                 <div className="flex items-center gap-2 text-xs">
-                  <span className="px-3 py-1.5 rounded-xl bg-blue-50 text-royal font-semibold border border-sky/30 flex items-center gap-1.5 shadow-2xs">
-                    <Activity className="w-3.5 h-3.5 text-electric animate-pulse" />
+                  <span className="px-3 py-1.5 rounded-xl bg-[#E9EDDA] text-[#173D30] font-semibold border border-[#A8B99A]/40 flex items-center gap-1.5 shadow-2xs">
+                    <Activity className="w-3.5 h-3.5 text-[#00A878] animate-pulse" />
                     <span>Real-time Maintenance Tracking</span>
                   </span>
                 </div>
@@ -649,10 +649,10 @@ const LandingPage = () => {
                     }`}
                 >
                   <p className="text-xs text-slate-700 font-semibold">Total Complaints</p>
-                  <p className="text-xl sm:text-2xl font-extrabold text-navy mt-1 tabular-nums">
+                  <p className="text-xl sm:text-2xl font-extrabold text-[#173D30] mt-1 tabular-nums">
                     {showcaseCounts.total}
                   </p>
-                  <p className="text-xs text-emerald-700 font-semibold mt-0.5">Lifetime logged</p>
+                  <p className="text-xs text-[#00A878] font-semibold mt-0.5">Lifetime logged</p>
                 </div>
 
                 {/* Stat 02: Awaiting Review */}
@@ -673,10 +673,10 @@ const LandingPage = () => {
                     }`}
                 >
                   <p className="text-xs text-slate-700 font-semibold">In Progress</p>
-                  <p className="text-xl sm:text-2xl font-extrabold text-electric mt-1 tabular-nums">
+                  <p className="text-xl sm:text-2xl font-extrabold text-[#20543F] mt-1 tabular-nums">
                     {showcaseCounts.progress}
                   </p>
-                  <p className="text-xs text-royal font-semibold mt-0.5">Assigned to staff</p>
+                  <p className="text-xs text-[#173D30] font-semibold mt-0.5">Assigned to staff</p>
                 </div>
 
                 {/* Stat 04: Verified Resolved */}
@@ -685,10 +685,10 @@ const LandingPage = () => {
                     }`}
                 >
                   <p className="text-xs text-slate-700 font-semibold">Verified Resolved</p>
-                  <p className="text-xl sm:text-2xl font-extrabold text-emerald-700 mt-1 tabular-nums">
+                  <p className="text-xl sm:text-2xl font-extrabold text-[#00A878] mt-1 tabular-nums">
                     {showcaseCounts.resolved}
                   </p>
-                  <p className="text-xs text-emerald-700 font-semibold mt-0.5">Photo proof signed</p>
+                  <p className="text-xs text-[#00A878] font-semibold mt-0.5">Photo proof signed</p>
                 </div>
               </div>
 
@@ -698,8 +698,8 @@ const LandingPage = () => {
                   }`}
               >
                 <div className="flex items-start gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-royal/10 text-royal flex items-center justify-center shrink-0 mt-0.5">
-                    <Wrench className="w-5 h-5 text-electric" />
+                  <div className="w-9 h-9 rounded-xl bg-[#E9EDDA] text-[#20543F] flex items-center justify-center shrink-0 mt-0.5 border border-[#A8B99A]/40">
+                    <Wrench className="w-5 h-5 text-[#20543F]" />
                   </div>
                   <div>
                     {/* ID and priority badge (appear first) */}
@@ -707,11 +707,11 @@ const LandingPage = () => {
                       className={`flex flex-wrap items-center gap-2 transition-all duration-500 delay-[650ms] ${showcaseRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-1'
                         }`}
                     >
-                      <span className="font-mono text-xs font-bold text-royal">HF-2026-0048</span>
+                      <span className="font-mono text-xs font-bold text-[#20543F]">HF-2026-0048</span>
                       <span className="px-2 py-0.5 rounded-full bg-amber-50 border border-amber-300 text-amber-800 text-xs font-bold">
                         High Priority
                       </span>
-                      <span className="px-2 py-0.5 rounded-full bg-blue-50 border border-sky/30 text-royal text-xs font-bold">
+                      <span className="px-2 py-0.5 rounded-full bg-[#E9EDDA] border border-[#A8B99A]/40 text-[#20543F] text-xs font-bold">
                         Plumbing & Washroom
                       </span>
                     </div>
@@ -750,8 +750,8 @@ const LandingPage = () => {
             className={`dashboard-floating-badge animate-floating-badge-1 hidden sm:flex absolute -bottom-5 -left-4 p-3 rounded-2xl bg-[#F9FBF6]/95 backdrop-blur-xl border border-[#A7B88C]/50 shadow-xl shadow-[#202E22]/10 items-center gap-2.5 text-xs font-bold text-[#2A3F38] transition-all duration-800 ease-[cubic-bezier(0.16,1,0.3,1)] delay-[750ms] ${showcaseRevealed ? 'opacity-100 translate-x-0 translate-y-0 scale-100' : 'opacity-0 -translate-x-3 translate-y-4 scale-90'
               }`}
           >
-            <div className="w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-md">
-              <Check className="w-4 h-4" />
+            <div className="w-8 h-8 rounded-xl bg-[#00A878] text-white flex items-center justify-center shadow-md">
+              <Check className="w-4 h-4 text-white" />
             </div>
             <div>
               <p className="leading-tight">Before & After Photo Proof</p>
@@ -764,8 +764,8 @@ const LandingPage = () => {
             className={`dashboard-floating-badge animate-floating-badge-2 hidden sm:flex absolute -top-4 -right-4 p-3 rounded-2xl bg-[#F9FBF6]/95 backdrop-blur-xl border border-[#A7B88C]/50 shadow-xl shadow-[#202E22]/10 items-center gap-2.5 text-xs font-bold text-[#2A3F38] transition-all duration-800 ease-[cubic-bezier(0.16,1,0.3,1)] delay-[650ms] ${showcaseRevealed ? 'opacity-100 translate-x-0 translate-y-0 scale-100' : 'opacity-0 translate-x-4 -translate-y-3 scale-90'
               }`}
           >
-            <div className="w-8 h-8 rounded-xl bg-[#22503B] text-white flex items-center justify-center shadow-md">
-              <Zap className="w-4 h-4" />
+            <div className="w-8 h-8 rounded-xl bg-[#20543F] text-white flex items-center justify-center shadow-md">
+              <Zap className="w-4 h-4 text-white" />
             </div>
             <div>
               <p className="leading-tight">&lt; 2h First Response</p>
@@ -793,34 +793,34 @@ const LandingPage = () => {
           </p>
 
           {/* Three Visual Role Indicators with Connecting Lines */}
-          <div className="mt-8 sm:mt-10 p-4 sm:p-6 rounded-2xl bg-white/80 border border-sky/40 shadow-sm flex flex-col md:flex-row items-center justify-center gap-3 sm:gap-6">
-            <div className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-blue-50 border border-sky/30 text-navy font-bold text-xs sm:text-sm shadow-2xs">
-              <div className="w-8 h-8 rounded-lg bg-gradient-action text-white flex items-center justify-center shadow-xs">
-                <User className="w-4 h-4" />
+          <div className="mt-8 sm:mt-10 p-4 sm:p-6 rounded-2xl bg-white/80 border border-[#A8B99A]/40 shadow-sm flex flex-col md:flex-row items-center justify-center gap-3 sm:gap-6">
+            <div className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-[#F7F8F0] border border-[#A8B99A]/40 text-[#173D30] font-bold text-xs sm:text-sm shadow-2xs">
+              <div className="w-8 h-8 rounded-lg bg-[#E9EDDA] text-[#20543F] flex items-center justify-center shadow-xs border border-[#A8B99A]/30">
+                <User className="w-4 h-4 text-[#20543F]" />
               </div>
               <span>STUDENTS</span>
             </div>
 
-            <div className="flex items-center text-royal">
+            <div className="flex items-center text-[#20543F]">
               <span className="hidden md:inline font-bold text-xs uppercase tracking-wider text-slate-600 px-2">Reports Issue</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4 text-[#20543F]" />
             </div>
 
-            <div className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-blue-50 border border-sky/30 text-navy font-bold text-xs sm:text-sm shadow-2xs">
-              <div className="w-8 h-8 rounded-lg bg-gradient-action text-white flex items-center justify-center shadow-xs">
-                <Shield className="w-4 h-4" />
+            <div className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-[#F7F8F0] border border-[#A8B99A]/40 text-[#173D30] font-bold text-xs sm:text-sm shadow-2xs">
+              <div className="w-8 h-8 rounded-lg bg-[#E9EDDA] text-[#20543F] flex items-center justify-center shadow-xs border border-[#A8B99A]/30">
+                <Shield className="w-4 h-4 text-[#20543F]" />
               </div>
               <span>WARDENS</span>
             </div>
 
-            <div className="flex items-center text-royal">
+            <div className="flex items-center text-[#20543F]">
               <span className="hidden md:inline font-bold text-xs uppercase tracking-wider text-slate-600 px-2">Assigns Task</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4 text-[#20543F]" />
             </div>
 
-            <div className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-blue-50 border border-sky/30 text-navy font-bold text-xs sm:text-sm shadow-2xs">
-              <div className="w-8 h-8 rounded-lg bg-gradient-action text-white flex items-center justify-center shadow-xs">
-                <HardHat className="w-4 h-4" />
+            <div className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-[#F7F8F0] border border-[#A8B99A]/40 text-[#173D30] font-bold text-xs sm:text-sm shadow-2xs">
+              <div className="w-8 h-8 rounded-lg bg-[#E9EDDA] text-[#20543F] flex items-center justify-center shadow-xs border border-[#A8B99A]/30">
+                <HardHat className="w-4 h-4 text-[#20543F]" />
               </div>
               <span>MAINTENANCE STAFF</span>
             </div>
@@ -832,8 +832,8 @@ const LandingPage = () => {
           <div className="scroll-reveal-scale delay-100">
             <div className="portal-card p-6 h-full flex flex-col justify-between">
               <div>
-                <div className="w-11 h-11 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20">
-                  <FileText className="w-5 h-5 text-white" />
+                <div className="w-11 h-11 rounded-2xl bg-[#E9EDDA] text-[#20543F] flex items-center justify-center mb-4 shadow-sm border border-[#A8B99A]/40">
+                  <FileText className="w-5 h-5 text-[#20543F]" />
                 </div>
                 <h3 className="text-base sm:text-lg font-heading font-bold text-navy">
                   1. Student Submission
@@ -842,8 +842,8 @@ const LandingPage = () => {
                   Students submit complaints with descriptions, categories and photographs.
                 </p>
               </div>
-              <div className="mt-4 pt-3 border-t border-sky/20 text-[11px] font-semibold text-royal flex items-center gap-1.5">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+              <div className="mt-4 pt-3 border-t border-[#A8B99A]/20 text-[11px] font-semibold text-[#173D30] flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 text-[#00A878]" />
                 <span>Instant reference ID generation</span>
               </div>
             </div>
@@ -852,8 +852,8 @@ const LandingPage = () => {
           <div className="scroll-reveal-scale delay-200">
             <div className="portal-card p-6 h-full flex flex-col justify-between">
               <div>
-                <div className="w-11 h-11 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20">
-                  <UserCheck className="w-5 h-5 text-white" />
+                <div className="w-11 h-11 rounded-2xl bg-[#E9EDDA] text-[#20543F] flex items-center justify-center mb-4 shadow-sm border border-[#A8B99A]/40">
+                  <UserCheck className="w-5 h-5 text-[#20543F]" />
                 </div>
                 <h3 className="text-base sm:text-lg font-heading font-bold text-navy">
                   2. Warden Triage
@@ -862,8 +862,8 @@ const LandingPage = () => {
                   Wardens review complaints and assign tasks.
                 </p>
               </div>
-              <div className="mt-4 pt-3 border-t border-sky/20 text-[11px] font-semibold text-royal flex items-center gap-1.5">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+              <div className="mt-4 pt-3 border-t border-[#A8B99A]/20 text-[11px] font-semibold text-[#173D30] flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 text-[#00A878]" />
                 <span>Smart trade specialization matching</span>
               </div>
             </div>
@@ -872,8 +872,8 @@ const LandingPage = () => {
           <div className="scroll-reveal-scale delay-300">
             <div className="portal-card p-6 h-full flex flex-col justify-between">
               <div>
-                <div className="w-11 h-11 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20">
-                  <ClipboardList className="w-5 h-5 text-white" />
+                <div className="w-11 h-11 rounded-2xl bg-[#E9EDDA] text-[#20543F] flex items-center justify-center mb-4 shadow-sm border border-[#A8B99A]/40">
+                  <ClipboardList className="w-5 h-5 text-[#20543F]" />
                 </div>
                 <h3 className="text-base sm:text-lg font-heading font-bold text-navy">
                   3. Staff Task Execution
@@ -882,8 +882,8 @@ const LandingPage = () => {
                   Staff manage assigned maintenance work.
                 </p>
               </div>
-              <div className="mt-4 pt-3 border-t border-sky/20 text-[11px] font-semibold text-royal flex items-center gap-1.5">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+              <div className="mt-4 pt-3 border-t border-[#A8B99A]/20 text-[11px] font-semibold text-[#173D30] flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 text-[#00A878]" />
                 <span>Real-time status updates from field</span>
               </div>
             </div>
@@ -892,8 +892,8 @@ const LandingPage = () => {
           <div className="scroll-reveal-scale delay-400">
             <div className="portal-card p-6 h-full flex flex-col justify-between">
               <div>
-                <div className="w-11 h-11 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20">
-                  <Camera className="w-5 h-5 text-white" />
+                <div className="w-11 h-11 rounded-2xl bg-[#E9EDDA] text-[#20543F] flex items-center justify-center mb-4 shadow-sm border border-[#A8B99A]/40">
+                  <Camera className="w-5 h-5 text-[#20543F]" />
                 </div>
                 <h3 className="text-base sm:text-lg font-heading font-bold text-navy">
                   4. Proof Upload
@@ -902,8 +902,8 @@ const LandingPage = () => {
                   Staff upload completion photographs.
                 </p>
               </div>
-              <div className="mt-4 pt-3 border-t border-sky/20 text-[11px] font-semibold text-royal flex items-center gap-1.5">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+              <div className="mt-4 pt-3 border-t border-[#A8B99A]/20 text-[11px] font-semibold text-[#173D30] flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 text-[#00A878]" />
                 <span>Mandatory visual sign-off evidence</span>
               </div>
             </div>
@@ -912,8 +912,8 @@ const LandingPage = () => {
           <div className="scroll-reveal-scale delay-500">
             <div className="portal-card p-6 h-full flex flex-col justify-between">
               <div>
-                <div className="w-11 h-11 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20">
-                  <CheckCircle2 className="w-5 h-5 text-white" />
+                <div className="w-11 h-11 rounded-2xl bg-[#E9EDDA] text-[#20543F] flex items-center justify-center mb-4 shadow-sm border border-[#A8B99A]/40">
+                  <CheckCircle2 className="w-5 h-5 text-[#20543F]" />
                 </div>
                 <h3 className="text-base sm:text-lg font-heading font-bold text-navy">
                   5. Warden Inspection
@@ -922,8 +922,8 @@ const LandingPage = () => {
                   Wardens inspect proof and approve resolutions.
                 </p>
               </div>
-              <div className="mt-4 pt-3 border-t border-sky/20 text-[11px] font-semibold text-royal flex items-center gap-1.5">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+              <div className="mt-4 pt-3 border-t border-[#A8B99A]/20 text-[11px] font-semibold text-[#173D30] flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 text-[#00A878]" />
                 <span>Only verified repairs marked resolved</span>
               </div>
             </div>
@@ -932,8 +932,8 @@ const LandingPage = () => {
           <div className="scroll-reveal-scale delay-600">
             <div className="portal-card p-6 h-full flex flex-col justify-between">
               <div>
-                <div className="w-11 h-11 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20">
-                  <BarChart3 className="w-5 h-5 text-white" />
+                <div className="w-11 h-11 rounded-2xl bg-[#E9EDDA] text-[#20543F] flex items-center justify-center mb-4 shadow-sm border border-[#A8B99A]/40">
+                  <BarChart3 className="w-5 h-5 text-[#20543F]" />
                 </div>
                 <h3 className="text-base sm:text-lg font-heading font-bold text-navy">
                   6. Analytics & Insights
@@ -942,8 +942,8 @@ const LandingPage = () => {
                   Analytics help identify recurring maintenance issues.
                 </p>
               </div>
-              <div className="mt-4 pt-3 border-t border-sky/20 text-[11px] font-semibold text-royal flex items-center gap-1.5">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+              <div className="mt-4 pt-3 border-t border-[#A8B99A]/20 text-[11px] font-semibold text-[#173D30] flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 text-[#00A878]" />
                 <span>Block-by-block trend identification</span>
               </div>
             </div>
@@ -971,8 +971,8 @@ const LandingPage = () => {
             <div className="scroll-reveal-scale delay-100 h-full flex flex-col">
               <div className="portal-card p-6 text-left flex flex-col justify-between h-full group">
                 <div>
-                  <div className="w-12 h-12 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20 shrink-0 group-hover:scale-105 transition-transform">
-                    <Wrench className="w-6 h-6 text-white" />
+                  <div className="w-12 h-12 rounded-2xl bg-[#E9EDDA] text-[#20543F] flex items-center justify-center mb-4 shadow-sm border border-[#A8B99A]/40 shrink-0 group-hover:scale-105 transition-transform">
+                    <Wrench className="w-6 h-6 text-[#20543F]" />
                   </div>
                   <h3 className="text-lg sm:text-xl font-heading font-bold text-navy tracking-tight leading-snug">
                     Resident Student Portal
@@ -997,8 +997,8 @@ const LandingPage = () => {
             <div className="scroll-reveal-scale delay-250 h-full flex flex-col">
               <div className="portal-card p-6 text-left flex flex-col justify-between h-full group">
                 <div>
-                  <div className="w-12 h-12 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20 shrink-0 group-hover:scale-105 transition-transform">
-                    <HardHat className="w-6 h-6 text-white" />
+                  <div className="w-12 h-12 rounded-2xl bg-[#E9EDDA] text-[#20543F] flex items-center justify-center mb-4 shadow-sm border border-[#A8B99A]/40 shrink-0 group-hover:scale-105 transition-transform">
+                    <HardHat className="w-6 h-6 text-[#20543F]" />
                   </div>
                   <h3 className="text-lg sm:text-xl font-heading font-bold text-navy tracking-tight leading-snug">
                     Maintenance Staff Portal
@@ -1023,8 +1023,8 @@ const LandingPage = () => {
             <div className="scroll-reveal-scale delay-400 h-full flex flex-col">
               <div className="portal-card p-6 text-left flex flex-col justify-between h-full group">
                 <div>
-                  <div className="w-12 h-12 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20 shrink-0 group-hover:scale-105 transition-transform">
-                    <Shield className="w-6 h-6 text-white" />
+                  <div className="w-12 h-12 rounded-2xl bg-[#E9EDDA] text-[#20543F] flex items-center justify-center mb-4 shadow-sm border border-[#A8B99A]/40 shrink-0 group-hover:scale-105 transition-transform">
+                    <Shield className="w-6 h-6 text-[#20543F]" />
                   </div>
                   <h3 className="text-lg sm:text-xl font-heading font-bold text-navy tracking-tight leading-snug">
                     Warden Admin Center
@@ -1067,8 +1067,8 @@ const LandingPage = () => {
           <div className="scroll-reveal-scale delay-100">
             <div className="portal-card p-5 sm:p-6 h-full flex flex-col justify-between">
               <div>
-                <div className="w-11 h-11 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20">
-                  <FileText className="w-5 h-5 text-white" />
+                <div className="w-11 h-11 rounded-2xl bg-[#E9EDDA] text-[#20543F] flex items-center justify-center mb-4 shadow-sm border border-[#A8B99A]/40">
+                  <FileText className="w-5 h-5 text-[#20543F]" />
                 </div>
                 <h3 className="text-base font-heading font-bold text-navy">
                   01. Smart Complaint Reporting
@@ -1084,8 +1084,8 @@ const LandingPage = () => {
           <div className="scroll-reveal-scale delay-150">
             <div className="portal-card p-5 sm:p-6 h-full flex flex-col justify-between">
               <div>
-                <div className="w-11 h-11 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20">
-                  <Camera className="w-5 h-5 text-white" />
+                <div className="w-11 h-11 rounded-2xl bg-[#E9EDDA] text-[#20543F] flex items-center justify-center mb-4 shadow-sm border border-[#A8B99A]/40">
+                  <Camera className="w-5 h-5 text-[#20543F]" />
                 </div>
                 <h3 className="text-base font-heading font-bold text-navy">
                   02. Photo-Based Documentation
@@ -1101,8 +1101,8 @@ const LandingPage = () => {
           <div className="scroll-reveal-scale delay-200">
             <div className="portal-card p-5 sm:p-6 h-full flex flex-col justify-between">
               <div>
-                <div className="w-11 h-11 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20">
-                  <Activity className="w-5 h-5 text-white" />
+                <div className="w-11 h-11 rounded-2xl bg-[#E9EDDA] text-[#20543F] flex items-center justify-center mb-4 shadow-sm border border-[#A8B99A]/40">
+                  <Activity className="w-5 h-5 text-[#20543F]" />
                 </div>
                 <h3 className="text-base font-heading font-bold text-navy">
                   03. Complaint Status Tracking
@@ -1118,8 +1118,8 @@ const LandingPage = () => {
           <div className="scroll-reveal-scale delay-250">
             <div className="portal-card p-5 sm:p-6 h-full flex flex-col justify-between">
               <div>
-                <div className="w-11 h-11 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20">
-                  <UserCheck className="w-5 h-5 text-white" />
+                <div className="w-11 h-11 rounded-2xl bg-[#E9EDDA] text-[#20543F] flex items-center justify-center mb-4 shadow-sm border border-[#A8B99A]/40">
+                  <UserCheck className="w-5 h-5 text-[#20543F]" />
                 </div>
                 <h3 className="text-base font-heading font-bold text-navy">
                   04. Warden Task Assignment
@@ -1135,8 +1135,8 @@ const LandingPage = () => {
           <div className="scroll-reveal-scale delay-300">
             <div className="portal-card p-5 sm:p-6 h-full flex flex-col justify-between">
               <div>
-                <div className="w-11 h-11 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20">
-                  <ClipboardList className="w-5 h-5 text-white" />
+                <div className="w-11 h-11 rounded-2xl bg-[#E9EDDA] text-[#20543F] flex items-center justify-center mb-4 shadow-sm border border-[#A8B99A]/40">
+                  <ClipboardList className="w-5 h-5 text-[#20543F]" />
                 </div>
                 <h3 className="text-base font-heading font-bold text-navy">
                   05. Staff Task Management
@@ -1152,8 +1152,8 @@ const LandingPage = () => {
           <div className="scroll-reveal-scale delay-350">
             <div className="portal-card p-5 sm:p-6 h-full flex flex-col justify-between">
               <div>
-                <div className="w-11 h-11 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20">
-                  <CheckCircle2 className="w-5 h-5 text-white" />
+                <div className="w-11 h-11 rounded-2xl bg-[#E9EDDA] text-[#20543F] flex items-center justify-center mb-4 shadow-sm border border-[#A8B99A]/40">
+                  <CheckCircle2 className="w-5 h-5 text-[#20543F]" />
                 </div>
                 <h3 className="text-base font-heading font-bold text-navy">
                   06. Before/After Photo Verification
@@ -1169,8 +1169,8 @@ const LandingPage = () => {
           <div className="scroll-reveal-scale delay-400">
             <div className="portal-card p-5 sm:p-6 h-full flex flex-col justify-between">
               <div>
-                <div className="w-11 h-11 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20">
-                  <BarChart3 className="w-5 h-5 text-white" />
+                <div className="w-11 h-11 rounded-2xl bg-[#E9EDDA] text-[#20543F] flex items-center justify-center mb-4 shadow-sm border border-[#A8B99A]/40">
+                  <BarChart3 className="w-5 h-5 text-[#20543F]" />
                 </div>
                 <h3 className="text-base font-heading font-bold text-navy">
                   07. Resolution Analytics
@@ -1186,8 +1186,8 @@ const LandingPage = () => {
           <div className="scroll-reveal-scale delay-450">
             <div className="portal-card p-5 sm:p-6 h-full flex flex-col justify-between">
               <div>
-                <div className="w-11 h-11 rounded-2xl bg-gradient-action text-white flex items-center justify-center mb-4 shadow-md shadow-royal/20">
-                  <Repeat className="w-5 h-5 text-white" />
+                <div className="w-11 h-11 rounded-2xl bg-[#E9EDDA] text-[#20543F] flex items-center justify-center mb-4 shadow-sm border border-[#A8B99A]/40">
+                  <Repeat className="w-5 h-5 text-[#20543F]" />
                 </div>
                 <h3 className="text-base font-heading font-bold text-navy">
                   08. Recurring Issue Identification
@@ -1269,51 +1269,51 @@ const LandingPage = () => {
             {/* HostelFix Method Column */}
             <div className="scroll-reveal-scale delay-200">
               <div className="p-6 sm:p-8 rounded-2xl bg-gradient-to-b from-[#EBECDE]/80 to-[#F9FBF6] border-2 border-[#22503B]/40 shadow-lg shadow-[#22503B]/10 h-full flex flex-col justify-between relative overflow-hidden">
-                <div className="absolute top-0 right-0 px-3 py-1 bg-royal text-white text-[10px] font-bold rounded-bl-xl uppercase tracking-wider">
+                <div className="absolute top-0 right-0 px-3 py-1 bg-[#20543F] text-white text-[10px] font-bold rounded-bl-xl uppercase tracking-wider">
                   Modern SaaS
                 </div>
                 <div>
-                  <div className="flex items-center gap-3 pb-4 mb-5 border-b border-sky/30">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-action text-white flex items-center justify-center font-bold shadow-md shadow-royal/20">
+                  <div className="flex items-center gap-3 pb-4 mb-5 border-b border-[#A8B99A]/30">
+                    <div className="w-10 h-10 rounded-xl bg-[#00A878] text-white flex items-center justify-center font-bold shadow-md shadow-[#00A878]/20">
                       <Check className="w-5 h-5 text-white" />
                     </div>
                     <div>
                       <h3 className="font-heading font-extrabold text-base sm:text-lg text-navy">
                         HostelFix Digital Platform
                       </h3>
-                      <p className="text-xs text-royal font-semibold">Transparent, verified & audited</p>
+                      <p className="text-xs text-[#173D30] font-semibold">Transparent, verified & audited</p>
                     </div>
                   </div>
 
                   <ul className="space-y-4 text-xs sm:text-sm text-navy font-medium">
                     <li className="flex items-start gap-3">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                      <CheckCircle2 className="w-4 h-4 text-[#00A878] shrink-0 mt-0.5" />
                       <span>Digital complaint reporting.</span>
                     </li>
                     <li className="flex items-start gap-3">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                      <CheckCircle2 className="w-4 h-4 text-[#00A878] shrink-0 mt-0.5" />
                       <span>Transparent status tracking.</span>
                     </li>
                     <li className="flex items-start gap-3">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                      <CheckCircle2 className="w-4 h-4 text-[#00A878] shrink-0 mt-0.5" />
                       <span>Structured staff assignments.</span>
                     </li>
                     <li className="flex items-start gap-3">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                      <CheckCircle2 className="w-4 h-4 text-[#00A878] shrink-0 mt-0.5" />
                       <span>Before/after photo proof.</span>
                     </li>
                     <li className="flex items-start gap-3">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                      <CheckCircle2 className="w-4 h-4 text-[#00A878] shrink-0 mt-0.5" />
                       <span>Centralized complaint history.</span>
                     </li>
                     <li className="flex items-start gap-3">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                      <CheckCircle2 className="w-4 h-4 text-[#00A878] shrink-0 mt-0.5" />
                       <span>Maintenance analytics and insights.</span>
                     </li>
                   </ul>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-sky/30 text-[11px] text-royal font-semibold">
+                <div className="mt-6 pt-4 border-t border-[#A8B99A]/30 text-[11px] text-[#173D30] font-semibold">
                   Guaranteed student satisfaction, verifiable trade work, executive visibility.
                 </div>
               </div>
@@ -1322,7 +1322,7 @@ const LandingPage = () => {
 
           {/* Highlighted Main Differentiator Callout Box */}
           <div className="scroll-reveal delay-300 mt-10 max-w-4xl mx-auto">
-            <div className="p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-royal/10 via-electric/10 to-sky/20 border border-royal/30 text-center shadow-sm">
+            <div className="p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-[#20543F]/10 via-[#2E6F54]/10 to-[#A8B99A]/20 border border-[#20543F]/30 text-center shadow-sm">
               <p className="text-sm sm:text-lg md:text-xl font-heading font-bold text-navy leading-relaxed">
                 "HostelFix connects the entire maintenance lifecycle — from student complaint to verified resolution — in one platform."
               </p>
@@ -1352,7 +1352,7 @@ const LandingPage = () => {
               <div className="portal-card p-5 h-full flex flex-col justify-between text-left">
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-xs font-mono font-extrabold px-2.5 py-1 rounded-lg bg-blue-100 text-royal">
+                    <span className="text-xs font-mono font-extrabold px-2.5 py-1 rounded-lg bg-[#E9EDDA] text-[#20543F]">
                       01
                     </span>
                     <span className="text-xs font-bold uppercase tracking-wider text-slate-600">
@@ -1366,8 +1366,8 @@ const LandingPage = () => {
                     Student submits a complaint with category, description and photos.
                   </p>
                 </div>
-                <div className="mt-4 pt-2 border-t border-sky/20 flex items-center gap-1.5 text-xs text-royal font-semibold">
-                  <FileText className="w-3.5 h-3.5 text-electric" />
+                <div className="mt-4 pt-2 border-t border-[#A8B99A]/20 flex items-center gap-1.5 text-xs text-[#173D30] font-semibold">
+                  <FileText className="w-3.5 h-3.5 text-[#20543F]" />
                   <span>Ticket Logged</span>
                 </div>
               </div>
@@ -1378,7 +1378,7 @@ const LandingPage = () => {
               <div className="portal-card p-5 h-full flex flex-col justify-between text-left">
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-xs font-mono font-extrabold px-2.5 py-1 rounded-lg bg-blue-100 text-royal">
+                    <span className="text-xs font-mono font-extrabold px-2.5 py-1 rounded-lg bg-[#E9EDDA] text-[#20543F]">
                       02
                     </span>
                     <span className="text-xs font-bold uppercase tracking-wider text-slate-600">
@@ -1392,8 +1392,8 @@ const LandingPage = () => {
                     Warden reviews the reported issue.
                   </p>
                 </div>
-                <div className="mt-4 pt-2 border-t border-sky/20 flex items-center gap-1.5 text-xs text-royal font-semibold">
-                  <Eye className="w-3.5 h-3.5 text-electric" />
+                <div className="mt-4 pt-2 border-t border-[#A8B99A]/20 flex items-center gap-1.5 text-xs text-[#173D30] font-semibold">
+                  <Eye className="w-3.5 h-3.5 text-[#20543F]" />
                   <span>Priority Assessed</span>
                 </div>
               </div>
@@ -1404,7 +1404,7 @@ const LandingPage = () => {
               <div className="portal-card p-5 h-full flex flex-col justify-between text-left">
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-xs font-mono font-extrabold px-2.5 py-1 rounded-lg bg-blue-100 text-royal">
+                    <span className="text-xs font-mono font-extrabold px-2.5 py-1 rounded-lg bg-[#E9EDDA] text-[#20543F]">
                       03
                     </span>
                     <span className="text-xs font-bold uppercase tracking-wider text-slate-600">
@@ -1418,8 +1418,8 @@ const LandingPage = () => {
                     Warden assigns the maintenance task to staff.
                   </p>
                 </div>
-                <div className="mt-4 pt-2 border-t border-sky/20 flex items-center gap-1.5 text-xs text-royal font-semibold">
-                  <UserPlus className="w-3.5 h-3.5 text-electric" />
+                <div className="mt-4 pt-2 border-t border-[#A8B99A]/20 flex items-center gap-1.5 text-xs text-[#173D30] font-semibold">
+                  <UserPlus className="w-3.5 h-3.5 text-[#20543F]" />
                   <span>Staff Assigned</span>
                 </div>
               </div>
@@ -1430,7 +1430,7 @@ const LandingPage = () => {
               <div className="portal-card p-5 h-full flex flex-col justify-between text-left">
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-xs font-mono font-extrabold px-2.5 py-1 rounded-lg bg-blue-100 text-royal">
+                    <span className="text-xs font-mono font-extrabold px-2.5 py-1 rounded-lg bg-[#E9EDDA] text-[#20543F]">
                       04
                     </span>
                     <span className="text-xs font-bold uppercase tracking-wider text-slate-600">
@@ -1444,8 +1444,8 @@ const LandingPage = () => {
                     Staff completes the work and uploads photographic proof.
                   </p>
                 </div>
-                <div className="mt-4 pt-2 border-t border-sky/20 flex items-center gap-1.5 text-xs text-royal font-semibold">
-                  <Camera className="w-3.5 h-3.5 text-electric" />
+                <div className="mt-4 pt-2 border-t border-[#A8B99A]/20 flex items-center gap-1.5 text-xs text-[#173D30] font-semibold">
+                  <Camera className="w-3.5 h-3.5 text-[#20543F]" />
                   <span>Proof Uploaded</span>
                 </div>
               </div>
@@ -1456,10 +1456,10 @@ const LandingPage = () => {
               <div className="portal-card p-5 h-full flex flex-col justify-between text-left border-emerald-200/80 bg-gradient-to-b from-white to-emerald-50/20">
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-xs font-mono font-extrabold px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800">
+                    <span className="text-xs font-mono font-extrabold px-2.5 py-1 rounded-lg bg-[#00A878]/15 text-[#00A878]">
                       05
                     </span>
-                    <span className="text-xs font-bold uppercase tracking-wider text-emerald-700">
+                    <span className="text-xs font-bold uppercase tracking-wider text-[#00A878]">
                       WARDEN
                     </span>
                   </div>
@@ -1470,8 +1470,8 @@ const LandingPage = () => {
                     Warden reviews the submitted proof and approves the resolution.
                   </p>
                 </div>
-                <div className="mt-4 pt-2 border-t border-emerald-100 flex items-center gap-1.5 text-xs text-emerald-800 font-bold">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700" />
+                <div className="mt-4 pt-2 border-t border-emerald-100 flex items-center gap-1.5 text-xs text-[#173D30] font-bold">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#00A878]" />
                   <span>Ticket Closed</span>
                 </div>
               </div>
@@ -1569,37 +1569,37 @@ const LandingPage = () => {
             <nav className="flex flex-wrap items-center justify-center gap-4 text-xs font-semibold text-slate-600">
               <button
                 onClick={() => scrollToSection('problem')}
-                className="hover:text-royal transition-colors cursor-pointer"
+                className="hover:text-[#20543F] transition-colors cursor-pointer"
               >
                 The Problem
               </button>
               <button
                 onClick={() => scrollToSection('solution')}
-                className="hover:text-royal transition-colors cursor-pointer"
+                className="hover:text-[#20543F] transition-colors cursor-pointer"
               >
                 Our Solution
               </button>
               <button
                 onClick={() => scrollToSection('portals')}
-                className="hover:text-royal transition-colors cursor-pointer"
+                className="hover:text-[#20543F] transition-colors cursor-pointer"
               >
                 Login Portals
               </button>
               <button
                 onClick={() => scrollToSection('features')}
-                className="hover:text-royal transition-colors cursor-pointer"
+                className="hover:text-[#20543F] transition-colors cursor-pointer"
               >
                 Product Features
               </button>
               <button
                 onClick={() => scrollToSection('why-us')}
-                className="hover:text-royal transition-colors cursor-pointer"
+                className="hover:text-[#20543F] transition-colors cursor-pointer"
               >
                 Why HostelFix
               </button>
               <button
                 onClick={() => scrollToSection('how-it-works')}
-                className="hover:text-royal transition-colors cursor-pointer"
+                className="hover:text-[#20543F] transition-colors cursor-pointer"
               >
                 Workflow
               </button>

@@ -146,7 +146,7 @@ const AdminVerifications = () => {
       <div className="glass-card p-3 sm:p-4 border border-white/80 shadow-glass flex items-center justify-between gap-3 text-xs">
         <div className="flex items-center gap-3">
           <span className="text-slate-500 font-semibold flex items-center gap-1.5">
-            <Filter className="w-3.5 h-3.5 text-royal" />
+            <Filter className="w-3.5 h-3.5 text-[#20543F]" />
             <span>Category:</span>
           </span>
           <select
@@ -229,12 +229,12 @@ const AdminVerifications = () => {
 
                     <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-500">
                       <span className="inline-flex items-center gap-1 font-semibold text-navy">
-                        <Building className="w-3.5 h-3.5 text-royal" />
+                        <Building className="w-3.5 h-3.5 text-[#20543F]" />
                         <span>{c.hostelBlockName}</span>
                       </span>
                       {c.roomNumber && (
                         <span className="inline-flex items-center gap-1">
-                          <MapPin className="w-3.5 h-3.5 text-royal" />
+                          <MapPin className="w-3.5 h-3.5 text-[#20543F]" />
                           <span>Room {c.roomNumber}</span>
                         </span>
                       )}
@@ -242,8 +242,8 @@ const AdminVerifications = () => {
                         <span>Student: <strong className="text-navy">{c.studentId.name}</strong></span>
                       )}
                       {c.assignedStaffId && (
-                        <span className="inline-flex items-center gap-1 text-royal font-semibold">
-                          <HardHat className="w-3.5 h-3.5" />
+                        <span className="inline-flex items-center gap-1 text-[#20543F] font-semibold">
+                          <HardHat className="w-3.5 h-3.5 text-[#20543F]" />
                           <span>Staff: {c.assignedStaffId.name} ({c.assignedStaffId.specialization})</span>
                         </span>
                       )}
@@ -287,14 +287,14 @@ const AdminVerifications = () => {
                 {/* Before and After Photo Comparison */}
                 <div className="space-y-3">
                   <span className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-                    <Camera className="w-4 h-4 text-royal" />
+                    <Camera className="w-4 h-4 text-[#20543F]" />
                     <span>Photo Proof Inspection</span>
                   </span>
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                     {/* Student Initial Complaint Photos */}
-                    <div className="p-3 rounded-2xl bg-sky-50/60 border border-sky-200 space-y-2">
-                      <span className="text-[11px] font-black uppercase text-royal flex items-center justify-between">
+                    <div className="p-3 rounded-2xl bg-[#F7F8F0] border border-[#A8B99A]/30 space-y-2">
+                      <span className="text-[11px] font-black uppercase text-[#20543F] flex items-center justify-between">
                         <span>Resident Photos</span>
                         <span className="text-[10px] text-slate-500">({studentPhotos.length})</span>
                       </span>
@@ -391,7 +391,7 @@ const AdminVerifications = () => {
                   </span>
                   <Link
                     to={`/admin/complaints/${c._id}`}
-                    className="font-bold text-royal hover:underline"
+                    className="font-bold text-[#20543F] hover:underline"
                   >
                     View Complaint Record & History →
                   </Link>

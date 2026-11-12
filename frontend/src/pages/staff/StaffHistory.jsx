@@ -50,7 +50,7 @@ const StaffHistory = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-extrabold text-navy font-heading tracking-tight flex items-center gap-2">
-            <History className="w-6 h-6 text-royal" />
+            <History className="w-6 h-6 text-[#20543F]" />
             <span>Work & Resolution History</span>
           </h1>
           <p className="text-xs text-slate-500 mt-0.5">
@@ -99,7 +99,7 @@ const StaffHistory = () => {
             >
               <div className="space-y-2 flex-1 min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-xs font-mono font-bold text-royal bg-blue-50 px-2 py-0.5 rounded border border-blue-200">
+                  <span className="text-xs font-mono font-bold text-[#20543F] bg-[#E9EDDA] px-2 py-0.5 rounded border border-[#A8B99A]/40">
                     {task.referenceId}
                   </span>
                   <span className="px-2.5 py-0.5 text-xs font-bold rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300 inline-flex items-center gap-1">
@@ -115,12 +115,12 @@ const StaffHistory = () => {
 
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-600 font-medium">
                   <span className="inline-flex items-center gap-1">
-                    <Building className="w-3.5 h-3.5 text-royal" />
+                    <Building className="w-3.5 h-3.5 text-[#20543F]" />
                     <span>{task.hostelBlockName}</span>
                   </span>
                   {task.roomNumber && (
                     <span className="inline-flex items-center gap-1">
-                      <MapPin className="w-3.5 h-3.5 text-royal" />
+                      <MapPin className="w-3.5 h-3.5 text-[#20543F]" />
                       <span>Room {task.roomNumber}</span>
                     </span>
                   )}
@@ -129,8 +129,8 @@ const StaffHistory = () => {
                     <span>Resolved {task.resolvedAt ? new Date(task.resolvedAt).toLocaleDateString() : 'Yes'}</span>
                   </span>
                   {task.evidence && (
-                    <span className="inline-flex items-center gap-1 text-royal font-semibold text-xs">
-                      <Camera className="w-3 h-3" />
+                    <span className="inline-flex items-center gap-1 text-[#20543F] font-semibold text-xs">
+                      <Camera className="w-3 h-3 text-[#20543F]" />
                       <span>{task.evidence.length} Photo Proof(s)</span>
                     </span>
                   )}

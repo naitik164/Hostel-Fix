@@ -19,9 +19,9 @@ const priorityConfig = {
     iconColor: 'text-amber-700',
   },
   Low: {
-    bg: 'bg-[#E8EFD3] text-[#2A3F38] border-[#A7B88C]/60',
+    bg: 'bg-[#E9EDDA] text-[#173D30] border-[#A8B99A]/60',
     icon: ArrowDown,
-    iconColor: 'text-[#6A8A64]',
+    iconColor: 'text-[#20543F]',
   },
 };
 

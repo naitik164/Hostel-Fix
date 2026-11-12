@@ -23,14 +23,14 @@ const UserAvatar = ({ src, name = 'Student', size = 'md', className = '' }) => {
         onError={() => setImageError(true)}
         loading="lazy"
         decoding="async"
-        className={`${sizeClasses[size] || sizeClasses.md} rounded-full object-cover border-2 border-sky ${className}`}
+        className={`${sizeClasses[size] || sizeClasses.md} rounded-full object-cover border-2 border-[#A8B99A] ${className}`}
       />
     );
   }
 
   return (
     <div
-      className={`${sizeClasses[size] || sizeClasses.md} rounded-full bg-gradient-action text-white font-bold flex items-center justify-center border-2 border-sky shadow-sm uppercase ${className}`}
+      className={`${sizeClasses[size] || sizeClasses.md} rounded-full bg-gradient-action text-white font-bold flex items-center justify-center border-2 border-[#A8B99A] shadow-sm uppercase ${className}`}
     >
       {getInitial(name)}
     </div>

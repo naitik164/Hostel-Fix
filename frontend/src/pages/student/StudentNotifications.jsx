@@ -61,7 +61,7 @@ const StudentNotifications = () => {
       case 'success':
         return <CheckCircle className="w-5 h-5 text-emerald-500" />;
       default:
-        return <Info className="w-5 h-5 text-electric" />;
+        return <Info className="w-5 h-5 text-[#20543F]" />;
     }
   };
 
@@ -73,7 +73,7 @@ const StudentNotifications = () => {
           <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-navy font-heading flex flex-wrap items-center gap-2.5">
             <span>Notifications</span>
             {unreadCount > 0 && (
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-electric text-white shadow-sm">
+              <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#20543F] text-white shadow-sm">
                 {unreadCount} unread
               </span>
             )}
@@ -88,7 +88,7 @@ const StudentNotifications = () => {
             onClick={markAllRead}
             className="btn-secondary self-start sm:self-auto inline-flex items-center gap-2 px-3.5 py-2 rounded-control text-xs font-bold touch-target"
           >
-            <CheckCheck className="w-4 h-4 text-royal" />
+            <CheckCheck className="w-4 h-4 text-[#20543F]" />
             <span>Mark All as Read</span>
           </button>
         )}
@@ -115,12 +115,12 @@ const StudentNotifications = () => {
       <div className="glass-card overflow-hidden divide-y divide-ice/60">
         {loading ? (
           <div className="py-20 text-center text-slate-600 flex flex-col items-center gap-2">
-            <Loader2 className="w-8 h-8 animate-spin text-electric" />
+            <Loader2 className="w-8 h-8 animate-spin text-[#20543F]" />
             <p className="text-xs font-medium">Fetching notification alerts...</p>
           </div>
         ) : notifications.length === 0 ? (
           <div className="py-20 text-center p-6">
-            <Bell className="w-12 h-12 text-sky mx-auto mb-2 opacity-50" />
+            <Bell className="w-12 h-12 text-[#A8B99A] mx-auto mb-2 opacity-50" />
             <h2 className="text-sm font-bold text-navy">No notifications</h2>
             <p className="text-xs text-slate-600 font-medium mt-1">You're all caught up! New updates will appear here.</p>
           </div>
@@ -130,7 +130,7 @@ const StudentNotifications = () => {
               key={n._id}
               onClick={() => !n.isRead && markAsRead(n._id)}
               className={`p-4 sm:p-5 flex items-start justify-between gap-4 transition-colors cursor-pointer ${
-                n.isRead ? 'bg-white/40 hover:bg-white/70' : 'bg-ice/30 hover:bg-ice/50 font-medium'
+                n.isRead ? 'bg-white/40 hover:bg-white/70' : 'bg-[#F7F8F0] hover:bg-[#E9EDDA]/50 font-medium'
               }`}
             >
               <div className="flex items-start gap-3.5">
@@ -141,7 +141,7 @@ const StudentNotifications = () => {
                       {n.title}
                     </h2>
                     {!n.isRead && (
-                      <span className="w-2 h-2 rounded-full bg-electric shrink-0" />
+                      <span className="w-2 h-2 rounded-full bg-[#00A878] shrink-0" />
                     )}
                   </div>
                   <p className="text-xs text-slate-600 mt-1 leading-relaxed">{n.message}</p>
@@ -154,10 +154,10 @@ const StudentNotifications = () => {
               {n.link && (
                 <Link
                   to={n.link}
-                  className="btn-secondary shrink-0 p-2 rounded-lg text-royal hover:text-navy"
+                  className="btn-secondary shrink-0 p-2 rounded-lg text-[#20543F] hover:text-[#173D30]"
                   title="View Complaint"
                 >
-                  <ExternalLink className="w-4 h-4" />
+                  <ExternalLink className="w-4 h-4 text-[#20543F]" />
                 </Link>
               )}
             </div>

@@ -192,7 +192,7 @@ const StudentComplaints = () => {
           </div>
         ) : complaints.length === 0 ? (
           <div className="py-20 text-center p-6">
-            <ClipboardList className="w-12 h-12 text-sky mx-auto mb-3 opacity-60" />
+            <ClipboardList className="w-12 h-12 text-[#A8B99A] mx-auto mb-3 opacity-60" />
             <h2 className="text-base font-bold text-navy">No complaints found</h2>
             <p className="text-xs text-slate-600 mt-1 max-w-sm mx-auto">
               No complaint records matched your current search filters.
@@ -217,7 +217,7 @@ const StudentComplaints = () => {
               <tbody>
                 {complaints.map((c) => (
                   <tr key={c._id} className="transition-colors">
-                    <td className="font-mono font-bold text-xs text-royal">{c.referenceId}</td>
+                    <td className="font-mono font-bold text-xs text-[#20543F]">{c.referenceId}</td>
                     <td>
                       <div className="font-semibold text-navy max-w-xs truncate">{c.title}</div>
                       {c.subcategory && (

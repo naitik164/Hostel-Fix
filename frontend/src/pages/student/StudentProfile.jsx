@@ -130,7 +130,7 @@ const StudentProfile = () => {
         <div className="flex-1 min-w-0">
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
             <h2 className="text-lg sm:text-xl font-bold text-navy truncate">{user?.name}</h2>
-            <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-ice text-royal border border-sky/40 shrink-0">
+            <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#E9EDDA] text-[#20543F] border border-[#A8B99A]/40 shrink-0">
               Verified Student
             </span>
             {user?.profileCompleted && (
@@ -144,7 +144,7 @@ const StudentProfile = () => {
 
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 sm:gap-4 mt-3 text-xs text-slate-600">
             <span className="flex items-center gap-1">
-              <Building className="w-3.5 h-3.5 text-royal shrink-0" />
+              <Building className="w-3.5 h-3.5 text-[#20543F] shrink-0" />
               <span>{user?.hostelBlock ? `${user.hostelBlock} • Room ${user.roomNumber}` : 'Hostel Unassigned'}</span>
             </span>
             {user?.enrollmentNumber && (
@@ -181,7 +181,7 @@ const StudentProfile = () => {
           {/* Section 1: Personal Details */}
           <div>
             <h3 className="text-sm font-bold text-navy mb-3 flex items-center gap-2 border-b border-ice/80 pb-2">
-              <User className="w-4 h-4 text-royal" />
+              <User className="w-4 h-4 text-[#20543F]" />
               <span>Personal Details</span>
             </h3>
 
@@ -242,7 +242,7 @@ const StudentProfile = () => {
           {/* Section 2: Academic Details */}
           <div>
             <h3 className="text-sm font-bold text-navy mb-3 flex items-center gap-2 border-b border-ice/80 pb-2">
-              <GraduationCap className="w-4 h-4 text-royal" />
+              <GraduationCap className="w-4 h-4 text-[#20543F]" />
               <span>Academic Information</span>
             </h3>
 
@@ -315,7 +315,7 @@ const StudentProfile = () => {
           {/* Section 3: Hostel Assignment */}
           <div>
             <h3 className="text-sm font-bold text-navy mb-3 flex items-center gap-2 border-b border-ice/80 pb-2">
-              <Building className="w-4 h-4 text-royal" />
+              <Building className="w-4 h-4 text-[#20543F]" />
               <span>Hostel & Room Assignment</span>
             </h3>
 

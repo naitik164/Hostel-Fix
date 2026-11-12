@@ -195,7 +195,7 @@ const AdminStaff = () => {
         <div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-navy font-heading flex items-center gap-2">
             <span>Maintenance Staff Management</span>
-            <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-ice text-royal border border-sky/40">
+            <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-[#E9EDDA] text-[#20543F] border border-[#A8B99A]/40">
               {staff.length} technicians
             </span>
           </h1>
@@ -252,7 +252,7 @@ const AdminStaff = () => {
       {/* Staff Grid */}
       {loading ? (
         <div className="py-20 text-center text-slate-600 flex flex-col items-center gap-2">
-          <Loader2 className="w-8 h-8 animate-spin text-electric" />
+          <Loader2 className="w-8 h-8 animate-spin text-[#20543F]" />
           <p className="text-xs font-medium">Fetching maintenance staff roster...</p>
         </div>
       ) : staff.length === 0 ? (
@@ -276,7 +276,7 @@ const AdminStaff = () => {
                     </div>
                     <div>
                       <h2 className="font-bold text-navy text-sm sm:text-base">{member.name}</h2>
-                      <p className="font-mono text-[11px] text-royal font-semibold">
+                      <p className="font-mono text-[11px] text-[#20543F] font-semibold">
                         {member.employeeId}
                       </p>
                     </div>
@@ -294,9 +294,9 @@ const AdminStaff = () => {
                 </div>
 
                 {/* Google Email & Identity status */}
-                <div className="mt-4 p-2.5 rounded-xl bg-blue-50/70 border border-sky/30 space-y-1 text-xs">
+                <div className="mt-4 p-2.5 rounded-xl bg-[#F7F8F0] border border-[#A8B99A]/30 space-y-1 text-xs">
                   <div className="flex items-center gap-1.5 font-semibold text-navy truncate">
-                    <Mail className="w-3.5 h-3.5 text-royal shrink-0" />
+                    <Mail className="w-3.5 h-3.5 text-[#20543F] shrink-0" />
                     <span className="truncate">{member.email}</span>
                   </div>
                   <div className="flex items-center justify-between text-[10px] text-slate-500 pt-0.5">
@@ -315,7 +315,7 @@ const AdminStaff = () => {
 
                   <div className="flex items-center justify-between text-slate-600 bg-white/60 p-2 rounded-xl border border-sky/20">
                     <span className="font-medium">Active Workload</span>
-                    <span className="font-bold text-electric">
+                    <span className="font-bold text-[#20543F]">
                       {member.activeWorkload || 0} active ticket(s)
                     </span>
                   </div>
@@ -336,7 +336,7 @@ const AdminStaff = () => {
 
                   {member.phone && (
                     <div className="flex items-center gap-2 text-slate-500 pt-0.5">
-                      <Phone className="w-3.5 h-3.5 text-royal" />
+                      <Phone className="w-3.5 h-3.5 text-[#20543F]" />
                       <span>{member.phone}</span>
                     </div>
                   )}
@@ -497,14 +497,14 @@ const AdminStaff = () => {
                   <label className="block text-xs font-semibold text-navy mb-1.5">
                     Assigned Hostel Blocks (Field Coverage)
                   </label>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 p-3 rounded-xl bg-blue-50/50 border border-sky/20">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 p-3 rounded-xl bg-[#F7F8F0] border border-[#A8B99A]/30">
                     {CAMPUS_BLOCKS.map((block) => (
                       <label key={block} className="flex items-center gap-2 cursor-pointer text-xs text-navy">
                         <input
                           type="checkbox"
                           checked={assignedBlocks.includes(block)}
                           onChange={() => handleBlockToggle(block)}
-                          className="rounded text-electric focus:ring-electric"
+                          className="rounded text-[#20543F] focus:ring-[#20543F]"
                         />
                         <span>{block}</span>
                       </label>

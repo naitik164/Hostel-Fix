@@ -12,82 +12,100 @@ export default {
         mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
       },
       colors: {
-        // Official HostelFix Botanical Green Palette
+        // Official HostelFix Forest Green & Sage Palette
         forest: {
-          DEFAULT: '#2A3F38', // Deep Forest
-          dark: '#202E22',    // Deep Forest Dark
-          light: '#364F46',
+          DEFAULT: '#20543F', // Deep Forest Green
+          dark: '#173D30',    // Dark Green
+          light: '#2E6F54',
+        },
+        darkGreen: {
+          DEFAULT: '#173D30', // Dark Green
+        },
+        emerald: {
+          DEFAULT: '#00A878', // Emerald Green
+          dark: '#008760',
+          light: '#33BA93',
         },
         botanical: {
-          DEFAULT: '#22503B', // Botanical Green
-          hover: '#1B402F',
-          dark: '#163526',
+          DEFAULT: '#20543F', // Deep Forest Green
+          hover: '#173D30',   // Dark Green
+          dark: '#173D30',
         },
         olive: {
-          DEFAULT: '#6A8A64', // Muted Olive
-          muted: '#6A8A64',
-          dark: '#547050',
-          light: '#7E9E78',
+          DEFAULT: '#173D30', // Dark Green
+          muted: '#A8B99A',
+          dark: '#173D30',
+          light: '#A8B99A',
         },
         sage: {
-          DEFAULT: '#A7B88C', // Sage Green
-          light: '#C1CEA6',   // Light Sage
-          pale: '#DADFB9',    // Pale Sage
-          dark: '#8E9F74',
+          DEFAULT: '#A8B99A', // Sage Green
+          light: '#E9EDDA',   // Light Sage
+          pale: '#F7F8F0',    // Soft Cream
+          dark: '#8C9F7D',
         },
         lime: {
-          DEFAULT: '#C3DC9B', // Soft Lime
-          soft: '#C3DC9B',
-          accent: '#B0CE82',
+          DEFAULT: '#00A878', // Emerald Accent
+          soft: '#A8B99A',
+          accent: '#00A878',
         },
         ivory: {
-          DEFAULT: '#EBECDE', // Warm Ivory
-          warm: '#EBECDE',
-          cream: '#E8EFD3',   // Pale Cream
+          DEFAULT: '#E9EDDA', // Light Sage
+          warm: '#E9EDDA',
+          cream: '#F7F8F0',   // Soft Cream
         },
         cream: {
-          DEFAULT: '#E8EFD3', // Pale Cream
-          pale: '#E8EFD3',
+          DEFAULT: '#F7F8F0', // Soft Cream
+          pale: '#F7F8F0',
         },
-        softwhite: '#F9FBF6', // Soft White
+        softwhite: '#F7F8F0', // Soft Cream
 
-        // Semantic Aliases mapped to Botanical Green Palette for backward and global UI compatibility
+        // Semantic Aliases mapped to Forest Green & Sage Palette for backward and global UI compatibility
         navy: {
-          DEFAULT: '#2A3F38', // Deep Forest
-          900: '#202E22',     // Deep Forest Dark
-          800: '#2A3F38',     // Deep Forest
-          700: '#22503B',     // Botanical Green
+          DEFAULT: '#20543F', // Deep Forest Green
+          900: '#173D30',     // Dark Green
+          800: '#20543F',     // Deep Forest Green
+          700: '#20543F',     
         },
         royal: {
-          DEFAULT: '#22503B', // Botanical Green
-          hover: '#1B402F',
+          DEFAULT: '#20543F', // Deep Forest Green
+          hover: '#173D30',   // Dark Green
         },
         electric: {
-          DEFAULT: '#22503B', // Botanical Green
-          hover: '#2A3F38',   // Deep Forest
+          DEFAULT: '#20543F', // Deep Forest Green
+          hover: '#173D30',   // Dark Green
         },
         blue: {
-          DEFAULT: '#6A8A64', // Muted Olive
-          bright: '#22503B',  // Botanical Green
+          DEFAULT: '#A8B99A', // Sage Green
+          50: '#F7F8F0',      // Soft Cream
+          100: '#E9EDDA',     // Light Sage
+          200: '#D5DFCE',
+          300: '#BDCDB2',
+          400: '#A8B99A',     // Sage Green
+          500: '#20543F',     // Deep Forest Green
+          600: '#173D30',     // Dark Green
+          700: '#133328',
+          800: '#0F2820',
+          900: '#0B1E18',
+          bright: '#20543F',  // Deep Forest Green
         },
         sky: {
-          DEFAULT: '#A7B88C', // Sage Green
-          light: '#C1CEA6',   // Light Sage
+          DEFAULT: '#A8B99A', // Sage Green
+          light: '#E9EDDA',   // Light Sage
         },
         ice: {
-          DEFAULT: '#DADFB9', // Pale Sage
-          light: '#E8EFD3',   // Pale Cream
-          pale: '#EBECDE',    // Warm Ivory
+          DEFAULT: '#E9EDDA', // Light Sage
+          light: '#F7F8F0',   // Soft Cream
+          pale: '#F7F8F0',    // Soft Cream
         },
       },
       backgroundImage: {
-        'gradient-primary': 'linear-gradient(180deg, #202E22 0%, #2A3F38 30%, #22503B 60%, #6A8A64 85%, #C1CEA6 100%)',
-        'gradient-dark': 'linear-gradient(135deg, #202E22 0%, #2A3F38 55%, #22503B 100%)',
-        'gradient-action': 'linear-gradient(135deg, #22503B 0%, #2A3F38 100%)',
-        'gradient-light-glass': 'linear-gradient(135deg, rgba(235, 236, 222, 0.75) 0%, rgba(249, 251, 246, 0.90) 100%)',
-        'gradient-card': 'linear-gradient(145deg, rgba(249, 251, 246, 0.95), rgba(232, 239, 211, 0.55))',
-        'gradient-forest': 'linear-gradient(135deg, #202E22 0%, #2A3F38 100%)',
-        'gradient-ivory': 'linear-gradient(180deg, #EBECDE 0%, #E8EFD3 100%)',
+        'gradient-primary': 'linear-gradient(180deg, #173D30 0%, #20543F 30%, #20543F 60%, #A8B99A 85%, #E9EDDA 100%)',
+        'gradient-dark': 'linear-gradient(135deg, #173D30 0%, #20543F 55%, #173D30 100%)',
+        'gradient-action': 'linear-gradient(135deg, #20543F 0%, #173D30 100%)',
+        'gradient-light-glass': 'linear-gradient(135deg, rgba(233, 237, 218, 0.75) 0%, rgba(247, 248, 240, 0.90) 100%)',
+        'gradient-card': 'linear-gradient(145deg, rgba(247, 248, 240, 0.95), rgba(233, 237, 218, 0.65))',
+        'gradient-forest': 'linear-gradient(135deg, #173D30 0%, #20543F 100%)',
+        'gradient-ivory': 'linear-gradient(180deg, #E9EDDA 0%, #F7F8F0 100%)',
       },
       boxShadow: {
         'glass': '0 8px 30px rgba(42, 63, 56, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9)',

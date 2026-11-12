@@ -99,7 +99,7 @@ const AdminSettings = () => {
       <div className="glass-card p-5 sm:p-8 space-y-6">
         <div className="border-b border-ice/80 pb-4">
           <h3 className="text-base font-bold text-navy flex items-center gap-2">
-            <Clock className="w-5 h-5 text-royal" />
+            <Clock className="w-5 h-5 text-[#20543F]" />
             <span>Resolution SLA Service Target Hours</span>
           </h3>
           <p className="text-xs text-slate-500 mt-1">
@@ -176,8 +176,8 @@ const AdminSettings = () => {
             </div>
 
             {/* Low */}
-            <div className="p-4 rounded-xl bg-blue-50/60 border border-blue-200">
-              <label className="block text-xs font-bold text-blue-700 mb-1">
+            <div className="p-4 rounded-xl bg-[#F7F8F0] border border-[#A8B99A]/40">
+              <label className="block text-xs font-bold text-[#20543F] mb-1">
                 Low Priority (Hours)
               </label>
               <input
@@ -187,9 +187,9 @@ const AdminSettings = () => {
                 required
                 value={slaHours.Low}
                 onChange={(e) => setSlaHours({ ...slaHours, Low: e.target.value })}
-                className="glass-input w-full p-2 text-xs font-bold text-blue-800"
+                className="glass-input w-full p-2 text-xs font-bold text-[#173D30]"
               />
-              <span className="text-[10px] text-blue-600 mt-1 block">Ex: Study desk leg</span>
+              <span className="text-[10px] text-[#20543F] mt-1 block">Ex: Study desk leg</span>
             </div>
           </div>
 
@@ -218,7 +218,7 @@ const AdminSettings = () => {
       {/* System Infrastructure Telemetry */}
       <div className="glass-card p-6 sm:p-8 space-y-4">
         <h3 className="text-base font-bold text-navy flex items-center gap-2">
-          <Database className="w-5 h-5 text-royal" />
+          <Database className="w-5 h-5 text-[#20543F]" />
           <span>System Environment & Storage Configuration</span>
         </h3>
 

@@ -37,21 +37,21 @@ ChartJS.register(
 
 // Organic Modern Botanical Green Palette
 const PALETTE = {
-  forest: '#2A3F38',
-  darkForest: '#202E22',
-  botanical: '#22503B',
+  forest: '#20543F',
+  darkForest: '#173D30',
+  botanical: '#20543F',
   olive: '#6A8A64',
-  sage: '#A7B88C',
-  lime: '#C3DC9B',
-  cream: '#E8EFD3',
-  ivory: '#EBECDE',
+  sage: '#A8B99A',
+  lime: '#00A878',
+  cream: '#F7F8F0',
+  ivory: '#E9EDDA',
   // Semantic backward-compatible mappings
-  navy: '#2A3F38',
-  royal: '#22503B',
-  electric: '#22503B',
-  blue: '#6A8A64',
-  sky: '#A7B88C',
-  ice: '#DADFB9',
+  navy: '#173D30',
+  royal: '#20543F',
+  electric: '#20543F',
+  blue: '#20543F',
+  sky: '#A8B99A',
+  ice: '#E9EDDA',
 };
 
 const PALETTE_ARRAY = [
@@ -163,7 +163,7 @@ const AdminAnalytics = () => {
   if (loading && !data) {
     return (
       <div className="py-24 text-center flex flex-col items-center gap-3">
-        <Loader2 className="w-10 h-10 animate-spin text-electric" />
+        <Loader2 className="w-10 h-10 animate-spin text-[#20543F]" />
         <p className="text-xs font-semibold text-slate-500">
           Running MongoDB aggregation pipelines for charts & KPIs...
         </p>
@@ -413,21 +413,21 @@ const AdminAnalytics = () => {
         </div>
 
         {/* Avg Resolution Time */}
-        <div className="glass-card p-3 sm:p-4 text-center border-sky/50 min-w-0">
-          <span className="text-xs uppercase font-bold text-royal block mb-1 truncate">
+        <div className="glass-card p-3 sm:p-4 text-center border-[#A8B99A]/50 min-w-0">
+          <span className="text-xs uppercase font-bold text-[#20543F] block mb-1 truncate">
             Avg Turnaround
           </span>
-          <p className="text-xl sm:text-2xl font-extrabold text-royal font-heading">
+          <p className="text-xl sm:text-2xl font-extrabold text-[#20543F] font-heading">
             {kpis.overallAvgHours || 0}h
           </p>
         </div>
 
         {/* SLA Compliance */}
-        <div className="glass-card p-3 sm:p-4 text-center border-electric/40 min-w-0">
-          <span className="text-xs uppercase font-bold text-electric block mb-1 truncate">
+        <div className="glass-card p-3 sm:p-4 text-center border-[#A8B99A]/40 min-w-0">
+          <span className="text-xs uppercase font-bold text-[#20543F] block mb-1 truncate">
             SLA Compliance
           </span>
-          <p className="text-xl sm:text-2xl font-extrabold text-electric font-heading">
+          <p className="text-xl sm:text-2xl font-extrabold text-[#20543F] font-heading">
             {kpis.slaComplianceRate || 100}%
           </p>
         </div>

@@ -83,7 +83,7 @@ const StudentComplaintDetail = () => {
   if (loading) {
     return (
       <div className="py-24 text-center flex flex-col items-center gap-3">
-        <Loader2 className="w-10 h-10 animate-spin text-electric" />
+        <Loader2 className="w-10 h-10 animate-spin text-[#20543F]" />
         <p className="text-xs font-semibold text-slate-500">Loading complaint details...</p>
       </div>
     );
@@ -108,9 +108,9 @@ const StudentComplaintDetail = () => {
       {/* Navigation Breadcrumb */}
       <Link
         to="/student/complaints"
-        className="inline-flex items-center gap-2 text-xs font-semibold text-royal hover:underline"
+        className="inline-flex items-center gap-2 text-xs font-semibold text-[#20543F] hover:underline"
       >
-        <ArrowLeft className="w-4 h-4" />
+        <ArrowLeft className="w-4 h-4 text-[#20543F]" />
         <span>Back to My Complaints</span>
       </Link>
 
@@ -120,7 +120,7 @@ const StudentComplaintDetail = () => {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-ice/80 pb-5 sm:pb-6">
           <div className="space-y-2">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="font-mono text-sm sm:text-base md:text-lg font-extrabold text-royal bg-ice/80 px-2.5 sm:px-3 py-1 rounded-lg border border-sky/40">
+              <span className="font-mono text-sm sm:text-base md:text-lg font-extrabold text-[#20543F] bg-[#E9EDDA] px-2.5 sm:px-3 py-1 rounded-lg border border-[#A8B99A]/40">
                 {complaint.referenceId}
               </span>
               <StatusBadge status={complaint.status} size="lg" />
@@ -151,7 +151,7 @@ const StudentComplaintDetail = () => {
               Location & Hostel Block
             </span>
             <div className="font-bold text-navy flex items-center gap-1.5">
-              <Building className="w-4 h-4 text-royal" />
+              <Building className="w-4 h-4 text-[#20543F]" />
               <span>{complaint.hostelBlockName}</span>
             </div>
             <div className="text-slate-600 mt-0.5">
@@ -174,7 +174,7 @@ const StudentComplaintDetail = () => {
             {complaint.assignedStaffId ? (
               <div>
                 <div className="font-bold text-navy flex items-center gap-1.5">
-                  <Wrench className="w-4 h-4 text-electric" />
+                  <Wrench className="w-4 h-4 text-[#20543F]" />
                   <span>{complaint.assignedStaffId.name}</span>
                 </div>
                 <div className="text-slate-600 mt-0.5">
@@ -201,7 +201,7 @@ const StudentComplaintDetail = () => {
         {complaint.images && complaint.images.length > 0 && (
           <div>
             <h2 className="text-xs font-bold text-slate-600 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-              <Camera className="w-3.5 h-3.5 text-royal" />
+              <Camera className="w-3.5 h-3.5 text-[#20543F]" />
               <span>Your Attached Complaint Photos ({complaint.images.length})</span>
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -225,7 +225,7 @@ const StudentComplaintDetail = () => {
         {complaint.evidence && complaint.evidence.length > 0 && (
           <div>
             <h2 className="text-xs font-bold text-slate-600 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-              <Wrench className="w-3.5 h-3.5 text-electric" />
+              <Wrench className="w-3.5 h-3.5 text-[#20543F]" />
               <span>Technician Work & Resolution Proof ({complaint.evidence.length})</span>
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -233,7 +233,7 @@ const StudentComplaintDetail = () => {
                 const isBefore = ['before', 'staff_before'].includes(ev.evidenceType);
                 const isAfter = ['after', 'staff_after'].includes(ev.evidenceType);
                 const badge = isBefore ? 'Before Work' : isAfter ? 'Work Completed' : 'Additional Proof';
-                const color = isBefore ? 'bg-amber-600' : isAfter ? 'bg-emerald-600' : 'bg-royal';
+                const color = isBefore ? 'bg-amber-600' : isAfter ? 'bg-[#00A878]' : 'bg-[#20543F]';
 
                 return (
                   <div
@@ -349,15 +349,15 @@ const StudentComplaintDetail = () => {
       {/* Status History Timeline */}
       <div className="glass-card p-6 sm:p-8 space-y-6">
         <h2 className="text-lg font-heading font-bold text-navy flex items-center gap-2">
-          <Clock className="w-5 h-5 text-royal" />
+          <Clock className="w-5 h-5 text-[#20543F]" />
           <span>Status Lifecycle Timeline</span>
         </h2>
 
-        <div className="relative pl-6 space-y-6 before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-0.5 before:bg-sky/40">
+        <div className="relative pl-6 space-y-6 before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-0.5 before:bg-[#A8B99A]/40">
           {history.map((item, idx) => (
             <div key={item._id || idx} className="relative group">
               {/* Dot */}
-              <div className="absolute -left-6 top-1 w-3 h-3 rounded-full bg-electric border-2 border-white shadow-sm" />
+              <div className="absolute -left-6 top-1 w-3 h-3 rounded-full bg-[#20543F] border-2 border-white shadow-sm" />
               <div className="glass-card p-4 text-xs">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1">
                   <span className="font-bold text-navy">

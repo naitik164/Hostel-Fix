@@ -39,66 +39,67 @@
 }
 
 :root {
-  /* Official HostelFix Botanical Green Palette */
-  --color-forest: #2A3F38;
-  --color-forest-dark: #202E22;
-  --color-botanical: #22503B;
-  --color-olive: #6A8A64;
-  --color-sage: #A7B88C;
-  --color-sage-light: #C1CEA6;
-  --color-sage-pale: #DADFB9;
-  --color-lime-soft: #C3DC9B;
-  --color-ivory: #EBECDE;
-  --color-cream: #E8EFD3;
-  --color-softwhite: #F9FBF6;
+  /* Official HostelFix Forest Green & Sage Palette */
+  --color-forest: #20543F;
+  --color-forest-dark: #173D30;
+  --color-emerald: #00A878;
+  --color-botanical: #20543F;
+  --color-olive: #173D30;
+  --color-sage: #A8B99A;
+  --color-sage-light: #E9EDDA;
+  --color-sage-pale: #F7F8F0;
+  --color-lime-soft: #00A878;
+  --color-ivory: #E9EDDA;
+  --color-cream: #F7F8F0;
+  --color-softwhite: #F7F8F0;
 
-  /* Semantic Aliases mapped to Botanical Palette */
-  --color-navy: #2A3F38;
-  --color-royal: #22503B;
-  --color-electric: #22503B;
-  --color-blue: #6A8A64;
-  --color-sky: #A7B88C;
-  --color-ice: #DADFB9;
+  /* Semantic Aliases mapped to Forest Green & Sage Palette */
+  --color-navy: #20543F;
+  --color-royal: #20543F;
+  --color-electric: #20543F;
+  --color-blue: #A8B99A;
+  --color-sky: #A8B99A;
+  --color-ice: #E9EDDA;
 
   /* Global Gradients */
   --gradient-primary: linear-gradient(
     180deg,
-    #202E22 0%,
-    #2A3F38 30%,
-    #22503B 60%,
-    #6A8A64 85%,
-    #C1CEA6 100%
+    #173D30 0%,
+    #20543F 30%,
+    #20543F 60%,
+    #A8B99A 85%,
+    #E9EDDA 100%
   );
 
   --gradient-dark: linear-gradient(
     135deg,
-    #202E22 0%,
-    #2A3F38 55%,
-    #22503B 100%
+    #173D30 0%,
+    #20543F 55%,
+    #173D30 100%
   );
 
   --gradient-action: linear-gradient(
     135deg,
-    #22503B 0%,
-    #2A3F38 100%
+    #20543F 0%,
+    #173D30 100%
   );
 
   --gradient-light-glass: linear-gradient(
     135deg,
-    rgba(235, 236, 222, 0.75) 0%,
-    rgba(249, 251, 246, 0.90) 100%
+    rgba(233, 237, 218, 0.75) 0%,
+    rgba(247, 248, 240, 0.90) 100%
   );
 
-  --surface-page: #EBECDE;
-  --surface-card: #F9FBF6;
-  --surface-secondary: #E8EFD3;
-  --surface-dark: #2A3F38;
-  --surface-darker: #202E22;
+  --surface-page: #E9EDDA;
+  --surface-card: #F7F8F0;
+  --surface-secondary: #E9EDDA;
+  --surface-dark: #20543F;
+  --surface-darker: #173D30;
 
-  --text-primary: #2A3F38;
-  --text-secondary: #6A8A64;
+  --text-primary: #173D30;
+  --text-secondary: #20543F;
 
-  --border-glass: rgba(167, 184, 140, 0.45);
+  --border-glass: rgba(168, 185, 154, 0.45);
 
   --radius-card: 22px;
   --radius-control: 12px;
@@ -266,51 +267,51 @@ h1, h2, h3, h4, h5, h6, .font-heading {
 
 /* Glass Buttons */
 .btn-action {
-  background: #22503B;
-  color: #F9FBF6;
-  border: 1px solid rgba(195, 220, 155, 0.25);
-  box-shadow: 0 4px 18px rgba(34, 80, 59, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  background: #20543F;
+  color: #F7F8F0;
+  border: 1px solid rgba(0, 168, 120, 0.25);
+  box-shadow: 0 4px 18px rgba(32, 84, 63, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.25);
   transition: all 0.2s ease;
 }
 
 .btn-action:hover {
-  background: #2A3F38;
-  color: #C3DC9B;
+  background: #173D30;
+  color: #F7F8F0;
   transform: translateY(-1.5px);
-  box-shadow: 0 8px 24px rgba(34, 80, 59, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  box-shadow: 0 8px 24px rgba(23, 61, 48, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 
 .btn-secondary {
-  background: #C3DC9B;
+  background: #E9EDDA;
   backdrop-filter: blur(12px);
-  border: 1px solid #A7B88C;
-  color: #202E22;
-  box-shadow: 0 2px 10px rgba(42, 63, 56, 0.05);
+  border: 1px solid #A8B99A;
+  color: #173D30;
+  box-shadow: 0 2px 10px rgba(32, 84, 63, 0.05);
   transition: all 0.2s ease;
 }
 
 .btn-secondary:hover {
-  background: #A7B88C;
-  border-color: #6A8A64;
-  color: #202E22;
+  background: #A8B99A;
+  border-color: #20543F;
+  color: #173D30;
   transform: translateY(-1px);
 }
 
 /* Glass Inputs */
 .glass-input {
-  background: #F9FBF6;
+  background: #F7F8F0;
   backdrop-filter: blur(10px);
-  border: 1.5px solid #A7B88C;
+  border: 1.5px solid #A8B99A;
   border-radius: var(--radius-control);
-  color: #2A3F38;
+  color: #173D30;
   transition: all 0.2s ease;
 }
 
 .glass-input:focus {
   outline: none;
   background: #FFFFFF;
-  border-color: #22503B;
-  box-shadow: 0 0 0 3.5px rgba(34, 80, 59, 0.15);
+  border-color: #20543F;
+  box-shadow: 0 0 0 3.5px rgba(32, 84, 63, 0.15);
 }
 
 /* Glass Modals */
@@ -842,8 +843,8 @@ h1, h2, h3, h4, h5, h6, .font-heading {
 @media (hover: hover) {
   .dashboard-floating-badge:hover {
     transform: scale(1.05) !important;
-    box-shadow: 0 20px 42px -8px rgba(11, 44, 177, 0.22),
-                0 0 22px rgba(25, 81, 252, 0.20) !important;
+    box-shadow: 0 20px 42px -8px rgba(32, 84, 63, 0.25),
+                0 0 22px rgba(0, 168, 120, 0.20) !important;
   }
 }
 

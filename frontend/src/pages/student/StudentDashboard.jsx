@@ -76,8 +76,8 @@ const StudentDashboard = () => {
               Welcome back, {user?.name?.split(' ')[0] || user?.name}
             </h1>
             <div className="flex flex-wrap items-center gap-2 mt-1 text-xs text-slate-500 font-medium">
-              <span className="flex items-center gap-1 bg-ice/60 px-2.5 py-0.5 rounded-full text-royal border border-sky/30">
-                <Building className="w-3.5 h-3.5" />
+              <span className="flex items-center gap-1 bg-[#E9EDDA] px-2.5 py-0.5 rounded-full text-[#20543F] border border-[#A8B99A]/40">
+                <Building className="w-3.5 h-3.5 text-[#20543F]" />
                 {user?.hostelBlock ? `${user.hostelBlock} • Room ${user.roomNumber || 'N/A'}` : 'Room Not Set'}
               </span>
               <span className="hidden sm:inline">•</span>
@@ -120,8 +120,8 @@ const StudentDashboard = () => {
         <div className="glass-card p-3.5 sm:p-5 lg:p-6 glass-card-hover">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-700 uppercase tracking-wider">Total</span>
-            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-blue-50 text-royal flex items-center justify-center border border-sky/30 shrink-0">
-              <FileText className="w-4 h-4 sm:w-5 sm:h-5" />
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-[#E9EDDA] text-[#20543F] flex items-center justify-center border border-[#A8B99A]/40 shrink-0">
+              <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-[#20543F]" />
             </div>
           </div>
           <p className="mt-2.5 sm:mt-3 text-2xl sm:text-3xl font-extrabold text-navy font-heading">
@@ -134,11 +134,11 @@ const StudentDashboard = () => {
         <div className="glass-card p-3.5 sm:p-5 lg:p-6 glass-card-hover">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-700 uppercase tracking-wider">Awaiting Review</span>
-            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-blue-50 text-royal flex items-center justify-center border border-sky/40 shrink-0">
-              <Clock className="w-4 h-4 sm:w-5 sm:h-5" />
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-[#E9EDDA] text-[#20543F] flex items-center justify-center border border-[#A8B99A]/40 shrink-0">
+              <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-[#20543F]" />
             </div>
           </div>
-          <p className="mt-2.5 sm:mt-3 text-2xl sm:text-3xl font-extrabold text-royal font-heading">
+          <p className="mt-2.5 sm:mt-3 text-2xl sm:text-3xl font-extrabold text-[#20543F] font-heading">
             {loading ? '-' : data.metrics.pending}
           </p>
           <p className="mt-1 text-xs text-slate-600 font-medium">Queued for warden inspection</p>
@@ -162,11 +162,11 @@ const StudentDashboard = () => {
         <div className="glass-card p-3.5 sm:p-5 lg:p-6 glass-card-hover">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-700 uppercase tracking-wider">Resolved</span>
-            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center border border-emerald-300 shrink-0">
-              <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5" />
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-emerald-50 text-[#00A878] flex items-center justify-center border border-emerald-300 shrink-0">
+              <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-[#00A878]" />
             </div>
           </div>
-          <p className="mt-2.5 sm:mt-3 text-2xl sm:text-3xl font-extrabold text-emerald-700 font-heading">
+          <p className="mt-2.5 sm:mt-3 text-2xl sm:text-3xl font-extrabold text-[#00A878] font-heading">
             {loading ? '-' : data.metrics.resolved}
           </p>
           <p className="mt-1 text-xs text-slate-600 font-medium">Successfully closed maintenance issues</p>
@@ -211,10 +211,10 @@ const StudentDashboard = () => {
 
               <Link
                 to="/student/complaints"
-                className="text-xs font-bold text-royal hover:underline flex items-center gap-1 shrink-0 px-2 py-1"
+                className="text-xs font-bold text-[#20543F] hover:underline flex items-center gap-1 shrink-0 px-2 py-1"
               >
                 <span>View All</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <ArrowRight className="w-3.5 h-3.5 text-[#20543F]" />
               </Link>
             </div>
           </div>
@@ -244,8 +244,8 @@ const StudentDashboard = () => {
             ))}
           </div>
         ) : filteredComplaints.length === 0 ? (
-          <div className="py-16 text-center bg-white/40 rounded-2xl border border-dashed border-sky/40 p-6 sm:p-8">
-            <FileText className="w-10 h-10 text-sky mx-auto mb-2 opacity-70" />
+          <div className="py-16 text-center bg-white/40 rounded-2xl border border-dashed border-[#A8B99A]/40 p-6 sm:p-8">
+            <FileText className="w-10 h-10 text-[#A8B99A] mx-auto mb-2 opacity-70" />
             <h3 className="text-sm font-bold text-navy">No complaints found</h3>
             <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
               {search || statusFilter !== 'all'
@@ -279,7 +279,7 @@ const StudentDashboard = () => {
               <tbody>
                 {filteredComplaints.map((c) => (
                   <tr key={c._id} className="transition-colors">
-                    <td className="font-mono font-bold text-xs text-royal whitespace-nowrap">{c.referenceId}</td>
+                    <td className="font-mono font-bold text-xs text-[#20543F] whitespace-nowrap">{c.referenceId}</td>
                     <td>
                       <div className="font-semibold text-navy max-w-xs truncate">{c.title}</div>
                       <div className="text-[11px] text-slate-500">{c.category}</div>

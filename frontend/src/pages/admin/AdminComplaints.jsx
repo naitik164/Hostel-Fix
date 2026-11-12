@@ -229,7 +229,7 @@ const AdminComplaints = () => {
         <div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-navy font-heading flex items-center gap-2">
             <span>Complaints Repository</span>
-            <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-ice text-royal border border-sky/40">
+            <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-[#E9EDDA] text-[#20543F] border border-[#A8B99A]/40">
               {totalCount} total
             </span>
           </h1>
@@ -393,7 +393,7 @@ const AdminComplaints = () => {
       <div className="glass-card overflow-hidden">
         {loading ? (
           <div className="py-20 text-center text-slate-600 flex flex-col items-center gap-2">
-            <Loader2 className="w-8 h-8 animate-spin text-electric" />
+            <Loader2 className="w-8 h-8 animate-spin text-[#20543F]" />
             <p className="text-xs">Querying MongoDB repository...</p>
           </div>
         ) : complaints.length === 0 ? (
@@ -419,7 +419,7 @@ const AdminComplaints = () => {
               <tbody>
                 {complaints.map((c) => (
                   <tr key={c._id} className="transition-colors">
-                    <td className="font-mono font-bold text-xs text-royal">{c.referenceId}</td>
+                    <td className="font-mono font-bold text-xs text-[#20543F]">{c.referenceId}</td>
                     <td>
                       <div className="font-semibold text-navy text-xs">{c.studentId?.name || 'Student'}</div>
                       <div className="text-xs text-slate-600 font-medium">{c.studentId?.email}</div>

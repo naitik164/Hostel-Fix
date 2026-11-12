@@ -67,10 +67,10 @@ const StaffTasks = () => {
 
   const getStatusBadge = (s) => {
     const map = {
-      'Assigned': 'bg-blue-100 text-blue-800 border-blue-300',
-      'Accepted': 'bg-indigo-100 text-indigo-800 border-indigo-300',
+      'Assigned': 'bg-[#E9EDDA] text-[#20543F] border-[#A8B99A]/50',
+      'Accepted': 'bg-[#E9EDDA] text-[#173D30] border-[#A8B99A]/50',
       'In Progress': 'bg-amber-100 text-amber-800 border-amber-300',
-      'Pending Verification': 'bg-purple-100 text-purple-800 border-purple-300',
+      'Pending Verification': 'bg-[#E9EDDA] text-[#20543F] border-[#A8B99A]/50',
       'Rework Required': 'bg-rose-100 text-rose-800 border-rose-300 font-bold animate-pulse',
       'Resolved': 'bg-emerald-100 text-emerald-800 border-emerald-300',
       'Unable to Complete': 'bg-slate-200 text-slate-800 border-slate-300',
@@ -82,10 +82,10 @@ const StaffTasks = () => {
     const map = {
       Urgent: 'bg-rose-500 text-white',
       High: 'bg-amber-500 text-white',
-      Medium: 'bg-blue-500 text-white',
+      Medium: 'bg-[#20543F] text-white',
       Low: 'bg-slate-600 text-white',
     };
-    return map[p] || 'bg-blue-500 text-white';
+    return map[p] || 'bg-[#20543F] text-white';
   };
 
   const statuses = [
@@ -105,7 +105,7 @@ const StaffTasks = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-extrabold text-navy font-heading tracking-tight flex items-center gap-2">
-            <ClipboardCheck className="w-6 h-6 text-royal" />
+            <ClipboardCheck className="w-6 h-6 text-[#20543F]" />
             <span>My Assigned Tasks</span>
           </h1>
           <p className="text-xs text-slate-500 mt-0.5">
@@ -137,7 +137,7 @@ const StaffTasks = () => {
             }}
             className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
               status === item.value
-                ? 'bg-electric text-white shadow-sm'
+                ? 'bg-[#20543F] text-white shadow-sm'
                 : 'bg-white/80 text-slate-600 hover:bg-white hover:text-navy border border-sky/20'
             }`}
           >
@@ -150,7 +150,7 @@ const StaffTasks = () => {
       <div className="glass-card p-3 sm:p-4 border border-white/80 shadow-glass flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 text-xs">
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3">
           <div className="flex items-center gap-1.5 text-slate-600 font-semibold">
-            <Filter className="w-3.5 h-3.5 text-royal" />
+            <Filter className="w-3.5 h-3.5 text-[#20543F]" />
             <span>Filter:</span>
           </div>
 
@@ -194,7 +194,7 @@ const StaffTasks = () => {
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="flex-1 sm:flex-none px-2.5 py-2 rounded-lg bg-white border border-sky/30 text-xs text-navy focus:outline-none focus:ring-1 focus:ring-electric"
+            className="flex-1 sm:flex-none px-2.5 py-2 rounded-lg bg-white border border-[#A8B99A]/30 text-xs text-navy focus:outline-none focus:ring-1 focus:ring-[#20543F]"
           >
             <option value="createdAt">Date Assigned</option>
             <option value="priority">Priority</option>
@@ -202,10 +202,10 @@ const StaffTasks = () => {
           </select>
           <button
             onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-            className="p-2 rounded-lg bg-white border border-sky/30 text-royal hover:bg-ice transition-colors touch-target"
+            className="p-2 rounded-lg bg-white border border-[#A8B99A]/30 text-[#20543F] hover:bg-[#E9EDDA]/50 transition-colors touch-target"
             title="Toggle sort direction"
           >
-            <ArrowUpDown className="w-3.5 h-3.5" />
+            <ArrowUpDown className="w-3.5 h-3.5 text-[#20543F]" />
           </button>
         </div>
       </div>
@@ -243,7 +243,7 @@ const StaffTasks = () => {
             >
               <div className="space-y-2 flex-1 min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-xs font-mono font-bold text-royal bg-blue-50 px-2 py-0.5 rounded border border-blue-200">
+                  <span className="text-xs font-mono font-bold text-[#20543F] bg-[#E9EDDA] px-2 py-0.5 rounded border border-[#A8B99A]/40">
                     {task.referenceId}
                   </span>
                   <span className={`px-2.5 py-0.5 text-[11px] font-bold rounded-full border ${getStatusBadge(task.status)}`}>
@@ -267,12 +267,12 @@ const StaffTasks = () => {
                 {/* Location & Metadata */}
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-500">
                   <span className="inline-flex items-center gap-1">
-                    <Building className="w-3.5 h-3.5 text-royal" />
+                    <Building className="w-3.5 h-3.5 text-[#20543F]" />
                     <span className="font-semibold text-navy">{task.hostelBlockName}</span>
                   </span>
                   {task.roomNumber && (
                     <span className="inline-flex items-center gap-1">
-                      <MapPin className="w-3.5 h-3.5 text-royal" />
+                      <MapPin className="w-3.5 h-3.5 text-[#20543F]" />
                       <span>Room {task.roomNumber}</span>
                     </span>
                   )}
@@ -289,7 +289,7 @@ const StaffTasks = () => {
 
                 {/* Instructions preview */}
                 {task.assignmentInstructions && (
-                  <div className="p-2 rounded-lg bg-sky/10 border border-sky/20 text-[11px] text-royal font-medium">
+                  <div className="p-2 rounded-lg bg-[#F7F8F0] border border-[#A8B99A]/30 text-[11px] text-[#20543F] font-medium">
                     <span className="font-bold">Warden Instructions:</span> {task.assignmentInstructions}
                   </div>
                 )}
@@ -306,9 +306,9 @@ const StaffTasks = () => {
               <div className="shrink-0 flex items-center gap-2 w-full md:w-auto">
                 <Link
                   to={`/staff/tasks/${task._id}`}
-                  className="w-full md:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-electric text-white text-xs font-bold hover:bg-royal transition-all shadow-sm shadow-electric/25 touch-target"
+                  className="w-full md:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#20543F] text-white text-xs font-bold hover:bg-[#173D30] transition-all shadow-sm touch-target"
                 >
-                  <Eye className="w-3.5 h-3.5" />
+                  <Eye className="w-3.5 h-3.5 text-white" />
                   <span>Inspect & Manage</span>
                 </Link>
               </div>

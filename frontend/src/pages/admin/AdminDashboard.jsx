@@ -72,7 +72,7 @@ const AdminDashboard = () => {
             to="/admin/analytics"
             className="btn-secondary flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-control text-xs font-bold touch-target"
           >
-            <TrendingUp className="w-4 h-4 text-royal" />
+            <TrendingUp className="w-4 h-4 text-[#20543F]" />
             <span>Deep Analytics</span>
           </Link>
           <Link
@@ -142,12 +142,12 @@ const AdminDashboard = () => {
         </div>
 
         {/* Awaiting Review */}
-        <div className="glass-card p-3.5 sm:p-4 glass-card-hover border-royal/40">
-          <div className="flex items-center justify-between text-royal">
+        <div className="glass-card p-3.5 sm:p-4 glass-card-hover border-[#A8B99A]/40">
+          <div className="flex items-center justify-between text-[#20543F]">
             <span className="text-xs uppercase font-bold tracking-wider">Submitted</span>
-            <Clock className="w-4 h-4" />
+            <Clock className="w-4 h-4 text-[#20543F]" />
           </div>
-          <p className="mt-2 text-2xl sm:text-3xl font-extrabold text-royal font-heading">
+          <p className="mt-2 text-2xl sm:text-3xl font-extrabold text-[#20543F] font-heading">
             {loading ? '-' : metrics.awaitingReview}
           </p>
           <span className="text-xs text-slate-600 font-medium">Needs review & staff</span>
@@ -190,12 +190,12 @@ const AdminDashboard = () => {
         </div>
 
         {/* Avg Resolution Time */}
-        <div className="glass-card p-3.5 sm:p-4 glass-card-hover border-sky/40">
-          <div className="flex items-center justify-between text-electric">
+        <div className="glass-card p-3.5 sm:p-4 glass-card-hover border-[#A8B99A]/40">
+          <div className="flex items-center justify-between text-[#20543F]">
             <span className="text-xs uppercase font-bold tracking-wider">Avg Res.</span>
-            <TrendingUp className="w-4 h-4" />
+            <TrendingUp className="w-4 h-4 text-[#20543F]" />
           </div>
-          <p className="mt-2 text-2xl sm:text-3xl font-extrabold text-electric font-heading">
+          <p className="mt-2 text-2xl sm:text-3xl font-extrabold text-[#20543F] font-heading">
             {loading ? '-' : `${metrics.avgResolutionTimeHours}h`}
           </p>
           <span className="text-xs text-slate-600 font-medium">Turnaround time</span>
@@ -211,10 +211,10 @@ const AdminDashboard = () => {
           </div>
           <Link
             to="/admin/complaints"
-            className="text-xs font-bold text-royal hover:underline flex items-center gap-1 self-start sm:self-auto"
+            className="text-xs font-bold text-[#20543F] hover:underline flex items-center gap-1 self-start sm:self-auto"
           >
             <span>Open All Complaints Table</span>
-            <ArrowRight className="w-3.5 h-3.5" />
+            <ArrowRight className="w-3.5 h-3.5 text-[#20543F]" />
           </Link>
         </div>
 
@@ -257,7 +257,7 @@ const AdminDashboard = () => {
               <tbody>
                 {recentComplaints.map((c) => (
                   <tr key={c._id} className="transition-colors">
-                    <td className="font-mono font-bold text-xs text-royal">{c.referenceId}</td>
+                    <td className="font-mono font-bold text-xs text-[#20543F]">{c.referenceId}</td>
                     <td>
                       <div className="font-semibold text-navy text-xs">{c.studentId?.name || 'Student'}</div>
                       <div className="text-xs text-slate-600 font-medium">{c.studentId?.email}</div>

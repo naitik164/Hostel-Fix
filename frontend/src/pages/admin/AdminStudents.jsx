@@ -69,7 +69,7 @@ const AdminStudents = () => {
         <div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-navy font-heading flex items-center gap-2">
             <span>Student Resident Directory</span>
-            <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-ice text-royal border border-sky/40">
+            <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-[#E9EDDA] text-[#20543F] border border-[#A8B99A]/40">
               {students.length} students
             </span>
           </h1>
@@ -119,7 +119,7 @@ const AdminStudents = () => {
       <div className="glass-card overflow-hidden">
         {loading ? (
           <div className="py-20 text-center text-slate-600 flex flex-col items-center gap-2">
-            <Loader2 className="w-8 h-8 animate-spin text-electric" />
+            <Loader2 className="w-8 h-8 animate-spin text-[#20543F]" />
             <p className="text-xs font-medium">Loading registered resident directory...</p>
           </div>
         ) : students.length === 0 ? (
@@ -128,7 +128,7 @@ const AdminStudents = () => {
           </div>
         ) : (
           <div className="table-responsive-container">
-            <div className="sm:hidden px-4 py-2 bg-ice/40 border-b border-ice text-xs text-royal flex items-center justify-between font-semibold">
+            <div className="sm:hidden px-4 py-2 bg-[#F7F8F0] border-b border-[#E9EDDA] text-xs text-[#20543F] flex items-center justify-between font-semibold">
               <span>Swipe horizontally to view full resident data</span>
               <span>👉</span>
             </div>
@@ -165,15 +165,15 @@ const AdminStudents = () => {
                     <td className="text-xs text-slate-600 font-medium">
                       {student.hostelBlock || <span className="italic text-slate-600 font-medium">Not set</span>}
                     </td>
-                    <td className="text-xs font-mono text-royal font-semibold">
+                    <td className="text-xs font-mono text-[#20543F] font-semibold">
                       {student.roomNumber || <span className="italic text-slate-600 font-medium font-sans">N/A</span>}
                     </td>
                     <td className="text-xs text-slate-600 font-medium">
                       {student.phone || <span className="italic text-slate-600 font-medium">No phone</span>}
                     </td>
                     <td>
-                      <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-ice text-royal">
-                        <FileText className="w-3.5 h-3.5" />
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#E9EDDA] text-[#20543F] border border-[#A8B99A]/30">
+                        <FileText className="w-3.5 h-3.5 text-[#20543F]" />
                         <span>{student.complaintsCount || 0}</span>
                       </span>
                     </td>

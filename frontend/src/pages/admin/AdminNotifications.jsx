@@ -67,7 +67,7 @@ const AdminNotifications = () => {
       case 'success':
         return <CheckCircle className="w-5 h-5 text-emerald-500" />;
       default:
-        return <Info className="w-5 h-5 text-electric" />;
+        return <Info className="w-5 h-5 text-[#20543F]" />;
     }
   };
 
@@ -94,7 +94,7 @@ const AdminNotifications = () => {
             onClick={markAllRead}
             className="btn-secondary w-full sm:w-auto justify-center inline-flex items-center gap-2 px-3.5 py-2.5 rounded-control text-xs font-bold touch-target"
           >
-            <CheckCheck className="w-4 h-4 text-royal" />
+            <CheckCheck className="w-4 h-4 text-[#20543F]" />
             <span>Mark All as Read</span>
           </button>
         )}
@@ -104,12 +104,12 @@ const AdminNotifications = () => {
       <div className="glass-card overflow-hidden divide-y divide-ice/60">
         {loading ? (
           <div className="py-20 text-center text-slate-600 flex flex-col items-center gap-2">
-            <Loader2 className="w-8 h-8 animate-spin text-electric" />
+            <Loader2 className="w-8 h-8 animate-spin text-[#20543F]" />
             <p className="text-xs font-medium">Fetching warden administrative alerts...</p>
           </div>
         ) : notifications.length === 0 ? (
           <div className="py-20 text-center p-6">
-            <Bell className="w-12 h-12 text-sky mx-auto mb-2 opacity-50" />
+            <Bell className="w-12 h-12 text-[#A8B99A] mx-auto mb-2 opacity-50" />
             <h2 className="text-sm font-bold text-navy">No alerts pending</h2>
             <p className="text-xs text-slate-600 font-medium mt-1">
               All resident complaints are inspected and up to date.
@@ -121,7 +121,7 @@ const AdminNotifications = () => {
               key={n._id}
               onClick={() => !n.isRead && markAsRead(n._id)}
               className={`p-4 sm:p-5 flex items-start justify-between gap-4 transition-colors cursor-pointer ${
-                n.isRead ? 'bg-white/40 hover:bg-white/70' : 'bg-ice/40 hover:bg-ice/60 font-medium'
+                n.isRead ? 'bg-white/40 hover:bg-white/70' : 'bg-[#F7F8F0] hover:bg-[#E9EDDA]/50 font-medium'
               }`}
             >
               <div className="flex items-start gap-3.5 min-w-0">
@@ -145,7 +145,7 @@ const AdminNotifications = () => {
               {n.link && (
                 <Link
                   to={n.link}
-                  className="btn-secondary shrink-0 p-2.5 rounded-lg text-royal hover:text-navy touch-target flex items-center justify-center"
+                  className="btn-secondary shrink-0 p-2.5 rounded-lg text-[#20543F] hover:text-[#173D30] touch-target flex items-center justify-center"
                   title="Inspect Ticket"
                 >
                   <ExternalLink className="w-4 h-4" />

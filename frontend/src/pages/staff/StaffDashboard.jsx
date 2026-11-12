@@ -61,10 +61,10 @@ const StaffDashboard = () => {
 
   const getStatusBadge = (status) => {
     const map = {
-      'Assigned': 'bg-blue-100 text-blue-800 border-blue-300',
-      'Accepted': 'bg-indigo-100 text-indigo-800 border-indigo-300',
+      'Assigned': 'bg-[#E9EDDA] text-[#20543F] border-[#A8B99A]/50',
+      'Accepted': 'bg-[#E9EDDA] text-[#173D30] border-[#A8B99A]/50',
       'In Progress': 'bg-amber-100 text-amber-800 border-amber-300',
-      'Pending Verification': 'bg-purple-100 text-purple-800 border-purple-300',
+      'Pending Verification': 'bg-[#E9EDDA] text-[#20543F] border-[#A8B99A]/50',
       'Rework Required': 'bg-rose-100 text-rose-800 border-rose-300 animate-pulse',
       'Resolved': 'bg-emerald-100 text-emerald-800 border-emerald-300',
       'Unable to Complete': 'bg-slate-200 text-slate-800 border-slate-300',
@@ -76,10 +76,10 @@ const StaffDashboard = () => {
     const map = {
       Urgent: 'bg-rose-500 text-white',
       High: 'bg-amber-500 text-white',
-      Medium: 'bg-blue-500 text-white',
+      Medium: 'bg-[#20543F] text-white',
       Low: 'bg-slate-600 text-white',
     };
-    return map[priority] || 'bg-blue-500 text-white';
+    return map[priority] || 'bg-[#20543F] text-white';
   };
 
   if (loading) {
@@ -102,14 +102,14 @@ const StaffDashboard = () => {
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#202E22] via-[#2A3F38] to-[#22503B] p-5 sm:p-8 text-white shadow-xl shadow-[#202E22]/20 border border-[#A7B88C]/30">
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-1.5 min-w-0">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs text-sky-light font-semibold">
-              <HardHat className="w-3.5 h-3.5 text-sky shrink-0" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs text-white font-semibold">
+              <HardHat className="w-3.5 h-3.5 text-white shrink-0" />
               <span>Field Staff Operational Command</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold font-heading tracking-tight text-white truncate">
               Welcome, {user?.name}
             </h1>
-            <p className="text-xs sm:text-sm text-ice-pale/90 max-w-xl break-anywhere">
+            <p className="text-xs sm:text-sm text-white/90 max-w-xl break-anywhere">
               Specialization: <span className="font-semibold text-white">{user?.specialization || 'Maintenance'}</span> • 
               Employee ID: <span className="font-semibold text-white">{user?.employeeId || 'STAFF'}</span>
               {user?.assignedBlocks && user.assignedBlocks.length > 0 && (
@@ -125,9 +125,9 @@ const StaffDashboard = () => {
               placeholder="Search Reference (e.g. HF-2026-...)"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 rounded-2xl bg-white/15 backdrop-blur-md border border-white/30 text-white placeholder-sky-light/60 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-sky"
+              className="w-full pl-10 pr-4 py-2.5 rounded-2xl bg-white/15 backdrop-blur-md border border-white/30 text-white placeholder-white/60 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#A8B99A]"
             />
-            <Search className="w-4 h-4 text-sky-light absolute left-3.5 top-3" />
+            <Search className="w-4 h-4 text-white/80 absolute left-3.5 top-3" />
           </form>
         </div>
       </div>
@@ -171,8 +171,8 @@ const StaffDashboard = () => {
         <div className="glass-card p-4 sm:p-5 border border-white/80 shadow-glass">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-700">Total Assigned</span>
-            <div className="w-8 h-8 rounded-xl bg-blue-50 text-royal flex items-center justify-center">
-              <ClipboardCheck className="w-4 h-4" />
+            <div className="w-8 h-8 rounded-xl bg-[#E9EDDA] text-[#20543F] flex items-center justify-center border border-[#A8B99A]/30">
+              <ClipboardCheck className="w-4 h-4 text-[#20543F]" />
             </div>
           </div>
           <p className="mt-3 text-2xl font-black text-navy">{stats.totalAssigned || 0}</p>
@@ -182,18 +182,18 @@ const StaffDashboard = () => {
         {/* New Assignments */}
         <Link
           to="/staff/tasks?status=Assigned"
-          className="glass-card p-4 sm:p-5 border border-white/80 shadow-glass hover:border-electric transition-all group"
+          className="glass-card p-4 sm:p-5 border border-white/80 shadow-glass hover:border-[#20543F] transition-all group"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-700 group-hover:text-electric transition-colors">
+            <span className="text-xs font-semibold text-slate-700 group-hover:text-[#20543F] transition-colors">
               New Assignments
             </span>
-            <div className="w-8 h-8 rounded-xl bg-sky/20 text-electric flex items-center justify-center">
-              <Clock className="w-4 h-4" />
+            <div className="w-8 h-8 rounded-xl bg-[#E9EDDA] text-[#20543F] flex items-center justify-center border border-[#A8B99A]/30">
+              <Clock className="w-4 h-4 text-[#20543F]" />
             </div>
           </div>
-          <p className="mt-3 text-2xl font-black text-royal">{stats.newAssignments || 0}</p>
-          <span className="text-xs text-royal font-semibold">Awaiting your acceptance</span>
+          <p className="mt-3 text-2xl font-black text-[#20543F]">{stats.newAssignments || 0}</p>
+          <span className="text-xs text-[#173D30] font-semibold">Awaiting your acceptance</span>
         </Link>
 
         {/* In Progress */}
@@ -302,10 +302,10 @@ const StaffDashboard = () => {
             </div>
             <Link
               to="/staff/tasks"
-              className="text-xs font-bold text-royal hover:text-electric transition-colors inline-flex items-center gap-1"
+              className="text-xs font-bold text-[#20543F] hover:text-[#173D30] transition-colors inline-flex items-center gap-1"
             >
               <span>View All Tasks</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+              <ArrowRight className="w-3.5 h-3.5 text-[#20543F]" />
             </Link>
           </div>
 
@@ -326,7 +326,7 @@ const StaffDashboard = () => {
                 >
                   <div className="space-y-1.5 flex-1 min-w-0">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="text-[11px] font-mono font-bold text-royal">
+                      <span className="text-[11px] font-mono font-bold text-[#20543F]">
                         {task.referenceId}
                       </span>
                       <span className={`px-2 py-0.5 text-[10px] font-bold rounded-full border ${getStatusBadge(task.status)}`}>
@@ -341,12 +341,12 @@ const StaffDashboard = () => {
 
                     <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-500">
                       <span className="inline-flex items-center gap-1">
-                        <Building className="w-3.5 h-3.5 text-royal" />
+                        <Building className="w-3.5 h-3.5 text-[#20543F]" />
                         <span>{task.hostelBlockName}</span>
                       </span>
                       {task.roomNumber && (
                         <span className="inline-flex items-center gap-1">
-                          <MapPin className="w-3.5 h-3.5 text-royal" />
+                          <MapPin className="w-3.5 h-3.5 text-[#20543F]" />
                           <span>Room {task.roomNumber}</span>
                         </span>
                       )}
@@ -359,9 +359,9 @@ const StaffDashboard = () => {
 
                   <Link
                     to={`/staff/tasks/${task._id}`}
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-electric text-white text-xs font-bold hover:bg-royal transition-all shadow-sm shadow-electric/25 touch-target"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#20543F] text-white text-xs font-bold hover:bg-[#173D30] transition-all shadow-sm touch-target"
                   >
-                    <Eye className="w-3.5 h-3.5" />
+                    <Eye className="w-3.5 h-3.5 text-white" />
                     <span>Open Task</span>
                   </Link>
                 </div>
@@ -374,7 +374,7 @@ const StaffDashboard = () => {
         <div className="space-y-4">
           <div>
             <h2 className="text-base font-extrabold text-navy font-heading flex items-center gap-2">
-              <Activity className="w-4 h-4 text-electric" />
+              <Activity className="w-4 h-4 text-[#00A878]" />
               <span>Recent Activity</span>
             </h2>
             <p className="text-xs text-slate-500">Audit trail of updates on your tasks</p>
@@ -384,14 +384,14 @@ const StaffDashboard = () => {
             {recentActivity.length === 0 ? (
               <p className="text-xs text-slate-600 text-center py-6">No recent updates recorded yet.</p>
             ) : (
-              <div className="space-y-3.5 relative before:absolute before:top-2 before:bottom-2 before:left-3.5 before:w-0.5 before:bg-sky/30">
+              <div className="space-y-3.5 relative before:absolute before:top-2 before:bottom-2 before:left-3.5 before:w-0.5 before:bg-[#A8B99A]/30">
                 {recentActivity.map((act) => (
                   <div key={act._id} className="relative pl-7 text-xs">
-                    <div className="absolute left-2 top-1.5 w-3 h-3 rounded-full bg-electric border-2 border-white" />
+                    <div className="absolute left-2 top-1.5 w-3 h-3 rounded-full bg-[#20543F] border-2 border-white" />
                     <p className="font-semibold text-navy">
                       {act.actionType}
                       {act.complaintId && (
-                        <span className="text-royal font-mono ml-1.5">
+                        <span className="text-[#20543F] font-mono ml-1.5">
                           {act.complaintId.referenceId}
                         </span>
                       )}

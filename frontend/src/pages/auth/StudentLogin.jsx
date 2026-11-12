@@ -63,9 +63,9 @@ const StudentLogin = () => {
   const loginContent = (
     <div className="min-h-[100dvh] relative flex items-center justify-center p-3 sm:p-4 overflow-hidden bg-gradient-dark font-sans">
       {/* Layered liquid-glass atmospheric shapes */}
-      <div className="absolute -top-32 -left-32 w-96 h-96 bg-royal/40 rounded-full filter blur-3xl pointer-events-none animate-pulse" />
-      <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-electric/30 rounded-full filter blur-3xl pointer-events-none" />
-      <div className="absolute top-1/3 right-1/4 w-72 h-72 bg-sky/20 rounded-full filter blur-2xl pointer-events-none" />
+      <div className="absolute -top-32 -left-32 w-96 h-96 bg-[#20543F]/40 rounded-full filter blur-3xl pointer-events-none animate-pulse" />
+      <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-[#00A878]/30 rounded-full filter blur-3xl pointer-events-none" />
+      <div className="absolute top-1/3 right-1/4 w-72 h-72 bg-[#A8B99A]/20 rounded-full filter blur-2xl pointer-events-none" />
 
       {/* Main Centered Frosted-Glass Card Landmark */}
       <main className="relative z-10 w-full max-w-md my-auto">
@@ -74,7 +74,7 @@ const StudentLogin = () => {
           to="/"
           className="inline-flex items-center gap-2 text-xs font-semibold text-ice hover:text-white mb-6 transition-colors"
         >
-          <ArrowLeft className="w-4 h-4" />
+          <ArrowLeft className="w-4 h-4 text-[#E9EDDA]" />
           <span>Back to Home</span>
         </Link>
 
@@ -126,9 +126,9 @@ const StudentLogin = () => {
                   />
                 </div>
               ) : (
-                <div className="w-full text-center p-3.5 bg-[#E8EFD3]/60 border border-[#A7B88C]/40 rounded-control text-xs text-royal">
+                <div className="w-full text-center p-3.5 bg-[#E8EFD3]/60 border border-[#A7B88C]/40 rounded-control text-xs text-[#20543F]">
                   <p className="font-semibold flex items-center justify-center gap-1.5">
-                    <Sparkles className="w-4 h-4 text-electric" />
+                    <Sparkles className="w-4 h-4 text-[#20543F]" />
                     <span>Google OAuth GIS Ready</span>
                   </p>
                   <p className="text-[11px] text-slate-500 mt-1">
@@ -141,7 +141,7 @@ const StudentLogin = () => {
             {/* Secure Authentication Information */}
             <div className="mt-6 p-4 rounded-control bg-[#E8EFD3]/50 border border-[#A7B88C]/35 text-center">
               <p className="text-xs font-semibold text-navy flex items-center justify-center gap-1.5">
-                <Shield className="w-3.5 h-3.5 text-royal" />
+                <Shield className="w-3.5 h-3.5 text-[#20543F]" />
                 <span>Verified Google Student Sign-In</span>
               </p>
               <p className="text-[11px] text-slate-500 mt-1 leading-relaxed">
@@ -153,7 +153,7 @@ const StudentLogin = () => {
           {/* Footer note */}
           <footer className="mt-8 pt-6 border-t border-ice text-center text-xs text-slate-500">
             <span>Are you a Hostel Warden or Administrator? </span>
-            <Link to="/admin/login" className="font-bold text-royal hover:underline">
+            <Link to="/admin/login" className="font-bold text-[#20543F] hover:underline">
               Warden Portal
             </Link>
           </footer>

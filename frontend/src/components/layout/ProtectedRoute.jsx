@@ -11,8 +11,8 @@ const ProtectedRoute = ({ children, requiredRole }) => {
       <div className="min-h-screen flex items-center justify-center bg-[#EBECDE] text-[#2A3F38] relative overflow-hidden font-sans">
         <div className="ambient-glow" />
         <div className="ambient-glow-bottom" />
-        <main className="glass-card p-8 sm:p-10 max-w-sm w-full mx-4 flex flex-col items-center text-center shadow-glass-hover border-sky/30 relative z-10 animate-in fade-in zoom-in-95 duration-300">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-action p-2.5 flex items-center justify-center text-white shadow-lg shadow-electric/25 mb-4 relative overflow-hidden">
+        <main className="glass-card p-8 sm:p-10 max-w-sm w-full mx-4 flex flex-col items-center text-center shadow-glass-hover border-[#A8B99A]/30 relative z-10 animate-in fade-in zoom-in-95 duration-300">
+          <div className="w-16 h-16 rounded-2xl bg-gradient-action p-2.5 flex items-center justify-center text-white shadow-lg shadow-[#20543F]/25 mb-4 relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer-sweep pointer-events-none" />
             <img
               src="/logo-icon.webp"
@@ -28,8 +28,8 @@ const ProtectedRoute = ({ children, requiredRole }) => {
           </div>
           <h1 className="text-lg font-bold text-navy font-heading">Securing Session</h1>
           <p className="text-xs text-slate-600 font-medium mt-1">Verifying encrypted credentials with HostelFix...</p>
-          <div className="w-full h-1.5 bg-sky/20 rounded-full overflow-hidden mt-6">
-            <div className="h-full bg-gradient-to-r from-electric via-blue-bright to-sky rounded-full animate-shimmer-sweep w-2/3" />
+          <div className="w-full h-1.5 bg-[#A8B99A]/20 rounded-full overflow-hidden mt-6">
+            <div className="h-full bg-gradient-to-r from-[#20543F] via-[#00A878] to-[#A8B99A] rounded-full animate-shimmer-sweep w-2/3" />
           </div>
         </main>
       </div>

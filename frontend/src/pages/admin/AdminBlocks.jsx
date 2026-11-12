@@ -146,7 +146,7 @@ const AdminBlocks = () => {
         <div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-navy font-heading flex items-center gap-2">
             <span>Hostel Blocks</span>
-            <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-ice text-royal border border-sky/40">
+            <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-[#E9EDDA] text-[#20543F] border border-[#A8B99A]/40">
               {blocks.length} buildings
             </span>
           </h1>
@@ -167,7 +167,7 @@ const AdminBlocks = () => {
       {/* Blocks Grid */}
       {loading ? (
         <div className="py-20 text-center text-slate-600 flex flex-col items-center gap-2">
-          <Loader2 className="w-8 h-8 animate-spin text-electric" />
+          <Loader2 className="w-8 h-8 animate-spin text-[#20543F]" />
           <p className="text-xs">Fetching hostel block registry...</p>
         </div>
       ) : (
@@ -187,7 +187,7 @@ const AdminBlocks = () => {
                     </div>
                     <div>
                       <h2 className="font-bold text-navy text-base">{block.name}</h2>
-                      <p className="font-mono text-xs text-royal font-semibold">{block.code}</p>
+                      <p className="font-mono text-xs text-[#20543F] font-semibold">{block.code}</p>
                     </div>
                   </div>
 
@@ -207,18 +207,18 @@ const AdminBlocks = () => {
                 </p>
 
                 <div className="mt-5 grid grid-cols-2 gap-3 text-xs">
-                  <div className="bg-white/60 p-2.5 rounded-xl border border-sky/20">
+                  <div className="bg-white/60 p-2.5 rounded-xl border border-[#A8B99A]/20">
                     <span className="text-slate-600 text-xs uppercase font-bold block mb-0.5">
                       Capacity
                     </span>
                     <span className="font-bold text-navy">{block.totalRooms} Rooms</span>
                   </div>
 
-                  <div className="bg-white/60 p-2.5 rounded-xl border border-sky/20">
+                  <div className="bg-white/60 p-2.5 rounded-xl border border-[#A8B99A]/20">
                     <span className="text-slate-600 text-xs uppercase font-bold block mb-0.5">
                       Total Tickets
                     </span>
-                    <span className="font-bold text-royal">
+                    <span className="font-bold text-[#20543F]">
                       {block.complaintsCount || 0} Complaints
                     </span>
                   </div>

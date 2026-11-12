@@ -39,7 +39,7 @@ const StaffProfile = () => {
     <div className="space-y-6 max-w-4xl">
       <div>
         <h1 className="text-2xl font-extrabold text-navy font-heading tracking-tight flex items-center gap-2">
-          <UserCheck className="w-6 h-6 text-royal" />
+          <UserCheck className="w-6 h-6 text-[#20543F]" />
           <span>My Staff Profile</span>
         </h1>
         <p className="text-xs text-slate-500 mt-0.5">
@@ -62,7 +62,7 @@ const StaffProfile = () => {
               </span>
             </div>
             <p className="text-xs text-slate-600 font-medium break-anywhere">
-              Employee ID: <span className="font-mono font-bold text-royal">{staff?.employeeId}</span> • 
+              Employee ID: <span className="font-mono font-bold text-[#20543F]">{staff?.employeeId}</span> • 
               Specialization: <span className="font-semibold text-navy">{staff?.specialization}</span>
             </p>
           </div>
@@ -70,10 +70,10 @@ const StaffProfile = () => {
 
         {/* Identity & Google Account Details */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-          <div className="p-4 rounded-2xl bg-blue-50/50 border border-sky/20 space-y-1 min-w-0">
+          <div className="p-4 rounded-2xl bg-[#F7F8F0] border border-[#A8B99A]/30 space-y-1 min-w-0">
             <span className="text-slate-600 block text-xs font-semibold">Verified Google Email</span>
             <div className="flex items-center gap-1.5 font-bold text-navy text-sm break-anywhere">
-              <Mail className="w-4 h-4 text-royal shrink-0" />
+              <Mail className="w-4 h-4 text-[#20543F] shrink-0" />
               <span>{staff?.email}</span>
             </div>
             <p className="text-xs text-slate-600 font-medium">
@@ -81,28 +81,28 @@ const StaffProfile = () => {
             </p>
           </div>
 
-          <div className="p-4 rounded-2xl bg-blue-50/50 border border-sky/20 space-y-1 min-w-0">
+          <div className="p-4 rounded-2xl bg-[#F7F8F0] border border-[#A8B99A]/30 space-y-1 min-w-0">
             <span className="text-slate-600 block text-xs font-semibold">Registered Phone</span>
             <div className="flex items-center gap-1.5 font-bold text-navy text-sm break-anywhere">
-              <Phone className="w-4 h-4 text-royal shrink-0" />
+              <Phone className="w-4 h-4 text-[#20543F] shrink-0" />
               <span>{staff?.phone || 'Not provided'}</span>
             </div>
             <p className="text-xs text-slate-600 font-medium">Contact number for student & warden calls</p>
           </div>
 
-          <div className="p-4 rounded-2xl bg-blue-50/50 border border-sky/20 space-y-1 min-w-0">
+          <div className="p-4 rounded-2xl bg-[#F7F8F0] border border-[#A8B99A]/30 space-y-1 min-w-0">
             <span className="text-slate-600 block text-xs font-semibold">Department / Trade</span>
             <div className="flex items-center gap-1.5 font-bold text-navy text-sm break-anywhere">
-              <HardHat className="w-4 h-4 text-royal shrink-0" />
+              <HardHat className="w-4 h-4 text-[#20543F] shrink-0" />
               <span>{staff?.department || staff?.specialization}</span>
             </div>
             <p className="text-xs text-slate-600 font-medium">Hostel maintenance division</p>
           </div>
 
-          <div className="p-4 rounded-2xl bg-blue-50/50 border border-sky/20 space-y-1 min-w-0">
+          <div className="p-4 rounded-2xl bg-[#F7F8F0] border border-[#A8B99A]/30 space-y-1 min-w-0">
             <span className="text-slate-600 block text-xs font-semibold">Assigned Hostel Blocks</span>
             <div className="flex items-center gap-1.5 font-bold text-navy text-sm break-anywhere">
-              <Building className="w-4 h-4 text-royal shrink-0" />
+              <Building className="w-4 h-4 text-[#20543F] shrink-0" />
               <span>
                 {staff?.assignedBlocks && staff.assignedBlocks.length > 0
                   ? staff.assignedBlocks.join(', ')
@@ -123,19 +123,19 @@ const StaffProfile = () => {
             <span className="text-[10px] text-emerald-700">Verified and approved by warden</span>
           </div>
 
-          <div className="p-4 rounded-2xl bg-blue-50 border border-blue-200">
-            <span className="text-xs text-blue-800 font-semibold block">Active Workload</span>
-            <span className="text-2xl font-black text-blue-950 mt-1 block">
+          <div className="p-4 rounded-2xl bg-[#F7F8F0] border border-[#A8B99A]/40">
+            <span className="text-xs text-[#20543F] font-semibold block">Active Workload</span>
+            <span className="text-2xl font-black text-[#173D30] mt-1 block">
               {profile?.activeCount ?? 0}
             </span>
-            <span className="text-[10px] text-blue-700">Tasks currently in workflow</span>
+            <span className="text-[10px] text-[#20543F]">Tasks currently in workflow</span>
           </div>
         </div>
 
         {/* Security & Warden Administration Note */}
         <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5 text-xs text-slate-600">
           <div className="flex items-center gap-2 font-bold text-navy">
-            <Shield className="w-4 h-4 text-royal" />
+            <Shield className="w-4 h-4 text-[#20543F]" />
             <span>Profile Administration & Security Policy</span>
           </div>
           <p className="text-[11px] leading-relaxed">

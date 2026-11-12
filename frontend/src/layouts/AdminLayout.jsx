@@ -101,7 +101,7 @@ const AdminLayout = () => {
                 Hostel<span className="text-[#C3DC9B] relative inline-block">Fix<svg className="absolute -bottom-0.5 left-0 w-full h-1 overflow-visible" viewBox="0 0 48 6" fill="none"><path d="M 2 2 C 14 5, 34 5, 46 2 C 34 3.5, 14 3.5, 2 2 Z" fill="#C3DC9B" /></svg></span>
               </span>
             </div>
-            <span className="text-[10px] tracking-wider uppercase font-bold text-sky-light/90 px-2 py-0.5 rounded-full bg-navy-900/60 border border-sky/30">
+            <span className="text-[10px] tracking-wider uppercase font-bold text-[#E9EDDA] px-2 py-0.5 rounded-full bg-navy-900/60 border border-[#A8B99A]/30">
               Warden Administration
             </span>
           </div>
@@ -109,7 +109,7 @@ const AdminLayout = () => {
 
         {/* Navigation links */}
         <nav className="flex-1 py-6 space-y-1.5">
-          <p className="px-3 text-[10px] font-bold uppercase tracking-wider text-sky/60 mb-2">
+          <p className="px-3 text-[10px] font-bold uppercase tracking-wider text-[#A8B99A]/80 mb-2">
             Main Management
           </p>
           {navItems.map((item) => {
@@ -145,12 +145,12 @@ const AdminLayout = () => {
         {/* Warden Profile & Logout */}
         <div className="pt-4 border-t border-sky/20 space-y-3">
           <div className="flex items-center gap-3 p-2.5 rounded-xl bg-navy-900/70 border border-sky/20">
-            <div className="w-9 h-9 rounded-full bg-electric/40 border border-sky/50 flex items-center justify-center font-bold text-sm text-ice">
+            <div className="w-9 h-9 rounded-full bg-[#20543F] border border-[#A8B99A]/50 flex items-center justify-center font-bold text-sm text-[#F7F8F0]">
               {user?.name ? user.name.charAt(0) : 'W'}
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-xs font-semibold text-white truncate">{user?.name}</p>
-              <p className="text-[11px] text-sky/70 truncate">{user?.email}</p>
+              <p className="text-[11px] text-[#A8B99A]/80 truncate">{user?.email}</p>
             </div>
           </div>
 
@@ -182,7 +182,7 @@ const AdminLayout = () => {
             <span className="font-heading font-extrabold text-base tracking-tight text-white">
               Hostel<span className="text-[#C3DC9B]">Fix</span>
             </span>
-            <span className="ml-2 text-[10px] uppercase font-bold text-sky-light px-1.5 py-0.5 rounded bg-royal/60">
+            <span className="ml-2 text-[10px] uppercase font-bold text-[#E9EDDA] px-1.5 py-0.5 rounded bg-[#20543F]">
               Warden
             </span>
           </div>
@@ -191,7 +191,7 @@ const AdminLayout = () => {
         <div className="flex items-center gap-1.5">
           <NavLink
             to="/admin/notifications"
-            className="p-2 text-sky relative touch-target flex items-center justify-center"
+            className="p-2 text-[#A8B99A] relative touch-target flex items-center justify-center"
             aria-label="Warden notifications"
           >
             <Bell className="w-5 h-5" />
@@ -239,7 +239,7 @@ const AdminLayout = () => {
                     }
                   >
                     <div className="flex items-center gap-3">
-                      <Icon className="w-4 h-4 text-sky shrink-0" />
+                      <Icon className="w-4 h-4 shrink-0" />
                       <span>{item.label}</span>
                     </div>
                     {item.badge > 0 && (

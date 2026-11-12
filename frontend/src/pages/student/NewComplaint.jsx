@@ -223,9 +223,9 @@ const NewComplaint = () => {
       {/* Top Breadcrumb */}
       <Link
         to="/student/dashboard"
-        className="inline-flex items-center gap-2 text-xs font-semibold text-royal hover:underline"
+        className="inline-flex items-center gap-2 text-xs font-semibold text-[#20543F] hover:underline"
       >
-        <ArrowLeft className="w-4 h-4" />
+        <ArrowLeft className="w-4 h-4 text-[#20543F]" />
         <span>Back to Dashboard</span>
       </Link>
 
@@ -419,7 +419,7 @@ const NewComplaint = () => {
             <label className="block text-xs font-semibold text-navy mb-1.5">
               Attach Photos (Optional - Max 4 images, 5MB each)
             </label>
-            <div className="border-2 border-dashed border-sky/50 rounded-2xl p-6 text-center bg-white/40 hover:bg-white/60 transition-colors relative">
+            <div className="border-2 border-dashed border-[#A8B99A]/50 rounded-2xl p-6 text-center bg-white/40 hover:bg-white/60 transition-colors relative">
               <input
                 type="file"
                 multiple
@@ -428,7 +428,7 @@ const NewComplaint = () => {
                 disabled={files.length >= 4}
                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed"
               />
-              <UploadCloud className="w-10 h-10 text-royal mx-auto mb-2 opacity-80" />
+              <UploadCloud className="w-10 h-10 text-[#20543F] mx-auto mb-2 opacity-80" />
               <p className="text-xs font-semibold text-navy">
                 Click or drag & drop complaint photos here
               </p>
@@ -469,7 +469,7 @@ const NewComplaint = () => {
                     value={method}
                     checked={preferredContact === method}
                     onChange={(e) => setPreferredContact(e.target.value)}
-                    className="text-royal focus:ring-electric"
+                    className="text-[#20543F] focus:ring-[#20543F]"
                   />
                   <span>{method}</span>
                 </label>
@@ -479,14 +479,14 @@ const NewComplaint = () => {
 
           {/* Upload Progress Bar */}
           {submitting && files.length > 0 && (
-            <div className="space-y-1.5 p-3 rounded-xl bg-sky/10 border border-sky/30">
-              <div className="flex items-center justify-between text-xs font-bold text-royal">
+            <div className="space-y-1.5 p-3 rounded-xl bg-[#E9EDDA] border border-[#A8B99A]/40">
+              <div className="flex items-center justify-between text-xs font-bold text-[#20543F]">
                 <span>Uploading {files.length} Photo{files.length > 1 ? 's' : ''} to Secure Storage...</span>
                 <span>{uploadProgress}%</span>
               </div>
               <div className="w-full h-2 rounded-full bg-slate-200 overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-royal via-electric to-sky rounded-full transition-all duration-300"
+                  className="h-full bg-gradient-to-r from-[#20543F] via-[#2E6F54] to-[#00A878] rounded-full transition-all duration-300"
                   style={{ width: `${uploadProgress}%` }}
                 />
               </div>

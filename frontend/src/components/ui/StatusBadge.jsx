@@ -2,16 +2,16 @@ import React from 'react';
 
 const statusConfig = {
   Submitted: {
-    bg: 'bg-[#6A8A64]/15 text-[#2A3F38] border-[#6A8A64]/30',
-    dot: 'bg-[#6A8A64]',
+    bg: 'bg-[#A8B99A]/20 text-[#173D30] border-[#A8B99A]/40',
+    dot: 'bg-[#20543F]',
   },
   'Under Review': {
     bg: 'bg-amber-50 text-amber-900 border-amber-300',
     dot: 'bg-amber-600',
   },
   Assigned: {
-    bg: 'bg-[#22503B]/15 text-[#22503B] border-[#22503B]/35',
-    dot: 'bg-[#22503B]',
+    bg: 'bg-[#20543F]/15 text-[#20543F] border-[#20543F]/30',
+    dot: 'bg-[#20543F]',
   },
   'In Progress': {
     bg: 'bg-amber-50 text-amber-900 border-amber-300',
@@ -19,7 +19,7 @@ const statusConfig = {
   },
   Resolved: {
     bg: 'bg-emerald-50 text-emerald-900 border-emerald-300',
-    dot: 'bg-emerald-600',
+    dot: 'bg-[#00A878]',
   },
   Rejected: {
     bg: 'bg-rose-50 text-rose-900 border-rose-300',

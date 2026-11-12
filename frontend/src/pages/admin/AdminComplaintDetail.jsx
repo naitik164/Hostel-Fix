@@ -152,7 +152,7 @@ const AdminComplaintDetail = () => {
   if (loading) {
     return (
       <div className="py-24 text-center flex flex-col items-center gap-3">
-        <Loader2 className="w-10 h-10 animate-spin text-electric" />
+        <Loader2 className="w-10 h-10 animate-spin text-[#20543F]" />
         <p className="text-xs font-semibold text-slate-500">Loading complaint inspection data...</p>
       </div>
     );
@@ -177,9 +177,9 @@ const AdminComplaintDetail = () => {
       {/* Back Link */}
       <Link
         to="/admin/complaints"
-        className="inline-flex items-center gap-2 text-xs font-semibold text-royal hover:underline"
+        className="inline-flex items-center gap-2 text-xs font-semibold text-[#20543F] hover:underline"
       >
-        <ArrowLeft className="w-4 h-4" />
+        <ArrowLeft className="w-4 h-4 text-[#20543F]" />
         <span>Back to Complaints Repository</span>
       </Link>
 
@@ -188,7 +188,7 @@ const AdminComplaintDetail = () => {
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-ice/80 pb-6">
           <div>
             <div className="flex flex-wrap items-center gap-2.5 mb-2">
-              <span className="font-mono text-base sm:text-lg font-extrabold text-royal bg-ice px-3 py-1 rounded-lg border border-sky/40">
+              <span className="font-mono text-base sm:text-lg font-extrabold text-[#20543F] bg-[#E9EDDA] px-3 py-1 rounded-lg border border-[#A8B99A]/40">
                 {complaint.referenceId}
               </span>
               <StatusBadge status={complaint.status} size="lg" />
@@ -212,14 +212,14 @@ const AdminComplaintDetail = () => {
               onClick={() => setActiveModal('priority')}
               className="btn-secondary px-3.5 py-2 rounded-control text-xs font-bold flex items-center gap-1.5"
             >
-              <ShieldAlert className="w-4 h-4 text-royal" />
+              <ShieldAlert className="w-4 h-4 text-[#20543F]" />
               <span>Override Priority</span>
             </button>
             <button
               onClick={() => setActiveModal('assign')}
               className="btn-secondary px-3.5 py-2 rounded-control text-xs font-bold flex items-center gap-1.5"
             >
-              <UserCheck className="w-4 h-4 text-electric" />
+              <UserCheck className="w-4 h-4 text-[#20543F]" />
               <span>Assign Staff</span>
             </button>
           </div>
@@ -241,7 +241,7 @@ const AdminComplaintDetail = () => {
               Hostel Location
             </span>
             <div className="font-bold text-navy flex items-center gap-1.5">
-              <Building className="w-4 h-4 text-royal" />
+              <Building className="w-4 h-4 text-[#20543F]" />
               <span>{complaint.hostelBlockName}</span>
             </div>
             <div className="text-slate-600 mt-0.5">
@@ -256,7 +256,7 @@ const AdminComplaintDetail = () => {
             {complaint.assignedStaffId ? (
               <div>
                 <div className="font-bold text-navy flex items-center gap-1.5">
-                  <Wrench className="w-4 h-4 text-electric" />
+                  <Wrench className="w-4 h-4 text-[#20543F]" />
                   <span>{complaint.assignedStaffId.name}</span>
                 </div>
                 <div className="text-slate-600 mt-0.5">
@@ -283,7 +283,7 @@ const AdminComplaintDetail = () => {
         {complaint.images && complaint.images.length > 0 && (
           <div>
             <h2 className="text-xs font-bold text-slate-600 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-              <Camera className="w-3.5 h-3.5 text-royal" />
+              <Camera className="w-3.5 h-3.5 text-[#20543F]" />
               <span>Resident Initial Complaint Photos ({complaint.images.length})</span>
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -310,7 +310,7 @@ const AdminComplaintDetail = () => {
         {complaint.evidence && complaint.evidence.length > 0 && (
           <div>
             <h2 className="text-xs font-bold text-slate-600 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-              <Wrench className="w-3.5 h-3.5 text-electric" />
+              <Wrench className="w-3.5 h-3.5 text-[#20543F]" />
               <span>Staff Maintenance & Verification Evidence ({complaint.evidence.length})</span>
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -322,7 +322,7 @@ const AdminComplaintDetail = () => {
                   ? 'bg-amber-600'
                   : isAfter
                   ? 'bg-emerald-600'
-                  : 'bg-royal';
+                  : 'bg-[#20543F]';
 
                 return (
                   <div
@@ -365,7 +365,7 @@ const AdminComplaintDetail = () => {
       {/* Add Notes & Progress Updates Card */}
       <div className="glass-card p-6 sm:p-8 space-y-4">
         <h2 className="text-base font-bold text-navy flex items-center gap-2">
-          <MessageSquare className="w-5 h-5 text-royal" />
+          <MessageSquare className="w-5 h-5 text-[#20543F]" />
           <span>Post Updates & Internal Notes</span>
         </h2>
 
@@ -373,7 +373,7 @@ const AdminComplaintDetail = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-semibold text-navy mb-1.5 flex items-center gap-1.5">
-                <Send className="w-3.5 h-3.5 text-royal" />
+                <Send className="w-3.5 h-3.5 text-[#20543F]" />
                 <span>Public Progress Update (visible to student)</span>
               </label>
               <textarea
@@ -415,11 +415,11 @@ const AdminComplaintDetail = () => {
       {/* Full Audit Timeline History (Displaying Both Public & Internal Notes) */}
       <div className="glass-card p-6 sm:p-8 space-y-6">
         <h2 className="text-lg font-heading font-bold text-navy flex items-center gap-2">
-          <Clock className="w-5 h-5 text-royal" />
+          <Clock className="w-5 h-5 text-[#20543F]" />
           <span>Administrative Audit Trail & Lifecycle History</span>
         </h2>
 
-        <div className="relative pl-6 space-y-6 before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-0.5 before:bg-sky/40">
+        <div className="relative pl-6 space-y-6 before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-0.5 before:bg-[#A8B99A]/40">
           {history.map((item, idx) => (
             <div key={item._id || idx} className="relative group">
               <div className="absolute -left-6 top-1 w-3 h-3 rounded-full bg-navy border-2 border-white shadow-sm" />
@@ -443,7 +443,7 @@ const AdminComplaintDetail = () => {
 
                 {item.publicNote && (
                   <div className="bg-white/80 p-2.5 rounded-lg border border-sky/30 text-slate-700">
-                    <span className="text-xs font-bold text-royal uppercase tracking-wider block mb-0.5">
+                    <span className="text-xs font-bold text-[#20543F] uppercase tracking-wider block mb-0.5">
                       Public Update
                     </span>
                     <p>"{item.publicNote}"</p>

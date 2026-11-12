@@ -135,7 +135,7 @@ const PremiumPageLoader = ({
     <aside
       aria-label="Loading HostelFix"
       aria-live="polite"
-      className={`fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-[#202E22] overflow-hidden select-none animate-backdrop-entrance transition-all duration-[850ms] ${
+      className={`fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-[#173D30] overflow-hidden select-none animate-backdrop-entrance transition-all duration-[850ms] ${
         isExitingBackdrop ? 'opacity-0 scale-[1.03] pointer-events-none' : 'opacity-100 scale-100'
       }`}
       style={{
@@ -145,15 +145,15 @@ const PremiumPageLoader = ({
     >
       {/* Ambient background lighting orbs (slow continuous 6-8s movement) */}
       <div
-        className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full bg-royal/35 filter blur-[105px] pointer-events-none animate-orb-1"
+        className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full bg-[#20543F]/35 filter blur-[105px] pointer-events-none animate-orb-1"
         style={{ willChange: 'transform' }}
       />
       <div
-        className="absolute -bottom-32 -right-32 w-[540px] h-[540px] rounded-full bg-electric/25 filter blur-[115px] pointer-events-none animate-orb-2"
+        className="absolute -bottom-32 -right-32 w-[540px] h-[540px] rounded-full bg-[#00A878]/25 filter blur-[115px] pointer-events-none animate-orb-2"
         style={{ willChange: 'transform' }}
       />
       <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[360px] h-[360px] rounded-full bg-sky/15 filter blur-[95px] pointer-events-none"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[360px] h-[360px] rounded-full bg-[#A8B99A]/15 filter blur-[95px] pointer-events-none"
       />
 
       {/* Subtle high-tech dot matrix grid background */}
@@ -171,7 +171,7 @@ const PremiumPageLoader = ({
       >
         {/* Logo Container: Smooth reveal (1050ms) from scale 0.88 to 1.0 with subtle calm breathing */}
         <div className="relative group animate-logo-reveal">
-          <div className="w-20 h-20 sm:w-22 sm:h-22 rounded-[24px] bg-gradient-to-br from-white/15 via-white/5 to-white/0 backdrop-blur-2xl border border-sky/30 shadow-[0_0_40px_rgba(34,80,59,0.45)] flex items-center justify-center p-3 relative overflow-hidden animate-logo-breathe">
+          <div className="w-20 h-20 sm:w-22 sm:h-22 rounded-[24px] bg-gradient-to-br from-white/15 via-white/5 to-white/0 backdrop-blur-2xl border border-[#A8B99A]/30 shadow-[0_0_40px_rgba(32,84,63,0.45)] flex items-center justify-center p-3 relative overflow-hidden animate-logo-breathe">
             {/* Gentle shimmer highlight sweep across icon */}
             <div
               className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/25 to-transparent pointer-events-none animate-shimmer-sweep"
@@ -193,16 +193,16 @@ const PremiumPageLoader = ({
           </div>
 
           {/* Under-glow ring */}
-          <div className="absolute -inset-1 rounded-[26px] bg-gradient-to-r from-royal/40 via-electric/30 to-sky/40 blur-md -z-10 opacity-70" />
+          <div className="absolute -inset-1 rounded-[26px] bg-gradient-to-r from-[#20543F]/40 via-[#00A878]/30 to-[#A8B99A]/40 blur-md -z-10 opacity-70" />
         </div>
 
         {/* Brand Title: Staggered smooth entrance */}
         <h1 className="mt-6 text-3xl sm:text-4xl font-extrabold tracking-tight font-heading text-white animate-title-entrance">
-          Hostel<span className="text-[#C3DC9B]">Fix</span>
+          Hostel<span className="text-[#A8B99A]">Fix</span>
         </h1>
 
         {/* Brand Tagline: Staggered smooth appearance (600-800ms) with slight delay */}
-        <p className="mt-1.5 text-xs sm:text-sm text-sky-light/80 font-medium tracking-wide animate-tagline-entrance">
+        <p className="mt-1.5 text-xs sm:text-sm text-[#E9EDDA]/80 font-medium tracking-wide animate-tagline-entrance">
           {tagline}
         </p>
 
@@ -212,7 +212,7 @@ const PremiumPageLoader = ({
           <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden backdrop-blur-md border border-white/5 relative p-[1px]">
             {/* Smooth gradient fill with cubic-bezier transition */}
             <div
-              className="h-full rounded-full bg-gradient-to-r from-[#22503B] via-[#6A8A64] to-[#C3DC9B] relative transition-all duration-350 ease-out shadow-[0_0_12px_rgba(195,220,155,0.7)]"
+              className="h-full rounded-full bg-gradient-to-r from-[#20543F] via-[#00A878] to-[#A8B99A] relative transition-all duration-350 ease-out shadow-[0_0_12px_rgba(0,168,120,0.7)]"
               style={{
                 width: `${progress}%`,
                 transitionTimingFunction: 'cubic-bezier(0.25, 1, 0.5, 1)',
@@ -227,12 +227,12 @@ const PremiumPageLoader = ({
           {/* Dynamic Status & Percentage with 400-600ms crossfade */}
           <div className="flex items-center justify-between mt-3 text-xs text-slate-300 font-medium">
             <span
-              className="text-sky-light font-medium tracking-wide font-sans transition-opacity duration-300 ease-in-out"
+              className="text-[#E9EDDA] font-medium tracking-wide font-sans transition-opacity duration-300 ease-in-out"
               style={{ opacity: textOpacity }}
             >
               {displayedText}
             </span>
-            <span className="font-mono text-sky-light text-xs font-semibold tracking-wider">
+            <span className="font-mono text-[#E9EDDA] text-xs font-semibold tracking-wider">
               {Math.round(progress)}%
             </span>
           </div>
