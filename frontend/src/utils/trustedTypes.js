@@ -3,10 +3,34 @@
  * Defends against DOM-based Cross-Site Scripting (DOM XSS)
  * Conforms to W3C Trusted Types specification
  */
+import DOMPurify from 'dompurify';
 
-const TRUSTED_SCRIPT_ORIGINS = [
-  'https://accounts.google.com',
-];
+// Hook to ensure dynamic iframes are strictly restricted to Google Identity Services
+if (typeof window !== 'undefined' && DOMPurify && typeof DOMPurify.addHook === 'function') {
+  DOMPurify.addHook('uponSanitizeElement', (node, data) => {
+    if (data.tagName === 'iframe') {
+      const src = node.getAttribute('src');
+      if (src && !src.startsWith('https://accounts.google.com/')) {
+        node.remove();
+      }
+    }
+  });
+}
+
+/**
+ * Sanitizes untrusted HTML using DOMPurify.
+ * Preserves safe structural markup (including Google Identity Services button markup)
+ * while strictly stripping executable scripts, javascript: pseudo-protocols, and inline event handlers.
+ */
+export const sanitizeWithDOMPurify = (dirty) => {
+  if (typeof dirty !== 'string') return '';
+  if (!dirty.trim()) return '';
+  return DOMPurify.sanitize(dirty, {
+    ADD_TAGS: ['iframe'],
+    ADD_ATTR: ['allow', 'src', 'tabindex', 'role', 'aria-labelledby', 'aria-label', 'target'],
+    RETURN_TRUSTED_TYPE: false,
+  });
+};
 
 let appPolicy = null;
 let defaultPolicy = null;
@@ -17,13 +41,7 @@ if (typeof window !== 'undefined' && window.trustedTypes && typeof window.truste
     if (!window.trustedTypes.getPolicyNames?.().includes('hostelfix#policy')) {
       appPolicy = window.trustedTypes.createPolicy('hostelfix#policy', {
         createHTML: (string) => {
-          if (typeof string !== 'string') return '';
-          return string
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#39;');
+          return sanitizeWithDOMPurify(string);
         },
         createScriptURL: (url) => {
           try {
@@ -49,14 +67,7 @@ if (typeof window !== 'undefined' && window.trustedTypes && typeof window.truste
     if (!window.trustedTypes.defaultPolicy && !window.trustedTypes.getPolicyNames?.().includes('default')) {
       defaultPolicy = window.trustedTypes.createPolicy('default', {
         createHTML: (string) => {
-          if (typeof string !== 'string') return '';
-          // Strictly encode HTML tags to eliminate XSS vectors
-          return string
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#39;');
+          return sanitizeWithDOMPurify(string);
         },
         createScriptURL: (url) => {
           try {
@@ -92,18 +103,12 @@ export const sanitizeToHTML = (untrusted) => {
   if (appPolicy) {
     return appPolicy.createHTML(untrusted);
   }
-  if (typeof untrusted !== 'string') return '';
-  return untrusted
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
+  return sanitizeWithDOMPurify(untrusted);
 };
 
 export default {
   sanitizeToHTML,
+  sanitizeWithDOMPurify,
   appPolicy,
   defaultPolicy,
 };
-

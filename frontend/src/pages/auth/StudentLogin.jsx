@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import { GoogleSignInButton } from '../../components/common';
 import { ArrowLeft, Shield, AlertCircle, Sparkles } from 'lucide-react';
 
 const StudentLogin = () => {
@@ -113,8 +113,9 @@ const StudentLogin = () => {
           <div className="mt-8 space-y-4">
             <div className="flex flex-col items-center justify-center">
               {googleClientId ? (
-                <div className="w-full flex justify-center">
-                  <GoogleLogin
+                <div className="w-full flex justify-center min-h-[44px]">
+                  <GoogleSignInButton
+                    clientId={googleClientId}
                     onSuccess={handleGoogleSuccess}
                     onError={handleGoogleError}
                     useOneTap
@@ -160,14 +161,6 @@ const StudentLogin = () => {
       </main>
     </div>
   );
-
-  if (googleClientId) {
-    return (
-      <GoogleOAuthProvider clientId={googleClientId}>
-        {loginContent}
-      </GoogleOAuthProvider>
-    );
-  }
 
   return loginContent;
 };
