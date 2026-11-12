@@ -59,95 +59,77 @@ HostelFix strictly adheres to the curated **six-color blue liquid-glass design s
 
 ```
 HostelFix/
-├── package.json              # Monorepo convenience scripts (npm run dev, etc.)
+├── package.json              # Monorepo convenience scripts (npm run dev, test, build, etc.)
+├── vercel.json               # Root Vercel production deployment & routing rules
 ├── README.md                 # Complete documentation and setup manual
-├── server/
+├── docs/                     # System architecture and API documentation
+│   ├── ARCHITECTURE.md       # Comprehensive system architecture & diagrams
+│   ├── API_DOCUMENTATION.md  # Complete REST API reference and schemas
+│   └── DEPLOYMENT.md         # Production deployment manual (Vercel + Render)
+├── backend/
 │   ├── .env.example          # Backend environment variables reference
 │   ├── .env                  # Active local backend configuration
 │   ├── package.json          # Backend dependencies & seed scripts
-│   ├── scripts/
-│   │   ├── seedAdmin.js      # Creates/updates initial Warden account safely
-│   │   ├── seedDev.js        # Populates realistic blocks, staff, complaints & timeline
-│   │   └── resetDb.js        # Drops and resets local development database
-│   ├── src/
-│   │   ├── app.js            # Express application setup, security headers & routes
-│   │   ├── server.js         # HTTP server entrypoint connecting to MongoDB
-│   │   ├── config/
-│   │   │   ├── db.js         # Mongoose database connection
-│   │   │   └── cloudinary.js # Cloudinary SDK initialization & fallback check
-│   │   ├── models/
-│   │   │   ├── User.js       # Student residents (googleSub, block, room)
-│   │   │   ├── Admin.js      # Wardens (bcrypt passwordHash, role)
-│   │   │   ├── HostelBlock.js# Block definitions (rooms, codes)
-│   │   │   ├── Staff.js      # Maintenance staff (specialization, workload)
-│   │   │   ├── Complaint.js  # Main complaint tickets (referenceId, priority, status)
-│   │   │   ├── Counter.js    # Concurrency-safe atomic reference counter
-│   │   │   ├── ComplaintHistory.js # Immutable audit timeline & notes
-│   │   │   ├── Notification.js     # In-app notifications
-│   │   │   ├── Feedback.js   # 1-5 star post-resolution student ratings
-│   │   │   └── Setting.js    # Configurable SLA resolution target thresholds
-│   │   ├── middleware/
-│   │   │   ├── auth.js       # JWT & HttpOnly cookie verification
-│   │   │   ├── roles.js      # requireStudent & requireAdmin authorization
-│   │   │   ├── upload.js     # Multer 5MB file & MIME-type validation
-│   │   │   └── errorHandler.js# Centralized error handler
-│   │   ├── controllers/
-│   │   │   ├── authController.js   # Google OAuth, Warden login, demo login, logout
-│   │   │   ├── studentController.js# Student dashboard, complaints, feedback, profile
-│   │   │   └── adminController.js  # Warden dashboard, analytics, staff, blocks, CSV
-│   │   ├── routes/
-│   │   │   ├── authRoutes.js
-│   │   │   ├── studentRoutes.js
-│   │   │   └── adminRoutes.js
-│   │   └── utils/
-│   │       ├── jwt.js        # Token signing & cookie configuration
-│   │       ├── priorityRules.js    # Transparent safety keywords priority engine
-│   │       ├── referenceGenerator.js# Atomic sequence generator (HF-2026-XXXX)
-│   │       └── sanitize.js   # CSV formula injection prevention (CWE-1236)
-└── client/
+│   ├── README.md             # Backend architecture & documentation
+│   ├── scripts/              # Automated security tests, seed scripts & verification tools
+│   │   ├── verifyAllAuthSystems.js
+│   │   ├── testSecuritySuite.js
+│   │   ├── seedAdmin.js
+│   │   ├── seedDev.js
+│   │   └── resetDb.js
+│   └── src/
+│       ├── app.js            # Express application setup, security headers & routes
+│       ├── server.js         # HTTP server entrypoint connecting to MongoDB Atlas
+│       ├── config/           # Database, Cloudinary, and Google OAuth configurations
+│       │   ├── database.js   # Canonical Mongoose connection pool
+│       │   ├── db.js         # Backward-compatible db wrapper
+│       │   ├── cloudinary.js # Cloudinary SDK media storage configuration
+│       │   └── passport.js   # Google OAuth ID token verification
+│       ├── models/           # Mongoose schemas (User, Admin, Staff, Complaint, etc.)
+│       ├── middleware/       # JWT auth, RBAC, file upload, error handling
+│       ├── controllers/      # Route controllers (student, staff, admin, auth)
+│       ├── services/         # Domain services (auth, complaint, notification)
+│       ├── validators/       # Input payload validation schemas
+│       ├── constants/        # Enums, roles, priorities, categories
+│       ├── jobs/             # SLA monitoring & session cleanup background tasks
+│       ├── routes/           # Express API route declarations
+│       └── utils/            # JWT tokens, priority rules, sanitizers
+└── frontend/
     ├── .env.example          # Frontend public environment variables reference
     ├── .env                  # Active local frontend environment
     ├── package.json          # Frontend dependencies & Vite scripts
-    ├── index.html            # Main HTML with SEO meta tags & Google fonts
+    ├── vite.config.js        # Vite config with manualChunks, sourcemap & visualizer
     ├── tailwind.config.js    # Custom Tailwind theme tokens for blue liquid glass
     ├── postcss.config.js     # PostCSS configuration
+    ├── vercel.json           # Frontend static headers & SPA rewrites
+    ├── public/               # Public assets (robots.txt, sitemap.xml, favicons, fonts)
     └── src/
         ├── main.jsx          # React DOM entrypoint
-        ├── App.jsx           # App root with Google OAuth & React Router routes
-        ├── index.css         # Liquid glass styles, ambient lights, tokens
-        ├── components/
-        │   ├── ProtectedRoute.jsx
-        │   ├── StatusBadge.jsx
-        │   └── PriorityBadge.jsx
-        ├── layouts/
-        │   ├── StudentLayout.jsx   # Frosted-glass navigation with unread badge
-        │   └── AdminLayout.jsx     # Dark navy glass sidebar & warden menu
-        ├── context/
-        │   └── AuthContext.jsx     # Global authentication state & methods
-        ├── services/
-        │   └── api.js              # Axios instance with credentials
-        └── pages/
-            ├── auth/
-            │   ├── LandingPage.jsx # Hero showcase, stats, 1-click portals
-            │   ├── StudentLogin.jsx# Google Sign-In & demo student login
-            │   └── AdminLogin.jsx  # Warden custom ID/password sign in
-            ├── student/
-            │   ├── StudentDashboard.jsx
-            │   ├── StudentComplaints.jsx
-            │   ├── NewComplaint.jsx
-            │   ├── StudentComplaintDetail.jsx
-            │   ├── StudentNotifications.jsx
-            │   └── StudentProfile.jsx
-            └── admin/
-                ├── AdminDashboard.jsx
-                ├── AdminComplaints.jsx
-                ├── AdminComplaintDetail.jsx
-                ├── AdminStaff.jsx
-                ├── AdminBlocks.jsx
-                ├── AdminStudents.jsx
-                ├── AdminAnalytics.jsx
-                ├── AdminNotifications.jsx
-                └── AdminSettings.jsx
+        ├── App.jsx           # Application bootstrap with AuthProvider & BrowserRouter
+        ├── index.css         # Liquid glass styles, ambient lights, tokens, WOFF2 fonts
+        ├── assets/           # Categorized asset registries (images, icons, fonts)
+        ├── components/       # Component library organized by domain
+        │   ├── common/       # Page loaders, top progress bars, spinners
+        │   ├── layout/       # ProtectedRoute, Layout wrappers
+        │   ├── navigation/   # Navigation helpers
+        │   ├── ui/           # Badges, avatars, category selectors
+        │   └── shared/       # 3D interactive carousel, modal dialogs
+        ├── pages/            # Page components grouped by persona
+        │   ├── landing/      # High-conversion public landing page & 3D hero
+        │   ├── auth/         # Login portals (Student, Staff, Admin)
+        │   ├── student/      # Student dashboard, complaints, profile
+        │   ├── staff/        # Staff dashboard, task queue, history
+        │   ├── warden/       # Warden administration & verifications
+        │   └── admin/        # Super-admin operations & analytics
+        ├── layouts/          # Responsive layout shells (Admin, Staff, Student)
+        ├── routes/           # AppRoutes and route transition suspense
+        ├── hooks/            # Custom hooks (useAuth)
+        ├── context/          # React Context (AuthContext)
+        ├── services/         # API client, auth service, upload service
+        ├── constants/        # Enums, roles, statuses, priority levels
+        ├── config/           # App configuration and environment endpoints
+        ├── utils/            # String formatters, dates, CSS class mergers
+        └── styles/           # Global styles and design tokens
 ```
 
 ---
@@ -161,14 +143,14 @@ HostelFix/
 ### Step 1: Clone and Install Dependencies
 ```bash
 # In the root repository directory
-npm --prefix server install
-npm --prefix client install
+npm --prefix backend install
+npm --prefix frontend install
 ```
 
 ### Step 2: Configure Environment Variables
 Copy the `.env.example` templates:
 
-**Server (`server/.env`):**
+**Backend (`backend/.env`):**
 ```env
 PORT=5000
 NODE_ENV=development
@@ -184,7 +166,7 @@ CLOUDINARY_API_KEY=
 CLOUDINARY_API_SECRET=
 ```
 
-**Client (`client/.env`):**
+**Frontend (`frontend/.env`):**
 ```env
 VITE_API_URL=http://localhost:5000/api
 VITE_GOOGLE_CLIENT_ID=your_google_client_id_here.apps.googleusercontent.com
@@ -202,7 +184,7 @@ To use Google Identity Services for student login:
    - `http://127.0.0.1:5173`
    *(When deploying to production, add your production domain, e.g., `https://hostelfix.vercel.app`)*
 7. Copy the generated **Client ID**.
-8. Set `GOOGLE_CLIENT_ID` in `server/.env` and `VITE_GOOGLE_CLIENT_ID` in `client/.env`.
+8. Set `GOOGLE_CLIENT_ID` in `backend/.env` and `VITE_GOOGLE_CLIENT_ID` in `frontend/.env`.
 
 ### Step 3: Seed the Database
 Run the automated development seed script to populate realistic hostel blocks, staff members, historical complaints with timelines, and demo accounts:
@@ -223,10 +205,10 @@ npm run dev
 Or in separate terminals:
 ```bash
 # Terminal 1 - Backend Server (port 5000)
-npm run server
+npm run backend
 
 # Terminal 2 - Frontend Client (port 5173)
-npm run client
+npm run frontend
 ```
 
 Open your browser at: **`http://localhost:5173`**

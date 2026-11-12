@@ -1,5 +1,5 @@
 {
-  "name": "hostelfix-server",
+  "name": "hostelfix-backend",
   "version": "1.0.0",
   "description": "HostelFix Backend API - Smart Hostel Complaint & Maintenance Management System",
   "main": "src/server.js",
