@@ -55,3 +55,4 @@ export default {
   COMPLAINT_CATEGORIES,
   HOSTEL_BLOCKS,
 };
+

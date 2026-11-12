@@ -90,3 +90,4 @@ npm run dev
 # Run automated security and auth verification suites
 npm run test:security
 ```
+

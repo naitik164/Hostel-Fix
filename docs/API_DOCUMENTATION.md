@@ -215,3 +215,4 @@ All admin endpoints require `role: admin`.
   "imageUrl": "https://res.cloudinary.com/hostelfix/image/upload/v1234/..."
 }
 ```
+

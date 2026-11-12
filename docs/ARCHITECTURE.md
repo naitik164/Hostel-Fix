@@ -162,3 +162,4 @@ stateDiagram-v2
    - Connection pooling: Minimum 2 warm sockets, maximum 10 concurrent connections.
    - Fast-fail timeout: `serverSelectionTimeoutMS: 5000` prevents thread-pool exhaustion.
    - Windows DNS resolver fallback: Google DNS (`8.8.8.8`, `1.1.1.1`) applied conditionally on Windows to circumvent SRV record lookup issues.
+

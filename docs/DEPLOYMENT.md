@@ -111,3 +111,4 @@ Render's reverse proxy enforces a 60-second connection timeout. The backend serv
 - [ ] Visit `https://<your-render-domain>/api/health` $\rightarrow$ Returns `{"status":"ok"}` in < 50ms.
 - [ ] Visit `https://<your-render-domain>/api/health/ready` $\rightarrow$ Returns `{"status":"ready","database":"connected"}`.
 - [ ] Run automated test suite: `npm run test` and `npm run test:security`.
+

@@ -1,0 +1,45 @@
+# HostelFix
+
+> HostelFix is a modern, enterprise-grade hostel complaint and maintenance management platform engineered to streamline issue reporting, technician dispatch, and resolution tracking across university and collegiate hostels.
+
+## About HostelFix
+
+HostelFix provides a centralized, transparent web platform for managing hostel maintenance operations. It bridges communication gaps between student residents, hostel wardens, and maintenance staff, replacing unorganized paper registers and group chats with an accountable, auditable, and real-time digital workflow.
+
+## Core Features
+
+- Digital Complaint Lodging: Students submit categorized maintenance issues with detailed descriptions, room specifications, and photo evidence.
+- Transparent Lifecycle Tracking: Real-time status progression from submission to inspection, staff assignment, resolution, and verification.
+- SLA Compliance Engine: Automated priority assignment and resolution timelines to prevent overdue complaints.
+- Administrative Command Center: Warden management dashboard for triage queues, staff workload distribution, and hostel block analytics.
+- Technician Task Queue: Dedicated mobile-responsive staff portal for reviewing assigned jobs and submitting photo proof upon task completion.
+- Resident Verification & Feedback: Post-resolution feedback loop enabling students to confirm issue fixes and submit quality ratings.
+- Role-Based Security: Secure role separation enforcing strict isolation between students, maintenance staff, and hostel administrators.
+
+## Public Pages
+
+The following pages are publicly accessible without authentication:
+
+- [HostelFix Homepage](https://hostel-fix-kappa.vercel.app/): Official public landing page, interactive problem showcase, feature overview, and portal links.
+- [Student Login Portal](https://hostel-fix-kappa.vercel.app/student/login): Authentication portal for student residents via Google Identity Services (OAuth 2.0).
+- [Staff Login Portal](https://hostel-fix-kappa.vercel.app/staff/login): Secure credential-based sign-in for university maintenance staff and technicians.
+- [Warden & Admin Login Portal](https://hostel-fix-kappa.vercel.app/admin/login): Administrative authentication portal for hostel wardens and facilities management.
+
+## Technology Stack
+
+- Frontend: React.js 19, Vite, Tailwind CSS, Framer Motion, Chart.js.
+- Backend: Node.js, Express.js.
+- Database: MongoDB Atlas (Mongoose ODM).
+- Authentication: Google OAuth 2.0, HTTP-only cookie-based sessions, and JSON Web Tokens (JWT).
+- Asset Storage: Cloudinary CDN.
+- Hosting: Vercel (Frontend SPA) and Render (Backend API).
+
+## Platform Information
+
+HostelFix is designed to deliver reliable facilities management for student housing. By combining transparent status progression, automated priority classification, and verifiable photographic proof of resolution, the platform elevates accountability and living standards in hostel communities.
+
+## Important Notes
+
+- Private Dashboards Require Authentication: The Student Dashboard, Staff Task Queue, Warden Administrative Console, and Super-Admin Management interfaces require active authenticated sessions with appropriate role permissions.
+- Data Privacy & Access Control: Student records, internal administrative notes, room assignments, and resident contact information are strictly protected by role-based access control (RBAC) and are not accessible publicly.
+- API Security: Protected REST API endpoints under `/api/student/*`, `/api/staff/*`, and `/api/admin/*` require cryptographic session verification and cannot be accessed without valid authorization.

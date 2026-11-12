@@ -47,3 +47,4 @@ module.exports = {
   ALLOWED_CATEGORIES,
   validateCreateComplaint,
 };
+

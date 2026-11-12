@@ -5,3 +5,4 @@ export const FONTS = {
 };
 
 export default FONTS;
+
