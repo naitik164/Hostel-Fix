@@ -35,27 +35,36 @@ ChartJS.register(
   Filler
 );
 
-// Exact 6 reference colors
+// Organic Modern Botanical Green Palette
 const PALETTE = {
-  navy: '#03195B',
-  royal: '#0B2CB1',
-  electric: '#1951FC',
-  blue: '#3781FC',
-  sky: '#77C1FC',
-  ice: '#CBE9FD',
+  forest: '#2A3F38',
+  darkForest: '#202E22',
+  botanical: '#22503B',
+  olive: '#6A8A64',
+  sage: '#A7B88C',
+  lime: '#C3DC9B',
+  cream: '#E8EFD3',
+  ivory: '#EBECDE',
+  // Semantic backward-compatible mappings
+  navy: '#2A3F38',
+  royal: '#22503B',
+  electric: '#22503B',
+  blue: '#6A8A64',
+  sky: '#A7B88C',
+  ice: '#DADFB9',
 };
 
 const PALETTE_ARRAY = [
-  '#03195B',
-  '#0B2CB1',
-  '#1951FC',
-  '#3781FC',
-  '#77C1FC',
-  '#9AD2FD',
-  '#CBE9FD',
-  '#2563EB',
-  '#3B82F6',
-  '#60A5FA',
+  '#2A3F38',
+  '#22503B',
+  '#6A8A64',
+  '#A7B88C',
+  '#C3DC9B',
+  '#364F46',
+  '#1E6B44',
+  '#879D6E',
+  '#C1CEA6',
+  '#DADFB9',
 ];
 
 const CATEGORIES = [
@@ -224,11 +233,11 @@ const AdminAnalytics = () => {
       {
         label: 'Submissions',
         data: timeValues,
-        borderColor: PALETTE.electric,
-        backgroundColor: 'rgba(25, 81, 252, 0.15)',
+        borderColor: PALETTE.botanical,
+        backgroundColor: 'rgba(34, 80, 59, 0.15)',
         tension: 0.35,
         fill: true,
-        pointBackgroundColor: PALETTE.royal,
+        pointBackgroundColor: PALETTE.forest,
         pointBorderColor: '#fff',
         pointRadius: 4,
       },
@@ -293,7 +302,7 @@ const AdminAnalytics = () => {
       },
       y: {
         beginAtZero: true,
-        grid: { color: 'rgba(203, 233, 253, 0.4)' },
+        grid: { color: 'rgba(167, 184, 140, 0.25)' },
         ticks: { font: { size: 10 }, stepSize: 1 },
       },
     },

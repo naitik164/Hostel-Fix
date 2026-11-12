@@ -51,7 +51,7 @@ const StaffLayout = () => {
   ];
 
   return (
-    <div className="flex-1 flex flex-col md:flex-row min-h-screen bg-[#F5F9FF] text-[#03195B] relative font-sans w-full">
+    <div className="flex-1 flex flex-col md:flex-row min-h-screen bg-[#EBECDE] text-[#2A3F38] relative font-sans w-full">
       {/* Skip to Main Content Link for Accessibility */}
       <a
         href="#staff-main-content"
@@ -101,13 +101,13 @@ const StaffLayout = () => {
                 className={({ isActive }) =>
                   `flex items-center justify-between px-3.5 py-2.5 rounded-control text-xs font-semibold transition-all group ${
                     isActive
-                      ? 'bg-electric text-white shadow-glow-electric border border-sky/60 font-bold'
+                      ? 'bg-[#C3DC9B] text-[#202E22] shadow-sm font-bold'
                       : 'text-slate-200/80 hover:text-white hover:bg-white/10'
                   }`
                 }
               >
                 <div className="flex items-center gap-3">
-                  <Icon className="w-4 h-4 text-sky group-hover:text-white transition-colors" />
+                  <Icon className="w-4 h-4 transition-colors" />
                   <span>{item.label}</span>
                 </div>
                 {item.badge > 0 ? (
@@ -216,7 +216,7 @@ const StaffLayout = () => {
                     onClick={() => setSidebarOpen(false)}
                     className={({ isActive }) =>
                       `flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold touch-target ${
-                        isActive ? 'bg-electric text-white font-bold shadow-md shadow-electric/25' : 'text-slate-300 hover:bg-white/10 active:bg-white/15'
+                        isActive ? 'bg-[#C3DC9B] text-[#202E22] font-bold shadow-sm' : 'text-slate-300 hover:bg-white/10 active:bg-white/15'
                       }`
                     }
                   >

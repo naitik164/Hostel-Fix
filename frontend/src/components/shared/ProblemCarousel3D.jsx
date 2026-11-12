@@ -162,41 +162,41 @@ const Card3DItem = ({ card, index, continuousIndex, isMobile, reducedMotion }) =
       className="absolute top-0 left-0 right-0 mx-auto w-full max-w-[480px] p-2"
     >
       {/* 100% Opaque Solid Card Background to ensure no transparency leakage */}
-      <div className="relative w-full rounded-[24px] bg-[#FFFFFF] border border-[#E1EBF8] p-7 sm:p-9 shadow-[0_20px_50px_-12px_rgba(16,35,79,0.12),0_0_24px_rgba(23,73,239,0.04)] transition-shadow duration-300 overflow-hidden">
-        {/* Soft Blue Ambient Corner Glow */}
-        <div className="absolute -top-16 -right-16 w-36 h-36 bg-gradient-to-br from-[#1749EF]/10 via-[#77C1FC]/12 to-transparent rounded-full blur-2xl pointer-events-none" />
+      <div className="relative w-full rounded-[24px] bg-[#F9FBF6] border border-[#A7B88C]/40 p-7 sm:p-9 shadow-[0_20px_50px_-12px_rgba(32,46,34,0.18),0_0_24px_rgba(34,80,59,0.06)] transition-shadow duration-300 overflow-hidden">
+        {/* Soft Botanical Ambient Corner Glow */}
+        <div className="absolute -top-16 -right-16 w-36 h-36 bg-gradient-to-br from-[#C3DC9B]/20 via-[#22503B]/10 to-transparent rounded-full blur-2xl pointer-events-none" />
 
         {/* Inner Card Content: Fades out on upcoming cards to eliminate ghost text */}
         <motion.div style={{ opacity: contentOpacity }} className="relative z-10">
           {/* Card Header: Problem Number and Icon */}
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-baseline gap-2">
-              <span className="text-xs font-mono font-bold tracking-widest text-slate-600 uppercase">
+              <span className="text-xs font-mono font-bold tracking-widest text-[#6A8A64] uppercase">
                 ISSUE
               </span>
-              <span className="text-2xl sm:text-3xl font-mono font-black text-[#1749EF] tracking-tight">
+              <span className="text-2xl sm:text-3xl font-mono font-black text-[#22503B] tracking-tight">
                 {card.number}
               </span>
             </div>
 
-            <div className="w-12 h-12 rounded-2xl bg-[#EFF6FF] border border-[#E1EBF8] text-[#1749EF] flex items-center justify-center shadow-xs">
+            <div className="w-12 h-12 rounded-2xl bg-[#E8EFD3] border border-[#A7B88C]/40 text-[#22503B] flex items-center justify-center shadow-xs">
               <Icon className="w-6 h-6 stroke-[2]" />
             </div>
           </div>
 
           {/* Card Body: Heading & Description */}
           <div className="min-h-[135px] sm:min-h-[145px] flex flex-col justify-start">
-            <h3 className="text-xl sm:text-2xl font-heading font-black text-[#10234F] leading-snug tracking-tight">
+            <h3 className="text-xl sm:text-2xl font-heading font-black text-[#2A3F38] leading-snug tracking-tight">
               {card.title}
             </h3>
-            <p className="mt-3 text-sm sm:text-[15px] text-slate-700 leading-relaxed">
+            <p className="mt-3 text-sm sm:text-[15px] text-[#2A3F38]/80 leading-relaxed">
               {card.description}
             </p>
           </div>
 
           {/* Card Footer: Supporting Evidence / Pain Point */}
-          <div className="mt-6 pt-4 border-t border-[#E1EBF8] flex items-center gap-2.5 text-xs sm:text-sm font-semibold text-[#1749EF]">
-            <FooterIcon className="w-4 h-4 shrink-0 text-[#1749EF]" />
+          <div className="mt-6 pt-4 border-t border-[#A7B88C]/30 flex items-center gap-2.5 text-xs sm:text-sm font-semibold text-[#22503B]">
+            <FooterIcon className="w-4 h-4 shrink-0 text-[#22503B]" />
             <span className="leading-snug">{card.footerText}</span>
           </div>
         </motion.div>
@@ -274,7 +274,7 @@ export const ProblemCarousel3D = () => {
     <section
       id="problem"
       ref={containerRef}
-      className="relative bg-[#F8FAFC] border-t border-[#E1EBF8]"
+      className="relative bg-[#2A3F38] border-t border-[#354E45]"
       style={{ height: '500vh' }}
     >
       {/* 
@@ -285,8 +285,8 @@ export const ProblemCarousel3D = () => {
       <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden z-20 pt-16 sm:pt-20">
         {/* Subtle Ambient Background Lighting */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-royal/5 rounded-full blur-3xl" />
-          <div className="absolute bottom-1/4 right-1/4 w-[420px] h-[420px] bg-electric/5 rounded-full blur-3xl" />
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#C3DC9B]/10 rounded-full blur-3xl" />
+          <div className="absolute bottom-1/4 right-1/4 w-[420px] h-[420px] bg-[#22503B]/25 rounded-full blur-3xl" />
         </div>
 
         <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-10 h-full flex flex-col justify-center relative z-10">
@@ -299,9 +299,9 @@ export const ProblemCarousel3D = () => {
 
 
               {/* Main Headline */}
-              <h2 className="text-2xl sm:text-4xl lg:text-5xl font-heading font-black text-[#10234F] tracking-tight leading-[1.14]">
+              <h2 className="text-2xl sm:text-4xl lg:text-5xl font-heading font-black text-[#EBECDE] tracking-tight leading-[1.14]">
                 Hostel Problems Shouldn't{' '}
-                <span className="bg-gradient-to-r from-royal via-electric to-blue bg-clip-text text-transparent block sm:inline">
+                <span className="bg-gradient-to-r from-[#C3DC9B] via-[#DADFB9] to-[#F9FBF6] bg-clip-text text-transparent block sm:inline">
                   Remain Unresolved.
                 </span>
               </h2>
@@ -311,9 +311,9 @@ export const ProblemCarousel3D = () => {
               {/* Stationary Progress Section: Counter, Fill Line & Indicators */}
               <div className="mt-6 sm:mt-10 flex items-center gap-6">
                 {/* Vertical Progress Line */}
-                <div className="relative w-1.5 h-28 sm:h-32 bg-[#E1EBF8] rounded-full overflow-hidden shrink-0">
+                <div className="relative w-1.5 h-28 sm:h-32 bg-[#202E22] border border-[#354E45] rounded-full overflow-hidden shrink-0">
                   <motion.div
-                    className="absolute top-0 left-0 w-full bg-gradient-to-b from-royal to-electric rounded-full"
+                    className="absolute top-0 left-0 w-full bg-gradient-to-b from-[#C3DC9B] to-[#22503B] rounded-full"
                     style={{ height: progressLineHeight }}
                   />
                 </div>
@@ -321,10 +321,10 @@ export const ProblemCarousel3D = () => {
                 {/* Counter & 5 Indicator Bars */}
                 <div className="flex flex-col justify-between h-28 sm:h-32 py-0.5">
                   <div className="flex items-baseline gap-2">
-                    <span className="text-3xl sm:text-4xl font-mono font-black text-[#10234F] tracking-tight">
+                    <span className="text-3xl sm:text-4xl font-mono font-black text-[#C3DC9B] tracking-tight">
                       {activeCard.number}
                     </span>
-                    <span className="text-sm font-mono font-bold text-slate-600">
+                    <span className="text-sm font-mono font-bold text-[#A7B88C]">
                       / 05
                     </span>
                   </div>
@@ -335,15 +335,15 @@ export const ProblemCarousel3D = () => {
                       <div
                         key={idx}
                         className={`h-2 rounded-full transition-all duration-300 ${activeIndex === idx
-                          ? 'w-7 sm:w-8 bg-royal shadow-xs'
-                          : 'w-2 bg-slate-300'
+                          ? 'w-7 sm:w-8 bg-[#C3DC9B] shadow-xs'
+                          : 'w-2 bg-[#A7B88C]/35'
                           }`}
                       />
                     ))}
                   </div>
 
                   {/* Active Card Title Beneath Progress Indicator */}
-                  <p className="text-xs font-semibold text-slate-600 truncate max-w-[260px] transition-all duration-200">
+                  <p className="text-xs font-semibold text-[#C1CEA6] truncate max-w-[260px] transition-all duration-200">
                     {activeCard.title}
                   </p>
                 </div>

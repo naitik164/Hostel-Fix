@@ -99,7 +99,7 @@ const StaffDashboard = () => {
   return (
     <div className="space-y-6">
       {/* Welcome Banner */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#03195B] via-[#0B2CB1] to-[#1951FC] p-5 sm:p-8 text-white shadow-xl shadow-royal/20 border border-sky/30">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#202E22] via-[#2A3F38] to-[#22503B] p-5 sm:p-8 text-white shadow-xl shadow-[#202E22]/20 border border-[#A7B88C]/30">
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-1.5 min-w-0">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs text-sky-light font-semibold">

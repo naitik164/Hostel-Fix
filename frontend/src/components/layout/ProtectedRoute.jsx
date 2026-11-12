@@ -8,7 +8,7 @@ const ProtectedRoute = ({ children, requiredRole }) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#F5F9FF] relative overflow-hidden font-sans">
+      <div className="min-h-screen flex items-center justify-center bg-[#EBECDE] text-[#2A3F38] relative overflow-hidden font-sans">
         <div className="ambient-glow" />
         <div className="ambient-glow-bottom" />
         <main className="glass-card p-8 sm:p-10 max-w-sm w-full mx-4 flex flex-col items-center text-center shadow-glass-hover border-sky/30 relative z-10 animate-in fade-in zoom-in-95 duration-300">

@@ -135,7 +135,7 @@ const PremiumPageLoader = ({
     <aside
       aria-label="Loading HostelFix"
       aria-live="polite"
-      className={`fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-[#020B24] overflow-hidden select-none animate-backdrop-entrance transition-all duration-[850ms] ${
+      className={`fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-[#202E22] overflow-hidden select-none animate-backdrop-entrance transition-all duration-[850ms] ${
         isExitingBackdrop ? 'opacity-0 scale-[1.03] pointer-events-none' : 'opacity-100 scale-100'
       }`}
       style={{
@@ -171,7 +171,7 @@ const PremiumPageLoader = ({
       >
         {/* Logo Container: Smooth reveal (1050ms) from scale 0.88 to 1.0 with subtle calm breathing */}
         <div className="relative group animate-logo-reveal">
-          <div className="w-20 h-20 sm:w-22 sm:h-22 rounded-[24px] bg-gradient-to-br from-white/15 via-white/5 to-white/0 backdrop-blur-2xl border border-sky/30 shadow-[0_0_40px_rgba(25,81,252,0.35)] flex items-center justify-center p-3 relative overflow-hidden animate-logo-breathe">
+          <div className="w-20 h-20 sm:w-22 sm:h-22 rounded-[24px] bg-gradient-to-br from-white/15 via-white/5 to-white/0 backdrop-blur-2xl border border-sky/30 shadow-[0_0_40px_rgba(34,80,59,0.45)] flex items-center justify-center p-3 relative overflow-hidden animate-logo-breathe">
             {/* Gentle shimmer highlight sweep across icon */}
             <div
               className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/25 to-transparent pointer-events-none animate-shimmer-sweep"
@@ -212,7 +212,7 @@ const PremiumPageLoader = ({
           <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden backdrop-blur-md border border-white/5 relative p-[1px]">
             {/* Smooth gradient fill with cubic-bezier transition */}
             <div
-              className="h-full rounded-full bg-gradient-to-r from-electric via-blue-bright to-sky relative transition-all duration-350 ease-out shadow-[0_0_12px_rgba(55,129,252,0.8)]"
+              className="h-full rounded-full bg-gradient-to-r from-[#22503B] via-[#6A8A64] to-[#C3DC9B] relative transition-all duration-350 ease-out shadow-[0_0_12px_rgba(195,220,155,0.7)]"
               style={{
                 width: `${progress}%`,
                 transitionTimingFunction: 'cubic-bezier(0.25, 1, 0.5, 1)',

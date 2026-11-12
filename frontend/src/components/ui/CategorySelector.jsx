@@ -94,12 +94,12 @@ const CategorySelector = ({
                 className="category-card-icon
                   w-11.5 h-11.5 min-w-[46px] min-h-[46px] sm:w-14 sm:h-14 sm:min-w-[56px] sm:min-h-[56px] shrink-0
                   rounded-[14px] sm:rounded-[16px] flex items-center justify-center
-                  bg-[#CBE9FD]/70 text-[#1951FC] border border-[#77C1FC]/60
+                  bg-[#DADFB9]/60 text-[#22503B] border border-[#A7B88C]/60
                   transition-all duration-300 ease-out
                 "
               >
                 <Icon
-                  className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.2] text-[#1951FC] group-hover:text-[#0B2CB1] transition-colors duration-300 ease-out"
+                  className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.2] text-[#22503B] group-hover:text-[#2A3F38] transition-colors duration-300 ease-out"
                 />
               </div>
 
@@ -107,7 +107,7 @@ const CategorySelector = ({
               <div className="flex-1 min-w-0 flex items-center">
                 <h3
                   className="font-heading font-bold text-[15px] sm:text-[18px] lg:text-[19px] tracking-tight leading-snug
-                    text-[#03195B] group-hover:text-[#0B2CB1]
+                    text-[#2A3F38] group-hover:text-[#22503B]
                     transition-colors duration-300 ease-out break-words"
                 >
                   {cat.name}

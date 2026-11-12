@@ -12,46 +12,89 @@ export default {
         mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
       },
       colors: {
+        // Official HostelFix Botanical Green Palette
+        forest: {
+          DEFAULT: '#2A3F38', // Deep Forest
+          dark: '#202E22',    // Deep Forest Dark
+          light: '#364F46',
+        },
+        botanical: {
+          DEFAULT: '#22503B', // Botanical Green
+          hover: '#1B402F',
+          dark: '#163526',
+        },
+        olive: {
+          DEFAULT: '#6A8A64', // Muted Olive
+          muted: '#6A8A64',
+          dark: '#547050',
+          light: '#7E9E78',
+        },
+        sage: {
+          DEFAULT: '#A7B88C', // Sage Green
+          light: '#C1CEA6',   // Light Sage
+          pale: '#DADFB9',    // Pale Sage
+          dark: '#8E9F74',
+        },
+        lime: {
+          DEFAULT: '#C3DC9B', // Soft Lime
+          soft: '#C3DC9B',
+          accent: '#B0CE82',
+        },
+        ivory: {
+          DEFAULT: '#EBECDE', // Warm Ivory
+          warm: '#EBECDE',
+          cream: '#E8EFD3',   // Pale Cream
+        },
+        cream: {
+          DEFAULT: '#E8EFD3', // Pale Cream
+          pale: '#E8EFD3',
+        },
+        softwhite: '#F9FBF6', // Soft White
+
+        // Semantic Aliases mapped to Botanical Green Palette for backward and global UI compatibility
         navy: {
-          DEFAULT: '#03195B',
-          900: '#021244',
-          800: '#03195B',
-          700: '#07247D',
+          DEFAULT: '#2A3F38', // Deep Forest
+          900: '#202E22',     // Deep Forest Dark
+          800: '#2A3F38',     // Deep Forest
+          700: '#22503B',     // Botanical Green
         },
         royal: {
-          DEFAULT: '#0B2CB1',
-          hover: '#092598',
+          DEFAULT: '#22503B', // Botanical Green
+          hover: '#1B402F',
         },
         electric: {
-          DEFAULT: '#1951FC',
-          hover: '#1343D6',
+          DEFAULT: '#22503B', // Botanical Green
+          hover: '#2A3F38',   // Deep Forest
         },
         blue: {
-          DEFAULT: '#3781FC',
-          bright: '#3781FC',
+          DEFAULT: '#6A8A64', // Muted Olive
+          bright: '#22503B',  // Botanical Green
         },
         sky: {
-          DEFAULT: '#77C1FC',
-          light: '#9AD2FD',
+          DEFAULT: '#A7B88C', // Sage Green
+          light: '#C1CEA6',   // Light Sage
         },
         ice: {
-          DEFAULT: '#CBE9FD',
-          light: '#E5F4FE',
-          pale: '#F5F9FF',
+          DEFAULT: '#DADFB9', // Pale Sage
+          light: '#E8EFD3',   // Pale Cream
+          pale: '#EBECDE',    // Warm Ivory
         },
       },
       backgroundImage: {
-        'gradient-primary': 'linear-gradient(180deg, #03195B 0%, #0B2CB1 25%, #1951FC 50%, #3781FC 70%, #77C1FC 85%, #CBE9FD 100%)',
-        'gradient-dark': 'linear-gradient(135deg, #03195B 0%, #0B2CB1 55%, #1951FC 100%)',
-        'gradient-action': 'linear-gradient(135deg, #0B2CB1 0%, #1951FC 55%, #3781FC 100%)',
-        'gradient-light-glass': 'linear-gradient(135deg, rgba(119, 193, 252, 0.30) 0%, rgba(203, 233, 253, 0.65) 100%)',
-        'gradient-card': 'linear-gradient(145deg, rgba(255, 255, 255, 0.88), rgba(203, 233, 253, 0.45))',
+        'gradient-primary': 'linear-gradient(180deg, #202E22 0%, #2A3F38 30%, #22503B 60%, #6A8A64 85%, #C1CEA6 100%)',
+        'gradient-dark': 'linear-gradient(135deg, #202E22 0%, #2A3F38 55%, #22503B 100%)',
+        'gradient-action': 'linear-gradient(135deg, #22503B 0%, #2A3F38 100%)',
+        'gradient-light-glass': 'linear-gradient(135deg, rgba(235, 236, 222, 0.75) 0%, rgba(249, 251, 246, 0.90) 100%)',
+        'gradient-card': 'linear-gradient(145deg, rgba(249, 251, 246, 0.95), rgba(232, 239, 211, 0.55))',
+        'gradient-forest': 'linear-gradient(135deg, #202E22 0%, #2A3F38 100%)',
+        'gradient-ivory': 'linear-gradient(180deg, #EBECDE 0%, #E8EFD3 100%)',
       },
       boxShadow: {
-        'glass': '0 8px 30px rgba(3, 25, 91, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9)',
-        'glass-hover': '0 14px 40px rgba(3, 25, 91, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.95)',
-        'glass-dark': '0 12px 35px rgba(2, 18, 68, 0.5), inset 0 1px 0 rgba(119, 193, 252, 0.25)',
-        'glow-electric': '0 0 25px rgba(25, 81, 252, 0.45)',
+        'glass': '0 8px 30px rgba(42, 63, 56, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9)',
+        'glass-hover': '0 14px 40px rgba(42, 63, 56, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.95)',
+        'glass-dark': '0 12px 35px rgba(32, 46, 34, 0.45), inset 0 1px 0 rgba(195, 220, 155, 0.25)',
+        'glow-lime': '0 0 25px rgba(195, 220, 155, 0.45)',
+        'glow-botanical': '0 0 25px rgba(34, 80, 59, 0.35)',
       },
       borderRadius: {
         'card': '22px',

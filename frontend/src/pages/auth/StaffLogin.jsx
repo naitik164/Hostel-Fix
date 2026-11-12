@@ -132,7 +132,7 @@ const StaffLogin = () => {
                   />
                 </div>
               ) : (
-                <div className="w-full text-center p-3.5 bg-blue-50/70 border border-sky/40 rounded-control text-xs text-royal">
+                <div className="w-full text-center p-3.5 bg-[#E8EFD3]/60 border border-[#A7B88C]/40 rounded-control text-xs text-royal">
                   <p className="font-semibold flex items-center justify-center gap-1.5">
                     <Sparkles className="w-4 h-4 text-electric" />
                     <span>Google Identity Services Configured</span>
@@ -145,7 +145,7 @@ const StaffLogin = () => {
             </div>
 
             {/* Authorization Policy Note */}
-            <div className="mt-6 p-4 rounded-control bg-blue-50/60 border border-sky/30">
+            <div className="mt-6 p-4 rounded-control bg-[#E8EFD3]/50 border border-[#A7B88C]/35">
               <p className="text-xs font-semibold text-navy flex items-center gap-1.5">
                 <Shield className="w-3.5 h-3.5 text-royal" />
                 <span>Authorized Staff Verification Policy</span>

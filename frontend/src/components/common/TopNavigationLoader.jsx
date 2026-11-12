@@ -54,7 +54,7 @@ const TopNavigationLoader = () => {
       style={{ opacity: visible ? 1 : 0 }}
     >
       <div
-        className="h-[2.5px] bg-gradient-to-r from-royal via-electric to-sky transition-all duration-200 ease-out shadow-[0_0_12px_rgba(55,129,252,0.9),0_0_6px_rgba(25,81,252,0.7)]"
+        className="h-[2.5px] bg-gradient-to-r from-[#22503B] via-[#6A8A64] to-[#C3DC9B] transition-all duration-200 ease-out shadow-[0_0_12px_rgba(195,220,155,0.8),0_0_6px_rgba(34,80,59,0.6)]"
         style={{
           width: `${progress}%`,
           willChange: 'width',

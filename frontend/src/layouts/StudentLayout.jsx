@@ -53,7 +53,7 @@ const StudentLayout = () => {
   ];
 
   return (
-    <div className="flex-1 flex flex-col min-h-screen bg-[#F5F9FF] text-[#03195B] relative font-sans w-full">
+    <div className="flex-1 flex flex-col min-h-screen bg-[#EBECDE] text-[#2A3F38] relative font-sans w-full">
       {/* Skip to Main Content Link for accessibility */}
       <a
         href="#student-main-content"
@@ -69,7 +69,7 @@ const StudentLayout = () => {
       </div>
 
       {/* Top Frosted Glass Navbar */}
-      <header className="sticky top-0 z-40 bg-white/75 backdrop-blur-xl border-b border-white/80 shadow-sm shrink-0">
+      <header className="sticky top-0 z-40 bg-[#F9FBF6]/90 backdrop-blur-xl border-b border-[#A7B88C]/30 shadow-xs shrink-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-18">
             {/* Brand Logo & Tagline */}

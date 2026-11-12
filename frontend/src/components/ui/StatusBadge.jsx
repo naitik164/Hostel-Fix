@@ -2,23 +2,27 @@ import React from 'react';
 
 const statusConfig = {
   Submitted: {
-    bg: 'bg-blue-50 text-blue-800 border-blue-200',
-    dot: 'bg-blue-600',
+    bg: 'bg-[#6A8A64]/15 text-[#2A3F38] border-[#6A8A64]/30',
+    dot: 'bg-[#6A8A64]',
+  },
+  'Under Review': {
+    bg: 'bg-amber-50 text-amber-900 border-amber-300',
+    dot: 'bg-amber-600',
   },
   Assigned: {
-    bg: 'bg-sky-50 text-sky-800 border-sky-300',
-    dot: 'bg-sky-600',
+    bg: 'bg-[#22503B]/15 text-[#22503B] border-[#22503B]/35',
+    dot: 'bg-[#22503B]',
   },
   'In Progress': {
-    bg: 'bg-amber-50 text-amber-800 border-amber-300',
+    bg: 'bg-amber-50 text-amber-900 border-amber-300',
     dot: 'bg-amber-600 animate-pulse',
   },
   Resolved: {
-    bg: 'bg-emerald-50 text-emerald-800 border-emerald-300',
+    bg: 'bg-emerald-50 text-emerald-900 border-emerald-300',
     dot: 'bg-emerald-600',
   },
   Rejected: {
-    bg: 'bg-rose-50 text-rose-800 border-rose-300',
+    bg: 'bg-rose-50 text-rose-900 border-rose-300',
     dot: 'bg-rose-600',
   },
 };

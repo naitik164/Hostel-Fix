@@ -20,10 +20,14 @@ export const LoadingSpinner = ({
   };
 
   const colorMap = {
-    electric: 'text-electric',
+    electric: 'text-botanical',
+    botanical: 'text-botanical',
+    lime: 'text-lime',
     white: 'text-white',
-    sky: 'text-sky',
-    navy: 'text-navy',
+    sky: 'text-sage',
+    sage: 'text-sage',
+    navy: 'text-forest',
+    forest: 'text-forest',
   };
 
   return (

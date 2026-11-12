@@ -216,7 +216,7 @@ const LandingPage = () => {
   }, []);
 
   return (
-    <div className="flex-1 flex flex-col min-h-screen bg-[#F5F9FF] text-navy relative overflow-x-clip font-sans w-full">
+    <div className="flex-1 flex flex-col min-h-screen bg-[#EBECDE] text-[#2A3F38] relative overflow-x-clip font-sans w-full">
       {/* Skip to Main Content Link for Accessibility */}
       <a
         href="#main-content"
@@ -258,15 +258,15 @@ const LandingPage = () => {
           height: isScrolled ? (isMobile ? 64 : 76) : isMobile ? 84 : 100,
           borderRadius: isScrolled ? 20 : 0,
           backgroundColor: isScrolled
-            ? 'rgba(255, 255, 255, 0.88)'
-            : 'rgba(255, 255, 255, 1)',
-          borderColor: isScrolled ? 'rgba(255, 255, 255, 0.7)' : '#E1EBF8',
+            ? 'rgba(249, 251, 246, 0.92)'
+            : 'rgba(235, 236, 222, 0.95)',
+          borderColor: isScrolled ? 'rgba(167, 184, 140, 0.4)' : '#DADFB9',
           borderTopWidth: isScrolled ? '1px' : '0px',
           borderLeftWidth: isScrolled ? '1px' : '0px',
           borderRightWidth: isScrolled ? '1px' : '0px',
           borderBottomWidth: '1px',
           boxShadow: isScrolled
-            ? '0 8px 35px rgba(15, 35, 75, 0.12)'
+            ? '0 8px 35px rgba(32, 46, 34, 0.08)'
             : '0 0 0 0 rgba(0, 0, 0, 0)',
           paddingLeft: isScrolled ? (isMobile ? 16 : 28) : isMobile ? 16 : 36,
           paddingRight: isScrolled ? (isMobile ? 16 : 28) : isMobile ? 16 : 36,
@@ -303,11 +303,11 @@ const LandingPage = () => {
             />
             <div>
               <span
-                className={`font-heading font-extrabold text-[#10234F] tracking-tight transition-all duration-300 ${
+                className={`font-heading font-extrabold text-[#2A3F38] tracking-tight transition-all duration-300 ${
                   isScrolled ? 'text-xl sm:text-2xl' : 'text-2xl sm:text-3xl'
                 }`}
               >
-                Hostel<span className="text-[#1951FC]">Fix</span>
+                Hostel<span className="text-[#22503B]">Fix</span>
               </span>
               {!isScrolled && (
                 <p className="text-[10px] sm:text-[11px] text-slate-500 font-medium hidden xs:block transition-all duration-300">
@@ -394,7 +394,7 @@ const LandingPage = () => {
 
         {/* Mobile Navigation Drawer: floats cleanly underneath navbar */}
         {mobileMenuOpen && (
-          <div className="md:hidden absolute top-[calc(100%+8px)] left-0 right-0 rounded-2xl border border-[#E1EBF8] bg-white/95 backdrop-blur-2xl p-4 space-y-3 shadow-2xl animate-in fade-in slide-in-from-top-2 z-[9999]">
+          <div className="md:hidden absolute top-[calc(100%+8px)] left-0 right-0 rounded-2xl border border-[#A7B88C]/40 bg-[#F9FBF6]/95 backdrop-blur-2xl p-4 space-y-3 shadow-2xl animate-in fade-in slide-in-from-top-2 z-[9999]">
             {/* Quick Section Anchor Links */}
             <nav aria-label="Mobile section navigation" className="grid grid-cols-2 gap-1.5 pb-3 border-b border-sky/20 text-xs font-semibold text-slate-700">
               <button
@@ -524,7 +524,7 @@ const LandingPage = () => {
         <div className="scroll-reveal max-w-4xl mx-auto">
           {/* Logo Brand Accent */}
           <div className="inline-flex items-center justify-center mb-6">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-3xl bg-white p-3 shadow-glass border border-sky/40 hover:scale-105 transition-transform">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-3xl bg-[#F9FBF6] p-3 shadow-glass border border-[#A7B88C]/40 hover:scale-105 transition-transform">
               <img
                 src="/logo-icon.webp"
                 srcSet="/logo-icon-64.webp 64w, /logo-icon-128.webp 128w"
@@ -540,9 +540,9 @@ const LandingPage = () => {
           </div>
 
           {/* Required Headline */}
-          <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-navy tracking-tight leading-[1.15]">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-[#2A3F38] tracking-tight leading-[1.15]">
             Hostel Maintenance, <br />
-            <span className="bg-gradient-to-r from-royal via-electric to-blue bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#22503B] via-[#2A3F38] to-[#6A8A64] bg-clip-text text-transparent">
               Finally Under Control.
             </span>
           </h1>
@@ -564,7 +564,7 @@ const LandingPage = () => {
 
             <button
               onClick={() => scrollToSection('portals')}
-              className="w-full sm:w-auto px-7 py-3.5 rounded-control text-sm font-bold bg-white text-navy hover:bg-ice/40 border border-sky/40 flex items-center justify-center gap-2 shadow-sm transition-all cursor-pointer hover:border-sky"
+              className="w-full sm:w-auto px-7 py-3.5 rounded-control text-sm font-bold bg-[#F9FBF6] text-[#2A3F38] hover:bg-[#E8EFD3] border border-[#A7B88C]/60 flex items-center justify-center gap-2 shadow-sm transition-all cursor-pointer"
             >
               <span>Get Started</span>
               <ArrowRight className="w-4 h-4 text-royal" />
@@ -579,7 +579,7 @@ const LandingPage = () => {
         >
           {/* Main Dashboard Container with 900ms Fade-Up, 0.97 Scale Entrance & Soft Blue Glow Hover */}
           <div
-            className={`dashboard-showcase-container relative rounded-2xl sm:rounded-3xl p-2 sm:p-3 bg-white/75 backdrop-blur-2xl border border-sky/40 shadow-2xl shadow-navy/15 overflow-hidden transition-all duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${showcaseRevealed
+            className={`dashboard-showcase-container relative rounded-2xl sm:rounded-3xl p-2 sm:p-3 bg-[#F9FBF6]/90 backdrop-blur-2xl border border-[#A7B88C]/40 shadow-2xl shadow-[#202E22]/15 overflow-hidden transition-all duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${showcaseRevealed
               ? 'opacity-100 translate-y-0 scale-100'
               : 'opacity-0 translate-y-[45px] scale-[0.97]'
               }`}
@@ -589,7 +589,7 @@ const LandingPage = () => {
 
             {/* macOS / SaaS Browser Chrome (Downward-to-normal entrance) */}
             <div
-              className={`flex items-center justify-between px-3 py-2 sm:px-4 sm:py-2.5 bg-slate-100/90 rounded-t-xl sm:rounded-t-2xl border-b border-sky/20 text-xs text-slate-500 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] delay-100 ${showcaseRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'
+              className={`flex items-center justify-between px-3 py-2 sm:px-4 sm:py-2.5 bg-[#E8EFD3]/80 rounded-t-xl sm:rounded-t-2xl border-b border-[#A7B88C]/25 text-xs text-[#2A3F38]/70 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] delay-100 ${showcaseRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'
                 }`}
             >
               <div className="flex items-center gap-1.5 sm:gap-2">
@@ -597,7 +597,7 @@ const LandingPage = () => {
                 <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-amber-400 inline-block transition-transform hover:scale-125 duration-150" />
                 <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-emerald-400 inline-block transition-transform hover:scale-125 duration-150" />
               </div>
-              <div className="px-3 sm:px-4 py-1 rounded-full bg-white border border-sky/30 text-[11px] sm:text-xs font-mono text-slate-600 flex items-center gap-1.5 shadow-2xs max-w-xs truncate">
+              <div className="px-3 sm:px-4 py-1 rounded-full bg-[#F9FBF6] border border-[#A7B88C]/40 text-[11px] sm:text-xs font-mono text-[#2A3F38] flex items-center gap-1.5 shadow-2xs max-w-xs truncate">
                 <Lock className="w-3 h-3 text-emerald-600 shrink-0" />
                 <span className="truncate">hostelfix.app/student/dashboard</span>
               </div>
@@ -608,7 +608,7 @@ const LandingPage = () => {
             </div>
 
             {/* Dashboard Inner Canvas */}
-            <div className="p-4 sm:p-7 bg-gradient-to-b from-white/95 to-[#F5F9FF] rounded-b-xl sm:rounded-b-2xl text-left space-y-5">
+            <div className="p-4 sm:p-7 bg-gradient-to-b from-[#F9FBF6] to-[#EBECDE]/60 rounded-b-xl sm:rounded-b-2xl text-left space-y-5">
               {/* Mockup Header (Student Profile Section with scale-in avatar & sequential fade-in) */}
               <div
                 className={`flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-sky/20 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] delay-200 ${showcaseRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
@@ -645,7 +645,7 @@ const LandingPage = () => {
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
                 {/* Stat 01: Total Complaints */}
                 <div
-                  className={`dashboard-stat-card p-3 sm:p-4 rounded-xl bg-white border border-sky/30 shadow-2xs transition-all duration-600 ease-[cubic-bezier(0.16,1,0.3,1)] delay-[250ms] ${showcaseRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                  className={`dashboard-stat-card p-3 sm:p-4 rounded-xl bg-[#F9FBF6] border border-[#A7B88C]/35 shadow-2xs transition-all duration-600 ease-[cubic-bezier(0.16,1,0.3,1)] delay-[250ms] ${showcaseRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                     }`}
                 >
                   <p className="text-xs text-slate-700 font-semibold">Total Complaints</p>
@@ -657,7 +657,7 @@ const LandingPage = () => {
 
                 {/* Stat 02: Awaiting Review */}
                 <div
-                  className={`dashboard-stat-card p-3 sm:p-4 rounded-xl bg-white border border-sky/30 shadow-2xs transition-all duration-600 ease-[cubic-bezier(0.16,1,0.3,1)] delay-[370ms] ${showcaseRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                  className={`dashboard-stat-card p-3 sm:p-4 rounded-xl bg-[#F9FBF6] border border-[#A7B88C]/35 shadow-2xs transition-all duration-600 ease-[cubic-bezier(0.16,1,0.3,1)] delay-[370ms] ${showcaseRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                     }`}
                 >
                   <p className="text-xs text-slate-700 font-semibold">Awaiting Review</p>
@@ -669,7 +669,7 @@ const LandingPage = () => {
 
                 {/* Stat 03: In Progress */}
                 <div
-                  className={`dashboard-stat-card p-3 sm:p-4 rounded-xl bg-white border border-sky/30 shadow-2xs transition-all duration-600 ease-[cubic-bezier(0.16,1,0.3,1)] delay-[490ms] ${showcaseRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                  className={`dashboard-stat-card p-3 sm:p-4 rounded-xl bg-[#F9FBF6] border border-[#A7B88C]/35 shadow-2xs transition-all duration-600 ease-[cubic-bezier(0.16,1,0.3,1)] delay-[490ms] ${showcaseRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                     }`}
                 >
                   <p className="text-xs text-slate-700 font-semibold">In Progress</p>
@@ -681,7 +681,7 @@ const LandingPage = () => {
 
                 {/* Stat 04: Verified Resolved */}
                 <div
-                  className={`dashboard-stat-card p-3 sm:p-4 rounded-xl bg-white border border-sky/30 shadow-2xs transition-all duration-600 ease-[cubic-bezier(0.16,1,0.3,1)] delay-[610ms] ${showcaseRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                  className={`dashboard-stat-card p-3 sm:p-4 rounded-xl bg-[#F9FBF6] border border-[#A7B88C]/35 shadow-2xs transition-all duration-600 ease-[cubic-bezier(0.16,1,0.3,1)] delay-[610ms] ${showcaseRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                     }`}
                 >
                   <p className="text-xs text-slate-700 font-semibold">Verified Resolved</p>
@@ -694,7 +694,7 @@ const LandingPage = () => {
 
               {/* Live Ticket Card Inside Mockup (Smooth Fade-Up & 4px Hover Lift) */}
               <div
-                className={`dashboard-ticket-card p-3.5 sm:p-4 rounded-2xl bg-white border border-sky/40 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-3 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] delay-[550ms] ${showcaseRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                className={`dashboard-ticket-card p-3.5 sm:p-4 rounded-2xl bg-[#F9FBF6] border border-[#A7B88C]/40 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-3 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] delay-[550ms] ${showcaseRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                   }`}
               >
                 <div className="flex items-start gap-3">
@@ -747,10 +747,10 @@ const LandingPage = () => {
 
           {/* Floating Glassmorphic Depth Badge 1: Bottom-Left (Before & After Photo Proof with independent upward entrance & continuous slow float) */}
           <div
-            className={`dashboard-floating-badge animate-floating-badge-1 hidden sm:flex absolute -bottom-5 -left-4 p-3 rounded-2xl bg-white/95 backdrop-blur-xl border border-sky/50 shadow-xl shadow-royal/10 items-center gap-2.5 text-xs font-bold text-navy transition-all duration-800 ease-[cubic-bezier(0.16,1,0.3,1)] delay-[750ms] ${showcaseRevealed ? 'opacity-100 translate-x-0 translate-y-0 scale-100' : 'opacity-0 -translate-x-3 translate-y-4 scale-90'
+            className={`dashboard-floating-badge animate-floating-badge-1 hidden sm:flex absolute -bottom-5 -left-4 p-3 rounded-2xl bg-[#F9FBF6]/95 backdrop-blur-xl border border-[#A7B88C]/50 shadow-xl shadow-[#202E22]/10 items-center gap-2.5 text-xs font-bold text-[#2A3F38] transition-all duration-800 ease-[cubic-bezier(0.16,1,0.3,1)] delay-[750ms] ${showcaseRevealed ? 'opacity-100 translate-x-0 translate-y-0 scale-100' : 'opacity-0 -translate-x-3 translate-y-4 scale-90'
               }`}
           >
-            <div className="w-8 h-8 rounded-xl bg-emerald-500 text-white flex items-center justify-center shadow-md">
+            <div className="w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-md">
               <Check className="w-4 h-4" />
             </div>
             <div>
@@ -761,10 +761,10 @@ const LandingPage = () => {
 
           {/* Floating Glassmorphic Depth Badge 2: Top-Right (First Response with independent top-right entrance & continuous slow float) */}
           <div
-            className={`dashboard-floating-badge animate-floating-badge-2 hidden sm:flex absolute -top-4 -right-4 p-3 rounded-2xl bg-white/95 backdrop-blur-xl border border-sky/50 shadow-xl shadow-royal/10 items-center gap-2.5 text-xs font-bold text-navy transition-all duration-800 ease-[cubic-bezier(0.16,1,0.3,1)] delay-[650ms] ${showcaseRevealed ? 'opacity-100 translate-x-0 translate-y-0 scale-100' : 'opacity-0 translate-x-4 -translate-y-3 scale-90'
+            className={`dashboard-floating-badge animate-floating-badge-2 hidden sm:flex absolute -top-4 -right-4 p-3 rounded-2xl bg-[#F9FBF6]/95 backdrop-blur-xl border border-[#A7B88C]/50 shadow-xl shadow-[#202E22]/10 items-center gap-2.5 text-xs font-bold text-[#2A3F38] transition-all duration-800 ease-[cubic-bezier(0.16,1,0.3,1)] delay-[650ms] ${showcaseRevealed ? 'opacity-100 translate-x-0 translate-y-0 scale-100' : 'opacity-0 translate-x-4 -translate-y-3 scale-90'
               }`}
           >
-            <div className="w-8 h-8 rounded-xl bg-gradient-action text-white flex items-center justify-center shadow-md">
+            <div className="w-8 h-8 rounded-xl bg-[#22503B] text-white flex items-center justify-center shadow-md">
               <Zap className="w-4 h-4" />
             </div>
             <div>
@@ -954,7 +954,7 @@ const LandingPage = () => {
       {/* =========================================================================
           4. LOGIN PORTALS – ACCESS HOSTELFIX
           ========================================================================= */}
-      <section id="portals" className="relative z-10 py-16 sm:py-24 bg-white/60 border-y border-sky/20">
+      <section id="portals" className="relative z-10 py-16 sm:py-24 bg-[#EBECDE]/60 border-y border-[#A7B88C]/25">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="scroll-reveal text-center max-w-3xl mx-auto mb-12 sm:mb-16">
             <h2 className="text-2xl sm:text-4xl md:text-5xl font-heading font-extrabold text-navy tracking-tight">
@@ -1204,7 +1204,7 @@ const LandingPage = () => {
       {/* =========================================================================
           6. WHY HOSTELFIX – WHAT MAKES US DIFFERENT
           ========================================================================= */}
-      <section id="why-us" className="relative z-10 py-16 sm:py-24 bg-white/70 border-y border-sky/20">
+      <section id="why-us" className="relative z-10 py-16 sm:py-24 bg-[#E8EFD3]/80 border-y border-[#A7B88C]/25">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="scroll-reveal text-center max-w-3xl mx-auto mb-12 sm:mb-16">
             <h2 className="text-2xl sm:text-4xl md:text-5xl font-heading font-extrabold text-navy tracking-tight">
@@ -1268,7 +1268,7 @@ const LandingPage = () => {
 
             {/* HostelFix Method Column */}
             <div className="scroll-reveal-scale delay-200">
-              <div className="p-6 sm:p-8 rounded-2xl bg-gradient-to-b from-blue-50/90 to-white border-2 border-royal/40 shadow-lg shadow-royal/10 h-full flex flex-col justify-between relative overflow-hidden">
+              <div className="p-6 sm:p-8 rounded-2xl bg-gradient-to-b from-[#EBECDE]/80 to-[#F9FBF6] border-2 border-[#22503B]/40 shadow-lg shadow-[#22503B]/10 h-full flex flex-col justify-between relative overflow-hidden">
                 <div className="absolute top-0 right-0 px-3 py-1 bg-royal text-white text-[10px] font-bold rounded-bl-xl uppercase tracking-wider">
                   Modern SaaS
                 </div>
@@ -1485,10 +1485,10 @@ const LandingPage = () => {
           ========================================================================= */}
       <section id="cta" className="relative z-10 py-16 sm:py-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto">
-          <div className="scroll-reveal rounded-3xl p-8 sm:p-14 text-center text-white relative overflow-hidden shadow-2xl shadow-navy/30 bg-gradient-to-br from-[#03195B] via-[#0B2CB1] to-[#1951FC]">
+          <div className="scroll-reveal rounded-3xl p-8 sm:p-14 text-center text-white relative overflow-hidden shadow-2xl shadow-[#202E22]/30 bg-gradient-to-br from-[#202E22] via-[#2A3F38] to-[#22503B]">
             {/* Ambient decorative glowing orbs */}
-            <div className="absolute top-0 right-0 w-80 h-80 bg-electric/30 rounded-full blur-3xl pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-80 h-80 bg-sky/20 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute top-0 right-0 w-80 h-80 bg-[#C3DC9B]/20 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-80 h-80 bg-[#A7B88C]/15 rounded-full blur-3xl pointer-events-none" />
 
             <div className="relative z-10 max-w-2xl mx-auto">
               <div className="w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 p-2.5 mx-auto mb-6 flex items-center justify-center shadow-lg">
@@ -1511,7 +1511,7 @@ const LandingPage = () => {
               </h2>
 
               {/* Required Description */}
-              <p className="mt-4 sm:mt-5 text-sm sm:text-base text-sky-light/90 leading-relaxed">
+              <p className="mt-4 sm:mt-5 text-sm sm:text-base text-[#DADFB9] leading-relaxed">
                 Bring transparency, accountability and smarter maintenance management to your hostel with HostelFix.
               </p>
 
@@ -1519,15 +1519,15 @@ const LandingPage = () => {
               <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
                 <button
                   onClick={() => scrollToSection('portals')}
-                  className="w-full sm:w-auto px-8 py-4 rounded-control text-sm font-bold bg-white text-navy hover:bg-ice transition-all shadow-xl hover:shadow-2xl flex items-center justify-center gap-2 cursor-pointer hover:scale-[1.02] duration-200"
+                  className="w-full sm:w-auto px-8 py-4 rounded-control text-sm font-bold bg-[#C3DC9B] text-[#202E22] hover:bg-[#F9FBF6] hover:text-[#202E22] transition-all shadow-xl hover:shadow-2xl flex items-center justify-center gap-2 cursor-pointer hover:scale-[1.02] duration-200"
                 >
                   <span>Get Started</span>
-                  <ArrowRight className="w-4 h-4 text-royal" />
+                  <ArrowRight className="w-4 h-4 text-[#202E22]" />
                 </button>
               </div>
 
               {/* Required Secondary Text */}
-              <p className="mt-5 text-xs text-sky-light/80 font-medium">
+              <p className="mt-5 text-xs text-[#C1CEA6] font-medium">
                 One platform. Better hostel management.
               </p>
             </div>
@@ -1539,7 +1539,7 @@ const LandingPage = () => {
       {/* =========================================================================
           9. FOOTER
           ========================================================================= */}
-      <footer className="scroll-reveal mt-auto shrink-0 border-t border-sky/30 bg-white/80 backdrop-blur-md py-10 text-xs text-slate-500 relative z-10">
+      <footer className="scroll-reveal mt-auto shrink-0 border-t border-[#A7B88C]/30 bg-[#EBECDE]/90 backdrop-blur-md py-10 text-xs text-[#6A8A64] relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center justify-center gap-6 pb-8 border-b border-sky/20">
             {/* Brand & Tagline */}
