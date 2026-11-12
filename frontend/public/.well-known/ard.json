@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "entries": [
+    {
+      "@context": "https://agenticresourcediscovery.org/context/v1",
+      "identifier": "urn:air:hostel-fix-kappa.vercel.app:web:portal",
+      "displayName": "HostelFix Platform",
+      "description": "Smart hostel complaint and maintenance management platform for lodging issues, technician dispatch, and resolution tracking.",
+      "type": "text/html",
+      "url": "https://hostel-fix-kappa.vercel.app/",
+      "tags": [
+        "hostel",
+        "complaint-management",
+        "student-housing",
+        "facilities-management",
+        "maintenance"
+      ],
+      "capabilities": [
+        "complaint-reporting",
+        "status-tracking",
+        "facilities-management"
+      ],
+      "representativeQueries": [
+        "Report hostel maintenance issue",
+        "Check status of hostel complaint",
+        "Hostel facilities management portal"
+      ],
+      "version": "1.0.0",
+      "updatedAt": "2026-11-12T00:00:00Z"
+    },
+    {
+      "@context": "https://agenticresourcediscovery.org/context/v1",
+      "identifier": "urn:air:hostel-fix-kappa.vercel.app:doc:llms",
+      "displayName": "HostelFix LLM Context & Agent Guide",
+      "description": "Structured markdown guide and public context for AI agents regarding the HostelFix platform.",
+      "type": "text/markdown",
+      "url": "https://hostel-fix-kappa.vercel.app/llms.txt",
+      "tags": [
+        "llms-txt",
+        "documentation",
+        "context",
+        "ai-guide"
+      ],
+      "representativeQueries": [
+        "HostelFix platform overview and agent guide",
+        "HostelFix public pages and documentation"
+      ],
+      "version": "1.0.0",
+      "updatedAt": "2026-11-12T00:00:00Z"
+    },
+    {
+      "@context": "https://agenticresourcediscovery.org/context/v1",
+      "identifier": "urn:air:hostel-fix-kappa.vercel.app:api:health",
+      "displayName": "HostelFix Public Liveness Check",
+      "description": "Lightweight public health endpoint providing service liveness status and uptime.",
+      "type": "application/json",
+      "url": "https://hostelfix-api-5uzs.onrender.com/api/health",
+      "tags": [
+        "health",
+        "status",
+        "uptime",
+        "monitoring"
+      ],
+      "representativeQueries": [
+        "Is the HostelFix server running?",
+        "Check HostelFix API service health"
+      ],
+      "version": "1.0.0",
+      "updatedAt": "2026-11-12T00:00:00Z"
+    }
+  ]
+}

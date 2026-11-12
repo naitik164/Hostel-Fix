@@ -47,6 +47,23 @@
           "value": "public, max-age=86400"
         }
       ]
+    },
+    {
+      "source": "/.well-known/ard.json",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json; charset=utf-8"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400"
+        }
+      ]
     }
   ],
   "rewrites": [
@@ -61,6 +78,10 @@
     {
       "source": "/llms.txt",
       "destination": "/llms.txt"
+    },
+    {
+      "source": "/.well-known/ard.json",
+      "destination": "/.well-known/ard.json"
     },
     {
       "source": "/api/(.*)",
