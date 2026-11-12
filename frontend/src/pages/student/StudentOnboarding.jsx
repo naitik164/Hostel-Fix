@@ -282,7 +282,7 @@ const StudentOnboarding = () => {
           </div>
           <div>
             <span className="font-heading font-extrabold text-lg text-white tracking-tight drop-shadow-sm">
-              Hostel<span className="text-sky">Fix</span>
+              Hostel<span className="text-[#C3DC9B]">Fix</span>
             </span>
             <span className="ml-2 px-2 py-0.5 rounded-full text-xs font-bold bg-white/20 text-white border border-white/30 uppercase tracking-wider">
               Onboarding

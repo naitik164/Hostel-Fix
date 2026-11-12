@@ -78,7 +78,7 @@ const StaffLayout = () => {
           <div>
             <div className="flex items-center gap-2">
               <span className="font-heading font-extrabold text-xl tracking-tight text-white">
-                Hostel<span className="text-sky">Fix</span>
+                Hostel<span className="text-[#C3DC9B] relative inline-block">Fix<svg className="absolute -bottom-0.5 left-0 w-full h-1 overflow-visible" viewBox="0 0 48 6" fill="none"><path d="M 2 2 C 14 5, 34 5, 46 2 C 34 3.5, 14 3.5, 2 2 Z" fill="#C3DC9B" /></svg></span>
               </span>
             </div>
             <span className="text-[10px] tracking-wider uppercase font-bold text-sky-light/90 px-2 py-0.5 rounded-full bg-navy-900/60 border border-sky/30">
@@ -162,7 +162,7 @@ const StaffLayout = () => {
           />
           <div>
             <span className="font-heading font-extrabold text-base tracking-tight text-white">
-              Hostel<span className="text-sky">Fix</span>
+              Hostel<span className="text-[#C3DC9B]">Fix</span>
             </span>
             <span className="ml-2 text-[10px] uppercase font-bold text-sky-light px-1.5 py-0.5 rounded bg-royal/60">
               Staff

@@ -96,8 +96,8 @@ const StudentLogin = () => {
             <h1 className="text-2xl font-extrabold text-navy font-heading tracking-tight">
               Student Sign In
             </h1>
-            <p className="mt-1 text-xs text-slate-500 font-medium">
-              HostelFix — "Your Hostel. Your Voice. Better Living."
+            <p className="mt-1 text-xs text-[#6A8A64] font-medium">
+              Complaint • Maintenance • Resolution
             </p>
           </header>
 

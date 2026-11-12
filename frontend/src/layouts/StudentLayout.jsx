@@ -88,14 +88,14 @@ const StudentLayout = () => {
               <div>
                 <div className="flex items-center gap-2">
                   <span className="font-heading font-extrabold text-xl text-navy tracking-tight">
-                    Hostel<span className="text-electric">Fix</span>
+                    Hostel<span className="text-[#22503B] relative inline-block">Fix<svg className="absolute -bottom-0.5 left-0 w-full h-1 overflow-visible" viewBox="0 0 48 6" fill="none"><path d="M 2 2 C 14 5, 34 5, 46 2 C 34 3.5, 14 3.5, 2 2 Z" fill="#C3DC9B" /></svg></span>
                   </span>
                   <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-ice text-royal border border-sky/40">
                     Student
                   </span>
                 </div>
-                <p className="text-xs text-slate-600 font-medium hidden sm:block">
-                  Your Hostel. Your Voice. Better Living.
+                <p className="text-xs text-[#6A8A64] font-medium hidden sm:block">
+                  Complaint • Maintenance • Resolution
                 </p>
               </div>
             </Link>

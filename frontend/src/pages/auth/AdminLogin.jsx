@@ -85,8 +85,8 @@ const AdminLogin = () => {
             <h1 className="text-2xl font-extrabold text-white font-heading tracking-tight">
               Warden Administration
             </h1>
-            <p className="mt-1 text-xs text-sky-light/80 font-medium">
-              Authorized Hostel Management Portal
+            <p className="mt-1 text-xs text-[#DADFB9]/80 font-medium">
+              Complaint • Maintenance • Resolution
             </p>
           </header>
 

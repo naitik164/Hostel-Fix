@@ -87,8 +87,8 @@ const StaffLogin = () => {
             <h1 className="text-2xl font-extrabold text-navy font-heading tracking-tight">
               Maintenance Staff Portal
             </h1>
-            <p className="mt-1 text-xs text-slate-500 font-medium">
-              HostelFix — Field Operations & Work Verification
+            <p className="mt-1 text-xs text-[#6A8A64] font-medium">
+              Complaint • Maintenance • Resolution
             </p>
           </header>
 

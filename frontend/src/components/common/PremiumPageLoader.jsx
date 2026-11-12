@@ -19,7 +19,7 @@ const DEFAULT_MAX_FALLBACK_TIMEOUT_MS = 2500; // 2.5s maximum safeguard - never 
 const PremiumPageLoader = ({
   isReady = false,
   onComplete,
-  tagline = 'Making hostel life better.',
+  tagline = 'Complaint • Maintenance • Resolution',
   customMessage,
   minShowcaseMs = DEFAULT_MIN_SHOWCASE_MS,
   maxFallbackMs = DEFAULT_MAX_FALLBACK_TIMEOUT_MS,
@@ -198,7 +198,7 @@ const PremiumPageLoader = ({
 
         {/* Brand Title: Staggered smooth entrance */}
         <h1 className="mt-6 text-3xl sm:text-4xl font-extrabold tracking-tight font-heading text-white animate-title-entrance">
-          Hostel<span className="text-transparent bg-clip-text bg-gradient-to-r from-sky to-electric">Fix</span>
+          Hostel<span className="text-[#C3DC9B]">Fix</span>
         </h1>
 
         {/* Brand Tagline: Staggered smooth appearance (600-800ms) with slight delay */}

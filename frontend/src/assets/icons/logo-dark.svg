@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 240" width="800" height="240">
+  <defs>
+    <style>
+      .wm-hostel-dark {
+        font-family: 'Plus Jakarta Sans', 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-weight: 800;
+        font-size: 84px;
+        letter-spacing: -0.035em;
+        fill: #EBECDE;
+      }
+      .wm-fix-dark {
+        font-family: 'Plus Jakarta Sans', 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-weight: 800;
+        font-size: 84px;
+        letter-spacing: -0.035em;
+        fill: #C3DC9B;
+      }
+      .tagline-dark {
+        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-weight: 600;
+        font-size: 20px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        fill: #DADFB9;
+      }
+    </style>
+  </defs>
+
+  <!-- Left Icon Mark -->
+  <g transform="translate(10, 0)">
+    
+    <g id="darkMark">
+      <!-- House Roof: Apex at (114, 34), eaves at (44, 94) and (184, 94) -->
+      <path d="M 44 94 L 114 34 L 184 94" 
+            fill="none" 
+            stroke="#EBECDE" 
+            stroke-width="14" 
+            stroke-linecap="round" 
+            stroke-linejoin="round" />
+
+      <!-- Left Wall: from eave (60, 98) down to base (60, 188) -->
+      <path d="M 60 98 L 60 188" 
+            fill="none" 
+            stroke="#EBECDE" 
+            stroke-width="14" 
+            stroke-linecap="round" />
+
+      <!-- Right Wall: upper portion down to (168, 136) -->
+      <path d="M 168 98 L 168 136" 
+            fill="none" 
+            stroke="#EBECDE" 
+            stroke-width="14" 
+            stroke-linecap="round" />
+
+      <!-- 4-Pane Square Window under apex -->
+      <rect x="101" y="60" width="10" height="10" rx="2.5" fill="#EBECDE" />
+      <rect x="117" y="60" width="10" height="10" rx="2.5" fill="#EBECDE" />
+      <rect x="101" y="76" width="10" height="10" rx="2.5" fill="#EBECDE" />
+      <rect x="117" y="76" width="10" height="10" rx="2.5" fill="#EBECDE" />
+
+      <!-- Hostel Bunk Bed Structure -->
+      <!-- Left Bed Post -->
+      <rect x="80" y="108" width="8" height="84" rx="4" fill="#EBECDE" />
+      <!-- Right Bed Post -->
+      <rect x="138" y="108" width="8" height="84" rx="4" fill="#EBECDE" />
+      
+      <!-- Top Bunk Mattress Rail -->
+      <rect x="80" y="132" width="66" height="8" rx="4" fill="#EBECDE" />
+      <!-- Top Bunk Pillow -->
+      <rect x="86" y="120" width="20" height="9" rx="4.5" fill="#EBECDE" />
+
+      <!-- Bottom Bunk Mattress Rail -->
+      <rect x="80" y="168" width="66" height="8" rx="4" fill="#EBECDE" />
+      <!-- Bottom Bunk Pillow -->
+      <rect x="86" y="156" width="20" height="9" rx="4.5" fill="#EBECDE" />
+
+      <!-- Integrated Curved Swoop & Maintenance Wrench -->
+      <path d="M 46 186
+          C 66 208, 106 218, 144 212
+          C 170 206, 192 192, 206 168
+          C 214 154, 222 144, 218 138
+          C 216 134, 212 134, 206 138
+          L 194 148
+          C 188 152, 182 148, 180 142
+          L 174 126
+          C 170 118, 162 118, 158 126
+          C 154 136, 158 152, 168 166
+          C 154 182, 128 196, 94 196
+          C 72 196, 56 190, 46 186 Z" fill="#C3DC9B" />
+    </g>
+  
+  </g>
+
+  <!-- Wordmark "HostelFix" -->
+  <g transform="translate(255, 142)">
+    <text class="wm-hostel-dark" x="0" y="0">Hostel</text>
+    <text class="wm-fix-dark" x="282" y="0">Fix</text>
+    
+    <!-- Smooth Lime Swoop Arc underneath "Fix" -->
+    <path d="M 284 18 
+             C 320 30, 376 30, 420 18 
+             C 376 25, 320 25, 284 18 Z" 
+          fill="#C3DC9B" />
+  </g>
+
+  
+  <!-- Tagline: Complaint • Maintenance • Resolution -->
+  <g transform="translate(258, 192)">
+    <text class="tagline-dark" x="0" y="0">
+      Complaint
+      <tspan fill="#C3DC9B" font-size="24">  •  </tspan>
+      Maintenance
+      <tspan fill="#C3DC9B" font-size="24">  •  </tspan>
+      Resolution
+    </text>
+  </g>
+</svg>

@@ -307,11 +307,11 @@ const LandingPage = () => {
                   isScrolled ? 'text-xl sm:text-2xl' : 'text-2xl sm:text-3xl'
                 }`}
               >
-                Hostel<span className="text-[#22503B]">Fix</span>
+                Hostel<span className="text-[#22503B] relative inline-block">Fix<svg className="absolute -bottom-1 left-0 w-full h-1.5 overflow-visible" viewBox="0 0 48 6" fill="none"><path d="M 2 2 C 14 5, 34 5, 46 2 C 34 3.5, 14 3.5, 2 2 Z" fill="#C3DC9B" /></svg></span>
               </span>
               {!isScrolled && (
-                <p className="text-[10px] sm:text-[11px] text-slate-500 font-medium hidden xs:block transition-all duration-300">
-                  Smart Hostel Complaint & Maintenance System
+                <p className="text-[10px] sm:text-[11px] text-[#6A8A64] font-medium hidden xs:block transition-all duration-300">
+                  Complaint • Maintenance • Resolution
                 </p>
               )}
             </div>
@@ -1556,11 +1556,11 @@ const LandingPage = () => {
                 className="w-8 h-8 object-contain rounded-xl"
               />
               <div>
-                <span className="font-heading font-extrabold text-base text-navy">
-                  Hostel<span className="text-electric">Fix</span>
+                <span className="font-heading font-extrabold text-base text-[#2A3F38]">
+                  Hostel<span className="text-[#22503B] relative inline-block">Fix<svg className="absolute -bottom-0.5 left-0 w-full h-1 overflow-visible" viewBox="0 0 48 6" fill="none"><path d="M 2 2 C 14 5, 34 5, 46 2 C 34 3.5, 14 3.5, 2 2 Z" fill="#C3DC9B" /></svg></span>
                 </span>
-                <p className="text-[11px] text-slate-500 font-medium">
-                  "Making hostel life better."
+                <p className="text-[11px] text-[#6A8A64] font-medium">
+                  Complaint • Maintenance • Resolution
                 </p>
               </div>
             </div>
