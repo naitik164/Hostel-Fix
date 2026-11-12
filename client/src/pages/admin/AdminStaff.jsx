@@ -2,22 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import api from '../../services/api';
 import {
-  Users,
   PlusCircle,
   Wrench,
   Phone,
-  CheckCircle2,
-  XCircle,
   Edit2,
   Loader2,
   Filter,
   X,
-  Briefcase,
   AlertCircle,
   Mail,
-  Building,
-  Shield,
-  RotateCcw,
   Check,
 } from 'lucide-react';
 
@@ -224,7 +217,7 @@ const AdminStaff = () => {
       <div className="glass-card p-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 text-xs">
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3">
           <div className="flex items-center gap-2">
-            <Filter className="w-4 h-4 text-slate-400" />
+            <Filter className="w-4 h-4 text-slate-600" />
             <span className="font-semibold text-navy">Filter:</span>
           </div>
           <select
@@ -251,19 +244,19 @@ const AdminStaff = () => {
           </select>
         </div>
 
-        <span className="text-slate-400 text-xs">
+        <span className="text-slate-600 font-medium text-xs">
           Passcode-free Google OAuth authorization enforced for all staff
         </span>
       </div>
 
       {/* Staff Grid */}
       {loading ? (
-        <div className="py-20 text-center text-slate-400 flex flex-col items-center gap-2">
+        <div className="py-20 text-center text-slate-600 flex flex-col items-center gap-2">
           <Loader2 className="w-8 h-8 animate-spin text-electric" />
-          <p className="text-xs">Fetching maintenance staff roster...</p>
+          <p className="text-xs font-medium">Fetching maintenance staff roster...</p>
         </div>
       ) : staff.length === 0 ? (
-        <div className="py-20 text-center glass-card p-6 text-slate-500">
+        <div className="py-20 text-center glass-card p-6 text-slate-600 font-medium">
           No staff members found matching filter criteria.
         </div>
       ) : (
@@ -282,7 +275,7 @@ const AdminStaff = () => {
                       <Wrench className="w-6 h-6" />
                     </div>
                     <div>
-                      <h3 className="font-bold text-navy text-sm sm:text-base">{member.name}</h3>
+                      <h2 className="font-bold text-navy text-sm sm:text-base">{member.name}</h2>
                       <p className="font-mono text-[11px] text-royal font-semibold">
                         {member.employeeId}
                       </p>
@@ -363,8 +356,8 @@ const AdminStaff = () => {
                   onClick={() => toggleStatus(member)}
                   className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-colors ${
                     member.isActive
-                      ? 'text-rose-600 bg-rose-50 border-rose-200 hover:bg-rose-100'
-                      : 'text-emerald-600 bg-emerald-50 border-emerald-200 hover:bg-emerald-100'
+                      ? 'text-rose-700 bg-rose-50 border-rose-300 hover:bg-rose-100'
+                      : 'text-emerald-800 bg-emerald-50 border-emerald-300 hover:bg-emerald-100'
                   }`}
                 >
                   {member.isActive ? 'Deactivate' : 'Activate'}
@@ -395,13 +388,13 @@ const AdminStaff = () => {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center justify-between border-b border-ice/80 pb-3">
-                <h3 id="staff-modal-title" className="font-heading font-bold text-base text-navy">
+                <h2 id="staff-modal-title" className="font-heading font-bold text-base text-navy">
                   {editingStaff ? 'Edit Staff Profile' : 'Register New Maintenance Staff Profile'}
-                </h3>
+                </h2>
                 <button
                   type="button"
                   onClick={() => setModalOpen(false)}
-                  className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-navy hover:bg-slate-100 transition-colors touch-target cursor-pointer"
+                  className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-600 hover:text-navy hover:bg-slate-100 transition-colors touch-target cursor-pointer"
                   aria-label="Close dialog"
                 >
                   <X className="w-5 h-5" />
@@ -443,7 +436,7 @@ const AdminStaff = () => {
                       onChange={(e) => setEmployeeId(e.target.value)}
                       className="glass-input w-full p-2.5 text-xs font-medium uppercase font-mono"
                     />
-                    <p className="text-[11px] text-slate-400 mt-1">
+                    <p className="text-xs text-slate-600 font-medium mt-1">
                       Administrative ID for internal records.
                     </p>
                   </div>

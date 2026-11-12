@@ -55,7 +55,8 @@ const AdminLogin = () => {
       <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-royal/40 rounded-full filter blur-[100px] pointer-events-none" />
       <div className="absolute -bottom-40 -left-40 w-[500px] h-[500px] bg-electric/25 rounded-full filter blur-[100px] pointer-events-none" />
 
-      <div className="relative z-10 w-full max-w-md my-auto">
+      {/* Main Glass Login Card Landmark */}
+      <main className="relative z-10 w-full max-w-md my-auto">
         {/* Back Link */}
         <Link
           to="/"
@@ -68,10 +69,17 @@ const AdminLogin = () => {
         {/* Dark Glass Login Card */}
         <div className="glass-dark-panel p-5 sm:p-8 lg:p-10 rounded-card shadow-glass-dark border border-sky/30">
           {/* Header */}
-          <div className="text-center">
+          <header className="text-center">
             <img
-              src="/logo-icon.png"
+              src="/logo-icon.webp"
+              srcSet="/logo-icon-64.webp 64w, /logo-icon-128.webp 128w"
+              sizes="64px"
               alt="HostelFix Logo"
+              width="64"
+              height="64"
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
               className="w-16 h-16 mx-auto mb-4 object-contain filter drop-shadow-md"
             />
             <h1 className="text-2xl font-extrabold text-white font-heading tracking-tight">
@@ -80,7 +88,7 @@ const AdminLogin = () => {
             <p className="mt-1 text-xs text-sky-light/80 font-medium">
               Authorized Hostel Management Portal
             </p>
-          </div>
+          </header>
 
           {/* Error Message */}
           {error && (
@@ -155,20 +163,20 @@ const AdminLogin = () => {
 
           {/* Security Notice */}
           <div className="mt-6 pt-5 border-t border-sky/20 text-center">
-            <p className="text-[11px] text-sky-light/70 flex items-center justify-center gap-1.5">
+            <p className="text-xs text-sky-light font-medium flex items-center justify-center gap-1.5">
               <Shield className="w-3.5 h-3.5 text-sky" />
               <span>Administrative access is strictly restricted to authorized hostel wardens.</span>
             </p>
           </div>
 
-          <div className="mt-4 text-center text-xs text-slate-400">
+          <footer className="mt-4 text-center text-xs text-slate-300 font-medium">
             <span>Are you a student resident? </span>
             <Link to="/student/login" className="font-bold text-sky hover:underline">
               Student Google Login
             </Link>
-          </div>
+          </footer>
         </div>
-      </div>
+      </main>
     </div>
   );
 };

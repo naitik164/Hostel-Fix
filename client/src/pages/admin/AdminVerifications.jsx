@@ -3,23 +3,14 @@ import { Link } from 'react-router-dom';
 import api from '../../services/api';
 import {
   CheckCircle2,
-  Clock,
   Camera,
-  AlertTriangle,
   Building,
   MapPin,
-  Calendar,
-  User,
   HardHat,
-  Eye,
   Check,
-  X,
-  RefreshCw,
   Search,
   Filter,
   Flame,
-  Shield,
-  Loader2,
 } from 'lucide-react';
 
 const AdminVerifications = () => {
@@ -131,9 +122,9 @@ const AdminVerifications = () => {
             placeholder="Search Reference, title, room..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 rounded-xl bg-white border border-sky/30 text-xs font-medium text-navy placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-600 shadow-sm"
+            className="w-full pl-9 pr-4 py-2 rounded-xl bg-white border border-sky/30 text-xs font-medium text-navy placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-600 shadow-sm"
           />
-          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+          <Search className="w-4 h-4 text-slate-600 absolute left-3 top-2.5" />
         </form>
       </div>
 
@@ -190,7 +181,7 @@ const AdminVerifications = () => {
       ) : complaints.length === 0 ? (
         <div className="glass-card p-12 text-center border border-white/80 shadow-glass">
           <CheckCircle2 className="w-12 h-12 text-emerald-500 mx-auto mb-3" />
-          <h3 className="text-base font-bold text-navy">All Work Verified</h3>
+          <h2 className="text-base font-bold text-navy">All Work Verified</h2>
           <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
             There are no complaints currently awaiting warden verification. When field staff submit photo proof of completed repairs, they will appear here.
           </p>
@@ -308,7 +299,7 @@ const AdminVerifications = () => {
                         <span className="text-[10px] text-slate-500">({studentPhotos.length})</span>
                       </span>
                       {studentPhotos.length === 0 ? (
-                        <div className="aspect-video rounded-xl bg-white border border-sky-200 flex items-center justify-center text-xs text-slate-400 italic">
+                        <div className="aspect-video rounded-xl bg-white border border-sky-200 flex items-center justify-center text-xs text-slate-600 italic font-medium">
                           No initial photos submitted
                         </div>
                       ) : (
@@ -321,7 +312,7 @@ const AdminVerifications = () => {
                               rel="noreferrer"
                               className="aspect-square rounded-xl overflow-hidden border border-sky/30 group relative block"
                             >
-                              <img src={url} alt={`Resident ${idx + 1}`} className="w-full h-full object-cover" />
+                              <img src={url} alt={`Resident ${idx + 1}`} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                               <span className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-[10px] font-bold">
                                 View
                               </span>
@@ -351,7 +342,7 @@ const AdminVerifications = () => {
                               rel="noreferrer"
                               className="aspect-square rounded-xl overflow-hidden border border-amber-300 group relative block"
                             >
-                              <img src={p.imageUrl} alt="Before" className="w-full h-full object-cover" />
+                              <img src={p.imageUrl} alt="Before" loading="lazy" decoding="async" className="w-full h-full object-cover" />
                               <span className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-[10px] font-bold">
                                 View
                               </span>
@@ -381,7 +372,7 @@ const AdminVerifications = () => {
                               rel="noreferrer"
                               className="aspect-square rounded-xl overflow-hidden border border-emerald-300 group relative block"
                             >
-                              <img src={p.imageUrl} alt="After" className="w-full h-full object-cover" />
+                              <img src={p.imageUrl} alt="After" loading="lazy" decoding="async" className="w-full h-full object-cover" />
                               <span className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-[10px] font-bold">
                                 View
                               </span>
@@ -395,7 +386,7 @@ const AdminVerifications = () => {
 
                 {/* Footer link to full complaint record */}
                 <div className="pt-2 flex items-center justify-between text-xs">
-                  <span className="text-slate-400">
+                  <span className="text-slate-600 font-medium">
                     Submitted on {new Date(c.pendingVerificationAt || c.updatedAt).toLocaleString()}
                   </span>
                   <Link
@@ -422,15 +413,15 @@ const AdminVerifications = () => {
                 ) : (
                   <Flame className="w-5 h-5 text-rose-600" />
                 )}
-                <h3 className="text-base font-bold text-navy font-heading">
+                <h2 className="text-base font-bold text-navy font-heading">
                   {verificationAction === 'approve'
                     ? `Approve & Resolve ${selectedComplaint.referenceId}`
                     : `Request Rework on ${selectedComplaint.referenceId}`}
-                </h3>
+                </h2>
               </div>
               <button
                 onClick={() => setSelectedComplaint(null)}
-                className="text-slate-400 hover:text-slate-600 p-1 touch-target flex items-center justify-center"
+                className="text-slate-600 hover:text-navy p-1 touch-target flex items-center justify-center"
               >
                 ✕
               </button>

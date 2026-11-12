@@ -77,7 +77,7 @@ const StaffDashboard = () => {
       Urgent: 'bg-rose-500 text-white',
       High: 'bg-amber-500 text-white',
       Medium: 'bg-blue-500 text-white',
-      Low: 'bg-slate-400 text-white',
+      Low: 'bg-slate-600 text-white',
     };
     return map[priority] || 'bg-blue-500 text-white';
   };
@@ -170,13 +170,13 @@ const StaffDashboard = () => {
         {/* Total Assigned */}
         <div className="glass-card p-4 sm:p-5 border border-white/80 shadow-glass">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500">Total Assigned</span>
+            <span className="text-xs font-semibold text-slate-700">Total Assigned</span>
             <div className="w-8 h-8 rounded-xl bg-blue-50 text-royal flex items-center justify-center">
               <ClipboardCheck className="w-4 h-4" />
             </div>
           </div>
           <p className="mt-3 text-2xl font-black text-navy">{stats.totalAssigned || 0}</p>
-          <span className="text-[11px] text-slate-400">All-time maintenance workload</span>
+          <span className="text-xs text-slate-600 font-medium">All-time maintenance workload</span>
         </div>
 
         {/* New Assignments */}
@@ -185,7 +185,7 @@ const StaffDashboard = () => {
           className="glass-card p-4 sm:p-5 border border-white/80 shadow-glass hover:border-electric transition-all group"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500 group-hover:text-electric transition-colors">
+            <span className="text-xs font-semibold text-slate-700 group-hover:text-electric transition-colors">
               New Assignments
             </span>
             <div className="w-8 h-8 rounded-xl bg-sky/20 text-electric flex items-center justify-center">
@@ -193,7 +193,7 @@ const StaffDashboard = () => {
             </div>
           </div>
           <p className="mt-3 text-2xl font-black text-royal">{stats.newAssignments || 0}</p>
-          <span className="text-[11px] text-sky-dark font-medium">Awaiting your acceptance</span>
+          <span className="text-xs text-royal font-semibold">Awaiting your acceptance</span>
         </Link>
 
         {/* In Progress */}
@@ -202,15 +202,15 @@ const StaffDashboard = () => {
           className="glass-card p-4 sm:p-5 border border-white/80 shadow-glass hover:border-amber-400 transition-all group"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500 group-hover:text-amber-600 transition-colors">
+            <span className="text-xs font-semibold text-slate-700 group-hover:text-amber-700 transition-colors">
               In Progress
             </span>
-            <div className="w-8 h-8 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center">
               <RefreshCw className="w-4 h-4" />
             </div>
           </div>
           <p className="mt-3 text-2xl font-black text-amber-700">{stats.inProgress || 0}</p>
-          <span className="text-[11px] text-slate-400">Under active repair on site</span>
+          <span className="text-xs text-slate-600 font-medium">Under active repair on site</span>
         </Link>
 
         {/* Pending Verification */}
@@ -219,15 +219,15 @@ const StaffDashboard = () => {
           className="glass-card p-4 sm:p-5 border border-white/80 shadow-glass hover:border-purple-400 transition-all group"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500 group-hover:text-purple-600 transition-colors">
+            <span className="text-xs font-semibold text-slate-700 group-hover:text-purple-700 transition-colors">
               Pending Verification
             </span>
-            <div className="w-8 h-8 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center">
               <Check className="w-4 h-4" />
             </div>
           </div>
           <p className="mt-3 text-2xl font-black text-purple-700">{stats.pendingVerification || 0}</p>
-          <span className="text-[11px] text-slate-400">Proof submitted to warden</span>
+          <span className="text-xs text-slate-600 font-medium">Proof submitted to warden</span>
         </Link>
 
         {/* Rework Required */}
@@ -236,15 +236,15 @@ const StaffDashboard = () => {
           className="glass-card p-4 sm:p-5 border border-white/80 shadow-glass hover:border-rose-400 transition-all group"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500 group-hover:text-rose-600 transition-colors">
+            <span className="text-xs font-semibold text-slate-700 group-hover:text-rose-700 transition-colors">
               Rework Required
             </span>
-            <div className="w-8 h-8 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-rose-50 text-rose-700 flex items-center justify-center">
               <ShieldAlert className="w-4 h-4" />
             </div>
           </div>
-          <p className="mt-3 text-2xl font-black text-rose-600">{stats.reworkRequired || 0}</p>
-          <span className="text-[11px] text-rose-500 font-medium">Needs correction</span>
+          <p className="mt-3 text-2xl font-black text-rose-700">{stats.reworkRequired || 0}</p>
+          <span className="text-xs text-rose-700 font-semibold">Needs correction</span>
         </Link>
 
         {/* Completed */}
@@ -253,39 +253,39 @@ const StaffDashboard = () => {
           className="glass-card p-4 sm:p-5 border border-white/80 shadow-glass hover:border-emerald-400 transition-all group"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500 group-hover:text-emerald-600 transition-colors">
+            <span className="text-xs font-semibold text-slate-700 group-hover:text-emerald-700 transition-colors">
               Completed & Verified
             </span>
-            <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center">
               <CheckCircle2 className="w-4 h-4" />
             </div>
           </div>
           <p className="mt-3 text-2xl font-black text-emerald-700">{stats.completed || 0}</p>
-          <span className="text-[11px] text-slate-400">Warden approved & signed off</span>
+          <span className="text-xs text-slate-600 font-medium">Warden approved & signed off</span>
         </Link>
 
         {/* High Priority */}
         <div className="glass-card p-4 sm:p-5 border border-white/80 shadow-glass">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500">Urgent / High</span>
-            <div className="w-8 h-8 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center">
+            <span className="text-xs font-semibold text-slate-700">Urgent / High</span>
+            <div className="w-8 h-8 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center">
               <AlertTriangle className="w-4 h-4" />
             </div>
           </div>
           <p className="mt-3 text-2xl font-black text-navy">{stats.highPriorityCount || 0}</p>
-          <span className="text-[11px] text-slate-400">Critical attention required</span>
+          <span className="text-xs text-slate-600 font-medium">Critical attention required</span>
         </div>
 
         {/* Overdue */}
         <div className="glass-card p-4 sm:p-5 border border-white/80 shadow-glass">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500">Past SLA Target</span>
+            <span className="text-xs font-semibold text-slate-700">Past SLA Target</span>
             <div className="w-8 h-8 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center">
               <Clock className="w-4 h-4" />
             </div>
           </div>
           <p className="mt-3 text-2xl font-black text-slate-800">{stats.overdueCount || 0}</p>
-          <span className="text-[11px] text-slate-400">SLA overdue tasks</span>
+          <span className="text-xs text-slate-600 font-medium">SLA overdue tasks</span>
         </div>
       </div>
 
@@ -350,7 +350,7 @@ const StaffDashboard = () => {
                           <span>Room {task.roomNumber}</span>
                         </span>
                       )}
-                      <span className="inline-flex items-center gap-1 text-[11px] text-slate-400">
+                      <span className="inline-flex items-center gap-1 text-xs text-slate-600">
                         <Calendar className="w-3.5 h-3.5" />
                         <span>{new Date(task.createdAt).toLocaleDateString()}</span>
                       </span>
@@ -382,7 +382,7 @@ const StaffDashboard = () => {
 
           <div className="glass-card p-5 border border-white/80 shadow-glass space-y-4">
             {recentActivity.length === 0 ? (
-              <p className="text-xs text-slate-400 text-center py-6">No recent updates recorded yet.</p>
+              <p className="text-xs text-slate-600 text-center py-6">No recent updates recorded yet.</p>
             ) : (
               <div className="space-y-3.5 relative before:absolute before:top-2 before:bottom-2 before:left-3.5 before:w-0.5 before:bg-sky/30">
                 {recentActivity.map((act) => (
@@ -399,7 +399,7 @@ const StaffDashboard = () => {
                     <p className="text-slate-600 text-[11px] mt-0.5 line-clamp-2">
                       {act.publicNote || act.internalNote || 'Action performed.'}
                     </p>
-                    <span className="text-[10px] text-slate-400 block mt-0.5">
+                    <span className="text-xs text-slate-600 block mt-0.5">
                       {new Date(act.createdAt).toLocaleString()}
                     </span>
                   </div>

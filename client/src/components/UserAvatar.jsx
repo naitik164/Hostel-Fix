@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { User } from 'lucide-react';
 
 const UserAvatar = ({ src, name = 'Student', size = 'md', className = '' }) => {
   const [imageError, setImageError] = useState(false);
@@ -22,6 +21,8 @@ const UserAvatar = ({ src, name = 'Student', size = 'md', className = '' }) => {
         src={src}
         alt={name}
         onError={() => setImageError(true)}
+        loading="lazy"
+        decoding="async"
         className={`${sizeClasses[size] || sizeClasses.md} rounded-full object-cover border-2 border-sky ${className}`}
       />
     );

@@ -9,13 +9,7 @@ import {
   Building,
   MapPin,
   Calendar,
-  AlertCircle,
   Eye,
-  Clock,
-  CheckCircle2,
-  AlertTriangle,
-  RefreshCw,
-  HardHat,
 } from 'lucide-react';
 
 const StaffTasks = () => {
@@ -89,7 +83,7 @@ const StaffTasks = () => {
       Urgent: 'bg-rose-500 text-white',
       High: 'bg-amber-500 text-white',
       Medium: 'bg-blue-500 text-white',
-      Low: 'bg-slate-400 text-white',
+      Low: 'bg-slate-600 text-white',
     };
     return map[p] || 'bg-blue-500 text-white';
   };
@@ -126,9 +120,9 @@ const StaffTasks = () => {
             placeholder="Search Reference, title, room..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 rounded-xl bg-white border border-sky/30 text-xs font-medium text-navy placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-electric shadow-sm"
+            className="w-full pl-9 pr-4 py-2 rounded-xl bg-white border border-sky/30 text-xs font-medium text-navy placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-electric shadow-sm"
           />
-          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+          <Search className="w-4 h-4 text-slate-600 absolute left-3 top-2.5" />
         </form>
       </div>
 
@@ -233,7 +227,7 @@ const StaffTasks = () => {
       ) : tasks.length === 0 ? (
         <div className="glass-card p-12 text-center border border-white/80 shadow-glass">
           <ClipboardCheck className="w-12 h-12 text-slate-300 mx-auto mb-3" />
-          <h3 className="text-sm font-bold text-navy">No Assigned Tasks Found</h3>
+          <h2 className="text-sm font-bold text-navy">No Assigned Tasks Found</h2>
           <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
             {search || status !== 'all' || category !== 'all'
               ? 'Try resetting your filter parameters or search query.'
@@ -264,7 +258,7 @@ const StaffTasks = () => {
                 </div>
 
                 <div>
-                  <h3 className="text-sm sm:text-base font-bold text-navy">{task.title}</h3>
+                  <h2 className="text-sm sm:text-base font-bold text-navy">{task.title}</h2>
                   <p className="text-xs text-slate-600 line-clamp-2 mt-0.5">
                     {task.description}
                   </p>
@@ -287,7 +281,7 @@ const StaffTasks = () => {
                       Student: <span className="font-medium text-navy">{task.studentId.name}</span>
                     </span>
                   )}
-                  <span className="inline-flex items-center gap-1 text-[11px] text-slate-400">
+                  <span className="inline-flex items-center gap-1 text-xs text-slate-600">
                     <Calendar className="w-3.5 h-3.5" />
                     <span>Assigned {new Date(task.assignedAt || task.createdAt).toLocaleDateString()}</span>
                   </span>

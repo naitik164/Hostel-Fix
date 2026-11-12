@@ -8,16 +8,12 @@ import {
   Shield,
   ArrowRight,
   ArrowDown,
-  ChevronDown,
   HardHat,
   Menu,
   X,
   CheckCircle2,
-  Clock,
-  ThumbsUp,
   FileText,
   Lock,
-  Layers,
   Zap,
   Camera,
   Activity,
@@ -25,19 +21,11 @@ import {
   ClipboardList,
   BarChart3,
   Repeat,
-  AlertOctagon,
-  Timer,
-  EyeOff,
-  UserX,
-  FolderArchive,
   Check,
   XCircle,
   Eye,
   UserPlus,
   User,
-  Users,
-  Sparkles,
-  ExternalLink,
 } from 'lucide-react';
 
 const LandingPage = () => {
@@ -229,6 +217,14 @@ const LandingPage = () => {
 
   return (
     <div className="flex-1 flex flex-col min-h-screen bg-[#F5F9FF] text-navy relative overflow-x-clip font-sans w-full">
+      {/* Skip to Main Content Link for Accessibility */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100000] focus:px-4 focus:py-2.5 focus:bg-electric focus:text-white focus:rounded-xl focus:shadow-xl focus:outline-none text-xs font-bold"
+      >
+        Skip to main content
+      </a>
+
       {/* Ambient background glows */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
         <div className="ambient-glow" />
@@ -290,8 +286,15 @@ const LandingPage = () => {
             className="flex items-center gap-2.5 sm:gap-3 group shrink-0"
           >
             <img
-              src="/logo-icon.png"
+              src="/logo-icon.webp"
+              srcSet="/logo-icon-64.webp 64w, /logo-icon-128.webp 128w"
+              sizes="(max-width: 640px) 36px, 48px"
               alt="HostelFix Logo"
+              width="48"
+              height="48"
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
               className={`object-contain drop-shadow-sm rounded-xl sm:rounded-2xl group-hover:scale-105 transition-all duration-300 ${
                 isScrolled
                   ? 'w-8.5 h-8.5 sm:w-9 sm:h-9'
@@ -393,7 +396,7 @@ const LandingPage = () => {
         {mobileMenuOpen && (
           <div className="md:hidden absolute top-[calc(100%+8px)] left-0 right-0 rounded-2xl border border-[#E1EBF8] bg-white/95 backdrop-blur-2xl p-4 space-y-3 shadow-2xl animate-in fade-in slide-in-from-top-2 z-[9999]">
             {/* Quick Section Anchor Links */}
-            <div className="grid grid-cols-2 gap-1.5 pb-3 border-b border-sky/20 text-xs font-semibold text-slate-700">
+            <nav aria-label="Mobile section navigation" className="grid grid-cols-2 gap-1.5 pb-3 border-b border-sky/20 text-xs font-semibold text-slate-700">
               <button
                 onClick={() => scrollToSection('problem')}
                 className="text-left px-3 py-2 rounded-xl hover:bg-ice/50 transition-colors"
@@ -430,7 +433,7 @@ const LandingPage = () => {
               >
                 How It Works
               </button>
-            </div>
+            </nav>
 
             {isAuthenticated ? (
               <div className="p-3.5 rounded-2xl bg-ice/50 border border-sky/40 flex items-center justify-between">
@@ -449,7 +452,7 @@ const LandingPage = () => {
               </div>
             ) : (
               <div className="space-y-2 pt-1">
-                <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-1">
+                <p className="text-xs font-bold uppercase tracking-wider text-slate-600 px-1">
                   Access Portal
                 </p>
 
@@ -465,7 +468,7 @@ const LandingPage = () => {
                     </div>
                     <div>
                       <div className="font-bold text-navy">Resident Student Portal</div>
-                      <div className="text-[10px] text-slate-500">Student Google Sign In</div>
+                      <div className="text-xs text-slate-600 font-medium">Student Google Sign In</div>
                     </div>
                   </div>
                   <ArrowRight className="w-4 h-4 text-royal" />
@@ -483,7 +486,7 @@ const LandingPage = () => {
                     </div>
                     <div>
                       <div className="font-bold text-navy">Maintenance Staff Portal</div>
-                      <div className="text-[10px] text-slate-500">Staff Google Sign In</div>
+                      <div className="text-xs text-slate-600 font-medium">Staff Google Sign In</div>
                     </div>
                   </div>
                   <ArrowRight className="w-4 h-4 text-royal" />
@@ -501,7 +504,7 @@ const LandingPage = () => {
                     </div>
                     <div>
                       <div className="font-bold text-navy">Warden Admin Center</div>
-                      <div className="text-[10px] text-slate-500">Warden ID & Pass Sign In</div>
+                      <div className="text-xs text-slate-600 font-medium">Warden ID & Pass Sign In</div>
                     </div>
                   </div>
                   <ArrowRight className="w-4 h-4 text-royal" />
@@ -512,17 +515,25 @@ const LandingPage = () => {
         )}
       </motion.header>
 
-      {/* =========================================================================
-          1. HERO SECTION – INTRODUCING HOSTELFIX
-          ========================================================================= */}
+      {/* Primary Page Content Landmark */}
+      <main id="main-content" className="flex-1 w-full min-w-0">
+        {/* =========================================================================
+            1. HERO SECTION – INTRODUCING HOSTELFIX
+            ========================================================================= */}
       <section className="relative z-10 pt-12 sm:pt-20 pb-16 sm:pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center">
         <div className="scroll-reveal max-w-4xl mx-auto">
           {/* Logo Brand Accent */}
           <div className="inline-flex items-center justify-center mb-6">
             <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-3xl bg-white p-3 shadow-glass border border-sky/40 hover:scale-105 transition-transform">
               <img
-                src="/logo-icon.png"
+                src="/logo-icon.webp"
+                srcSet="/logo-icon-64.webp 64w, /logo-icon-128.webp 128w"
+                sizes="(max-width: 640px) 64px, 80px"
                 alt="HostelFix Logo"
+                width="80"
+                height="80"
+                loading="eager"
+                decoding="async"
                 className="w-full h-full object-contain"
               />
             </div>
@@ -590,8 +601,8 @@ const LandingPage = () => {
                 <Lock className="w-3 h-3 text-emerald-600 shrink-0" />
                 <span className="truncate">hostelfix.app/student/dashboard</span>
               </div>
-              <div className="hidden sm:flex items-center gap-1.5 text-[11px] font-semibold text-emerald-600 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <div className="hidden sm:flex items-center gap-1.5 text-xs font-semibold text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-300">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse" />
                 <span>Live Sync Active</span>
               </div>
             </div>
@@ -612,14 +623,14 @@ const LandingPage = () => {
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
-                      <h3 className="font-heading font-extrabold text-navy text-sm sm:text-base">
+                      <p className="font-heading font-extrabold text-navy text-sm sm:text-base">
                         Naitik Anand
-                      </h3>
-                      <span className="px-2 py-0.5 rounded-md bg-royal/10 text-royal text-[10px] font-bold">
+                      </p>
+                      <span className="px-2 py-0.5 rounded-md bg-royal/10 text-royal text-xs font-bold">
                         STUDENT
                       </span>
                     </div>
-                    <p className="text-xs text-slate-500">Visvesvaraya Block • Room D-101</p>
+                    <p className="text-xs text-slate-600 font-medium">Visvesvaraya Block • Room D-101</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 text-xs">
@@ -637,11 +648,11 @@ const LandingPage = () => {
                   className={`dashboard-stat-card p-3 sm:p-4 rounded-xl bg-white border border-sky/30 shadow-2xs transition-all duration-600 ease-[cubic-bezier(0.16,1,0.3,1)] delay-[250ms] ${showcaseRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                     }`}
                 >
-                  <p className="text-[11px] text-slate-500 font-semibold">Total Complaints</p>
+                  <p className="text-xs text-slate-700 font-semibold">Total Complaints</p>
                   <p className="text-xl sm:text-2xl font-extrabold text-navy mt-1 tabular-nums">
                     {showcaseCounts.total}
                   </p>
-                  <p className="text-[10px] text-emerald-600 font-medium mt-0.5">Lifetime logged</p>
+                  <p className="text-xs text-emerald-700 font-semibold mt-0.5">Lifetime logged</p>
                 </div>
 
                 {/* Stat 02: Awaiting Review */}
@@ -649,11 +660,11 @@ const LandingPage = () => {
                   className={`dashboard-stat-card p-3 sm:p-4 rounded-xl bg-white border border-sky/30 shadow-2xs transition-all duration-600 ease-[cubic-bezier(0.16,1,0.3,1)] delay-[370ms] ${showcaseRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                     }`}
                 >
-                  <p className="text-[11px] text-slate-500 font-semibold">Awaiting Review</p>
-                  <p className="text-xl sm:text-2xl font-extrabold text-amber-600 mt-1 tabular-nums">
+                  <p className="text-xs text-slate-700 font-semibold">Awaiting Review</p>
+                  <p className="text-xl sm:text-2xl font-extrabold text-amber-700 mt-1 tabular-nums">
                     {showcaseCounts.review}
                   </p>
-                  <p className="text-[10px] text-slate-400 mt-0.5">Warden triage queue</p>
+                  <p className="text-xs text-slate-600 font-medium mt-0.5">Warden triage queue</p>
                 </div>
 
                 {/* Stat 03: In Progress */}
@@ -661,11 +672,11 @@ const LandingPage = () => {
                   className={`dashboard-stat-card p-3 sm:p-4 rounded-xl bg-white border border-sky/30 shadow-2xs transition-all duration-600 ease-[cubic-bezier(0.16,1,0.3,1)] delay-[490ms] ${showcaseRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                     }`}
                 >
-                  <p className="text-[11px] text-slate-500 font-semibold">In Progress</p>
+                  <p className="text-xs text-slate-700 font-semibold">In Progress</p>
                   <p className="text-xl sm:text-2xl font-extrabold text-electric mt-1 tabular-nums">
                     {showcaseCounts.progress}
                   </p>
-                  <p className="text-[10px] text-royal font-medium mt-0.5">Assigned to staff</p>
+                  <p className="text-xs text-royal font-semibold mt-0.5">Assigned to staff</p>
                 </div>
 
                 {/* Stat 04: Verified Resolved */}
@@ -673,11 +684,11 @@ const LandingPage = () => {
                   className={`dashboard-stat-card p-3 sm:p-4 rounded-xl bg-white border border-sky/30 shadow-2xs transition-all duration-600 ease-[cubic-bezier(0.16,1,0.3,1)] delay-[610ms] ${showcaseRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                     }`}
                 >
-                  <p className="text-[11px] text-slate-500 font-semibold">Verified Resolved</p>
-                  <p className="text-xl sm:text-2xl font-extrabold text-emerald-600 mt-1 tabular-nums">
+                  <p className="text-xs text-slate-700 font-semibold">Verified Resolved</p>
+                  <p className="text-xl sm:text-2xl font-extrabold text-emerald-700 mt-1 tabular-nums">
                     {showcaseCounts.resolved}
                   </p>
-                  <p className="text-[10px] text-emerald-600 font-medium mt-0.5">Photo proof signed</p>
+                  <p className="text-xs text-emerald-700 font-semibold mt-0.5">Photo proof signed</p>
                 </div>
               </div>
 
@@ -697,10 +708,10 @@ const LandingPage = () => {
                         }`}
                     >
                       <span className="font-mono text-xs font-bold text-royal">HF-2026-0048</span>
-                      <span className="px-2 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-[10px] font-bold">
+                      <span className="px-2 py-0.5 rounded-full bg-amber-50 border border-amber-300 text-amber-800 text-xs font-bold">
                         High Priority
                       </span>
-                      <span className="px-2 py-0.5 rounded-full bg-blue-50 border border-sky/30 text-royal text-[10px] font-semibold">
+                      <span className="px-2 py-0.5 rounded-full bg-blue-50 border border-sky/30 text-royal text-xs font-bold">
                         Plumbing & Washroom
                       </span>
                     </div>
@@ -710,10 +721,10 @@ const LandingPage = () => {
                       className={`transition-all duration-500 delay-[750ms] ${showcaseRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-1'
                         }`}
                     >
-                      <h4 className="font-heading font-bold text-navy text-sm sm:text-base mt-1">
+                      <p className="font-heading font-bold text-navy text-sm sm:text-base mt-1">
                         Water Leakage in 3rd Floor Restroom
-                      </h4>
-                      <p className="text-xs text-slate-500 mt-0.5">
+                      </p>
+                      <p className="text-xs text-slate-600 mt-0.5">
                         Technician assigned: <strong className="text-navy">Ramesh Kumar (Master Plumber)</strong> • Visvesvaraya Block
                       </p>
                     </div>
@@ -725,8 +736,8 @@ const LandingPage = () => {
                   className={`flex items-center gap-2 self-start md:self-center shrink-0 transition-all duration-500 delay-[850ms] ${showcaseRevealed ? 'opacity-100 scale-100' : 'opacity-0 scale-90'
                     }`}
                 >
-                  <span className="px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-bold flex items-center gap-1.5 shadow-2xs">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 drop-shadow-xs" />
+                  <span className="px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs font-bold flex items-center gap-1.5 shadow-2xs">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700 drop-shadow-xs" />
                     <span>In Progress • Photo Attached</span>
                   </span>
                 </div>
@@ -744,7 +755,7 @@ const LandingPage = () => {
             </div>
             <div>
               <p className="leading-tight">Before & After Photo Proof</p>
-              <p className="text-[10px] text-slate-500 font-normal">Warden verified resolution</p>
+              <p className="text-xs text-slate-600 font-medium">Warden verified resolution</p>
             </div>
           </div>
 
@@ -758,7 +769,7 @@ const LandingPage = () => {
             </div>
             <div>
               <p className="leading-tight">&lt; 2h First Response</p>
-              <p className="text-[10px] text-slate-500 font-normal">Fast-tracked priority triage</p>
+              <p className="text-xs text-slate-600 font-medium">Fast-tracked priority triage</p>
             </div>
           </div>
         </div>
@@ -791,7 +802,7 @@ const LandingPage = () => {
             </div>
 
             <div className="flex items-center text-royal">
-              <span className="hidden md:inline font-bold text-xs uppercase tracking-wider text-slate-400 px-2">Reports Issue</span>
+              <span className="hidden md:inline font-bold text-xs uppercase tracking-wider text-slate-600 px-2">Reports Issue</span>
               <ArrowRight className="w-4 h-4" />
             </div>
 
@@ -803,7 +814,7 @@ const LandingPage = () => {
             </div>
 
             <div className="flex items-center text-royal">
-              <span className="hidden md:inline font-bold text-xs uppercase tracking-wider text-slate-400 px-2">Assigns Task</span>
+              <span className="hidden md:inline font-bold text-xs uppercase tracking-wider text-slate-600 px-2">Assigns Task</span>
               <ArrowRight className="w-4 h-4" />
             </div>
 
@@ -1218,7 +1229,7 @@ const LandingPage = () => {
                       <h3 className="font-heading font-extrabold text-base sm:text-lg text-slate-900">
                         Traditional Hostel Maintenance
                       </h3>
-                      <p className="text-xs text-rose-600 font-semibold">Paper-based & unverified</p>
+                      <p className="text-xs text-rose-700 font-semibold">Paper-based & unverified</p>
                     </div>
                   </div>
 
@@ -1249,7 +1260,7 @@ const LandingPage = () => {
                     </li>
                   </ul>
                 </div>
-                <div className="mt-6 pt-4 border-t border-rose-100 text-[11px] text-slate-400 font-medium italic">
+                <div className="mt-6 pt-4 border-t border-rose-100 text-xs text-slate-600 font-medium italic">
                   High resident frustration, unverified closures, recurring breakdowns.
                 </div>
               </div>
@@ -1344,7 +1355,7 @@ const LandingPage = () => {
                     <span className="text-xs font-mono font-extrabold px-2.5 py-1 rounded-lg bg-blue-100 text-royal">
                       01
                     </span>
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                    <span className="text-xs font-bold uppercase tracking-wider text-slate-600">
                       STUDENT
                     </span>
                   </div>
@@ -1355,7 +1366,7 @@ const LandingPage = () => {
                     Student submits a complaint with category, description and photos.
                   </p>
                 </div>
-                <div className="mt-4 pt-2 border-t border-sky/20 flex items-center gap-1.5 text-[11px] text-royal font-semibold">
+                <div className="mt-4 pt-2 border-t border-sky/20 flex items-center gap-1.5 text-xs text-royal font-semibold">
                   <FileText className="w-3.5 h-3.5 text-electric" />
                   <span>Ticket Logged</span>
                 </div>
@@ -1370,7 +1381,7 @@ const LandingPage = () => {
                     <span className="text-xs font-mono font-extrabold px-2.5 py-1 rounded-lg bg-blue-100 text-royal">
                       02
                     </span>
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                    <span className="text-xs font-bold uppercase tracking-wider text-slate-600">
                       WARDEN
                     </span>
                   </div>
@@ -1381,7 +1392,7 @@ const LandingPage = () => {
                     Warden reviews the reported issue.
                   </p>
                 </div>
-                <div className="mt-4 pt-2 border-t border-sky/20 flex items-center gap-1.5 text-[11px] text-royal font-semibold">
+                <div className="mt-4 pt-2 border-t border-sky/20 flex items-center gap-1.5 text-xs text-royal font-semibold">
                   <Eye className="w-3.5 h-3.5 text-electric" />
                   <span>Priority Assessed</span>
                 </div>
@@ -1396,7 +1407,7 @@ const LandingPage = () => {
                     <span className="text-xs font-mono font-extrabold px-2.5 py-1 rounded-lg bg-blue-100 text-royal">
                       03
                     </span>
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                    <span className="text-xs font-bold uppercase tracking-wider text-slate-600">
                       WARDEN
                     </span>
                   </div>
@@ -1407,7 +1418,7 @@ const LandingPage = () => {
                     Warden assigns the maintenance task to staff.
                   </p>
                 </div>
-                <div className="mt-4 pt-2 border-t border-sky/20 flex items-center gap-1.5 text-[11px] text-royal font-semibold">
+                <div className="mt-4 pt-2 border-t border-sky/20 flex items-center gap-1.5 text-xs text-royal font-semibold">
                   <UserPlus className="w-3.5 h-3.5 text-electric" />
                   <span>Staff Assigned</span>
                 </div>
@@ -1422,7 +1433,7 @@ const LandingPage = () => {
                     <span className="text-xs font-mono font-extrabold px-2.5 py-1 rounded-lg bg-blue-100 text-royal">
                       04
                     </span>
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                    <span className="text-xs font-bold uppercase tracking-wider text-slate-600">
                       STAFF
                     </span>
                   </div>
@@ -1433,7 +1444,7 @@ const LandingPage = () => {
                     Staff completes the work and uploads photographic proof.
                   </p>
                 </div>
-                <div className="mt-4 pt-2 border-t border-sky/20 flex items-center gap-1.5 text-[11px] text-royal font-semibold">
+                <div className="mt-4 pt-2 border-t border-sky/20 flex items-center gap-1.5 text-xs text-royal font-semibold">
                   <Camera className="w-3.5 h-3.5 text-electric" />
                   <span>Proof Uploaded</span>
                 </div>
@@ -1448,7 +1459,7 @@ const LandingPage = () => {
                     <span className="text-xs font-mono font-extrabold px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800">
                       05
                     </span>
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-600">
+                    <span className="text-xs font-bold uppercase tracking-wider text-emerald-700">
                       WARDEN
                     </span>
                   </div>
@@ -1459,8 +1470,8 @@ const LandingPage = () => {
                     Warden reviews the submitted proof and approves the resolution.
                   </p>
                 </div>
-                <div className="mt-4 pt-2 border-t border-emerald-100 flex items-center gap-1.5 text-[11px] text-emerald-700 font-bold">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                <div className="mt-4 pt-2 border-t border-emerald-100 flex items-center gap-1.5 text-xs text-emerald-800 font-bold">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700" />
                   <span>Ticket Closed</span>
                 </div>
               </div>
@@ -1482,8 +1493,14 @@ const LandingPage = () => {
             <div className="relative z-10 max-w-2xl mx-auto">
               <div className="w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 p-2.5 mx-auto mb-6 flex items-center justify-center shadow-lg">
                 <img
-                  src="/logo-icon.png"
+                  src="/logo-icon-64.webp"
+                  srcSet="/logo-icon-64.webp 64w, /logo-icon-128.webp 128w"
+                  sizes="56px"
                   alt="HostelFix"
+                  width="56"
+                  height="56"
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-contain"
                 />
               </div>
@@ -1517,6 +1534,7 @@ const LandingPage = () => {
           </div>
         </div>
       </section>
+      </main>
 
       {/* =========================================================================
           9. FOOTER
@@ -1527,8 +1545,14 @@ const LandingPage = () => {
             {/* Brand & Tagline */}
             <div className="flex items-center gap-3 text-center">
               <img
-                src="/logo-icon.png"
+                src="/logo-icon-64.webp"
+                srcSet="/logo-icon-64.webp 64w, /logo-icon-128.webp 128w"
+                sizes="32px"
                 alt="HostelFix Logo"
+                width="32"
+                height="32"
+                loading="lazy"
+                decoding="async"
                 className="w-8 h-8 object-contain rounded-xl"
               />
               <div>
@@ -1583,7 +1607,7 @@ const LandingPage = () => {
           </div>
 
           {/* Bottom Copyright */}
-          <div className="pt-6 flex items-center justify-center text-center text-[11px] text-slate-400">
+          <div className="pt-6 flex items-center justify-center text-center text-xs text-slate-600 font-medium">
             <p>© {new Date().getFullYear()} HostelFix. Smart Hostel Complaint & Maintenance Management System.</p>
           </div>
         </div>

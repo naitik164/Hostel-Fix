@@ -13,14 +13,16 @@ import React, { useState, useEffect, useRef } from 'react';
  *  - 800-2400ms: Fluid progress animation & 500ms text crossfades
  *  - 2500-3400ms: Connected multi-stage exit (content fade-out -> backdrop scale & fade -> 900ms website reveal)
  */
-const MIN_SHOWCASE_MS = 2500; // 2.5s golden visual experience when ready
-const MAX_FALLBACK_TIMEOUT_MS = 5500; // 5.5s maximum safeguard - never freeze or hold the screen indefinitely
+const DEFAULT_MIN_SHOWCASE_MS = 500; // Snappy 500ms visual experience when ready
+const DEFAULT_MAX_FALLBACK_TIMEOUT_MS = 2500; // 2.5s maximum safeguard - never freeze or hold the screen indefinitely
 
 const PremiumPageLoader = ({
   isReady = false,
   onComplete,
   tagline = 'Making hostel life better.',
   customMessage,
+  minShowcaseMs = DEFAULT_MIN_SHOWCASE_MS,
+  maxFallbackMs = DEFAULT_MAX_FALLBACK_TIMEOUT_MS,
 }) => {
   const [progress, setProgress] = useState(0);
   const [isExitingContent, setIsExitingContent] = useState(false);
@@ -56,8 +58,8 @@ const PremiumPageLoader = ({
       const ready = isReadyRef.current;
 
       if (!exitTriggered) {
-        const isTimeCapped = elapsed >= MAX_FALLBACK_TIMEOUT_MS;
-        if ((ready && elapsed >= MIN_SHOWCASE_MS) || isTimeCapped) {
+        const isTimeCapped = elapsed >= maxFallbackMs;
+        if ((ready && elapsed >= minShowcaseMs) || isTimeCapped) {
           // Both application is ready (or maximum safeguard timeout elapsed)
           exitTriggered = true;
           setProgress(100);
@@ -102,7 +104,7 @@ const PremiumPageLoader = ({
           setSmoothStatus(customMessage || 'Almost there...');
         } else {
           // If elapsed >= 2300ms but app is still waiting on actual backend readiness:
-          if (!ready && elapsed < MAX_FALLBACK_TIMEOUT_MS - 300) {
+          if (!ready && elapsed < maxFallbackMs - 300) {
             // Eases gently toward 92% and naturally holds without stalling or jumping
             setProgress((prev) => Math.min(92, prev + 0.15));
             setSmoothStatus(customMessage || 'Finalizing secure connection...');
@@ -177,8 +179,15 @@ const PremiumPageLoader = ({
             />
 
             <img
-              src="/logo-icon.png"
+              src="/logo-icon.webp"
+              srcSet="/logo-icon-64.webp 64w, /logo-icon-128.webp 128w"
+              sizes="(max-width: 640px) 56px, 64px"
               alt="HostelFix Logo"
+              width="64"
+              height="64"
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
               className="w-14 h-14 sm:w-16 sm:h-16 object-contain filter drop-shadow-md relative z-10"
             />
           </div>
@@ -216,14 +225,14 @@ const PremiumPageLoader = ({
           </div>
 
           {/* Dynamic Status & Percentage with 400-600ms crossfade */}
-          <div className="flex items-center justify-between mt-3 text-[11px] text-slate-400 font-medium">
+          <div className="flex items-center justify-between mt-3 text-xs text-slate-300 font-medium">
             <span
-              className="text-sky-light/80 tracking-wide font-sans transition-opacity duration-300 ease-in-out"
+              className="text-sky-light font-medium tracking-wide font-sans transition-opacity duration-300 ease-in-out"
               style={{ opacity: textOpacity }}
             >
               {displayedText}
             </span>
-            <span className="font-mono text-sky/70 text-[10px] tracking-wider">
+            <span className="font-mono text-sky-light text-xs font-semibold tracking-wider">
               {Math.round(progress)}%
             </span>
           </div>

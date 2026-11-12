@@ -3,25 +3,25 @@ import { AlertTriangle, AlertCircle, ShieldAlert, ArrowDown } from 'lucide-react
 
 const priorityConfig = {
   Critical: {
-    bg: 'bg-red-50 text-red-700 border-red-300',
+    bg: 'bg-red-50 text-red-800 border-red-300',
     icon: ShieldAlert,
-    iconColor: 'text-red-600',
+    iconColor: 'text-red-700',
     badge: 'ring-1 ring-red-400',
   },
   High: {
-    bg: 'bg-orange-50 text-orange-700 border-orange-300',
+    bg: 'bg-orange-50 text-orange-800 border-orange-300',
     icon: AlertTriangle,
-    iconColor: 'text-orange-500',
+    iconColor: 'text-orange-700',
   },
   Medium: {
-    bg: 'bg-amber-50 text-amber-700 border-amber-300',
+    bg: 'bg-amber-50 text-amber-800 border-amber-300',
     icon: AlertCircle,
-    iconColor: 'text-amber-500',
+    iconColor: 'text-amber-700',
   },
   Low: {
-    bg: 'bg-blue-50 text-blue-700 border-blue-200',
+    bg: 'bg-blue-50 text-blue-800 border-blue-200',
     icon: ArrowDown,
-    iconColor: 'text-blue-500',
+    iconColor: 'text-blue-700',
   },
 };
 

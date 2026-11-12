@@ -4,14 +4,10 @@ import api from '../../services/api';
 import {
   ArrowLeft,
   Building,
-  MapPin,
-  Calendar,
   AlertTriangle,
   Clock,
   CheckCircle2,
   UploadCloud,
-  FileText,
-  Image as ImageIcon,
   Check,
   AlertCircle,
   Play,
@@ -19,9 +15,6 @@ import {
   Camera,
   History,
   Shield,
-  User,
-  MessageSquare,
-  HelpCircle,
   Flame,
   Loader2,
 } from 'lucide-react';
@@ -240,7 +233,7 @@ const StaffTaskDetail = () => {
       Urgent: 'bg-rose-500 text-white',
       High: 'bg-amber-500 text-white',
       Medium: 'bg-blue-500 text-white',
-      Low: 'bg-slate-400 text-white',
+      Low: 'bg-slate-600 text-white',
     };
     return map[p] || 'bg-blue-500 text-white';
   };
@@ -259,8 +252,8 @@ const StaffTaskDetail = () => {
     return (
       <div className="glass-card p-10 text-center border border-rose-200">
         <AlertCircle className="w-12 h-12 text-rose-500 mx-auto mb-3" />
-        <h2 className="text-base font-bold text-navy">Unable to Load Task</h2>
-        <p className="text-xs text-rose-600 mt-1 max-w-sm mx-auto">{error}</p>
+        <h1 className="text-base font-bold text-navy">Unable to Load Task</h1>
+        <p className="text-xs text-rose-700 font-medium mt-1 max-w-sm mx-auto">{error}</p>
         <Link
           to="/staff/tasks"
           className="mt-4 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-electric text-white text-xs font-bold"
@@ -320,9 +313,9 @@ const StaffTaskDetail = () => {
         <div className="p-5 rounded-3xl bg-rose-50 border-2 border-rose-400 text-rose-950 shadow-md space-y-2">
           <div className="flex items-center gap-2.5">
             <Flame className="w-5 h-5 text-rose-600 animate-pulse" />
-            <h3 className="text-sm font-black uppercase tracking-wide text-rose-800">
+            <p className="text-sm font-black uppercase tracking-wide text-rose-800">
               Rework Required by Warden (Attempt #{task.reworkCount})
-            </h3>
+            </p>
           </div>
           <p className="text-xs text-rose-900 leading-relaxed font-medium bg-white/70 p-3 rounded-xl border border-rose-200">
             "{task.reworkReason}"
@@ -433,43 +426,43 @@ const StaffTaskDetail = () => {
         {/* Location & Contact Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4 rounded-2xl bg-blue-50/50 border border-sky/20 text-xs">
           <div>
-            <span className="text-slate-400 block text-[11px] font-semibold">Location / Block</span>
+            <span className="text-slate-600 block text-xs font-semibold">Location / Block</span>
             <div className="flex items-center gap-1.5 mt-1 font-bold text-navy">
               <Building className="w-4 h-4 text-royal" />
               <span>{task.hostelBlockName}</span>
             </div>
             {task.roomNumber && (
-              <p className="text-slate-600 mt-0.5">Room: {task.roomNumber}</p>
+              <p className="text-slate-700 mt-0.5">Room: {task.roomNumber}</p>
             )}
             {task.location && (
-              <p className="text-slate-500 text-[11px]">{task.location}</p>
+              <p className="text-slate-600 text-xs mt-0.5">{task.location}</p>
             )}
           </div>
 
           <div>
-            <span className="text-slate-400 block text-[11px] font-semibold">Student Contact</span>
+            <span className="text-slate-600 block text-xs font-semibold">Student Contact</span>
             <p className="font-bold text-navy mt-1">{task.studentId?.name || 'N/A'}</p>
-            <p className="text-slate-600 text-[11px]">{task.studentId?.email}</p>
+            <p className="text-slate-700 text-xs">{task.studentId?.email}</p>
             {task.studentId?.phone && (
-              <p className="text-royal font-mono font-medium text-[11px]">{task.studentId.phone}</p>
+              <p className="text-royal font-mono font-medium text-xs mt-0.5">{task.studentId.phone}</p>
             )}
           </div>
 
           <div>
-            <span className="text-slate-400 block text-[11px] font-semibold">Assignment Date</span>
+            <span className="text-slate-600 block text-xs font-semibold">Assignment Date</span>
             <p className="font-bold text-navy mt-1">
               {new Date(task.assignedAt || task.createdAt).toLocaleDateString()}
             </p>
             {task.assignedBy && (
-              <p className="text-slate-500 text-[11px]">By Warden {task.assignedBy.name}</p>
+              <p className="text-slate-600 text-xs mt-0.5">By Warden {task.assignedBy.name}</p>
             )}
           </div>
 
           <div>
-            <span className="text-slate-400 block text-[11px] font-semibold">Current Phase</span>
+            <span className="text-slate-600 block text-xs font-semibold">Current Phase</span>
             <p className="font-bold text-royal mt-1">{task.status}</p>
             {task.startedAt && (
-              <p className="text-slate-500 text-[11px]">
+              <p className="text-slate-600 text-xs mt-0.5">
                 Started: {new Date(task.startedAt).toLocaleDateString()}
               </p>
             )}
@@ -518,6 +511,8 @@ const StaffTaskDetail = () => {
                   <img
                     src={img}
                     alt={`Student Photo ${idx + 1}`}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                   />
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold">
@@ -593,9 +588,9 @@ const StaffTaskDetail = () => {
                   <span className="text-xs font-bold text-royal hover:underline">
                     Click to browse photos
                   </span>
-                  <span className="text-xs text-slate-500"> or capture from mobile camera</span>
+                  <span className="text-xs text-slate-600 font-medium"> or capture from mobile camera</span>
                 </div>
-                <p className="text-[11px] text-slate-400">
+                <p className="text-xs text-slate-600 font-medium">
                   Supported formats: JPG, PNG, WEBP (Max 4 photos, 5MB each)
                 </p>
               </label>
@@ -610,7 +605,7 @@ const StaffTaskDetail = () => {
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   {previewUrls.map((url, i) => (
                     <div key={i} className="aspect-square rounded-xl overflow-hidden border border-sky/40 relative shadow-sm">
-                      <img src={url} alt="Preview" className="w-full h-full object-cover" />
+                      <img src={url} alt="Preview" loading="lazy" decoding="async" className="w-full h-full object-cover" />
                       <span className="absolute bottom-1 left-1 px-1.5 py-0.5 rounded bg-black/60 text-[9px] text-white font-mono uppercase">
                         {evidenceType}
                       </span>
@@ -671,9 +666,9 @@ const StaffTaskDetail = () => {
 
           {evidenceList.length === 0 ? (
             <div className="p-8 text-center rounded-2xl bg-slate-50 border border-slate-200">
-              <Camera className="w-10 h-10 text-slate-300 mx-auto mb-2" />
-              <p className="text-xs font-semibold text-slate-500">No photo evidence uploaded yet.</p>
-              <p className="text-[11px] text-slate-400 mt-0.5">
+              <Camera className="w-10 h-10 text-slate-400 mx-auto mb-2" />
+              <p className="text-xs font-semibold text-slate-700">No photo evidence uploaded yet.</p>
+              <p className="text-xs text-slate-600 font-medium mt-0.5">
                 Before submitting for warden sign-off, at least one photo showing completed work is required.
               </p>
             </div>
@@ -688,6 +683,8 @@ const StaffTaskDetail = () => {
                     <img
                       src={item.imageUrl}
                       alt={item.caption || `Proof photo ${idx + 1}`}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                     />
                     <div className="absolute top-2 left-2 flex items-center gap-1.5">
@@ -722,9 +719,9 @@ const StaffTaskDetail = () => {
                     {item.caption ? (
                       <p className="font-semibold text-navy line-clamp-2">{item.caption}</p>
                     ) : (
-                      <p className="text-slate-400 italic text-[11px]">No caption provided</p>
+                      <p className="text-slate-600 italic text-xs">No caption provided</p>
                     )}
-                    <span className="text-[10px] text-slate-400 block">
+                    <span className="text-xs text-slate-600 block">
                       Uploaded {new Date(item.uploadedAt).toLocaleString()}
                     </span>
                   </div>
@@ -743,7 +740,7 @@ const StaffTaskDetail = () => {
         </h2>
 
         {history.length === 0 ? (
-          <p className="text-xs text-slate-400">No action history recorded yet.</p>
+          <p className="text-xs text-slate-600">No action history recorded yet.</p>
         ) : (
           <div className="space-y-3.5 relative before:absolute before:top-2 before:bottom-2 before:left-3.5 before:w-0.5 before:bg-sky/30">
             {history.map((item) => (
@@ -751,10 +748,10 @@ const StaffTaskDetail = () => {
                 <div className="absolute left-2 top-1.5 w-3 h-3 rounded-full bg-electric border-2 border-white" />
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="font-bold text-navy">{item.actionType}</span>
-                  <span className="text-[10px] px-2 py-0.5 rounded bg-sky/10 text-royal font-semibold">
+                  <span className="text-xs px-2 py-0.5 rounded bg-sky/10 text-royal font-semibold">
                     {item.performedByRole ? item.performedByRole.toUpperCase() : 'USER'}: {item.performedByName}
                   </span>
-                  <span className="text-[10px] text-slate-400">
+                  <span className="text-xs text-slate-600">
                     {new Date(item.createdAt).toLocaleString()}
                   </span>
                 </div>
@@ -785,7 +782,7 @@ const StaffTaskDetail = () => {
               </div>
               <button
                 onClick={() => setShowVerificationModal(false)}
-                className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-navy hover:bg-slate-100 transition-colors touch-target"
+                className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-600 hover:text-navy hover:bg-slate-100 transition-colors touch-target"
                 aria-label="Close modal"
               >
                 ✕
@@ -864,7 +861,7 @@ const StaffTaskDetail = () => {
               </div>
               <button
                 onClick={() => setShowUnableModal(false)}
-                className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-navy hover:bg-slate-100 transition-colors touch-target"
+                className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-600 hover:text-navy hover:bg-slate-100 transition-colors touch-target"
                 aria-label="Close modal"
               >
                 ✕

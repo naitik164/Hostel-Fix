@@ -29,15 +29,15 @@ const AdminLayout = () => {
   useEffect(() => {
     const fetchCounts = async () => {
       try {
-        const [notifRes, verifRes] = await Promise.all([
+        const [notifRes, verifRes] = await Promise.allSettled([
           api.get('/admin/notifications'),
           api.get('/admin/verifications'),
         ]);
-        if (notifRes.data && notifRes.data.success) {
-          setUnreadCount(notifRes.data.unreadCount || 0);
+        if (notifRes.status === 'fulfilled' && notifRes.value.data?.success) {
+          setUnreadCount(notifRes.value.data.unreadCount || 0);
         }
-        if (verifRes.data && verifRes.data.success) {
-          setPendingVerificationsCount(verifRes.data.count || 0);
+        if (verifRes.status === 'fulfilled' && verifRes.value.data?.success) {
+          setPendingVerificationsCount(verifRes.value.data.count || 0);
         }
       } catch (e) {
         // ignore
@@ -72,13 +72,27 @@ const AdminLayout = () => {
 
   return (
     <div className="flex-1 flex flex-col md:flex-row min-h-screen bg-[#F5F9FF] text-[#03195B] relative font-sans w-full">
+      {/* Skip to Main Content Link for Accessibility */}
+      <a
+        href="#admin-main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-4 focus:z-50 focus:px-3.5 focus:py-2 focus:bg-electric focus:text-white focus:rounded-xl focus:shadow-lg focus:outline-none text-xs font-bold"
+      >
+        Skip to main content
+      </a>
+
       {/* Dark Navy Liquid Glass Sidebar for Desktop */}
       <aside className="hidden md:flex flex-col w-72 shrink-0 glass-dark-panel text-white p-5 sticky top-0 h-screen overflow-y-auto z-30">
         {/* Brand Header */}
         <div className="flex items-center gap-3.5 pb-6 border-b border-sky/20">
           <img
-            src="/logo-icon.png"
+            src="/logo-icon.webp"
+            srcSet="/logo-icon-64.webp 64w, /logo-icon-128.webp 128w"
+            sizes="44px"
             alt="HostelFix Logo"
+            width="44"
+            height="44"
+            loading="eager"
+            decoding="async"
             className="w-11 h-11 object-contain drop-shadow-md rounded-2xl"
           />
           <div>
@@ -151,11 +165,17 @@ const AdminLayout = () => {
       </aside>
 
       {/* Mobile Top Navbar for Warden */}
-      <div className="md:hidden flex items-center justify-between p-3.5 sm:p-4 bg-navy text-white sticky top-0 z-40 shadow-md">
+      <header className="md:hidden flex items-center justify-between p-3.5 sm:p-4 bg-navy text-white sticky top-0 z-40 shadow-md">
         <div className="flex items-center gap-2.5">
           <img
-            src="/logo-icon.png"
+            src="/logo-icon-64.webp"
+            srcSet="/logo-icon-64.webp 64w, /logo-icon-128.webp 128w"
+            sizes="32px"
             alt="HostelFix Logo"
+            width="32"
+            height="32"
+            loading="eager"
+            decoding="async"
             className="w-8 h-8 object-contain drop-shadow-md rounded-xl shrink-0"
           />
           <div>
@@ -187,7 +207,7 @@ const AdminLayout = () => {
             {sidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
-      </div>
+      </header>
 
       {/* Mobile Sidebar Overlay */}
       {sidebarOpen && (
@@ -246,12 +266,12 @@ const AdminLayout = () => {
 
       {/* Main Administrative Content Area */}
       <div className="flex-1 flex flex-col min-w-0 overflow-x-hidden">
-        <main className="flex-1 flex flex-col p-3.5 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto min-w-0">
+        <main id="admin-main-content" className="flex-1 flex flex-col p-3.5 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto min-w-0">
           <PageTransition>
             <Outlet />
           </PageTransition>
         </main>
-        <footer className="mt-auto shrink-0 py-4 px-4 border-t border-sky/20 bg-white/40 text-center text-xs text-slate-500">
+        <footer className="mt-auto shrink-0 py-4 px-4 border-t border-sky/20 bg-white/40 text-center text-xs text-slate-600 font-medium">
           <p>© 2026 HostelFix — Warden Control & Operational Command Center</p>
         </footer>
       </div>

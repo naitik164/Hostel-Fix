@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { GoogleLogin } from '@react-oauth/google';
-import { ArrowLeft, Shield, AlertCircle, CheckCircle, Sparkles, Loader2 } from 'lucide-react';
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import { ArrowLeft, Shield, AlertCircle, Sparkles } from 'lucide-react';
 
 const StudentLogin = () => {
   const { user, loading: authLoading, loginWithGoogle } = useAuth();
@@ -60,15 +60,15 @@ const StudentLogin = () => {
     setError('Google Sign-In was cancelled or failed to initialize.');
   };
 
-  return (
+  const loginContent = (
     <div className="min-h-[100dvh] relative flex items-center justify-center p-3 sm:p-4 overflow-hidden bg-gradient-dark font-sans">
       {/* Layered liquid-glass atmospheric shapes */}
       <div className="absolute -top-32 -left-32 w-96 h-96 bg-royal/40 rounded-full filter blur-3xl pointer-events-none animate-pulse" />
       <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-electric/30 rounded-full filter blur-3xl pointer-events-none" />
       <div className="absolute top-1/3 right-1/4 w-72 h-72 bg-sky/20 rounded-full filter blur-2xl pointer-events-none" />
 
-      {/* Main Centered Frosted-Glass Card */}
-      <div className="relative z-10 w-full max-w-md my-auto">
+      {/* Main Centered Frosted-Glass Card Landmark */}
+      <main className="relative z-10 w-full max-w-md my-auto">
         {/* Back Link */}
         <Link
           to="/"
@@ -80,10 +80,17 @@ const StudentLogin = () => {
 
         <div className="glass-card p-5 sm:p-8 lg:p-10 shadow-glass-dark border border-white/80">
           {/* Logo & Header */}
-          <div className="text-center">
+          <header className="text-center">
             <img
-              src="/logo-icon.png"
+              src="/logo-icon.webp"
+              srcSet="/logo-icon-64.webp 64w, /logo-icon-128.webp 128w"
+              sizes="64px"
               alt="HostelFix Logo"
+              width="64"
+              height="64"
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
               className="w-16 h-16 mx-auto mb-4 object-contain filter drop-shadow-md"
             />
             <h1 className="text-2xl font-extrabold text-navy font-heading tracking-tight">
@@ -92,7 +99,7 @@ const StudentLogin = () => {
             <p className="mt-1 text-xs text-slate-500 font-medium">
               HostelFix — "Your Hostel. Your Voice. Better Living."
             </p>
-          </div>
+          </header>
 
           {/* Error Alert */}
           {error && (
@@ -143,16 +150,26 @@ const StudentLogin = () => {
           </div>
 
           {/* Footer note */}
-          <div className="mt-8 pt-6 border-t border-ice text-center text-xs text-slate-500">
+          <footer className="mt-8 pt-6 border-t border-ice text-center text-xs text-slate-500">
             <span>Are you a Hostel Warden or Administrator? </span>
             <Link to="/admin/login" className="font-bold text-royal hover:underline">
               Warden Portal
             </Link>
-          </div>
+          </footer>
         </div>
-      </div>
+      </main>
     </div>
   );
+
+  if (googleClientId) {
+    return (
+      <GoogleOAuthProvider clientId={googleClientId}>
+        {loginContent}
+      </GoogleOAuthProvider>
+    );
+  }
+
+  return loginContent;
 };
 
 export default StudentLogin;

@@ -21,15 +21,26 @@ async function runVerification() {
     }
   }
 
-  // TEST 1: Health & Pre-warming endpoint
+  // TEST 1: Lightweight Liveness Health Check (/api/health)
   try {
     const t0 = performance.now();
     const res = await fetch(`${BASE_URL}/api/health`);
     const data = await res.json();
     const d = performance.now() - t0;
-    assert(res.status === 200 && data.success && data.database === 'connected', 'Health & Pre-warming Endpoint', d, `DB Status: ${data.database}`);
+    assert(res.status === 200 && data.status === 'ok' && data.success, 'Lightweight Liveness Endpoint (/api/health)', d, `Status: ${data.status}`);
   } catch (err) {
-    assert(false, 'Health & Pre-warming Endpoint', 0, err.message);
+    assert(false, 'Lightweight Liveness Endpoint (/api/health)', 0, err.message);
+  }
+
+  // TEST 1b: Database Readiness Health Check (/api/health/ready)
+  try {
+    const t0 = performance.now();
+    const res = await fetch(`${BASE_URL}/api/health/ready`);
+    const data = await res.json();
+    const d = performance.now() - t0;
+    assert(res.status === 200 && data.status === 'ready' && data.database === 'connected', 'Database Readiness Endpoint (/api/health/ready)', d, `DB Status: ${data.database}`);
+  } catch (err) {
+    assert(false, 'Database Readiness Endpoint (/api/health/ready)', 0, err.message);
   }
 
   // TEST 2: Warden ID & Password Authentication

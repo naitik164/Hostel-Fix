@@ -6,12 +6,9 @@ import {
   PlusCircle,
   Edit2,
   Trash2,
-  CheckCircle2,
-  XCircle,
   Loader2,
   AlertCircle,
   X,
-  FileText,
 } from 'lucide-react';
 
 const AdminBlocks = () => {
@@ -169,7 +166,7 @@ const AdminBlocks = () => {
 
       {/* Blocks Grid */}
       {loading ? (
-        <div className="py-20 text-center text-slate-400 flex flex-col items-center gap-2">
+        <div className="py-20 text-center text-slate-600 flex flex-col items-center gap-2">
           <Loader2 className="w-8 h-8 animate-spin text-electric" />
           <p className="text-xs">Fetching hostel block registry...</p>
         </div>
@@ -189,7 +186,7 @@ const AdminBlocks = () => {
                       <Building2 className="w-6 h-6" />
                     </div>
                     <div>
-                      <h3 className="font-bold text-navy text-base">{block.name}</h3>
+                      <h2 className="font-bold text-navy text-base">{block.name}</h2>
                       <p className="font-mono text-xs text-royal font-semibold">{block.code}</p>
                     </div>
                   </div>
@@ -211,14 +208,14 @@ const AdminBlocks = () => {
 
                 <div className="mt-5 grid grid-cols-2 gap-3 text-xs">
                   <div className="bg-white/60 p-2.5 rounded-xl border border-sky/20">
-                    <span className="text-slate-400 text-[10px] uppercase font-bold block mb-0.5">
+                    <span className="text-slate-600 text-xs uppercase font-bold block mb-0.5">
                       Capacity
                     </span>
                     <span className="font-bold text-navy">{block.totalRooms} Rooms</span>
                   </div>
 
                   <div className="bg-white/60 p-2.5 rounded-xl border border-sky/20">
-                    <span className="text-slate-400 text-[10px] uppercase font-bold block mb-0.5">
+                    <span className="text-slate-600 text-xs uppercase font-bold block mb-0.5">
                       Total Tickets
                     </span>
                     <span className="font-bold text-royal">
@@ -281,13 +278,13 @@ const AdminBlocks = () => {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center justify-between border-b border-ice/80 pb-3">
-                <h3 id="block-modal-title" className="font-heading font-bold text-base text-navy">
+                <h2 id="block-modal-title" className="font-heading font-bold text-base text-navy">
                   {editingBlock ? 'Edit Hostel Block' : 'Register New Hostel Block'}
-                </h3>
+                </h2>
                 <button
                   type="button"
                   onClick={() => setModalOpen(false)}
-                  className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-navy hover:bg-slate-100 transition-colors touch-target cursor-pointer"
+                  className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-600 hover:text-navy hover:bg-slate-100 transition-colors touch-target cursor-pointer"
                   aria-label="Close dialog"
                 >
                   <X className="w-5 h-5" />

@@ -14,8 +14,6 @@ import {
   Filter,
   ArrowRight,
   ExternalLink,
-  Loader2,
-  Calendar,
   Building,
   RefreshCw,
 } from 'lucide-react';
@@ -121,21 +119,21 @@ const StudentDashboard = () => {
         {/* Total */}
         <div className="glass-card p-3.5 sm:p-5 lg:p-6 glass-card-hover">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider">Total</span>
-            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-200 shrink-0">
+            <span className="text-xs font-semibold text-slate-700 uppercase tracking-wider">Total</span>
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-blue-50 text-royal flex items-center justify-center border border-sky/30 shrink-0">
               <FileText className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
           </div>
           <p className="mt-2.5 sm:mt-3 text-2xl sm:text-3xl font-extrabold text-navy font-heading">
             {loading ? '-' : data.metrics.total}
           </p>
-          <p className="mt-1 text-[10px] sm:text-[11px] text-slate-400">All registered lifetime complaints</p>
+          <p className="mt-1 text-xs text-slate-600 font-medium">All registered lifetime complaints</p>
         </div>
 
         {/* Pending */}
         <div className="glass-card p-3.5 sm:p-5 lg:p-6 glass-card-hover">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider">Awaiting Review</span>
+            <span className="text-xs font-semibold text-slate-700 uppercase tracking-wider">Awaiting Review</span>
             <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-blue-50 text-royal flex items-center justify-center border border-sky/40 shrink-0">
               <Clock className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
@@ -143,35 +141,35 @@ const StudentDashboard = () => {
           <p className="mt-2.5 sm:mt-3 text-2xl sm:text-3xl font-extrabold text-royal font-heading">
             {loading ? '-' : data.metrics.pending}
           </p>
-          <p className="mt-1 text-[10px] sm:text-[11px] text-slate-400">Queued for warden inspection</p>
+          <p className="mt-1 text-xs text-slate-600 font-medium">Queued for warden inspection</p>
         </div>
 
         {/* In Progress */}
         <div className="glass-card p-3.5 sm:p-5 lg:p-6 glass-card-hover">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider">In Progress</span>
-            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center border border-amber-200 shrink-0">
+            <span className="text-xs font-semibold text-slate-700 uppercase tracking-wider">In Progress</span>
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center border border-amber-300 shrink-0">
               <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
           </div>
-          <p className="mt-2.5 sm:mt-3 text-2xl sm:text-3xl font-extrabold text-amber-600 font-heading">
+          <p className="mt-2.5 sm:mt-3 text-2xl sm:text-3xl font-extrabold text-amber-700 font-heading">
             {loading ? '-' : data.metrics.inProgress}
           </p>
-          <p className="mt-1 text-[10px] sm:text-[11px] text-slate-400">Currently assigned to technicians</p>
+          <p className="mt-1 text-xs text-slate-600 font-medium">Currently assigned to technicians</p>
         </div>
 
         {/* Resolved */}
         <div className="glass-card p-3.5 sm:p-5 lg:p-6 glass-card-hover">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider">Resolved</span>
-            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center border border-emerald-200 shrink-0">
+            <span className="text-xs font-semibold text-slate-700 uppercase tracking-wider">Resolved</span>
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center border border-emerald-300 shrink-0">
               <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
           </div>
-          <p className="mt-2.5 sm:mt-3 text-2xl sm:text-3xl font-extrabold text-emerald-600 font-heading">
+          <p className="mt-2.5 sm:mt-3 text-2xl sm:text-3xl font-extrabold text-emerald-700 font-heading">
             {loading ? '-' : data.metrics.resolved}
           </p>
-          <p className="mt-1 text-[10px] sm:text-[11px] text-slate-400">Successfully closed maintenance issues</p>
+          <p className="mt-1 text-xs text-slate-600 font-medium">Successfully closed maintenance issues</p>
         </div>
       </div>
 
@@ -180,19 +178,19 @@ const StudentDashboard = () => {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h2 className="text-lg sm:text-xl font-heading font-extrabold text-navy">Recent Complaints</h2>
-            <p className="text-xs text-slate-500 mt-0.5">Live status of your submitted hostel concerns</p>
+            <p className="text-xs text-slate-600 font-medium mt-0.5">Live status of your submitted hostel concerns</p>
           </div>
 
           <div className="flex flex-col sm:flex-row sm:items-center gap-2.5 sm:gap-3 w-full sm:w-auto">
             {/* Search */}
             <div className="relative w-full sm:w-56">
-              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+              <Search className="w-4 h-4 text-slate-600 absolute left-3 top-2.5" />
               <input
                 type="text"
                 placeholder="Search reference or title..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="glass-input pl-9 pr-3 py-2 text-xs w-full"
+                className="glass-input pl-9 pr-3 py-2 text-xs w-full placeholder-slate-500"
               />
             </div>
 
@@ -224,7 +222,7 @@ const StudentDashboard = () => {
 
         {/* Horizontal scroll notice for mobile */}
         {filteredComplaints.length > 0 && (
-          <div className="md:hidden text-[10px] text-slate-400 flex items-center justify-end gap-1">
+          <div className="md:hidden text-xs text-slate-600 font-medium flex items-center justify-end gap-1">
             <span>← Swipe table sideways →</span>
           </div>
         )}

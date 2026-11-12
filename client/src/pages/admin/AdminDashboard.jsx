@@ -12,10 +12,6 @@ import {
   ShieldAlert,
   ArrowRight,
   ExternalLink,
-  Users,
-  Building,
-  Loader2,
-  Calendar,
   AlertCircle,
   RefreshCw,
 } from 'lucide-react';
@@ -117,7 +113,7 @@ const AdminDashboard = () => {
               <h2 className="text-xs sm:text-sm font-bold">
                 {metrics.overdue} Complaint(s) Currently Exceeding SLA Targets
               </h2>
-              <p className="text-[11px] text-rose-600 mt-0.5">
+              <p className="text-xs text-rose-700 font-medium mt-0.5">
                 Urgent attention recommended to expedite resolution for high-priority hostel complaints.
               </p>
             </div>
@@ -135,74 +131,74 @@ const AdminDashboard = () => {
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
         {/* Total */}
         <div className="glass-card p-3.5 sm:p-4 glass-card-hover">
-          <div className="flex items-center justify-between text-slate-400">
-            <span className="text-[10px] uppercase font-bold tracking-wider">Total</span>
+          <div className="flex items-center justify-between text-slate-600">
+            <span className="text-xs uppercase font-bold tracking-wider">Total</span>
             <FileText className="w-4 h-4 text-navy" />
           </div>
           <p className="mt-2 text-2xl sm:text-3xl font-extrabold text-navy font-heading">
             {loading ? '-' : metrics.total}
           </p>
-          <span className="text-[10px] text-slate-400">Logged to date</span>
+          <span className="text-xs text-slate-600 font-medium">Logged to date</span>
         </div>
 
         {/* Awaiting Review */}
         <div className="glass-card p-3.5 sm:p-4 glass-card-hover border-royal/40">
           <div className="flex items-center justify-between text-royal">
-            <span className="text-[10px] uppercase font-bold tracking-wider">Submitted</span>
+            <span className="text-xs uppercase font-bold tracking-wider">Submitted</span>
             <Clock className="w-4 h-4" />
           </div>
           <p className="mt-2 text-2xl sm:text-3xl font-extrabold text-royal font-heading">
             {loading ? '-' : metrics.awaitingReview}
           </p>
-          <span className="text-[10px] text-slate-400">Needs review & staff</span>
+          <span className="text-xs text-slate-600 font-medium">Needs review & staff</span>
         </div>
 
         {/* In Progress */}
         <div className="glass-card p-3.5 sm:p-4 glass-card-hover border-amber-300">
-          <div className="flex items-center justify-between text-amber-600">
-            <span className="text-[10px] uppercase font-bold tracking-wider">In Progress</span>
+          <div className="flex items-center justify-between text-amber-700">
+            <span className="text-xs uppercase font-bold tracking-wider">In Progress</span>
             <AlertCircle className="w-4 h-4" />
           </div>
-          <p className="mt-2 text-2xl sm:text-3xl font-extrabold text-amber-600 font-heading">
+          <p className="mt-2 text-2xl sm:text-3xl font-extrabold text-amber-700 font-heading">
             {loading ? '-' : metrics.inProgress}
           </p>
-          <span className="text-[10px] text-slate-400">Under active repair</span>
+          <span className="text-xs text-slate-600 font-medium">Under active repair</span>
         </div>
 
         {/* Resolved */}
         <div className="glass-card p-3.5 sm:p-4 glass-card-hover border-emerald-300">
-          <div className="flex items-center justify-between text-emerald-600">
-            <span className="text-[10px] uppercase font-bold tracking-wider">Resolved</span>
+          <div className="flex items-center justify-between text-emerald-700">
+            <span className="text-xs uppercase font-bold tracking-wider">Resolved</span>
             <CheckCircle2 className="w-4 h-4" />
           </div>
-          <p className="mt-2 text-2xl sm:text-3xl font-extrabold text-emerald-600 font-heading">
+          <p className="mt-2 text-2xl sm:text-3xl font-extrabold text-emerald-700 font-heading">
             {loading ? '-' : metrics.resolved}
           </p>
-          <span className="text-[10px] text-emerald-600 font-semibold">{metrics.resolutionRate}% rate</span>
+          <span className="text-xs text-emerald-700 font-semibold">{metrics.resolutionRate}% rate</span>
         </div>
 
         {/* Overdue */}
         <div className="glass-card p-3.5 sm:p-4 glass-card-hover border-rose-300">
-          <div className="flex items-center justify-between text-rose-600">
-            <span className="text-[10px] uppercase font-bold tracking-wider">Overdue</span>
+          <div className="flex items-center justify-between text-rose-700">
+            <span className="text-xs uppercase font-bold tracking-wider">Overdue</span>
             <AlertTriangle className="w-4 h-4" />
           </div>
-          <p className="mt-2 text-2xl sm:text-3xl font-extrabold text-rose-600 font-heading">
+          <p className="mt-2 text-2xl sm:text-3xl font-extrabold text-rose-700 font-heading">
             {loading ? '-' : metrics.overdue}
           </p>
-          <span className="text-[10px] text-slate-400">Exceeded SLA limit</span>
+          <span className="text-xs text-rose-700 font-medium">Exceeded SLA limit</span>
         </div>
 
         {/* Avg Resolution Time */}
         <div className="glass-card p-3.5 sm:p-4 glass-card-hover border-sky/40">
           <div className="flex items-center justify-between text-electric">
-            <span className="text-[10px] uppercase font-bold tracking-wider">Avg Res.</span>
+            <span className="text-xs uppercase font-bold tracking-wider">Avg Res.</span>
             <TrendingUp className="w-4 h-4" />
           </div>
           <p className="mt-2 text-2xl sm:text-3xl font-extrabold text-electric font-heading">
             {loading ? '-' : `${metrics.avgResolutionTimeHours}h`}
           </p>
-          <span className="text-[10px] text-slate-400">Turnaround time</span>
+          <span className="text-xs text-slate-600 font-medium">Turnaround time</span>
         </div>
       </div>
 
@@ -223,7 +219,7 @@ const AdminDashboard = () => {
         </div>
 
         {recentComplaints.length > 0 && (
-          <div className="md:hidden text-[10px] text-slate-400 flex items-center justify-end px-1">
+          <div className="md:hidden text-xs text-slate-600 font-medium flex items-center justify-end px-1">
             <span>← Swipe table sideways →</span>
           </div>
         )}
@@ -264,7 +260,7 @@ const AdminDashboard = () => {
                     <td className="font-mono font-bold text-xs text-royal">{c.referenceId}</td>
                     <td>
                       <div className="font-semibold text-navy text-xs">{c.studentId?.name || 'Student'}</div>
-                      <div className="text-[11px] text-slate-400">{c.studentId?.email}</div>
+                      <div className="text-xs text-slate-600 font-medium">{c.studentId?.email}</div>
                     </td>
                     <td className="text-xs text-slate-600">{c.category}</td>
                     <td>

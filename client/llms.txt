@@ -1,0 +1,41 @@
+
+# HostelFix
+
+> HostelFix is a smart hostel complaint and maintenance management platform that helps students report hostel issues, track complaint resolution, and enables hostel wardens and maintenance staff to manage operations efficiently.
+
+## About HostelFix
+
+HostelFix provides a centralized platform for managing hostel maintenance complaints and improving communication between students, wardens, and maintenance staff.
+
+## Core Features
+
+- Student complaint registration with descriptions and photo attachments.
+- Real-time complaint status tracking.
+- Warden dashboard for complaint review, prioritization, and staff assignment.
+- Staff dashboard for managing assigned maintenance tasks.
+- Photo-based proof of completed maintenance work.
+- Complaint analytics and resolution statistics.
+- Role-based authentication and access control.
+
+## Public Pages
+
+- [Homepage](https://hostel-fix-kappa.vercel.app/): Official HostelFix landing page.
+
+## Technology Stack
+
+- Frontend: React.js, Vite, Tailwind CSS.
+- Backend: Node.js, Express.js.
+- Database: MongoDB Atlas.
+- Authentication: Google OAuth.
+- Image Storage: Cloudinary.
+- Deployment: Vercel and Render.
+
+## Platform Information
+
+HostelFix is designed to streamline hostel maintenance operations, improve accountability, and provide transparency throughout the complaint resolution process.
+
+## Important Notes
+
+- Private dashboards require authentication.
+- Private user information and complaint records should not be publicly accessed.
+- Do not assume access to authenticated APIs or private resources.

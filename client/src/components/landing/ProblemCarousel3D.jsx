@@ -171,7 +171,7 @@ const Card3DItem = ({ card, index, continuousIndex, isMobile, reducedMotion }) =
           {/* Card Header: Problem Number and Icon */}
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-baseline gap-2">
-              <span className="text-[11px] font-mono font-bold tracking-widest text-slate-400 uppercase">
+              <span className="text-xs font-mono font-bold tracking-widest text-slate-600 uppercase">
                 ISSUE
               </span>
               <span className="text-2xl sm:text-3xl font-mono font-black text-[#1749EF] tracking-tight">
@@ -189,7 +189,7 @@ const Card3DItem = ({ card, index, continuousIndex, isMobile, reducedMotion }) =
             <h3 className="text-xl sm:text-2xl font-heading font-black text-[#10234F] leading-snug tracking-tight">
               {card.title}
             </h3>
-            <p className="mt-3 text-sm sm:text-[15px] text-[#64748B] leading-relaxed">
+            <p className="mt-3 text-sm sm:text-[15px] text-slate-700 leading-relaxed">
               {card.description}
             </p>
           </div>
@@ -324,7 +324,7 @@ export const ProblemCarousel3D = () => {
                     <span className="text-3xl sm:text-4xl font-mono font-black text-[#10234F] tracking-tight">
                       {activeCard.number}
                     </span>
-                    <span className="text-sm font-mono font-bold text-slate-400">
+                    <span className="text-sm font-mono font-bold text-slate-600">
                       / 05
                     </span>
                   </div>
@@ -336,7 +336,7 @@ export const ProblemCarousel3D = () => {
                         key={idx}
                         className={`h-2 rounded-full transition-all duration-300 ${activeIndex === idx
                           ? 'w-7 sm:w-8 bg-royal shadow-xs'
-                          : 'w-2 bg-[#E1EBF8]'
+                          : 'w-2 bg-slate-300'
                           }`}
                       />
                     ))}

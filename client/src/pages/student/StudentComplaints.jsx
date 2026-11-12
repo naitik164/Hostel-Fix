@@ -8,7 +8,6 @@ import {
   Search,
   Filter,
   ExternalLink,
-  Loader2,
   ChevronLeft,
   ChevronRight,
   ClipboardList,
@@ -100,13 +99,13 @@ const StudentComplaints = () => {
         <form onSubmit={handleSearchSubmit} className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2.5 sm:gap-3">
           {/* Search Input */}
           <div className="relative flex-1 min-w-[200px]">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+            <Search className="w-4 h-4 text-slate-600 absolute left-3 top-2.5" />
             <input
               type="text"
               placeholder="Search by reference ID or title..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="glass-input pl-9 pr-3 py-2 text-xs w-full"
+              className="glass-input pl-9 pr-3 py-2 text-xs w-full placeholder-slate-500"
             />
           </div>
 
@@ -173,7 +172,7 @@ const StudentComplaints = () => {
 
       {/* Mobile swipe helper */}
       {complaints.length > 0 && (
-        <div className="md:hidden text-[10px] text-slate-400 flex items-center justify-end px-1">
+        <div className="md:hidden text-xs text-slate-600 font-medium flex items-center justify-end px-1">
           <span>← Swipe table sideways →</span>
         </div>
       )}
@@ -194,8 +193,8 @@ const StudentComplaints = () => {
         ) : complaints.length === 0 ? (
           <div className="py-20 text-center p-6">
             <ClipboardList className="w-12 h-12 text-sky mx-auto mb-3 opacity-60" />
-            <h3 className="text-base font-bold text-navy">No complaints found</h3>
-            <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
+            <h2 className="text-base font-bold text-navy">No complaints found</h2>
+            <p className="text-xs text-slate-600 mt-1 max-w-sm mx-auto">
               No complaint records matched your current search filters.
             </p>
           </div>
@@ -222,7 +221,7 @@ const StudentComplaints = () => {
                     <td>
                       <div className="font-semibold text-navy max-w-xs truncate">{c.title}</div>
                       {c.subcategory && (
-                        <div className="text-[11px] text-slate-400">{c.subcategory}</div>
+                        <div className="text-xs text-slate-600 font-medium">{c.subcategory}</div>
                       )}
                     </td>
                     <td className="text-xs text-slate-600">{c.category}</td>
@@ -236,18 +235,18 @@ const StudentComplaints = () => {
                       {c.assignedStaffId ? (
                         <div>
                           <div className="font-medium text-navy">{c.assignedStaffId.name}</div>
-                          <div className="text-[10px] text-slate-400">
+                          <div className="text-xs text-slate-600 font-medium">
                             {c.assignedStaffId.specialization}
                           </div>
                         </div>
                       ) : (
-                        <span className="text-slate-400 italic">Unassigned</span>
+                        <span className="text-slate-600 italic font-medium">Unassigned</span>
                       )}
                     </td>
                     <td>
                       <StatusBadge status={c.status} />
                     </td>
-                    <td className="text-xs text-slate-500">
+                    <td className="text-xs text-slate-600 font-medium">
                       {new Date(c.createdAt).toLocaleDateString()}
                     </td>
                     <td className="text-right">

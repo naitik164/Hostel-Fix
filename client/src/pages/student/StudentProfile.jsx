@@ -3,19 +3,15 @@ import { useAuth } from '../../context/AuthContext';
 import api from '../../services/api';
 import {
   User,
-  Mail,
   Building,
   Phone,
   ShieldCheck,
-  Calendar,
   CheckCircle2,
   AlertCircle,
   Loader2,
   Save,
   GraduationCap,
   Hash,
-  MapPin,
-  Sparkles,
 } from 'lucide-react';
 import UserAvatar from '../../components/UserAvatar';
 
@@ -118,7 +114,7 @@ const StudentProfile = () => {
     <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in duration-300">
       <div>
         <h1 className="text-2xl sm:text-3xl font-extrabold text-navy font-heading">Student Profile</h1>
-        <p className="text-xs text-slate-500 mt-1">
+        <p className="text-xs text-slate-600 font-medium mt-1">
           Manage your verified hostel room assignment, academic record, and contact details
         </p>
       </div>
@@ -134,17 +130,17 @@ const StudentProfile = () => {
         <div className="flex-1 min-w-0">
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
             <h2 className="text-lg sm:text-xl font-bold text-navy truncate">{user?.name}</h2>
-            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-ice text-royal border border-sky/40 shrink-0">
+            <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-ice text-royal border border-sky/40 shrink-0">
               Verified Student
             </span>
             {user?.profileCompleted && (
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 shrink-0 flex items-center gap-1">
-                <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+              <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-300 shrink-0 flex items-center gap-1">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700" />
                 <span>Profile Complete</span>
               </span>
             )}
           </div>
-          <p className="text-xs text-slate-500 mt-1 truncate">{user?.email}</p>
+          <p className="text-xs text-slate-600 font-medium mt-1 truncate">{user?.email}</p>
 
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 sm:gap-4 mt-3 text-xs text-slate-600">
             <span className="flex items-center gap-1">
@@ -157,8 +153,8 @@ const StudentProfile = () => {
                 <span>{user.enrollmentNumber}</span>
               </span>
             )}
-            <span className="flex items-center gap-1 text-emerald-600 font-medium">
-              <ShieldCheck className="w-3.5 h-3.5 shrink-0" />
+            <span className="flex items-center gap-1 text-emerald-800 font-semibold">
+              <ShieldCheck className="w-3.5 h-3.5 shrink-0 text-emerald-700" />
               <span>Google Identity Verified</span>
             </span>
           </div>
@@ -168,8 +164,8 @@ const StudentProfile = () => {
       {/* Edit Form */}
       <div className="glass-card p-6 sm:p-8">
         {success && (
-          <div className="mb-6 p-3 rounded-control bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+          <div className="mb-6 p-3 rounded-control bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 text-emerald-700 shrink-0" />
             <span>{success}</span>
           </div>
         )}
@@ -207,7 +203,7 @@ const StudentProfile = () => {
                   type="email"
                   disabled
                   value={user?.email || ''}
-                  className="glass-input w-full px-3.5 py-2.5 text-xs font-medium bg-slate-100/70 text-slate-500 cursor-not-allowed"
+                  className="glass-input w-full px-3.5 py-2.5 text-xs font-medium bg-slate-100/70 text-slate-600 cursor-not-allowed"
                 />
               </div>
 
@@ -222,7 +218,7 @@ const StudentProfile = () => {
                   className="glass-input w-full px-3.5 py-2.5 text-xs font-medium"
                   required
                 />
-                <p className="text-[10px] text-slate-500 mt-1">10-digit Indian mobile number for technician contacts.</p>
+                <p className="text-xs text-slate-600 font-medium mt-1">10-digit Indian mobile number for technician contacts.</p>
               </div>
 
               <div>
@@ -259,7 +255,7 @@ const StudentProfile = () => {
                   value={user?.enrollmentNumber || 'Pending Onboarding'}
                   className="glass-input w-full px-3.5 py-2.5 text-xs font-medium bg-slate-100/70 text-slate-600 cursor-not-allowed uppercase font-mono"
                 />
-                <p className="text-[10px] text-slate-500 mt-1">Official university enrollment key.</p>
+                <p className="text-xs text-slate-600 font-medium mt-1">Official university enrollment key.</p>
               </div>
 
               <div>

@@ -1,54 +1,59 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { GoogleOAuthProvider } from '@react-oauth/google';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import PremiumPageLoader from './components/common/PremiumPageLoader';
 import TopNavigationLoader from './components/common/TopNavigationLoader';
 
-// Layouts
-import StudentLayout from './layouts/StudentLayout';
-import AdminLayout from './layouts/AdminLayout';
-import StaffLayout from './layouts/StaffLayout';
+// Lazy-loaded Public Pages
+const LandingPage = React.lazy(() => import('./pages/auth/LandingPage'));
+const StudentLogin = React.lazy(() => import('./pages/auth/StudentLogin'));
+const StaffLogin = React.lazy(() => import('./pages/auth/StaffLogin'));
+const AdminLogin = React.lazy(() => import('./pages/auth/AdminLogin'));
 
-// Public Auth Pages
-import LandingPage from './pages/auth/LandingPage';
-import StudentLogin from './pages/auth/StudentLogin';
-import StaffLogin from './pages/auth/StaffLogin';
-import AdminLogin from './pages/auth/AdminLogin';
+// Lazy-loaded Layouts
+const StudentLayout = React.lazy(() => import('./layouts/StudentLayout'));
+const StaffLayout = React.lazy(() => import('./layouts/StaffLayout'));
+const AdminLayout = React.lazy(() => import('./layouts/AdminLayout'));
 
-// Student Pages
-import StudentOnboarding from './pages/student/StudentOnboarding';
-import StudentDashboard from './pages/student/StudentDashboard';
-import StudentComplaints from './pages/student/StudentComplaints';
-import NewComplaint from './pages/student/NewComplaint';
-import StudentComplaintDetail from './pages/student/StudentComplaintDetail';
-import StudentNotifications from './pages/student/StudentNotifications';
-import StudentProfile from './pages/student/StudentProfile';
+// Lazy-loaded Student Pages
+const StudentOnboarding = React.lazy(() => import('./pages/student/StudentOnboarding'));
+const StudentDashboard = React.lazy(() => import('./pages/student/StudentDashboard'));
+const StudentComplaints = React.lazy(() => import('./pages/student/StudentComplaints'));
+const NewComplaint = React.lazy(() => import('./pages/student/NewComplaint'));
+const StudentComplaintDetail = React.lazy(() => import('./pages/student/StudentComplaintDetail'));
+const StudentNotifications = React.lazy(() => import('./pages/student/StudentNotifications'));
+const StudentProfile = React.lazy(() => import('./pages/student/StudentProfile'));
 
-// Staff Pages
-import StaffDashboard from './pages/staff/StaffDashboard';
-import StaffTasks from './pages/staff/StaffTasks';
-import StaffTaskDetail from './pages/staff/StaffTaskDetail';
-import StaffHistory from './pages/staff/StaffHistory';
-import StaffNotifications from './pages/staff/StaffNotifications';
-import StaffProfile from './pages/staff/StaffProfile';
+// Lazy-loaded Staff Pages
+const StaffDashboard = React.lazy(() => import('./pages/staff/StaffDashboard'));
+const StaffTasks = React.lazy(() => import('./pages/staff/StaffTasks'));
+const StaffTaskDetail = React.lazy(() => import('./pages/staff/StaffTaskDetail'));
+const StaffHistory = React.lazy(() => import('./pages/staff/StaffHistory'));
+const StaffNotifications = React.lazy(() => import('./pages/staff/StaffNotifications'));
+const StaffProfile = React.lazy(() => import('./pages/staff/StaffProfile'));
 
-// Admin / Warden Pages
-import AdminDashboard from './pages/admin/AdminDashboard';
-import AdminComplaints from './pages/admin/AdminComplaints';
-import AdminComplaintDetail from './pages/admin/AdminComplaintDetail';
-import AdminVerifications from './pages/admin/AdminVerifications';
-import AdminStaff from './pages/admin/AdminStaff';
-import AdminBlocks from './pages/admin/AdminBlocks';
-import AdminStudents from './pages/admin/AdminStudents';
-import AdminAnalytics from './pages/admin/AdminAnalytics';
-import AdminNotifications from './pages/admin/AdminNotifications';
-import AdminSettings from './pages/admin/AdminSettings';
+// Lazy-loaded Admin / Warden Pages
+const AdminDashboard = React.lazy(() => import('./pages/admin/AdminDashboard'));
+const AdminComplaints = React.lazy(() => import('./pages/admin/AdminComplaints'));
+const AdminComplaintDetail = React.lazy(() => import('./pages/admin/AdminComplaintDetail'));
+const AdminVerifications = React.lazy(() => import('./pages/admin/AdminVerifications'));
+const AdminStaff = React.lazy(() => import('./pages/admin/AdminStaff'));
+const AdminBlocks = React.lazy(() => import('./pages/admin/AdminBlocks'));
+const AdminStudents = React.lazy(() => import('./pages/admin/AdminStudents'));
+const AdminAnalytics = React.lazy(() => import('./pages/admin/AdminAnalytics'));
+const AdminNotifications = React.lazy(() => import('./pages/admin/AdminNotifications'));
+const AdminSettings = React.lazy(() => import('./pages/admin/AdminSettings'));
+
+// Route transition suspense fallback
+const RouteLoadingFallback = () => (
+  <div className="flex-1 min-h-[50vh] flex items-center justify-center p-8">
+    <div className="w-8 h-8 rounded-full border-2 border-electric border-t-transparent animate-spin" />
+  </div>
+);
 
 function AppContent() {
   const { loading } = useAuth();
-  const [initialLoadingComplete, setInitialLoadingComplete] = useState(false);
   const location = useLocation();
 
   // Public routes that never require authentication to render
@@ -58,17 +63,21 @@ function AppContent() {
     location.pathname.startsWith('/staff/login') ||
     location.pathname.startsWith('/admin/login');
 
+  // Avoid blocking the initial landing page or public auth screens
+  const [initialLoadingComplete, setInitialLoadingComplete] = useState(() => isPublicRoute);
+
   // Decouple public landing page and login screens from background auth verification.
-  // Public routes showcase the entrance sequence and reveal the page without delay.
-  // Protected routes wait for auth verification (safeguarded by fallback timeouts).
+  // Public routes reveal without blocking. Protected routes wait for auth verification.
   const isLoaderReady = isPublicRoute ? true : !loading;
 
   return (
     <>
-      {/* Premium Cinematic Initial Page Loader */}
-      {!initialLoadingComplete && (
+      {/* Premium Cinematic Initial Page Loader - Only shown on protected routes without cached auth */}
+      {!initialLoadingComplete && !isPublicRoute && (
         <PremiumPageLoader
           isReady={isLoaderReady}
+          minShowcaseMs={500}
+          maxFallbackMs={2500}
           onComplete={() => setInitialLoadingComplete(true)}
         />
       )}
@@ -77,100 +86,98 @@ function AppContent() {
       <TopNavigationLoader />
 
       <div className={`flex-1 flex flex-col min-h-0 w-full ${initialLoadingComplete ? 'animate-page-reveal' : ''}`}>
-        <Routes>
-          {/* Public Routes */}
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/student/login" element={<StudentLogin />} />
-          <Route path="/staff/login" element={<StaffLogin />} />
-          <Route path="/admin/login" element={<AdminLogin />} />
+        <Suspense fallback={<RouteLoadingFallback />}>
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/student/login" element={<StudentLogin />} />
+            <Route path="/staff/login" element={<StaffLogin />} />
+            <Route path="/admin/login" element={<AdminLogin />} />
 
-          {/* Mandatory Student Onboarding Route */}
-          <Route
-            path="/student/onboarding"
-            element={
-              <ProtectedRoute requiredRole="student">
-                <StudentOnboarding />
-              </ProtectedRoute>
-            }
-          />
+            {/* Mandatory Student Onboarding Route */}
+            <Route
+              path="/student/onboarding"
+              element={
+                <ProtectedRoute requiredRole="student">
+                  <StudentOnboarding />
+                </ProtectedRoute>
+              }
+            />
 
-          {/* Protected Student Routes */}
-          <Route
-            path="/student"
-            element={
-              <ProtectedRoute requiredRole="student">
-                <StudentLayout />
-              </ProtectedRoute>
-            }
-          >
-            <Route index element={<Navigate to="/student/dashboard" replace />} />
-            <Route path="dashboard" element={<StudentDashboard />} />
-            <Route path="complaints" element={<StudentComplaints />} />
-            <Route path="complaints/new" element={<NewComplaint />} />
-            <Route path="complaints/:id" element={<StudentComplaintDetail />} />
-            <Route path="notifications" element={<StudentNotifications />} />
-            <Route path="profile" element={<StudentProfile />} />
-          </Route>
+            {/* Protected Student Routes */}
+            <Route
+              path="/student"
+              element={
+                <ProtectedRoute requiredRole="student">
+                  <StudentLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route index element={<Navigate to="/student/dashboard" replace />} />
+              <Route path="dashboard" element={<StudentDashboard />} />
+              <Route path="complaints" element={<StudentComplaints />} />
+              <Route path="complaints/new" element={<NewComplaint />} />
+              <Route path="complaints/:id" element={<StudentComplaintDetail />} />
+              <Route path="notifications" element={<StudentNotifications />} />
+              <Route path="profile" element={<StudentProfile />} />
+            </Route>
 
-          {/* Protected Staff Routes */}
-          <Route
-            path="/staff"
-            element={
-              <ProtectedRoute requiredRole="staff">
-                <StaffLayout />
-              </ProtectedRoute>
-            }
-          >
-            <Route index element={<Navigate to="/staff/dashboard" replace />} />
-            <Route path="dashboard" element={<StaffDashboard />} />
-            <Route path="tasks" element={<StaffTasks />} />
-            <Route path="tasks/:id" element={<StaffTaskDetail />} />
-            <Route path="history" element={<StaffHistory />} />
-            <Route path="notifications" element={<StaffNotifications />} />
-            <Route path="profile" element={<StaffProfile />} />
-          </Route>
+            {/* Protected Staff Routes */}
+            <Route
+              path="/staff"
+              element={
+                <ProtectedRoute requiredRole="staff">
+                  <StaffLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route index element={<Navigate to="/staff/dashboard" replace />} />
+              <Route path="dashboard" element={<StaffDashboard />} />
+              <Route path="tasks" element={<StaffTasks />} />
+              <Route path="tasks/:id" element={<StaffTaskDetail />} />
+              <Route path="history" element={<StaffHistory />} />
+              <Route path="notifications" element={<StaffNotifications />} />
+              <Route path="profile" element={<StaffProfile />} />
+            </Route>
 
-          {/* Protected Warden / Admin Routes */}
-          <Route
-            path="/admin"
-            element={
-              <ProtectedRoute requiredRole="admin">
-                <AdminLayout />
-              </ProtectedRoute>
-            }
-          >
-            <Route index element={<Navigate to="/admin/dashboard" replace />} />
-            <Route path="dashboard" element={<AdminDashboard />} />
-            <Route path="complaints" element={<AdminComplaints />} />
-            <Route path="complaints/:id" element={<AdminComplaintDetail />} />
-            <Route path="verifications" element={<AdminVerifications />} />
-            <Route path="staff" element={<AdminStaff />} />
-            <Route path="blocks" element={<AdminBlocks />} />
-            <Route path="students" element={<AdminStudents />} />
-            <Route path="analytics" element={<AdminAnalytics />} />
-            <Route path="notifications" element={<AdminNotifications />} />
-            <Route path="settings" element={<AdminSettings />} />
-          </Route>
+            {/* Protected Warden / Admin Routes */}
+            <Route
+              path="/admin"
+              element={
+                <ProtectedRoute requiredRole="admin">
+                  <AdminLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route index element={<Navigate to="/admin/dashboard" replace />} />
+              <Route path="dashboard" element={<AdminDashboard />} />
+              <Route path="complaints" element={<AdminComplaints />} />
+              <Route path="complaints/:id" element={<AdminComplaintDetail />} />
+              <Route path="verifications" element={<AdminVerifications />} />
+              <Route path="staff" element={<AdminStaff />} />
+              <Route path="blocks" element={<AdminBlocks />} />
+              <Route path="students" element={<AdminStudents />} />
+              <Route path="analytics" element={<AdminAnalytics />} />
+              <Route path="notifications" element={<AdminNotifications />} />
+              <Route path="settings" element={<AdminSettings />} />
+            </Route>
 
-          {/* Catch-all redirect to Home */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+            {/* Catch-all redirect to Home */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Suspense>
       </div>
     </>
   );
 }
 
 function App() {
-  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
-
   return (
-    <GoogleOAuthProvider clientId={googleClientId}>
-      <AuthProvider>
-        <BrowserRouter>
-          <AppContent />
-        </BrowserRouter>
-      </AuthProvider>
-    </GoogleOAuthProvider>
+    <AuthProvider>
+      <BrowserRouter>
+        <AppContent />
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

@@ -1,14 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
 import {
-  GraduationCap,
   Search,
-  Filter,
-  CheckCircle2,
-  XCircle,
-  Building,
-  Mail,
-  Phone,
   Loader2,
   FileText,
 } from 'lucide-react';
@@ -28,15 +21,21 @@ const AdminStudents = () => {
         search: search.trim() || undefined,
         block: selectedBlock !== 'all' ? selectedBlock : undefined,
       };
-      const [studentsRes, blocksRes] = await Promise.all([
-        api.get('/admin/students', { params }),
-        api.get('/admin/blocks'),
-      ]);
-      if (studentsRes.data && studentsRes.data.success) {
-        setStudents(studentsRes.data.students || []);
+
+      const requests = [api.get('/admin/students', { params })];
+      if (blocks.length === 0) {
+        requests.push(api.get('/admin/blocks'));
       }
-      if (blocksRes.data && blocksRes.data.blocks) {
-        setBlocks(blocksRes.data.blocks);
+
+      const results = await Promise.allSettled(requests);
+      const studentsRes = results[0];
+      const blocksRes = results[1];
+
+      if (studentsRes.status === 'fulfilled' && studentsRes.value.data?.success) {
+        setStudents(studentsRes.value.data.students || []);
+      }
+      if (blocksRes && blocksRes.status === 'fulfilled' && blocksRes.value.data?.blocks) {
+        setBlocks(blocksRes.value.data.blocks);
       }
     } catch (err) {
       console.error('Failed to load students:', err);
@@ -84,7 +83,7 @@ const AdminStudents = () => {
       <div className="glass-card p-4 sm:p-5">
         <form onSubmit={handleSearchSubmit} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
           <div className="relative flex-1 min-w-0">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+            <Search className="w-4 h-4 text-slate-600 absolute left-3 top-2.5" />
             <input
               type="text"
               placeholder="Search by student name, email, or room number..."
@@ -119,17 +118,17 @@ const AdminStudents = () => {
       {/* Directory Table */}
       <div className="glass-card overflow-hidden">
         {loading ? (
-          <div className="py-20 text-center text-slate-400 flex flex-col items-center gap-2">
+          <div className="py-20 text-center text-slate-600 flex flex-col items-center gap-2">
             <Loader2 className="w-8 h-8 animate-spin text-electric" />
-            <p className="text-xs">Loading registered resident directory...</p>
+            <p className="text-xs font-medium">Loading registered resident directory...</p>
           </div>
         ) : students.length === 0 ? (
-          <div className="py-20 text-center p-6 text-slate-500">
+          <div className="py-20 text-center p-6 text-slate-600 font-medium">
             No student residents found matching search query.
           </div>
         ) : (
           <div className="table-responsive-container">
-            <div className="sm:hidden px-4 py-2 bg-ice/40 border-b border-ice text-[11px] text-royal flex items-center justify-between font-medium">
+            <div className="sm:hidden px-4 py-2 bg-ice/40 border-b border-ice text-xs text-royal flex items-center justify-between font-semibold">
               <span>Swipe horizontally to view full resident data</span>
               <span>👉</span>
             </div>
@@ -159,18 +158,18 @@ const AdminStudents = () => {
                         />
                         <div>
                           <div className="font-semibold text-navy text-xs">{student.name}</div>
-                          <div className="text-[11px] text-slate-400">{student.email}</div>
+                          <div className="text-xs text-slate-600 font-medium">{student.email}</div>
                         </div>
                       </div>
                     </td>
                     <td className="text-xs text-slate-600 font-medium">
-                      {student.hostelBlock || <span className="italic text-slate-400">Not set</span>}
+                      {student.hostelBlock || <span className="italic text-slate-600 font-medium">Not set</span>}
                     </td>
                     <td className="text-xs font-mono text-royal font-semibold">
-                      {student.roomNumber || <span className="italic text-slate-400 font-sans">N/A</span>}
+                      {student.roomNumber || <span className="italic text-slate-600 font-medium font-sans">N/A</span>}
                     </td>
-                    <td className="text-xs text-slate-500">
-                      {student.phone || <span className="italic text-slate-400">No phone</span>}
+                    <td className="text-xs text-slate-600 font-medium">
+                      {student.phone || <span className="italic text-slate-600 font-medium">No phone</span>}
                     </td>
                     <td>
                       <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-ice text-royal">
@@ -178,7 +177,7 @@ const AdminStudents = () => {
                         <span>{student.complaintsCount || 0}</span>
                       </span>
                     </td>
-                    <td className="text-xs text-slate-500">
+                    <td className="text-xs text-slate-600 font-medium">
                       {new Date(student.createdAt).toLocaleDateString()}
                     </td>
                     <td>
@@ -197,8 +196,8 @@ const AdminStudents = () => {
                         onClick={() => toggleStatus(student)}
                         className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-colors ${
                           student.isActive
-                            ? 'text-rose-600 bg-rose-50 border-rose-200 hover:bg-rose-100'
-                            : 'text-emerald-600 bg-emerald-50 border-emerald-200 hover:bg-emerald-100'
+                            ? 'text-rose-700 bg-rose-50 border-rose-300 hover:bg-rose-100'
+                            : 'text-emerald-800 bg-emerald-50 border-emerald-300 hover:bg-emerald-100'
                         }`}
                       >
                         {student.isActive ? 'Suspend' : 'Activate'}

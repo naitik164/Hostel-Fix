@@ -1,8 +1,42 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap');
-
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
+/* ==========================================================================
+   HostelFix Typography: Self-Hosted WOFF2 Fonts with font-display: swap
+   ========================================================================== */
+
+/* Plus Jakarta Sans - Latin Variable (Weights 400-700 for Body & UI) */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: local('Plus Jakarta Sans'),
+       url('/fonts/plus-jakarta-sans-latin-variable.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Outfit - Latin Variable (Weights 600-800 for Headings & Display) */
+@font-face {
+  font-family: 'Outfit';
+  font-style: normal;
+  font-weight: 600 800;
+  font-display: swap;
+  src: local('Outfit'),
+       url('/fonts/outfit-latin-variable.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Fallback Metric Override: Prevents Cumulative Layout Shift (CLS) on swap */
+@font-face {
+  font-family: 'Plus Jakarta Sans Fallback';
+  src: local('Segoe UI'), local('-apple-system'), local('BlinkMacSystemFont'), local('Roboto'), local('Arial');
+  ascent-override: 95%;
+  descent-override: 25%;
+  line-gap-override: 0%;
+  size-adjust: 100%;
+}
 
 :root {
   /* Exact reference palette */
@@ -66,7 +100,7 @@ html {
 
 body {
   margin: 0;
-  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-family: 'Plus Jakarta Sans', 'Plus Jakarta Sans Fallback', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   background-color: var(--surface-page);
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
@@ -90,7 +124,7 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6, .font-heading {
-  font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Outfit', 'Plus Jakarta Sans', 'Plus Jakarta Sans Fallback', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 /* Ambient Radial Glow */

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import api from '../../services/api';
 import {
-  Settings,
   Clock,
   Shield,
   Save,
@@ -10,7 +9,6 @@ import {
   AlertCircle,
   Loader2,
   Database,
-  Key,
 } from 'lucide-react';
 
 const AdminSettings = () => {
@@ -174,7 +172,7 @@ const AdminSettings = () => {
                 onChange={(e) => setSlaHours({ ...slaHours, Medium: e.target.value })}
                 className="glass-input w-full p-2 text-xs font-bold text-amber-800"
               />
-              <span className="text-[10px] text-amber-600 mt-1 block">Ex: Clogged sink, pests</span>
+              <span className="text-xs text-amber-800 font-medium mt-1 block">Ex: Clogged sink, pests</span>
             </div>
 
             {/* Low */}
@@ -226,21 +224,21 @@ const AdminSettings = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
           <div className="bg-white/60 p-3 rounded-xl border border-sky/30">
-            <span className="text-slate-400 block mb-0.5 font-semibold text-[10px] uppercase">
+            <span className="text-slate-600 block mb-0.5 font-semibold text-xs uppercase tracking-wider">
               Database Cluster
             </span>
             <span className="font-bold text-navy">MongoDB Atlas / Local Server</span>
           </div>
 
           <div className="bg-white/60 p-3 rounded-xl border border-sky/30">
-            <span className="text-slate-400 block mb-0.5 font-semibold text-[10px] uppercase">
+            <span className="text-slate-600 block mb-0.5 font-semibold text-xs uppercase tracking-wider">
               Image Storage
             </span>
             <span className="font-bold text-navy">Cloudinary / Local Fallback Active</span>
           </div>
 
           <div className="bg-white/60 p-3 rounded-xl border border-sky/30">
-            <span className="text-slate-400 block mb-0.5 font-semibold text-[10px] uppercase">
+            <span className="text-slate-600 block mb-0.5 font-semibold text-xs uppercase tracking-wider">
               Student Auth Protocol
             </span>
             <span className="font-bold text-navy">Google Identity Services (GIS)</span>

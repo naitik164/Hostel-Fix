@@ -15,15 +15,8 @@ import {
 } from 'chart.js';
 import { Doughnut, Bar, Line } from 'react-chartjs-2';
 import {
-  BarChart3,
-  TrendingUp,
-  Download,
   Filter,
-  CheckCircle2,
-  Clock,
   AlertTriangle,
-  Building,
-  Tag,
   Loader2,
   FileSpreadsheet,
   RefreshCw,
@@ -331,7 +324,7 @@ const AdminAnalytics = () => {
       {/* Filter Bar */}
       <div className="glass-card p-4 sm:p-5 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2.5 sm:gap-3">
         <div className="flex items-center gap-2">
-          <Filter className="w-4 h-4 text-slate-400" />
+          <Filter className="w-4 h-4 text-slate-600" />
           <span className="text-xs font-semibold text-navy">Filter Metrics:</span>
         </div>
 
@@ -394,7 +387,7 @@ const AdminAnalytics = () => {
       <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2.5 sm:gap-4">
         {/* Total */}
         <div className="glass-card p-3 sm:p-4 text-center min-w-0">
-          <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1 truncate">
+          <span className="text-xs uppercase font-bold text-slate-600 block mb-1 truncate">
             Total Tickets
           </span>
           <p className="text-xl sm:text-2xl font-extrabold text-navy font-heading">{kpis.totalComplaints || 0}</p>
@@ -402,17 +395,17 @@ const AdminAnalytics = () => {
 
         {/* Resolution Rate */}
         <div className="glass-card p-3 sm:p-4 text-center border-emerald-300 min-w-0">
-          <span className="text-[10px] uppercase font-bold text-emerald-600 block mb-1 truncate">
+          <span className="text-xs uppercase font-bold text-emerald-700 block mb-1 truncate">
             Resolution Rate
           </span>
-          <p className="text-xl sm:text-2xl font-extrabold text-emerald-600 font-heading">
+          <p className="text-xl sm:text-2xl font-extrabold text-emerald-700 font-heading">
             {kpis.resolutionRate || 0}%
           </p>
         </div>
 
         {/* Avg Resolution Time */}
         <div className="glass-card p-3 sm:p-4 text-center border-sky/50 min-w-0">
-          <span className="text-[10px] uppercase font-bold text-royal block mb-1 truncate">
+          <span className="text-xs uppercase font-bold text-royal block mb-1 truncate">
             Avg Turnaround
           </span>
           <p className="text-xl sm:text-2xl font-extrabold text-royal font-heading">
@@ -422,7 +415,7 @@ const AdminAnalytics = () => {
 
         {/* SLA Compliance */}
         <div className="glass-card p-3 sm:p-4 text-center border-electric/40 min-w-0">
-          <span className="text-[10px] uppercase font-bold text-electric block mb-1 truncate">
+          <span className="text-xs uppercase font-bold text-electric block mb-1 truncate">
             SLA Compliance
           </span>
           <p className="text-xl sm:text-2xl font-extrabold text-electric font-heading">
@@ -432,17 +425,17 @@ const AdminAnalytics = () => {
 
         {/* Overdue Count */}
         <div className="glass-card p-3 sm:p-4 text-center border-rose-300 min-w-0">
-          <span className="text-[10px] uppercase font-bold text-rose-600 block mb-1 truncate">
+          <span className="text-xs uppercase font-bold text-rose-700 block mb-1 truncate">
             Overdue
           </span>
-          <p className="text-xl sm:text-2xl font-extrabold text-rose-600 font-heading">
+          <p className="text-xl sm:text-2xl font-extrabold text-rose-700 font-heading">
             {kpis.overdueCount || 0}
           </p>
         </div>
 
         {/* Top Category */}
         <div className="glass-card p-3 sm:p-4 text-center col-span-2 sm:col-span-1 min-w-0">
-          <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1 truncate">
+          <span className="text-xs uppercase font-bold text-slate-600 block mb-1 truncate">
             Top Category
           </span>
           <p className="text-xs font-bold text-navy truncate" title={kpis.mostFrequentCategory}>
@@ -452,7 +445,7 @@ const AdminAnalytics = () => {
 
         {/* Most Affected Block */}
         <div className="glass-card p-3 sm:p-4 text-center col-span-2 sm:col-span-1 min-w-0">
-          <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1 truncate">
+          <span className="text-xs uppercase font-bold text-slate-600 block mb-1 truncate">
             Most Active Block
           </span>
           <p className="text-xs font-bold text-navy truncate" title={kpis.mostAffectedBlock}>
@@ -466,10 +459,10 @@ const AdminAnalytics = () => {
         {/* Chart 1: Complaints by Status (Doughnut) */}
         <div className="glass-card p-4 sm:p-6 flex flex-col justify-between min-w-0">
           <div>
-            <h3 className="font-heading font-bold text-navy text-sm sm:text-base mb-1">
+            <h2 className="font-heading font-bold text-navy text-sm sm:text-base mb-1">
               Complaints by Status Lifecycle
-            </h3>
-            <p className="text-[11px] text-slate-500">Distribution across resolution stages</p>
+            </h2>
+            <p className="text-xs text-slate-600 font-medium">Distribution across resolution stages</p>
           </div>
           <div className="h-64 mt-4 flex items-center justify-center">
             <Doughnut
@@ -488,16 +481,16 @@ const AdminAnalytics = () => {
         {/* Chart 4: Complaints Over Time (Line) */}
         <div className="glass-card p-4 sm:p-6 flex flex-col justify-between min-w-0">
           <div>
-            <h3 className="font-heading font-bold text-navy text-sm sm:text-base mb-1">
+            <h2 className="font-heading font-bold text-navy text-sm sm:text-base mb-1">
               Complaint Submissions Over Time
-            </h3>
-            <p className="text-[11px] text-slate-500">Timeline of incoming maintenance tickets</p>
+            </h2>
+            <p className="text-xs text-slate-600 font-medium">Timeline of incoming maintenance tickets</p>
           </div>
           <div className="h-64 mt-4">
             {timeLabels.length > 0 ? (
               <Line data={timeChartData} options={chartOptions} />
             ) : (
-              <div className="h-full flex items-center justify-center text-xs text-slate-400">
+              <div className="h-full flex items-center justify-center text-xs text-slate-600 font-medium">
                 No submissions in this time window
               </div>
             )}
@@ -507,10 +500,10 @@ const AdminAnalytics = () => {
         {/* Chart 2: Complaints by Category (Bar) */}
         <div className="glass-card p-4 sm:p-6 flex flex-col justify-between min-w-0">
           <div>
-            <h3 className="font-heading font-bold text-navy text-sm sm:text-base mb-1">
+            <h2 className="font-heading font-bold text-navy text-sm sm:text-base mb-1">
               Complaints by Category
-            </h3>
-            <p className="text-[11px] text-slate-500">Issue incidence across hostel facilities</p>
+            </h2>
+            <p className="text-xs text-slate-600 font-medium">Issue incidence across hostel facilities</p>
           </div>
           <div className="h-64 mt-4">
             <Bar data={categoryChartData} options={chartOptions} />
@@ -520,10 +513,10 @@ const AdminAnalytics = () => {
         {/* Chart 3: Complaints by Hostel Block (Bar) */}
         <div className="glass-card p-4 sm:p-6 flex flex-col justify-between min-w-0">
           <div>
-            <h3 className="font-heading font-bold text-navy text-sm sm:text-base mb-1">
+            <h2 className="font-heading font-bold text-navy text-sm sm:text-base mb-1">
               Complaints by Hostel Block
-            </h3>
-            <p className="text-[11px] text-slate-500">Total volume logged per residential hall</p>
+            </h2>
+            <p className="text-xs text-slate-600 font-medium">Total volume logged per residential hall</p>
           </div>
           <div className="h-64 mt-4">
             <Bar data={blockChartData} options={chartOptions} />
@@ -533,16 +526,16 @@ const AdminAnalytics = () => {
         {/* Chart 5: Average Resolution Time by Category (Bar) */}
         <div className="glass-card p-4 sm:p-6 flex flex-col justify-between min-w-0">
           <div>
-            <h3 className="font-heading font-bold text-navy text-sm sm:text-base mb-1">
+            <h2 className="font-heading font-bold text-navy text-sm sm:text-base mb-1">
               Avg Resolution Time by Category (Hours)
-            </h3>
-            <p className="text-[11px] text-slate-500">Actual turnaround from submission to resolution</p>
+            </h2>
+            <p className="text-xs text-slate-600 font-medium">Actual turnaround from submission to resolution</p>
           </div>
           <div className="h-64 mt-4">
             {avgResLabels.length > 0 ? (
               <Bar data={avgResChartData} options={chartOptions} />
             ) : (
-              <div className="h-full flex items-center justify-center text-xs text-slate-400">
+              <div className="h-full flex items-center justify-center text-xs text-slate-600 font-medium">
                 No resolved complaints in current filter to calculate turnaround
               </div>
             )}
@@ -552,10 +545,10 @@ const AdminAnalytics = () => {
         {/* Chart 6: Unresolved Complaints by Block (Horizontal Bar) */}
         <div className="glass-card p-4 sm:p-6 flex flex-col justify-between min-w-0">
           <div>
-            <h3 className="font-heading font-bold text-navy text-sm sm:text-base mb-1">
+            <h2 className="font-heading font-bold text-navy text-sm sm:text-base mb-1">
               Unresolved Complaints by Hostel Block
-            </h3>
-            <p className="text-[11px] text-slate-500">Active backlog pending closure</p>
+            </h2>
+            <p className="text-xs text-slate-600 font-medium">Active backlog pending closure</p>
           </div>
           <div className="h-64 mt-4">
             <Bar
@@ -571,10 +564,10 @@ const AdminAnalytics = () => {
         {/* Chart 7: Staff Workload (Bar) */}
         <div className="glass-card p-4 sm:p-6 flex flex-col justify-between lg:col-span-2 min-w-0">
           <div>
-            <h3 className="font-heading font-bold text-navy text-sm sm:text-base mb-1">
+            <h2 className="font-heading font-bold text-navy text-sm sm:text-base mb-1">
               Active Maintenance Staff Workloads
-            </h3>
-            <p className="text-[11px] text-slate-500">Currently assigned in-progress tickets per technician</p>
+            </h2>
+            <p className="text-xs text-slate-600 font-medium">Currently assigned in-progress tickets per technician</p>
           </div>
           <div className="h-64 mt-4">
             <Bar data={staffChartData} options={chartOptions} />

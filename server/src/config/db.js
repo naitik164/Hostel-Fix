@@ -24,11 +24,17 @@ const connectDB = async () => {
     return connectionPromise;
   }
 
+  // If Mongoose is already in the process of connecting
+  if (mongoose.connection.readyState === 2) {
+    return mongoose.connection.asPromise();
+  }
+
   const uri = process.env.MONGODB_URI;
 
   if (!uri) {
-    console.error('[Database Error]: MONGODB_URI is not defined in server/.env. Atlas connection required.');
-    process.exit(1);
+    const errMsg = '[Database Error]: MONGODB_URI is not defined in server/.env. Atlas connection required.';
+    console.error(errMsg);
+    throw new Error(errMsg);
   }
 
   const connectionOptions = {

@@ -7,15 +7,9 @@ import {
   Search,
   Filter,
   ExternalLink,
-  UserCheck,
-  Tag,
-  Clock,
-  CheckCircle2,
-  XCircle,
   Loader2,
   ChevronLeft,
   ChevronRight,
-  Download,
   X,
   AlertCircle,
   FileSpreadsheet,
@@ -76,12 +70,16 @@ const AdminComplaints = () => {
 
   const fetchStaffAndBlocks = async () => {
     try {
-      const [staffRes, blocksRes] = await Promise.all([
+      const [staffRes, blocksRes] = await Promise.allSettled([
         api.get('/admin/staff'),
         api.get('/admin/blocks'),
       ]);
-      if (staffRes.data && staffRes.data.staff) setStaffList(staffRes.data.staff);
-      if (blocksRes.data && blocksRes.data.blocks) setBlocks(blocksRes.data.blocks);
+      if (staffRes.status === 'fulfilled' && staffRes.value.data?.staff) {
+        setStaffList(staffRes.value.data.staff);
+      }
+      if (blocksRes.status === 'fulfilled' && blocksRes.value.data?.blocks) {
+        setBlocks(blocksRes.value.data.blocks);
+      }
     } catch (e) {
       console.error('Failed to load staff/blocks:', e);
     }
@@ -254,7 +252,7 @@ const AdminComplaints = () => {
         <form onSubmit={handleSearchSubmit} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {/* Search */}
           <div className="relative">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+            <Search className="w-4 h-4 text-slate-600 absolute left-3 top-2.5" />
             <input
               type="text"
               placeholder="Search ID, title, room..."
@@ -394,7 +392,7 @@ const AdminComplaints = () => {
       {/* Complaints Table */}
       <div className="glass-card overflow-hidden">
         {loading ? (
-          <div className="py-20 text-center text-slate-400 flex flex-col items-center gap-2">
+          <div className="py-20 text-center text-slate-600 flex flex-col items-center gap-2">
             <Loader2 className="w-8 h-8 animate-spin text-electric" />
             <p className="text-xs">Querying MongoDB repository...</p>
           </div>
@@ -424,11 +422,11 @@ const AdminComplaints = () => {
                     <td className="font-mono font-bold text-xs text-royal">{c.referenceId}</td>
                     <td>
                       <div className="font-semibold text-navy text-xs">{c.studentId?.name || 'Student'}</div>
-                      <div className="text-[11px] text-slate-400">{c.studentId?.email}</div>
+                      <div className="text-xs text-slate-600 font-medium">{c.studentId?.email}</div>
                     </td>
                     <td>
                       <div className="font-medium text-navy max-w-xs truncate text-xs">{c.title}</div>
-                      <div className="text-[10px] text-slate-400">{c.category}</div>
+                      <div className="text-xs text-slate-600 font-medium">{c.category}</div>
                     </td>
                     <td className="text-xs text-slate-600">
                       {c.hostelBlockName} {c.roomNumber ? `• ${c.roomNumber}` : ''}
@@ -450,14 +448,14 @@ const AdminComplaints = () => {
                           title="Click to reassign"
                         >
                           <div className="font-medium text-navy">{c.assignedStaffId.name}</div>
-                          <div className="text-[10px] text-slate-400">
+                          <div className="text-xs text-slate-600 font-medium">
                             {c.assignedStaffId.specialization}
                           </div>
                         </button>
                       ) : (
                         <button
                           onClick={() => openAssignModal(c)}
-                          className="px-2 py-0.5 rounded text-[11px] font-semibold bg-rose-50 text-rose-600 border border-rose-200 hover:bg-rose-100"
+                          className="px-2 py-0.5 rounded text-xs font-bold bg-rose-50 text-rose-700 border border-rose-300 hover:bg-rose-100"
                         >
                           + Assign Staff
                         </button>
@@ -523,10 +521,10 @@ const AdminComplaints = () => {
           <div className="glass-modal max-w-lg w-full p-5 sm:p-8 space-y-4 sm:space-y-5 animate-in fade-in max-h-[90dvh] overflow-y-auto">
             <div className="flex items-center justify-between border-b border-ice/80 pb-3 sm:pb-4">
               <div>
-                <h3 className="font-heading font-bold text-base sm:text-lg text-navy">Update Complaint Status</h3>
-                <p className="text-xs text-slate-500 font-mono">{selectedComplaint.referenceId}</p>
+                <h2 className="font-heading font-bold text-base sm:text-lg text-navy">Update Complaint Status</h2>
+                <p className="text-xs text-slate-600 font-mono font-medium">{selectedComplaint.referenceId}</p>
               </div>
-              <button onClick={() => setActiveModal(null)} className="text-slate-400 hover:text-navy p-1 touch-target flex items-center justify-center">
+              <button onClick={() => setActiveModal(null)} className="text-slate-600 hover:text-navy p-1 touch-target flex items-center justify-center">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -611,10 +609,10 @@ const AdminComplaints = () => {
           <div className="glass-modal max-w-md w-full p-5 sm:p-8 space-y-4 sm:space-y-5 animate-in fade-in max-h-[90dvh] overflow-y-auto">
             <div className="flex items-center justify-between border-b border-ice/80 pb-3 sm:pb-4">
               <div>
-                <h3 className="font-heading font-bold text-base sm:text-lg text-navy">Override Priority</h3>
-                <p className="text-xs text-slate-500 font-mono">{selectedComplaint.referenceId}</p>
+                <h2 className="font-heading font-bold text-base sm:text-lg text-navy">Override Priority</h2>
+                <p className="text-xs text-slate-600 font-mono font-medium">{selectedComplaint.referenceId}</p>
               </div>
-              <button onClick={() => setActiveModal(null)} className="text-slate-400 hover:text-navy p-1 touch-target flex items-center justify-center">
+              <button onClick={() => setActiveModal(null)} className="text-slate-600 hover:text-navy p-1 touch-target flex items-center justify-center">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -675,10 +673,10 @@ const AdminComplaints = () => {
           <div className="glass-modal max-w-md w-full p-5 sm:p-8 space-y-4 sm:space-y-5 animate-in fade-in max-h-[90dvh] overflow-y-auto">
             <div className="flex items-center justify-between border-b border-ice/80 pb-3 sm:pb-4">
               <div>
-                <h3 className="font-heading font-bold text-base sm:text-lg text-navy">Assign Maintenance Personnel</h3>
-                <p className="text-xs text-slate-500 font-mono">{selectedComplaint.referenceId}</p>
+                <h2 className="font-heading font-bold text-base sm:text-lg text-navy">Assign Maintenance Personnel</h2>
+                <p className="text-xs text-slate-600 font-mono font-medium">{selectedComplaint.referenceId}</p>
               </div>
-              <button onClick={() => setActiveModal(null)} className="text-slate-400 hover:text-navy p-1 touch-target flex items-center justify-center">
+              <button onClick={() => setActiveModal(null)} className="text-slate-600 hover:text-navy p-1 touch-target flex items-center justify-center">
                 <X className="w-5 h-5" />
               </button>
             </div>

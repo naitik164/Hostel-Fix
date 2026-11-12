@@ -31,7 +31,7 @@ export const LoadingSpinner = ({
       <Loader2
         className={`${sizeMap[size] || sizeMap.md} ${colorMap[color] || colorMap.electric} animate-spin`}
       />
-      {label && <span className="text-xs font-medium text-slate-500">{label}</span>}
+      {label && <span className="text-xs font-medium text-slate-600">{label}</span>}
     </div>
   );
 };

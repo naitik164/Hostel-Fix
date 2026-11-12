@@ -9,8 +9,6 @@ import {
   HardHat,
   Building,
   CheckCircle2,
-  Calendar,
-  Lock,
 } from 'lucide-react';
 
 const StaffProfile = () => {
@@ -73,36 +71,36 @@ const StaffProfile = () => {
         {/* Identity & Google Account Details */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
           <div className="p-4 rounded-2xl bg-blue-50/50 border border-sky/20 space-y-1 min-w-0">
-            <span className="text-slate-400 block text-[11px] font-semibold">Verified Google Email</span>
+            <span className="text-slate-600 block text-xs font-semibold">Verified Google Email</span>
             <div className="flex items-center gap-1.5 font-bold text-navy text-sm break-anywhere">
               <Mail className="w-4 h-4 text-royal shrink-0" />
               <span>{staff?.email}</span>
             </div>
-            <p className="text-[11px] text-slate-500">
+            <p className="text-xs text-slate-600 font-medium">
               Linked via official Google Identity Services
             </p>
           </div>
 
           <div className="p-4 rounded-2xl bg-blue-50/50 border border-sky/20 space-y-1 min-w-0">
-            <span className="text-slate-400 block text-[11px] font-semibold">Registered Phone</span>
+            <span className="text-slate-600 block text-xs font-semibold">Registered Phone</span>
             <div className="flex items-center gap-1.5 font-bold text-navy text-sm break-anywhere">
               <Phone className="w-4 h-4 text-royal shrink-0" />
               <span>{staff?.phone || 'Not provided'}</span>
             </div>
-            <p className="text-[11px] text-slate-500">Contact number for student & warden calls</p>
+            <p className="text-xs text-slate-600 font-medium">Contact number for student & warden calls</p>
           </div>
 
           <div className="p-4 rounded-2xl bg-blue-50/50 border border-sky/20 space-y-1 min-w-0">
-            <span className="text-slate-400 block text-[11px] font-semibold">Department / Trade</span>
+            <span className="text-slate-600 block text-xs font-semibold">Department / Trade</span>
             <div className="flex items-center gap-1.5 font-bold text-navy text-sm break-anywhere">
               <HardHat className="w-4 h-4 text-royal shrink-0" />
               <span>{staff?.department || staff?.specialization}</span>
             </div>
-            <p className="text-[11px] text-slate-500">Hostel maintenance division</p>
+            <p className="text-xs text-slate-600 font-medium">Hostel maintenance division</p>
           </div>
 
           <div className="p-4 rounded-2xl bg-blue-50/50 border border-sky/20 space-y-1 min-w-0">
-            <span className="text-slate-400 block text-[11px] font-semibold">Assigned Hostel Blocks</span>
+            <span className="text-slate-600 block text-xs font-semibold">Assigned Hostel Blocks</span>
             <div className="flex items-center gap-1.5 font-bold text-navy text-sm break-anywhere">
               <Building className="w-4 h-4 text-royal shrink-0" />
               <span>
@@ -111,7 +109,7 @@ const StaffProfile = () => {
                   : 'All Campus Blocks'}
               </span>
             </div>
-            <p className="text-[11px] text-slate-500">Field zones under your service</p>
+            <p className="text-xs text-slate-600 font-medium">Field zones under your service</p>
           </div>
         </div>
 

@@ -54,6 +54,14 @@ const StudentLayout = () => {
 
   return (
     <div className="flex-1 flex flex-col min-h-screen bg-[#F5F9FF] text-[#03195B] relative font-sans w-full">
+      {/* Skip to Main Content Link for accessibility */}
+      <a
+        href="#student-main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-4 focus:z-50 focus:px-3.5 focus:py-2 focus:bg-electric focus:text-white focus:rounded-xl focus:shadow-lg focus:outline-none text-xs font-bold"
+      >
+        Skip to main content
+      </a>
+
       {/* Ambient background glows - contained to prevent layout expansion */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
         <div className="ambient-glow" />
@@ -67,8 +75,14 @@ const StudentLayout = () => {
             {/* Brand Logo & Tagline */}
             <Link to="/student/dashboard" className="flex items-center gap-3 group">
               <img
-                src="/logo-icon.png"
+                src="/logo-icon.webp"
+                srcSet="/logo-icon-64.webp 64w, /logo-icon-128.webp 128w"
+                sizes="40px"
                 alt="HostelFix Logo"
+                width="40"
+                height="40"
+                loading="eager"
+                decoding="async"
                 className="w-10 h-10 object-contain drop-shadow-md rounded-xl group-hover:scale-105 transition-transform"
               />
               <div>
@@ -80,7 +94,7 @@ const StudentLayout = () => {
                     Student
                   </span>
                 </div>
-                <p className="text-[11px] text-slate-500 font-medium hidden sm:block">
+                <p className="text-xs text-slate-600 font-medium hidden sm:block">
                   Your Hostel. Your Voice. Better Living.
                 </p>
               </div>
@@ -139,18 +153,18 @@ const StudentLayout = () => {
                 />
                 <div className="text-left text-xs">
                   <div className="font-semibold text-navy leading-tight">{user?.name}</div>
-                  <div className="text-[11px] text-slate-500">
+                  <div className="text-xs text-slate-600 font-medium">
                     {user?.hostelBlock ? `${user.hostelBlock} • ${user.roomNumber || ''}` : 'Complete Profile'}
                   </div>
                 </div>
-                <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+                <ChevronDown className="w-3.5 h-3.5 text-slate-600" />
               </button>
 
               {userDropdown && (
                 <div className="absolute right-0 top-14 w-52 glass-card p-2 shadow-xl border border-white z-50 animate-in fade-in slide-in-from-top-2">
                   <div className="px-3 py-2 border-b border-ice/60 mb-1">
                     <p className="text-xs font-semibold text-navy truncate">{user?.name}</p>
-                    <p className="text-[11px] text-slate-500 truncate">{user?.email}</p>
+                    <p className="text-xs text-slate-600 font-medium truncate">{user?.email}</p>
                   </div>
                   <Link
                     to="/student/profile"
@@ -208,44 +222,50 @@ const StudentLayout = () => {
                     user?.profilePhoto ||
                     'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100'
                   }
-                  alt={user?.name}
+                  alt={user?.name || 'User avatar'}
+                  width="40"
+                  height="40"
+                  loading="lazy"
+                  decoding="async"
                   className="w-10 h-10 rounded-full object-cover border border-sky shrink-0"
                 />
                 <div className="min-w-0 flex-1">
                   <p className="text-sm font-bold text-navy truncate">{user?.name}</p>
-                  <p className="text-xs text-slate-500 truncate">
+                  <p className="text-xs text-slate-600 font-medium truncate">
                     {user?.hostelBlock ? `${user.hostelBlock} • ${user.roomNumber || ''}` : 'Student'}
                   </p>
                 </div>
               </div>
 
-              {navLinks.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <NavLink
-                    key={item.to}
-                    to={item.to}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className={({ isActive }) =>
-                      `flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold touch-target ${
-                        isActive
-                          ? 'bg-gradient-action text-white shadow-md shadow-electric/25'
-                          : 'text-slate-700 hover:bg-ice/50 active:bg-ice/70'
-                      }`
-                    }
-                  >
-                    <div className="flex items-center gap-3">
-                      <Icon className="w-4 h-4 shrink-0" />
-                      <span>{item.label}</span>
-                    </div>
-                    {item.badge > 0 && (
-                      <span className="px-2 py-0.5 text-xs bg-electric text-white rounded-full">
-                        {item.badge}
-                      </span>
-                    )}
-                  </NavLink>
-                );
-              })}
+              <nav aria-label="Mobile navigation" className="space-y-2">
+                {navLinks.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <NavLink
+                      key={item.to}
+                      to={item.to}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={({ isActive }) =>
+                        `flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold touch-target ${
+                          isActive
+                            ? 'bg-gradient-action text-white shadow-md shadow-electric/25'
+                            : 'text-slate-700 hover:bg-ice/50 active:bg-ice/70'
+                        }`
+                      }
+                    >
+                      <div className="flex items-center gap-3">
+                        <Icon className="w-4 h-4 shrink-0" />
+                        <span>{item.label}</span>
+                      </div>
+                      {item.badge > 0 && (
+                        <span className="px-2 py-0.5 text-xs bg-electric text-white rounded-full">
+                          {item.badge}
+                        </span>
+                      )}
+                    </NavLink>
+                  );
+                })}
+              </nav>
 
               <button
                 onClick={handleLogout}
@@ -260,16 +280,16 @@ const StudentLayout = () => {
       </header>
 
       {/* Main Content Area */}
-      <main className="flex-1 flex flex-col max-w-7xl w-full mx-auto px-3.5 sm:px-6 lg:px-8 py-5 sm:py-8 relative z-10 min-w-0">
+      <main id="student-main-content" className="flex-1 flex flex-col max-w-7xl w-full mx-auto px-3.5 sm:px-6 lg:px-8 py-5 sm:py-8 relative z-10 min-w-0">
         <PageTransition>
           <Outlet />
         </PageTransition>
       </main>
 
       {/* Footer */}
-      <footer className="mt-auto shrink-0 py-6 border-t border-ice/60 bg-white/40 text-center text-xs text-slate-500 relative z-10">
+      <footer className="mt-auto shrink-0 py-6 border-t border-ice/60 bg-white/40 text-center text-xs text-slate-600 font-medium relative z-10">
         <p>© 2026 HostelFix. Smart Hostel Complaint & Maintenance Management System.</p>
-        <p className="mt-1 text-[11px] text-slate-400">Tagline: "Your Hostel. Your Voice. Better Living."</p>
+        <p className="mt-1 text-xs text-slate-600 font-medium">Tagline: "Your Hostel. Your Voice. Better Living."</p>
       </footer>
     </div>
   );

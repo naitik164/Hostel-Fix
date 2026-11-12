@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../services/api';
-import { Bell, CheckCircle2, Clock, AlertTriangle, ArrowRight, Check } from 'lucide-react';
+import { Bell, ArrowRight, Check } from 'lucide-react';
 
 const StaffNotifications = () => {
   const [notifications, setNotifications] = useState([]);
@@ -49,7 +49,7 @@ const StaffNotifications = () => {
             <Bell className="w-6 h-6 text-royal" />
             <span>Staff Operational Alerts</span>
           </h1>
-          <p className="text-xs text-slate-500 mt-0.5">
+          <p className="text-xs text-slate-600 font-medium mt-0.5">
             Real-time updates regarding assignments, rework requests, and warden verifications
           </p>
         </div>
@@ -75,9 +75,9 @@ const StaffNotifications = () => {
         </div>
       ) : notifications.length === 0 ? (
         <div className="glass-card p-12 text-center border border-white/80 shadow-glass">
-          <Bell className="w-12 h-12 text-slate-300 mx-auto mb-3" />
-          <h3 className="text-sm font-bold text-navy">No Notifications</h3>
-          <p className="text-xs text-slate-500 mt-1">
+          <Bell className="w-12 h-12 text-slate-400 mx-auto mb-3" />
+          <h2 className="text-sm font-bold text-navy">No Notifications</h2>
+          <p className="text-xs text-slate-600 font-medium mt-1">
             You're all caught up! Updates regarding your tasks will appear here.
           </p>
         </div>
@@ -94,13 +94,13 @@ const StaffNotifications = () => {
             >
               <div className="space-y-1 flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <h3 className="text-sm font-bold text-navy">{n.title}</h3>
+                  <h2 className="text-sm font-bold text-navy">{n.title}</h2>
                   {!n.isRead && (
                     <span className="w-2 h-2 rounded-full bg-electric shrink-0" />
                   )}
                 </div>
                 <p className="text-xs text-slate-600 leading-relaxed">{n.message}</p>
-                <span className="text-[10px] text-slate-400 block pt-1">
+                <span className="text-xs text-slate-600 font-medium block pt-1">
                   {new Date(n.createdAt).toLocaleString()}
                 </span>
               </div>

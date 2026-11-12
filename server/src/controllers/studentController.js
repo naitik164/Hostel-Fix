@@ -4,6 +4,7 @@ const Notification = require('../models/Notification');
 const Feedback = require('../models/Feedback');
 const User = require('../models/User');
 const HostelBlock = require('../models/HostelBlock');
+const { invalidateUserCache } = require('../middleware/auth');
 const { generateComplaintReference } = require('../utils/referenceGenerator');
 const { suggestPriority } = require('../utils/priorityRules');
 const {
@@ -586,6 +587,8 @@ const completeOnboarding = async (req, res, next) => {
       });
     }
 
+    invalidateUserCache(studentId);
+
     return res.status(200).json({
       success: true,
       message: 'Student profile onboarding completed successfully.',
@@ -686,6 +689,8 @@ const updateStudentProfile = async (req, res, next) => {
         message: 'Student account not found.',
       });
     }
+
+    invalidateUserCache(studentId);
 
     const isComplete = typeof updatedUser.checkProfileCompleted === 'function'
       ? updatedUser.checkProfileCompleted()

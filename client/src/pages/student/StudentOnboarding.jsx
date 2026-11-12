@@ -4,13 +4,8 @@ import { useAuth } from '../../context/AuthContext';
 import api from '../../services/api';
 import {
   User,
-  Mail,
-  Phone,
-  Hash,
   GraduationCap,
   Building2,
-  DoorClosed,
-  MapPin,
   CheckCircle2,
   AlertCircle,
   ArrowRight,
@@ -19,7 +14,6 @@ import {
   ShieldCheck,
   Sparkles,
   LogOut,
-  Layers,
 } from 'lucide-react';
 
 const POPULAR_BRANCHES = [
@@ -274,27 +268,37 @@ const StudentOnboarding = () => {
       <header className="relative z-10 w-full max-w-4xl mx-auto flex items-center justify-between py-2 mb-4">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-white/90 backdrop-blur-md p-1.5 flex items-center justify-center shadow-md border border-white/60">
-            <img src="/logo-icon.png" alt="HostelFix" className="w-full h-full object-contain" />
+            <img
+              src="/logo-icon-64.webp"
+              srcSet="/logo-icon-64.webp 64w, /logo-icon-128.webp 128w"
+              sizes="32px"
+              alt="HostelFix"
+              width="32"
+              height="32"
+              loading="eager"
+              decoding="async"
+              className="w-full h-full object-contain"
+            />
           </div>
           <div>
             <span className="font-heading font-extrabold text-lg text-white tracking-tight drop-shadow-sm">
               Hostel<span className="text-sky">Fix</span>
             </span>
-            <span className="ml-2 px-2 py-0.5 rounded-full text-[10px] font-bold bg-white/15 text-white/90 border border-white/20 uppercase tracking-wider">
+            <span className="ml-2 px-2 py-0.5 rounded-full text-xs font-bold bg-white/20 text-white border border-white/30 uppercase tracking-wider">
               Onboarding
             </span>
           </div>
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs text-white/80">
+          <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs text-white/90">
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
             <span className="truncate max-w-[160px]">{user?.email}</span>
           </div>
           <button
             onClick={logout}
             title="Sign out of this Google Account"
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white/80 hover:text-white text-xs font-semibold backdrop-blur-md border border-white/20 transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-semibold backdrop-blur-md border border-white/20 transition-colors"
           >
             <LogOut className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">Sign Out</span>
@@ -314,7 +318,7 @@ const StudentOnboarding = () => {
             <h1 className="text-2xl sm:text-3xl font-extrabold text-navy font-heading tracking-tight">
               Welcome to HostelFix!
             </h1>
-            <p className="mt-1.5 text-xs sm:text-sm text-slate-500 max-w-md mx-auto leading-relaxed">
+            <p className="mt-1.5 text-xs sm:text-sm text-slate-600 font-medium max-w-md mx-auto leading-relaxed">
               Let's set up your verified student profile before accessing hostel maintenance, grievance tracking, and smart room services.
             </p>
           </div>
@@ -343,17 +347,17 @@ const StudentOnboarding = () => {
                 <div
                   className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs transition-all duration-300 ${
                     currentStep > 1
-                      ? 'bg-emerald-500 text-white shadow-md ring-4 ring-emerald-100'
+                      ? 'bg-emerald-600 text-white shadow-md ring-4 ring-emerald-100'
                       : currentStep === 1
                       ? 'bg-gradient-action text-white shadow-lg ring-4 ring-sky/30 scale-105'
-                      : 'bg-white border-2 border-slate-300 text-slate-500'
+                      : 'bg-white border-2 border-slate-300 text-slate-700'
                   }`}
                 >
                   {currentStep > 1 ? <CheckCircle2 className="w-4 h-4" /> : '1'}
                 </div>
                 <span
-                  className={`mt-2 text-[11px] font-bold tracking-tight transition-colors ${
-                    currentStep === 1 ? 'text-royal' : currentStep > 1 ? 'text-slate-700' : 'text-slate-400'
+                  className={`mt-2 text-xs font-bold tracking-tight transition-colors ${
+                    currentStep === 1 ? 'text-royal' : currentStep > 1 ? 'text-slate-700' : 'text-slate-600'
                   }`}
                 >
                   Personal
@@ -372,17 +376,17 @@ const StudentOnboarding = () => {
                 <div
                   className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs transition-all duration-300 ${
                     currentStep > 2
-                      ? 'bg-emerald-500 text-white shadow-md ring-4 ring-emerald-100'
+                      ? 'bg-emerald-600 text-white shadow-md ring-4 ring-emerald-100'
                       : currentStep === 2
                       ? 'bg-gradient-action text-white shadow-lg ring-4 ring-sky/30 scale-105'
-                      : 'bg-white border-2 border-slate-300 text-slate-500'
+                      : 'bg-white border-2 border-slate-300 text-slate-700'
                   }`}
                 >
                   {currentStep > 2 ? <CheckCircle2 className="w-4 h-4" /> : '2'}
                 </div>
                 <span
-                  className={`mt-2 text-[11px] font-bold tracking-tight transition-colors ${
-                    currentStep === 2 ? 'text-royal' : currentStep > 2 ? 'text-slate-700' : 'text-slate-400'
+                  className={`mt-2 text-xs font-bold tracking-tight transition-colors ${
+                    currentStep === 2 ? 'text-royal' : currentStep > 2 ? 'text-slate-700' : 'text-slate-600'
                   }`}
                 >
                   Academic
@@ -402,14 +406,14 @@ const StudentOnboarding = () => {
                   className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs transition-all duration-300 ${
                     currentStep === 3
                       ? 'bg-gradient-action text-white shadow-lg ring-4 ring-sky/30 scale-105'
-                      : 'bg-white border-2 border-slate-300 text-slate-500'
+                      : 'bg-white border-2 border-slate-300 text-slate-700'
                   }`}
                 >
                   3
                 </div>
                 <span
-                  className={`mt-2 text-[11px] font-bold tracking-tight transition-colors ${
-                    currentStep === 3 ? 'text-royal' : 'text-slate-400'
+                  className={`mt-2 text-xs font-bold tracking-tight transition-colors ${
+                    currentStep === 3 ? 'text-royal' : 'text-slate-600'
                   }`}
                 >
                   Hostel
@@ -436,7 +440,7 @@ const StudentOnboarding = () => {
                     <User className="w-4 h-4 text-royal" />
                     <span>Personal Information</span>
                   </h2>
-                  <p className="text-[11px] text-slate-500 mt-0.5">
+                  <p className="text-xs text-slate-600 font-medium mt-0.5">
                     Your institutional identity verified via Google authentication.
                   </p>
                 </div>
@@ -458,9 +462,9 @@ const StudentOnboarding = () => {
                     />
                   </div>
                   {errors.name ? (
-                    <p className="text-[11px] text-rose-600 font-medium mt-1">{errors.name}</p>
+                    <p className="text-xs text-rose-700 font-medium mt-1">{errors.name}</p>
                   ) : (
-                    <p className="text-[10px] text-slate-500 mt-0.5">Pre-filled from your Google account. You may correct your legal name.</p>
+                    <p className="text-xs text-slate-600 font-medium mt-0.5">Pre-filled from your Google account. You may correct your legal name.</p>
                   )}
                 </div>
 
@@ -475,14 +479,14 @@ const StudentOnboarding = () => {
                       readOnly
                       disabled
                       value={formData.email}
-                      className="glass-input w-full px-3.5 py-2.5 text-xs font-medium bg-slate-100/80 text-slate-500 cursor-not-allowed select-none"
+                      className="glass-input w-full px-3.5 py-2.5 text-xs font-medium bg-slate-100/80 text-slate-700 cursor-not-allowed select-none"
                     />
-                    <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1 text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-                      <ShieldCheck className="w-3 h-3" />
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1 text-xs font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-300">
+                      <ShieldCheck className="w-3 h-3 text-emerald-700" />
                       <span>Google Verified</span>
                     </div>
                   </div>
-                  <p className="text-[10px] text-slate-500 mt-0.5">Anchored to your verified Google single sign-on profile.</p>
+                  <p className="text-xs text-slate-600 font-medium mt-0.5">Anchored to your verified Google single sign-on profile.</p>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -492,7 +496,7 @@ const StudentOnboarding = () => {
                       Mobile Number <span className="text-rose-500">*</span>
                     </label>
                     <div className="relative flex items-center">
-                      <span className="absolute left-3 text-xs font-bold text-slate-500 select-none">+91</span>
+                      <span className="absolute left-3 text-xs font-bold text-slate-600 select-none">+91</span>
                       <input
                         type="tel"
                         maxLength={10}
@@ -505,9 +509,9 @@ const StudentOnboarding = () => {
                       />
                     </div>
                     {errors.phone ? (
-                      <p className="text-[11px] text-rose-600 font-medium mt-1">{errors.phone}</p>
+                      <p className="text-xs text-rose-700 font-medium mt-1">{errors.phone}</p>
                     ) : (
-                      <p className="text-[10px] text-slate-500 mt-0.5">10-digit number for SMS alerts and technician calls.</p>
+                      <p className="text-xs text-slate-600 font-medium mt-0.5">10-digit number for SMS alerts and technician calls.</p>
                     )}
                   </div>
 
@@ -526,9 +530,9 @@ const StudentOnboarding = () => {
                       }`}
                     />
                     {errors.enrollmentNumber ? (
-                      <p className="text-[11px] text-rose-600 font-medium mt-1">{errors.enrollmentNumber}</p>
+                      <p className="text-xs text-rose-700 font-medium mt-1">{errors.enrollmentNumber}</p>
                     ) : (
-                      <p className="text-[10px] text-slate-500 mt-0.5">Official university roll or registration number.</p>
+                      <p className="text-xs text-slate-600 font-medium mt-0.5">Official university roll or registration number.</p>
                     )}
                   </div>
                 </div>
@@ -555,7 +559,7 @@ const StudentOnboarding = () => {
                     ))}
                   </div>
                   {errors.gender && (
-                    <p className="text-[11px] text-rose-600 font-medium mt-1">{errors.gender}</p>
+                    <p className="text-xs text-rose-700 font-medium mt-1">{errors.gender}</p>
                   )}
                 </div>
 
@@ -580,7 +584,7 @@ const StudentOnboarding = () => {
                     <GraduationCap className="w-4 h-4 text-royal" />
                     <span>Academic Information</span>
                   </h2>
-                  <p className="text-[11px] text-slate-500 mt-0.5">
+                  <p className="text-xs text-slate-600 font-medium mt-0.5">
                     Details regarding your institutional curriculum and academic standing.
                   </p>
                 </div>
@@ -600,9 +604,9 @@ const StudentOnboarding = () => {
                     }`}
                   />
                   {errors.collegeName ? (
-                    <p className="text-[11px] text-rose-600 font-medium mt-1">{errors.collegeName}</p>
+                    <p className="text-xs text-rose-700 font-medium mt-1">{errors.collegeName}</p>
                   ) : (
-                    <p className="text-[10px] text-slate-500 mt-0.5">Default set to LNCTE. Edit if enrolled in a sister campus.</p>
+                    <p className="text-xs text-slate-600 font-medium mt-0.5">Default set to LNCTE. Edit if enrolled in a sister campus.</p>
                   )}
                 </div>
 
@@ -627,16 +631,16 @@ const StudentOnboarding = () => {
                     ))}
                   </datalist>
                   {errors.branch ? (
-                    <p className="text-[11px] text-rose-600 font-medium mt-1">{errors.branch}</p>
+                    <p className="text-xs text-rose-700 font-medium mt-1">{errors.branch}</p>
                   ) : (
                     <div className="flex flex-wrap gap-1.5 mt-2">
-                      <span className="text-[10px] text-slate-500 self-center">Quick tags:</span>
+                      <span className="text-xs text-slate-600 font-medium self-center">Quick tags:</span>
                       {['CSE', 'IT', 'AI & ML', 'ECE', 'Mechanical'].map((tag) => (
                         <button
                           type="button"
                           key={tag}
                           onClick={() => handleChange('branch', tag)}
-                          className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-ice hover:bg-sky/30 text-royal transition-colors border border-sky/30"
+                          className="px-2.5 py-1 rounded-full text-xs font-semibold bg-ice hover:bg-sky/30 text-royal transition-colors border border-sky/30"
                         >
                           {tag}
                         </button>
@@ -666,7 +670,7 @@ const StudentOnboarding = () => {
                       ))}
                     </select>
                     {errors.academicYear && (
-                      <p className="text-[11px] text-rose-600 font-medium mt-1">{errors.academicYear}</p>
+                      <p className="text-xs text-rose-700 font-medium mt-1">{errors.academicYear}</p>
                     )}
                   </div>
 
@@ -685,9 +689,9 @@ const StudentOnboarding = () => {
                       }`}
                     />
                     {errors.rollNumber ? (
-                      <p className="text-[11px] text-rose-600 font-medium mt-1">{errors.rollNumber}</p>
+                      <p className="text-xs text-rose-700 font-medium mt-1">{errors.rollNumber}</p>
                     ) : (
-                      <p className="text-[10px] text-slate-500 mt-0.5">Class / Section roll number.</p>
+                      <p className="text-xs text-slate-600 font-medium mt-0.5">Class / Section roll number.</p>
                     )}
                   </div>
                 </div>
@@ -697,7 +701,7 @@ const StudentOnboarding = () => {
                   <button
                     type="button"
                     onClick={handlePrevStep}
-                    className="flex items-center gap-1.5 px-4 py-2.5 rounded-control text-xs font-semibold text-slate-600 hover:text-navy hover:bg-ice transition-colors cursor-pointer"
+                    className="flex items-center gap-1.5 px-4 py-2.5 rounded-control text-xs font-semibold text-slate-700 hover:text-navy hover:bg-ice transition-colors cursor-pointer"
                   >
                     <ArrowLeft className="w-4 h-4" />
                     <span>Back</span>
@@ -721,7 +725,7 @@ const StudentOnboarding = () => {
                     <Building2 className="w-4 h-4 text-royal" />
                     <span>Hostel & Room Assignment</span>
                   </h2>
-                  <p className="text-[11px] text-slate-500 mt-0.5">
+                  <p className="text-xs text-slate-600 font-medium mt-0.5">
                     Required to route room maintenance requests directly to your hostel block's technicians.
                   </p>
                 </div>
@@ -757,9 +761,9 @@ const StudentOnboarding = () => {
                       )}
                     </select>
                     {errors.hostelBlock ? (
-                      <p className="text-[11px] text-rose-600 font-medium mt-1">{errors.hostelBlock}</p>
+                      <p className="text-xs text-rose-700 font-medium mt-1">{errors.hostelBlock}</p>
                     ) : (
-                      <p className="text-[10px] text-slate-500 mt-0.5">Allocated residential hostel block.</p>
+                      <p className="text-xs text-slate-600 font-medium mt-0.5">Allocated residential hostel block.</p>
                     )}
                   </div>
 
@@ -778,9 +782,9 @@ const StudentOnboarding = () => {
                       }`}
                     />
                     {errors.roomNumber ? (
-                      <p className="text-[11px] text-rose-600 font-medium mt-1">{errors.roomNumber}</p>
+                      <p className="text-xs text-rose-700 font-medium mt-1">{errors.roomNumber}</p>
                     ) : (
-                      <p className="text-[10px] text-slate-500 mt-0.5">Your official room identifier.</p>
+                      <p className="text-xs text-slate-600 font-medium mt-0.5">Your official room identifier.</p>
                     )}
                   </div>
                 </div>
@@ -800,12 +804,12 @@ const StudentOnboarding = () => {
                     }`}
                   />
                   {errors.hostelAddress && (
-                    <p className="text-[11px] text-rose-600 font-medium mt-1">{errors.hostelAddress}</p>
+                    <p className="text-xs text-rose-700 font-medium mt-1">{errors.hostelAddress}</p>
                   )}
                 </div>
 
                 {/* Privacy & Verification Note */}
-                <div className="p-3.5 rounded-control bg-blue-50/70 border border-sky/30 text-[11px] text-slate-600 space-y-1">
+                <div className="p-3.5 rounded-control bg-blue-50/70 border border-sky/30 text-xs text-slate-700 space-y-1">
                   <p className="font-semibold text-royal flex items-center gap-1.5">
                     <ShieldCheck className="w-3.5 h-3.5 text-electric shrink-0" />
                     <span>Hostel Administration Data Guarantee</span>

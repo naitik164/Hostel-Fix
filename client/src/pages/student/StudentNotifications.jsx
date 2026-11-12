@@ -78,7 +78,7 @@ const StudentNotifications = () => {
               </span>
             )}
           </h1>
-          <p className="text-xs text-slate-500 mt-1">
+          <p className="text-xs text-slate-600 font-medium mt-1">
             Real-time updates regarding your complaint status, staff assignments, and warden messages
           </p>
         </div>
@@ -114,15 +114,15 @@ const StudentNotifications = () => {
       {/* Notifications List */}
       <div className="glass-card overflow-hidden divide-y divide-ice/60">
         {loading ? (
-          <div className="py-20 text-center text-slate-400 flex flex-col items-center gap-2">
+          <div className="py-20 text-center text-slate-600 flex flex-col items-center gap-2">
             <Loader2 className="w-8 h-8 animate-spin text-electric" />
-            <p className="text-xs">Fetching notification alerts...</p>
+            <p className="text-xs font-medium">Fetching notification alerts...</p>
           </div>
         ) : notifications.length === 0 ? (
           <div className="py-20 text-center p-6">
             <Bell className="w-12 h-12 text-sky mx-auto mb-2 opacity-50" />
-            <h3 className="text-sm font-bold text-navy">No notifications</h3>
-            <p className="text-xs text-slate-500 mt-1">You're all caught up! New updates will appear here.</p>
+            <h2 className="text-sm font-bold text-navy">No notifications</h2>
+            <p className="text-xs text-slate-600 font-medium mt-1">You're all caught up! New updates will appear here.</p>
           </div>
         ) : (
           notifications.map((n) => (
@@ -137,15 +137,15 @@ const StudentNotifications = () => {
                 <div className="mt-0.5 shrink-0">{getTypeIcon(n.type)}</div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <h4 className={`text-xs sm:text-sm text-navy ${!n.isRead ? 'font-bold' : 'font-semibold'}`}>
+                    <h2 className={`text-xs sm:text-sm text-navy ${!n.isRead ? 'font-bold' : 'font-semibold'}`}>
                       {n.title}
-                    </h4>
+                    </h2>
                     {!n.isRead && (
                       <span className="w-2 h-2 rounded-full bg-electric shrink-0" />
                     )}
                   </div>
                   <p className="text-xs text-slate-600 mt-1 leading-relaxed">{n.message}</p>
-                  <span className="text-[10px] text-slate-400 mt-2 block">
+                  <span className="text-xs text-slate-600 font-medium mt-2 block">
                     {new Date(n.createdAt).toLocaleString()}
                   </span>
                 </div>

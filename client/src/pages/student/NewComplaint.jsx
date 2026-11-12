@@ -10,9 +10,7 @@ import {
   X,
   AlertCircle,
   CheckCircle2,
-  Sparkles,
   Loader2,
-  Image as ImageIcon,
 } from 'lucide-react';
 
 const CATEGORIES_MAP = {
@@ -263,7 +261,7 @@ const NewComplaint = () => {
               <label className="text-xs font-semibold text-navy">
                 Complaint Title <span className="text-rose-500">*</span>
               </label>
-              <span className="text-[11px] text-slate-400">{title.length} / 120</span>
+              <span className="text-xs text-slate-600 font-medium">{title.length} / 120</span>
             </div>
             <input
               type="text"
@@ -282,7 +280,7 @@ const NewComplaint = () => {
               <label className="block text-xs font-semibold text-navy">
                 Select Complaint Category <span className="text-rose-500">*</span>
               </label>
-              <span className="text-[11px] text-slate-500">
+              <span className="text-xs text-slate-600 font-medium">
                 Click a card below to select primary category
               </span>
             </div>
@@ -347,7 +345,7 @@ const NewComplaint = () => {
               <label className="text-xs font-semibold text-navy">
                 Detailed Description <span className="text-rose-500">*</span>
               </label>
-              <span className="text-[11px] text-slate-400">{description.length} / 2000</span>
+              <span className="text-xs text-slate-600 font-medium">{description.length} / 2000</span>
             </div>
             <textarea
               required
@@ -434,7 +432,7 @@ const NewComplaint = () => {
               <p className="text-xs font-semibold text-navy">
                 Click or drag & drop complaint photos here
               </p>
-              <p className="text-[11px] text-slate-400 mt-1">JPEG, PNG, WEBP up to 5MB</p>
+              <p className="text-xs text-slate-600 font-medium mt-1">JPEG, PNG, WEBP up to 5MB</p>
             </div>
 
             {/* Photo Previews */}
@@ -442,7 +440,7 @@ const NewComplaint = () => {
               <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
                 {previews.map((src, index) => (
                   <div key={index} className="relative group rounded-xl overflow-hidden border border-sky/40 aspect-video bg-slate-100">
-                    <img src={src} alt="Preview" className="w-full h-full object-cover" />
+                    <img src={src} alt="Preview" loading="lazy" decoding="async" className="w-full h-full object-cover" />
                     <button
                       type="button"
                       onClick={() => removeFile(index)}
@@ -482,7 +480,7 @@ const NewComplaint = () => {
           {/* Upload Progress Bar */}
           {submitting && files.length > 0 && (
             <div className="space-y-1.5 p-3 rounded-xl bg-sky/10 border border-sky/30">
-              <div className="flex items-center justify-between text-[11px] font-bold text-royal">
+              <div className="flex items-center justify-between text-xs font-bold text-royal">
                 <span>Uploading {files.length} Photo{files.length > 1 ? 's' : ''} to Secure Storage...</span>
                 <span>{uploadProgress}%</span>
               </div>
@@ -497,7 +495,7 @@ const NewComplaint = () => {
 
           {/* Submission Bar */}
           <div className="pt-6 border-t border-ice/80 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-[11px] text-slate-400 text-center sm:text-left">
+            <p className="text-xs text-slate-600 font-medium text-center sm:text-left">
               🔒 Severity priority is dynamically suggested using automated safety guidelines.
             </p>
 

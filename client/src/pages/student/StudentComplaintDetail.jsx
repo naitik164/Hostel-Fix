@@ -7,11 +7,9 @@ import {
   ArrowLeft,
   Calendar,
   Building,
-  User,
   Wrench,
   CheckCircle2,
   Clock,
-  MessageSquare,
   Star,
   Loader2,
   AlertCircle,
@@ -95,7 +93,7 @@ const StudentComplaintDetail = () => {
     return (
       <div className="glass-card p-10 max-w-lg mx-auto text-center space-y-4">
         <AlertCircle className="w-12 h-12 text-rose-500 mx-auto" />
-        <h2 className="text-lg font-bold text-navy">Unable to load complaint</h2>
+        <h1 className="text-lg font-bold text-navy">Unable to load complaint</h1>
         <p className="text-xs text-slate-500">{error || 'Complaint record not found.'}</p>
         <Link to="/student/complaints" className="btn-action inline-flex items-center gap-2 px-4 py-2 rounded-control text-xs font-bold">
           <ArrowLeft className="w-4 h-4" />
@@ -133,13 +131,13 @@ const StudentComplaintDetail = () => {
             </h1>
           </div>
 
-          <div className="text-xs text-slate-500 sm:text-right shrink-0">
+          <div className="text-xs text-slate-600 font-medium sm:text-right shrink-0">
             <div className="flex items-center gap-1 sm:justify-end">
-              <Calendar className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+              <Calendar className="w-3.5 h-3.5 text-slate-600 shrink-0" />
               <span className="break-words">Logged on {new Date(complaint.createdAt).toLocaleDateString()}</span>
             </div>
             {complaint.resolvedAt && (
-              <div className="text-emerald-600 font-semibold mt-1">
+              <div className="text-emerald-700 font-semibold mt-1">
                 Resolved on {new Date(complaint.resolvedAt).toLocaleDateString()}
               </div>
             )}
@@ -149,28 +147,28 @@ const StudentComplaintDetail = () => {
         {/* Info Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 rounded-xl bg-white/50 border border-sky/30 text-xs">
           <div>
-            <span className="text-slate-400 uppercase font-semibold text-[10px] tracking-wider block mb-1">
+            <span className="text-slate-600 uppercase font-bold text-xs tracking-wider block mb-1">
               Location & Hostel Block
             </span>
             <div className="font-bold text-navy flex items-center gap-1.5">
               <Building className="w-4 h-4 text-royal" />
               <span>{complaint.hostelBlockName}</span>
             </div>
-            <div className="text-slate-500 mt-0.5">
+            <div className="text-slate-600 mt-0.5">
               Room: {complaint.roomNumber || 'Not specified'} {complaint.location ? `(${complaint.location})` : ''}
             </div>
           </div>
 
           <div>
-            <span className="text-slate-400 uppercase font-semibold text-[10px] tracking-wider block mb-1">
+            <span className="text-slate-600 uppercase font-bold text-xs tracking-wider block mb-1">
               Category & Subcategory
             </span>
             <div className="font-bold text-navy">{complaint.category}</div>
-            <div className="text-slate-500 mt-0.5">{complaint.subcategory || 'General'}</div>
+            <div className="text-slate-600 mt-0.5">{complaint.subcategory || 'General'}</div>
           </div>
 
           <div>
-            <span className="text-slate-400 uppercase font-semibold text-[10px] tracking-wider block mb-1">
+            <span className="text-slate-600 uppercase font-bold text-xs tracking-wider block mb-1">
               Assigned Maintenance Staff
             </span>
             {complaint.assignedStaffId ? (
@@ -179,21 +177,21 @@ const StudentComplaintDetail = () => {
                   <Wrench className="w-4 h-4 text-electric" />
                   <span>{complaint.assignedStaffId.name}</span>
                 </div>
-                <div className="text-slate-500 mt-0.5">
+                <div className="text-slate-600 mt-0.5">
                   {complaint.assignedStaffId.specialization}
                 </div>
               </div>
             ) : (
-              <div className="text-slate-400 italic">Pending warden assignment</div>
+              <div className="text-slate-600 italic font-medium">Pending warden assignment</div>
             )}
           </div>
         </div>
 
         {/* Description */}
         <div>
-          <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+          <h2 className="text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">
             Detailed Issue Description
-          </h3>
+          </h2>
           <div className="p-4 rounded-xl bg-white/70 border border-sky/30 text-slate-700 text-xs sm:text-sm leading-relaxed whitespace-pre-line">
             {complaint.description}
           </div>
@@ -202,10 +200,10 @@ const StudentComplaintDetail = () => {
         {/* Resident Initial Photos Gallery */}
         {complaint.images && complaint.images.length > 0 && (
           <div>
-            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+            <h2 className="text-xs font-bold text-slate-600 uppercase tracking-wider mb-2 flex items-center gap-1.5">
               <Camera className="w-3.5 h-3.5 text-royal" />
               <span>Your Attached Complaint Photos ({complaint.images.length})</span>
-            </h3>
+            </h2>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {complaint.images.map((imgUrl, idx) => (
                 <div
@@ -213,7 +211,7 @@ const StudentComplaintDetail = () => {
                   onClick={() => setActivePhoto(imgUrl)}
                   className="relative group rounded-xl overflow-hidden border border-sky/40 cursor-pointer aspect-video bg-slate-100 shadow-sm"
                 >
-                  <img src={imgUrl} alt={`Complaint Photo ${idx + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                  <img src={imgUrl} alt={`Complaint Photo ${idx + 1}`} loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
                   <div className="absolute inset-0 bg-navy/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
                     <Maximize2 className="w-5 h-5" />
                   </div>
@@ -226,10 +224,10 @@ const StudentComplaintDetail = () => {
         {/* Staff Work Evidence (Completed or in Progress) */}
         {complaint.evidence && complaint.evidence.length > 0 && (
           <div>
-            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+            <h2 className="text-xs font-bold text-slate-600 uppercase tracking-wider mb-2 flex items-center gap-1.5">
               <Wrench className="w-3.5 h-3.5 text-electric" />
               <span>Technician Work & Resolution Proof ({complaint.evidence.length})</span>
-            </h3>
+            </h2>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {complaint.evidence.map((ev, idx) => {
                 const isBefore = ['before', 'staff_before'].includes(ev.evidenceType);
@@ -243,7 +241,7 @@ const StudentComplaintDetail = () => {
                     onClick={() => setActivePhoto(ev.imageUrl)}
                     className="relative group rounded-xl overflow-hidden border border-sky/40 cursor-pointer aspect-video bg-slate-100 shadow-sm"
                   >
-                    <img src={ev.imageUrl} alt={`Technician Evidence ${idx + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                    <img src={ev.imageUrl} alt={`Technician Evidence ${idx + 1}`} loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
                     <div className="absolute inset-0 bg-navy/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center text-white p-2 text-center">
                       <Maximize2 className="w-5 h-5 mb-1" />
                       {ev.caption && <span className="text-[10px] line-clamp-1 italic font-medium">"{ev.caption}"</span>}
@@ -316,8 +314,8 @@ const StudentComplaintDetail = () => {
                     <Star
                       className={`w-7 h-7 ${
                         star <= rating
-                          ? 'fill-amber-400 text-amber-400'
-                          : 'text-slate-300'
+                          ? 'fill-amber-400 text-amber-500'
+                          : 'text-slate-400'
                       }`}
                     />
                   </button>
@@ -373,17 +371,17 @@ const StudentComplaintDetail = () => {
                       ? `Priority Adjusted to ${item.newValue}`
                       : item.actionType}
                   </span>
-                  <span className="text-[11px] text-slate-400">
+                  <span className="text-xs text-slate-600 font-medium">
                     {new Date(item.createdAt).toLocaleString()}
                   </span>
                 </div>
                 {item.publicNote && (
-                  <p className="text-slate-600 mt-1 leading-relaxed bg-white/60 p-2 rounded-lg border border-sky/20">
+                  <p className="text-slate-700 mt-1 leading-relaxed bg-white/60 p-2 rounded-lg border border-sky/20">
                     "{item.publicNote}"
                   </p>
                 )}
-                <div className="text-[10px] text-slate-400 mt-1">
-                  Updated by: <span className="font-semibold text-slate-600">{item.performedByName}</span> ({item.performedByRole})
+                <div className="text-xs text-slate-600 mt-1">
+                  Updated by: <span className="font-semibold text-slate-700">{item.performedByName}</span> ({item.performedByRole})
                 </div>
               </div>
             </div>
@@ -408,6 +406,7 @@ const StudentComplaintDetail = () => {
             <img
               src={activePhoto}
               alt="Full view"
+              decoding="async"
               className="w-full max-h-[80vh] sm:max-h-[85vh] object-contain rounded-xl shadow-2xl"
             />
           </div>

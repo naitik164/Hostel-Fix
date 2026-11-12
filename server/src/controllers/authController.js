@@ -5,6 +5,7 @@ const Admin = require('../models/Admin');
 const Staff = require('../models/Staff');
 const Session = require('../models/Session');
 const { generateToken, verifyToken, setAuthCookie, clearAuthCookie } = require('../utils/jwt');
+const { invalidateSessionCache } = require('../middleware/auth');
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -437,6 +438,7 @@ const logout = async (req, res) => {
       const decoded = verifyToken(token);
       if (decoded && decoded.sessionId) {
         await Session.findByIdAndUpdate(decoded.sessionId, { isActive: false });
+        invalidateSessionCache(decoded.sessionId);
       }
     }
 
