@@ -43,3 +43,4 @@ HostelFix is designed to deliver reliable facilities management for student hous
 - Private Dashboards Require Authentication: The Student Dashboard, Staff Task Queue, Warden Administrative Console, and Super-Admin Management interfaces require active authenticated sessions with appropriate role permissions.
 - Data Privacy & Access Control: Student records, internal administrative notes, room assignments, and resident contact information are strictly protected by role-based access control (RBAC) and are not accessible publicly.
 - API Security: Protected REST API endpoints under `/api/student/*`, `/api/staff/*`, and `/api/admin/*` require cryptographic session verification and cannot be accessed without valid authorization.
+
