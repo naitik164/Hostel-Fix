@@ -1,9 +1,10 @@
 // Frontend Application Configuration
+import { getApiBaseUrl } from '../services/api/apiClient';
 
 export const APP_CONFIG = {
   appName: 'HostelFix',
   appVersion: '1.0.0',
-  apiUrl: import.meta.env.VITE_API_URL || '/api',
+  apiUrl: getApiBaseUrl(),
   googleClientId: import.meta.env.VITE_GOOGLE_CLIENT_ID || '',
   apiTimeout: 15000,
   maxUploadSizeBytes: 10 * 1024 * 1024, // 10MB
@@ -11,4 +12,3 @@ export const APP_CONFIG = {
 };
 
 export default APP_CONFIG;
-

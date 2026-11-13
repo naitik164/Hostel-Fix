@@ -1,7 +1,23 @@
 import axios from 'axios';
 
+// Resolves the normalized API Base URL across development and production
+// In development: defaults to '/api' (proxied by Vite to http://127.0.0.1:5000)
+// In production: uses VITE_API_URL (e.g. 'https://hostelfix-api-5uzs.onrender.com')
+export const getApiBaseUrl = () => {
+  const envUrl = import.meta.env.VITE_API_URL;
+  if (!envUrl || envUrl === '/api') {
+    return '/api';
+  }
+  const clean = envUrl.trim().replace(/\/+$/, '');
+  // Prevent duplicate /api/api if user configured https://domain/api
+  if (clean.endsWith('/api')) {
+    return clean;
+  }
+  return `${clean}/api`;
+};
+
 export const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || '/api',
+  baseURL: getApiBaseUrl(),
   withCredentials: true,
   timeout: 15000, // 15s default timeout for standard API operations
   headers: {
@@ -34,4 +50,3 @@ export const prewarmBackend = () => {
 };
 
 export default apiClient;
-

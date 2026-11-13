@@ -3,11 +3,17 @@ import apiClient from '../api/apiClient';
 export const authService = {
   // Student Google Authentication
   googleLogin: async (credential) => {
-    const response = await apiClient.post('/auth/student/google', { token: credential });
+    const response = await apiClient.post('/auth/google', { credential });
     return response.data;
   },
 
-  // Staff Credentials Login
+  // Staff Google Authentication
+  staffGoogleLogin: async (credential) => {
+    const response = await apiClient.post('/auth/staff/google', { credential });
+    return response.data;
+  },
+
+  // Staff Credentials Login (Backward-compatible fallback)
   staffLogin: async (credentials) => {
     const response = await apiClient.post('/auth/staff/login', credentials);
     return response.data;
@@ -39,4 +45,3 @@ export const authService = {
 };
 
 export default authService;
-

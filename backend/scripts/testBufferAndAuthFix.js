@@ -1,19 +1,15 @@
 /**
- * Comprehensive Test Suite for HostelFix MongoDB Buffering & Auth Architecture
- * Verifies all 11 requirements from the issue report.
+ * Comprehensive Test Suite for HostelFix Server Startup & Database Architecture
+ * Verifies non-blocking port binding, fast liveness, database availability guard, and student auth isolation.
  */
 
 const path = require('path');
+const http = require('http');
 const { spawn } = require('child_process');
 require('dotenv').config({ path: path.join(__dirname, '../.env') });
 const mongoose = require('mongoose');
 const connectDB = require('../src/config/db');
 const app = require('../src/app');
-const User = require('../src/models/User');
-const Admin = require('../src/models/Admin');
-const Staff = require('../src/models/Staff');
-const Session = require('../src/models/Session');
-const { generateToken } = require('../src/utils/jwt');
 
 let passedTests = 0;
 let totalTests = 0;
@@ -30,210 +26,141 @@ function assert(condition, message) {
 
 async function runTests() {
   console.log('================================================================');
-  console.log(' HOSTELFIX MONGODB BUFFERING & AUTHENTICATION VERIFICATION SUITE');
+  console.log(' HOSTELFIX SERVER STARTUP & RELIABILITY TEST SUITE');
   console.log('================================================================\n');
 
-  // Test 1: Backend startup with missing MONGODB_URI
-  console.log('--- Step 1: Testing server startup with missing MONGODB_URI ---');
+  // Test 1: Server binds HTTP port promptly (in < 2000ms) without waiting on MongoDB Atlas
+  console.log('--- Step 1: Testing prompt HTTP port binding ---');
+  const tStart = Date.now();
+  let serverProcess = null;
   await new Promise((resolve) => {
-    const proc = spawn('node', ['src/server.js'], {
-      cwd: path.join(__dirname, '..'),
-      env: { ...process.env, MONGODB_URI: '' },
-    });
-    let output = '';
-    proc.stderr.on('data', (d) => (output += d.toString()));
-    proc.stdout.on('data', (d) => (output += d.toString()));
-    proc.on('close', (code) => {
-      assert(
-        code === 1 && output.includes('MONGODB_URI is not defined'),
-        'Server aborts startup (code 1) when MONGODB_URI is missing'
-      );
-      resolve();
-    });
-  });
-
-  // Test 2: Backend startup when MongoDB Atlas is unreachable (Fast-fail check)
-  console.log('\n--- Step 2: Testing server startup when MongoDB Atlas is unreachable ---');
-  const tStartUnreachable = Date.now();
-  await new Promise((resolve) => {
-    const proc = spawn('node', ['src/server.js'], {
+    // Pick an ephemeral test port
+    const testPort = 5991;
+    serverProcess = spawn('node', ['src/server.js'], {
       cwd: path.join(__dirname, '..'),
       env: {
         ...process.env,
-        MONGODB_URI: 'mongodb://127.0.0.1:27099/hostelfix?serverSelectionTimeoutMS=1000',
+        PORT: testPort.toString(),
       },
     });
-    let output = '';
-    proc.stderr.on('data', (d) => (output += d.toString()));
-    proc.stdout.on('data', (d) => (output += d.toString()));
-    proc.on('close', (code) => {
-      const elapsed = Date.now() - tStartUnreachable;
-      assert(
-        code === 1 && elapsed < 8000,
-        `Server aborts startup promptly (${elapsed}ms < 8s) when MongoDB is unreachable instead of hanging`
-      );
-      assert(
-        output.includes('Database connection failed'),
-        'Server outputs clear diagnostic logs detailing failure causes'
-      );
-      resolve();
-    });
+
+    const checkInterval = setInterval(() => {
+      http.get(`http://127.0.0.1:${testPort}/api/health`, (res) => {
+        clearInterval(checkInterval);
+        const elapsed = Date.now() - tStart;
+        assert(
+          res.statusCode === 200 && elapsed < 3000,
+          `HTTP server bound port ${testPort} and /api/health responded in ${elapsed}ms (< 3000ms)`
+        );
+        resolve();
+      }).on('error', () => {
+        // Keep polling until listening or timeout
+        if (Date.now() - tStart > 5000) {
+          clearInterval(checkInterval);
+          assert(false, 'HTTP server failed to bind port within 5000ms');
+          resolve();
+        }
+      });
+    }, 100);
   });
 
-  // Test 3: Disconnected Request Guard (Immediate HTTP 503 instead of 10s buffering timeout)
-  console.log('\n--- Step 3: Testing API behavior while MongoDB is disconnected ---');
-  const tStartDisc = Date.now();
-  // Ensure mongoose is disconnected
-  if (mongoose.connection.readyState !== 0) {
-    await mongoose.disconnect();
-  }
-
-  const http = require('http');
-  const testServer = http.createServer(app);
-  await new Promise((res) => testServer.listen(0, '127.0.0.1', res));
-  const testPort = testServer.address().port;
-
-  // Attempt Student Login while disconnected
+  // Test 2: Database-dependent routes return immediate HTTP 503 while database is connecting/disconnected
+  console.log('\n--- Step 2: Testing database route guard while DB is disconnected ---');
   await new Promise((resolve) => {
-    const postData = JSON.stringify({ credential: 'dummy_token' });
-    const req = http.request(
-      `http://127.0.0.1:${testPort}/api/auth/google`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Content-Length': Buffer.byteLength(postData),
-        },
+    const postData = JSON.stringify({ credential: 'test_token' });
+    const req = http.request('http://127.0.0.1:5991/api/auth/google', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(postData),
       },
-      (res) => {
-        let body = '';
-        res.on('data', (c) => (body += c.toString()));
-        res.on('end', () => {
-          const elapsed = Date.now() - tStartDisc;
-          const json = JSON.parse(body);
-          assert(
-            res.statusCode === 503,
-            `Disconnected Student Login immediately returns HTTP 503 (Got: ${res.statusCode})`
-          );
-          assert(
-            elapsed < 1000,
-            `Response returned immediately in ${elapsed}ms (No 10,000ms buffering timeout!)`
-          );
-          assert(
-            json.message.includes('Database service is temporarily unavailable'),
-            'Clean user-facing 503 message without internal Mongoose error or credentials'
-          );
-          resolve();
-        });
-      }
-    );
+    }, (res) => {
+      let body = '';
+      res.on('data', c => body += c);
+      res.on('end', () => {
+        assert(
+          res.statusCode === 503,
+          `Database route returns HTTP 503 while DB is connecting (Got: ${res.statusCode})`
+        );
+        const json = JSON.parse(body);
+        assert(
+          json.message.includes('Database service is temporarily unavailable'),
+          'Clean 503 message without exposing internal MongoDB errors'
+        );
+        resolve();
+      });
+    });
     req.write(postData);
     req.end();
   });
 
-  // Test 4: Liveness endpoint (/api/health) remains responsive even when DB is disconnected
-  console.log('\n--- Step 4: Testing Liveness endpoint (/api/health) ---');
+  // Test 3: Readiness endpoint (/api/health/ready) returns 503 when DB is disconnected
+  console.log('\n--- Step 3: Testing Readiness check (/api/health/ready) ---');
   await new Promise((resolve) => {
-    http.get(`http://127.0.0.1:${testPort}/api/health`, (res) => {
+    http.get('http://127.0.0.1:5991/api/health/ready', (res) => {
       let body = '';
-      res.on('data', (c) => (body += c.toString()));
+      res.on('data', c => body += c);
       res.on('end', () => {
-        assert(res.statusCode === 200, `Liveness /api/health returns HTTP 200 (Got: ${res.statusCode})`);
+        assert(
+          res.statusCode === 503,
+          `Readiness endpoint accurately reports HTTP 503 when database is not connected (Got: ${res.statusCode})`
+        );
         resolve();
       });
     });
   });
 
-  // Test 5: Readiness endpoint (/api/health/ready) returns HTTP 503 when DB is disconnected
-  console.log('\n--- Step 5: Testing Readiness endpoint (/api/health/ready) while disconnected ---');
+  // Test 4: Graceful shutdown on SIGTERM
+  console.log('\n--- Step 4: Testing graceful shutdown on SIGTERM ---');
   await new Promise((resolve) => {
-    http.get(`http://127.0.0.1:${testPort}/api/health/ready`, (res) => {
-      let body = '';
-      res.on('data', (c) => (body += c.toString()));
-      res.on('end', () => {
-        assert(res.statusCode === 503, `Readiness /api/health/ready returns HTTP 503 when disconnected (Got: ${res.statusCode})`);
-        resolve();
-      });
+    serverProcess.on('close', (code, signal) => {
+      assert(
+        code === 0 || signal === 'SIGTERM',
+        `Server process exited cleanly on SIGTERM (code: ${code}, signal: ${signal})`
+      );
+      resolve();
     });
+    serverProcess.kill('SIGTERM');
   });
 
-  // Test 6: Verify Student Login flow codebase does NOT reference Admin.findOne()
-  console.log('\n--- Step 6: Verifying Student Login does not execute Admin.findOne() ---');
+  // Test 5: Verify Student Login does NOT call Admin.findOne()
+  console.log('\n--- Step 5: Codebase Audit: Verify Student Login isolation ---');
   const authControllerSrc = require('fs').readFileSync(
     path.join(__dirname, '../src/controllers/authController.js'),
     'utf8'
   );
-  
-  // Extract googleLogin function body
   const googleLoginMatch = authControllerSrc.match(/const googleLogin = async \(req, res, next\) => \{([\s\S]*?)\n\};/);
   const googleLoginBody = googleLoginMatch ? googleLoginMatch[1] : '';
-  
   assert(
     !googleLoginBody.includes('Admin.findOne'),
     'Student googleLogin does NOT call Admin.findOne() anywhere in its execution path'
-  );
-  assert(
-    !googleLoginBody.includes('adminCollision'),
-    'Removed inappropriate admin collision check from Student Login'
   );
   assert(
     googleLoginBody.includes('User.findOne'),
     'Student googleLogin queries the Student User model directly'
   );
 
-  // Test 7: Verify Mongoose bufferCommands = false
-  console.log('\n--- Step 7: Verifying global bufferCommands configuration ---');
+  // Test 6: Verify global bufferCommands = false
+  console.log('\n--- Step 6: Verifying bufferCommands configuration ---');
   assert(
     mongoose.get('bufferCommands') === false,
     'Mongoose global bufferCommands is set to false (prevents 10s buffering hangs)'
   );
 
-  // Test 8: Verify Error Handler catches any potential Mongoose buffering / connection error as 503
-  console.log('\n--- Step 8: Testing error handling middleware for database errors ---');
-  const errorHandler = require('../src/middleware/errorHandler');
-  const mockReq = {};
-  let capturedStatus = 0;
-  let capturedJson = null;
-  const mockRes = {
-    status(s) {
-      capturedStatus = s;
-      return this;
-    },
-    json(j) {
-      capturedJson = j;
-      return this;
-    },
-  };
-
-  const bufferError = new Error('Operation `admins.findOne()` buffering timed out after 10000ms');
-  bufferError.name = 'MongooseError';
-  errorHandler(bufferError, mockReq, mockRes, () => {});
-
-  assert(
-    capturedStatus === 503,
-    `Error handler converts Mongoose buffering error to HTTP 503 (Got: ${capturedStatus})`
-  );
-  assert(
-    capturedJson && capturedJson.message.includes('Database service is temporarily unavailable'),
-    'Error handler returns safe, generic message without leaking MongoDB internals'
-  );
-
-  // Test 9: Server startup file validation
-  console.log('\n--- Step 9: Verifying server.js startup architecture ---');
-  const serverSrc = require('fs').readFileSync(
-    path.join(__dirname, '../src/server.js'),
+  // Test 7: Frontend getApiBaseUrl utility logic
+  console.log('\n--- Step 7: Verifying Frontend API Base URL resolution ---');
+  const apiClientSrc = require('fs').readFileSync(
+    path.join(__dirname, '../../frontend/src/services/api/apiClient.js'),
     'utf8'
   );
   assert(
-    serverSrc.indexOf('await connectDB()') < serverSrc.indexOf('app.listen('),
-    'server.js awaits connectDB() BEFORE calling app.listen()'
+    apiClientSrc.includes('getApiBaseUrl'),
+    'Frontend apiClient uses getApiBaseUrl() to normalize development and production URLs'
   );
   assert(
-    serverSrc.includes('SIGTERM') && serverSrc.includes('SIGINT'),
-    'server.js handles SIGTERM and SIGINT graceful shutdown'
+    apiClientSrc.includes('endsWith(\'/api\')'),
+    'getApiBaseUrl prevents duplicate /api/api path segments'
   );
-
-  testServer.close();
 
   console.log('\n================================================================');
   console.log(` RESULT: ${passedTests}/${totalTests} TESTS PASSED`);

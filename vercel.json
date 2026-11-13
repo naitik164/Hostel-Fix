@@ -121,11 +121,11 @@
     },
     {
       "source": "/api/(.*)",
-      "destination": "/api/$1"
+      "destination": "https://hostelfix-api-5uzs.onrender.com/api/$1"
     },
     {
       "source": "/uploads/(.*)",
-      "destination": "/uploads/$1"
+      "destination": "https://hostelfix-api-5uzs.onrender.com/uploads/$1"
     },
     {
       "source": "/(.*)",
