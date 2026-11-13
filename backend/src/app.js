@@ -73,6 +73,7 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 // Responds immediately with HTTP 200 when the Express process is alive.
 // Never performs database queries. Supports GET and HEAD.
 const mongoose = require('mongoose');
+mongoose.set('bufferCommands', false);
 
 app.all(['/api/health', '/health'], (req, res) => {
   if (req.method !== 'GET' && req.method !== 'HEAD') {
@@ -152,6 +153,22 @@ app.use('/api', (req, res, next) => {
       });
     }
   });
+  next();
+});
+
+// Database availability guard for API routes (excludes /health endpoints)
+// Returns fast HTTP 503 if database connectivity is interrupted at runtime, preventing buffering hangs
+app.use('/api', (req, res, next) => {
+  if (req.path === '/health' || req.path === '/health/ready') {
+    return next();
+  }
+
+  if (mongoose.connection?.readyState !== 1) {
+    return res.status(503).json({
+      success: false,
+      message: 'Database service is temporarily unavailable. Please try again shortly.',
+    });
+  }
   next();
 });
 

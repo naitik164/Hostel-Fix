@@ -95,24 +95,11 @@ const googleLogin = async (req, res, next) => {
     const name = payload.name || 'Student';
     const picture = payload.picture || '';
 
-    // Parallel MongoDB queries: check admin collision and lookup student by googleSub simultaneously
+    // MongoDB student lookup using verified Google Sub identifier
     const tDbStart = performance.now();
-    const [adminCollision, existingStudentBySub] = await Promise.all([
-      Admin.findOne({ loginId: email }),
-      User.findOne({ googleSub }),
-    ]);
+    let student = await User.findOne({ googleSub });
     const tDbDuration = performance.now() - tDbStart;
-    console.log(`[AUTH TIMING] [POST /api/auth/google] MongoDB user lookup completed in ${tDbDuration.toFixed(1)}ms (found by sub: ${Boolean(existingStudentBySub)})`);
-
-    // Defense-in-depth: Ensure Google student account cannot collide with admin accounts
-    if (adminCollision) {
-      return res.status(403).json({
-        success: false,
-        message: 'Administrative accounts must authenticate through the warden portal.',
-      });
-    }
-
-    let student = existingStudentBySub;
+    console.log(`[AUTH TIMING] [POST /api/auth/google] MongoDB student lookup completed in ${tDbDuration.toFixed(1)}ms (found by sub: ${Boolean(student)})`);
 
     if (!student) {
       // Safe account linking: check if a student was pre-registered with this verified email

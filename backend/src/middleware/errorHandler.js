@@ -40,6 +40,20 @@ const errorHandler = (err, req, res, next) => {
     });
   }
 
+  // Database connectivity / timeout / buffering errors -> HTTP 503 Service Unavailable
+  if (
+    err.name === 'MongooseServerSelectionError' ||
+    err.name === 'MongoNetworkError' ||
+    err.name === 'MongoTimeoutError' ||
+    (err.name === 'MongooseError' && err.message && (err.message.includes('buffering timed out') || err.message.includes('before initial connection'))) ||
+    (err.message && (err.message.includes('buffering timed out') || err.message.includes('Could not connect to any servers')))
+  ) {
+    return res.status(503).json({
+      success: false,
+      message: 'Database service is temporarily unavailable. Please try again shortly.',
+    });
+  }
+
   const statusCode = res.statusCode && res.statusCode !== 200 ? res.statusCode : 500;
   const isProduction = process.env.NODE_ENV === 'production';
 
