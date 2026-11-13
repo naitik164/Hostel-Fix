@@ -15,15 +15,15 @@ const ProtectedRoute = ({ children, requiredRole }) => {
           <div className="w-16 h-16 rounded-2xl bg-gradient-action p-2.5 flex items-center justify-center text-white shadow-lg shadow-[#20543F]/25 mb-4 relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer-sweep pointer-events-none" />
             <img
-              src="/logo-icon.webp"
-              srcSet="/logo-icon-64.webp 64w, /logo-icon-128.webp 128w"
+              src="/hostelfix-icon.webp"
+              srcSet="/hostelfix-icon-64.webp 64w, /hostelfix-icon-128.webp 128w"
               sizes="44px"
               alt="HostelFix"
               width="44"
               height="44"
               loading="eager"
               decoding="async"
-              className="w-11 h-11 object-contain drop-shadow"
+              className="w-11 h-11 object-contain drop-shadow select-none"
             />
           </div>
           <h1 className="text-lg font-bold text-navy font-heading">Securing Session</h1>

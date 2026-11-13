@@ -179,8 +179,8 @@ const PremiumPageLoader = ({
             />
 
             <img
-              src="/logo-icon.webp"
-              srcSet="/logo-icon-64.webp 64w, /logo-icon-128.webp 128w"
+              src="/hostelfix-icon.webp"
+              srcSet="/hostelfix-icon-64.webp 64w, /hostelfix-icon-128.webp 128w, /hostelfix-icon-256.webp 256w"
               sizes="(max-width: 640px) 56px, 64px"
               alt="HostelFix Logo"
               width="64"
@@ -188,7 +188,7 @@ const PremiumPageLoader = ({
               loading="eager"
               fetchPriority="high"
               decoding="async"
-              className="w-14 h-14 sm:w-16 sm:h-16 object-contain filter drop-shadow-md relative z-10"
+              className="w-14 h-14 sm:w-16 sm:h-16 object-contain filter drop-shadow-md relative z-10 select-none"
             />
           </div>
 

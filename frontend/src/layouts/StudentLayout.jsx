@@ -75,15 +75,15 @@ const StudentLayout = () => {
             {/* Brand Logo & Tagline */}
             <Link to="/student/dashboard" className="flex items-center gap-3 group">
               <img
-                src="/logo-icon.webp"
-                srcSet="/logo-icon-64.webp 64w, /logo-icon-128.webp 128w"
+                src="/hostelfix-icon.webp"
+                srcSet="/hostelfix-icon-64.webp 64w, /hostelfix-icon-128.webp 128w"
                 sizes="40px"
                 alt="HostelFix Logo"
                 width="40"
                 height="40"
                 loading="eager"
                 decoding="async"
-                className="w-10 h-10 object-contain drop-shadow-md rounded-xl group-hover:scale-105 transition-transform"
+                className="w-10 h-10 object-contain drop-shadow-sm select-none group-hover:scale-105 transition-transform"
               />
               <div>
                 <div className="flex items-center gap-2">

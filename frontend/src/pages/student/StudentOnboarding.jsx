@@ -267,17 +267,17 @@ const StudentOnboarding = () => {
       {/* Top Navbar */}
       <header className="relative z-10 w-full max-w-4xl mx-auto flex items-center justify-between py-2 mb-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-white/90 backdrop-blur-md p-1.5 flex items-center justify-center shadow-md border border-white/60">
+          <div className="w-10 h-10 rounded-xl bg-white/90 backdrop-blur-md p-1 flex items-center justify-center shadow-md border border-white/60">
             <img
-              src="/logo-icon-64.webp"
-              srcSet="/logo-icon-64.webp 64w, /logo-icon-128.webp 128w"
+              src="/hostelfix-icon-64.webp"
+              srcSet="/hostelfix-icon-64.webp 64w, /hostelfix-icon-128.webp 128w"
               sizes="32px"
               alt="HostelFix"
               width="32"
               height="32"
               loading="eager"
               decoding="async"
-              className="w-full h-full object-contain"
+              className="w-full h-full object-contain select-none"
             />
           </div>
           <div>

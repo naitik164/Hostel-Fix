@@ -65,15 +65,15 @@ const StaffLayout = () => {
         {/* Brand Header */}
         <div className="flex items-center gap-3.5 pb-6 border-b border-sky/20">
           <img
-            src="/logo-icon.webp"
-            srcSet="/logo-icon-64.webp 64w, /logo-icon-128.webp 128w"
+            src="/hostelfix-icon.webp"
+            srcSet="/hostelfix-icon-64.webp 64w, /hostelfix-icon-128.webp 128w"
             sizes="44px"
             alt="HostelFix Logo"
             width="44"
             height="44"
             loading="eager"
             decoding="async"
-            className="w-11 h-11 object-contain drop-shadow-md rounded-2xl"
+            className="w-11 h-11 object-contain drop-shadow-sm select-none"
           />
           <div>
             <div className="flex items-center gap-2">
@@ -150,15 +150,15 @@ const StaffLayout = () => {
       <header className="md:hidden flex items-center justify-between p-3.5 sm:p-4 bg-navy text-white sticky top-0 z-40 shadow-md">
         <div className="flex items-center gap-2.5">
           <img
-            src="/logo-icon-64.webp"
-            srcSet="/logo-icon-64.webp 64w, /logo-icon-128.webp 128w"
+            src="/hostelfix-icon-64.webp"
+            srcSet="/hostelfix-icon-64.webp 64w, /hostelfix-icon-128.webp 128w"
             sizes="32px"
             alt="HostelFix Logo"
             width="32"
             height="32"
             loading="eager"
             decoding="async"
-            className="w-8 h-8 object-contain drop-shadow-md rounded-xl shrink-0"
+            className="w-8 h-8 object-contain drop-shadow-sm select-none shrink-0"
           />
           <div>
             <span className="font-heading font-extrabold text-base tracking-tight text-white">

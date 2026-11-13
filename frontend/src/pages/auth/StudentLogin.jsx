@@ -91,8 +91,8 @@ const StudentLogin = () => {
           {/* Logo & Header */}
           <header className="text-center">
             <img
-              src="/logo-icon.webp"
-              srcSet="/logo-icon-64.webp 64w, /logo-icon-128.webp 128w"
+              src="/hostelfix-icon.webp"
+              srcSet="/hostelfix-icon-64.webp 64w, /hostelfix-icon-128.webp 128w, /hostelfix-icon-256.webp 256w"
               sizes="64px"
               alt="HostelFix Logo"
               width="64"
@@ -100,7 +100,7 @@ const StudentLogin = () => {
               loading="eager"
               fetchPriority="high"
               decoding="async"
-              className="w-16 h-16 mx-auto mb-4 object-contain filter drop-shadow-md rounded-2xl"
+              className="w-16 h-16 mx-auto mb-4 object-contain filter drop-shadow-md select-none"
             />
             <h1 className="text-2xl sm:text-3xl font-extrabold text-[#173D30] font-heading tracking-tight">
               Student Sign In

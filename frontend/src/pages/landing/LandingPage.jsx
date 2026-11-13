@@ -286,8 +286,8 @@ const LandingPage = () => {
             className="flex items-center gap-2.5 sm:gap-3 group shrink-0"
           >
             <img
-              src="/logo-icon.webp"
-              srcSet="/logo-icon-64.webp 64w, /logo-icon-128.webp 128w"
+              src="/hostelfix-icon.webp"
+              srcSet="/hostelfix-icon-64.webp 64w, /hostelfix-icon-128.webp 128w"
               sizes="(max-width: 640px) 36px, 48px"
               alt="HostelFix Logo"
               width="48"
@@ -295,7 +295,7 @@ const LandingPage = () => {
               loading="eager"
               fetchPriority="high"
               decoding="async"
-              className={`object-contain drop-shadow-sm rounded-xl sm:rounded-2xl group-hover:scale-105 transition-all duration-300 ${
+              className={`object-contain drop-shadow-sm select-none group-hover:scale-105 transition-all duration-300 ${
                 isScrolled
                   ? 'w-8.5 h-8.5 sm:w-9 sm:h-9'
                   : 'w-11 h-11 sm:w-12 sm:h-12'
@@ -524,17 +524,17 @@ const LandingPage = () => {
         <div className="scroll-reveal max-w-4xl mx-auto">
           {/* Logo Brand Accent */}
           <div className="inline-flex items-center justify-center mb-6">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-3xl bg-[#F9FBF6] p-3 shadow-glass border border-[#A7B88C]/40 hover:scale-105 transition-transform">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-3xl bg-[#F9FBF6] p-2 shadow-glass border border-[#A7B88C]/40 hover:scale-105 transition-transform flex items-center justify-center">
               <img
-                src="/logo-icon.webp"
-                srcSet="/logo-icon-64.webp 64w, /logo-icon-128.webp 128w"
+                src="/hostelfix-icon.webp"
+                srcSet="/hostelfix-icon-64.webp 64w, /hostelfix-icon-128.webp 128w"
                 sizes="(max-width: 640px) 64px, 80px"
                 alt="HostelFix Logo"
                 width="80"
                 height="80"
                 loading="eager"
                 decoding="async"
-                className="w-full h-full object-contain"
+                className="w-full h-full object-contain select-none"
               />
             </div>
           </div>
@@ -1491,17 +1491,17 @@ const LandingPage = () => {
             <div className="absolute bottom-0 left-0 w-80 h-80 bg-[#A7B88C]/15 rounded-full blur-3xl pointer-events-none" />
 
             <div className="relative z-10 max-w-2xl mx-auto">
-              <div className="w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 p-2.5 mx-auto mb-6 flex items-center justify-center shadow-lg">
+              <div className="w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 p-1.5 mx-auto mb-6 flex items-center justify-center shadow-lg">
                 <img
-                  src="/logo-icon-64.webp"
-                  srcSet="/logo-icon-64.webp 64w, /logo-icon-128.webp 128w"
+                  src="/hostelfix-icon-64.webp"
+                  srcSet="/hostelfix-icon-64.webp 64w, /hostelfix-icon-128.webp 128w"
                   sizes="56px"
                   alt="HostelFix"
                   width="56"
                   height="56"
                   loading="lazy"
                   decoding="async"
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-contain select-none"
                 />
               </div>
 
@@ -1545,15 +1545,15 @@ const LandingPage = () => {
             {/* Brand & Tagline */}
             <div className="flex items-center gap-3 text-center">
               <img
-                src="/logo-icon-64.webp"
-                srcSet="/logo-icon-64.webp 64w, /logo-icon-128.webp 128w"
+                src="/hostelfix-icon-64.webp"
+                srcSet="/hostelfix-icon-64.webp 64w, /hostelfix-icon-128.webp 128w"
                 sizes="32px"
                 alt="HostelFix Logo"
                 width="32"
                 height="32"
                 loading="lazy"
                 decoding="async"
-                className="w-8 h-8 object-contain rounded-xl"
+                className="w-8 h-8 object-contain select-none"
               />
               <div>
                 <span className="font-heading font-extrabold text-base text-[#2A3F38]">
