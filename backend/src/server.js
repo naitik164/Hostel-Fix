@@ -8,7 +8,7 @@ require('dotenv').config(); // System environment variable fallback
 
 // Import application and database dependencies
 const app = require('./app');
-const connectDB = require('./config/db');
+const { connectDB, scheduleReconnect, isDatabaseReady } = require('./config/db');
 const mongoose = require('mongoose');
 
 // Server port: Use Render's assigned PORT in production, fallback to 5000 in development
@@ -25,7 +25,6 @@ const maskUri = (uri) => {
 };
 
 let server = null;
-let reconnectTimer = null;
 
 // Controlled database connection manager with automatic retry
 const initiateDbConnection = async () => {
@@ -39,24 +38,12 @@ const initiateDbConnection = async () => {
   try {
     await connectDB();
     console.log(`[HostelFix Server] MongoDB Connected successfully: ${mongoose.connection.host}/${mongoose.connection.name}`);
-    if (reconnectTimer) {
-      clearTimeout(reconnectTimer);
-      reconnectTimer = null;
-    }
   } catch (error) {
     console.warn(`[HostelFix Server Warning] Initial MongoDB connection attempt failed: ${error.message}`);
     console.warn('[HostelFix Server Warning] Database routes will return HTTP 503 until connection succeeds.');
-    console.warn('[HostelFix Server Warning] Ensure 0.0.0.0/0 is whitelisted in MongoDB Atlas Network Access.');
-
-    // Schedule controlled reconnection attempt in 5 seconds
-    if (!reconnectTimer) {
-      reconnectTimer = setTimeout(() => {
-        reconnectTimer = null;
-        console.log('[HostelFix Server] Retrying MongoDB connection...');
-        initiateDbConnection();
-      }, 5000);
-      if (reconnectTimer.unref) reconnectTimer.unref();
-    }
+    console.warn('[HostelFix Server Warning] Troubleshooting: Ensure 0.0.0.0/0 is active in MongoDB Atlas Network Access.');
+    // Schedule controlled reconnection with exponential backoff
+    scheduleReconnect();
   }
 };
 
@@ -84,10 +71,6 @@ const startServer = () => {
     // 4. Graceful process shutdown handling (SIGTERM & SIGINT)
     const gracefulShutdown = (signal) => {
       console.log(`[HostelFix Server] Received ${signal}. Closing HTTP server gracefully...`);
-      if (reconnectTimer) {
-        clearTimeout(reconnectTimer);
-        reconnectTimer = null;
-      }
 
       if (server) {
         server.close(async () => {
